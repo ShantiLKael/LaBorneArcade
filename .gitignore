@@ -4,3 +4,5 @@
 .idea/
 
 ./app/Config/Database.php
+writable/*
+writable/debugbar/*
