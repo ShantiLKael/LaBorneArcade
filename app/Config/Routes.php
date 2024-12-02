@@ -38,7 +38,7 @@ use CodeIgniter\Router\RouteCollection;
 //});
 
 //$routes->group('', ['filter' => 'admin'], function($routes) {
-	$routes->match(['get', 'post', 'delete'], '/admin/bornes'  , 'AdminController::index');
+	$routes->match(['get', 'post', 'delete'], '/admin/bornes'  , 'AdminController::adminBorne');
 	$routes->match(['get', 'post', 'delete'], '/admin/contact' , 'AdminController::adminContact');
 	$routes->match(['get', 'post', 'delete'], '/admin/articles', 'AdminController::adminArticle');
 	$routes->match(['get', 'post', 'delete'], '/admin/faqs'    , 'AdminController::adminFaq');

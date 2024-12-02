@@ -1,30 +1,36 @@
 <?php
 namespace App\Models;
 
+use App\Entities\Bouton;
+use App\Entities\Image;
+use App\Entities\Joystick;
+use App\Entities\Option;
 use CodeIgniter\Model;
 use App\Entities\Theme;
 use App\Entities\Matiere;
 use App\Entities\TMolding;
 use App\Entities\Borne;
 use CodeIgniter\I18n\Time;
+use Config\Database;
+use Exception;
 
 class BorneModel extends Model
 {
 	/**
-	 * @property int $MAX_JOYSTICK Le nombre maximum de Bouton sur la borne.
-	 * Utiliser pour la clause SQL LIMIT
+	 * @property int $MAX_JOYSTICK Le nombre maximum de boutons sur la borne.
+	 * Utilisé pour la clause SQL LIMIT
 	 */
 	private static int $MAX_BOUTON = 12;
 	
 	/**
-	 * @property int $MAX_JOYSTICK Le nombre maximum de Joystick sur la borne.
-	 * Utiliser pour la clause SQL LIMIT
+	 * @property int $MAX_JOYSTICK Le nombre maximum de joysticks sur la borne.
+	 * Utilisé pour la clause SQL LIMIT
 	 */
 	private static int $MAX_JOYSTICK = 2;
 
 
 	protected $table      = 'borne';
-    protected $autoIncrement = true;
+    protected $useAutoIncrement = true;
 	protected $primaryKey = 'id_borne';
 	protected $returnType = 'App\Entities\Borne';
 	protected $allowedFields = [
@@ -40,7 +46,7 @@ class BorneModel extends Model
 	
 	// Règles de validation
 	protected $validationRules = [
-        'nom'     => 'required|max_length[50]|min_length[5]|regex_match[/^[^<>;{}]*$/]',
+        'nom'         => 'required|max_length[50]|min_length[5]|regex_match[/^[^<>;{}]*$/]',
         'description' => 'required|max_length[500]|regex_match[/^[^<>;{}]*$/]',
         'prix'        => 'required|greater_than[0]',
 		'id_tmolding' => 'required',
@@ -63,7 +69,7 @@ class BorneModel extends Model
 		],
 
 		'prix' => [
-			'required'    => 'Champ requis.',
+			'required'     => 'Champ requis.',
 			'greater_than' => 'Le prix doit être supérieur à zéro.',
 		],
 
@@ -71,44 +77,52 @@ class BorneModel extends Model
 		'id_matiere'  => [ 'required' => 'Champ requis.'],
 		'id_theme'    => [ 'required' => 'Champ requis.'],
 	];
+	
+	public function getBorneParTheme(string $theme): array {
+		return $this->where('theme', $theme)->findAll();
+	}
+	
+	public function getBorneParId(int $id): Borne {
+		return new Borne($this->find($id));
+	}
 
 	/**
 	 * Récupère le Theme de la borne.
 	 * @param int $idTheme
-	 * @return \App\Entities\Theme
+	 * @return Theme
 	 */
 	public function getTheme(int $idTheme): Theme
 	{
 		$themeModele = new ThemeModel();
-		return $themeModele->find($idTheme);
+		return new Theme($themeModele->find($idTheme));
 	}
 
 	/**
 	 * Récupère la Matière de la borne.
 	 * @param int $idMatiere
-	 * @return \App\Entities\Matiere
+	 * @return Matiere
 	 */
 	public function getMatiere(int $idMatiere): Matiere
 	{
 		$matiereModele = new MatiereModel();
-		return $matiereModele->find($idMatiere);
+		return new Matiere($matiereModele->find($idMatiere));
 	}
 
 	/**
-	 * Récupère le TMloding de la borne.
+	 * Récupère le TMolding de la borne.
 	 * @param int $idTMolding
-	 * @return \App\Entities\TMolding
+	 * @return TMolding
 	 */
 	public function getTMolding(int $idTMolding): TMolding
 	{
 		$tmoldingModele = new TMoldingModel();
-		return $tmoldingModele->find($idTMolding);
+		return new TMolding($tmoldingModele->find($idTMolding));
 	}
 
 	/**
 	 * Récupère un tableau de Joystick de la borne.
 	 * @param int $idBorne
-	 * @return array<\App\Entities\Joystick>
+	 * @return array<Joystick>
 	 */
 	public function getJoysticks(int $idBorne): array
 	{
@@ -128,11 +142,11 @@ class BorneModel extends Model
 	 */
 	public function insererJoystickBorne(int $idBorne, int $idJoystick): bool
 	{
-		$db = \Config\Database::connect();
+		$db = Database::connect();
 		$builder = $db->table('joystickborne');
 
 		$data = [
-			'id_borne'  => $idBorne,
+			'id_borne'    => $idBorne,
 			'id_joystick' => $idJoystick,
 		];
 
@@ -142,7 +156,7 @@ class BorneModel extends Model
 	/**
 	 * Récupère un tableau de Bouton de la borne.
 	 * @param int $idBorne
-	 * @return array<\App\Entities\Bouton>
+	 * @return array<Bouton>
 	 */
 	public function getBoutons(int $idBorne): array
 	{
@@ -162,7 +176,7 @@ class BorneModel extends Model
 	 */
 	public function insererBoutonBorne(int $idBorne, int $idBouton): bool
 	{
-		$db = \Config\Database::connect();
+		$db = Database::connect();
 		$builder = $db->table('boutonborne');
 
 		$data = [
@@ -176,7 +190,7 @@ class BorneModel extends Model
 	/**
 	 * Récupère un tableau d'Image de la borne.
 	 * @param int $idBorne
-	 * @return array<\App\Entities\Image>
+	 * @return array<Image>
 	 */
 	public function getImages(int $idBorne): array
 	{
@@ -186,7 +200,7 @@ class BorneModel extends Model
 				->where('imageborne.id_borne', $idBorne);
 			
 		$images = $builder->get()->getResult('App\Entities\Image');
-		return $images ? $images : [];
+		return $images ?: [];
 	}
 
 	/**
@@ -197,11 +211,11 @@ class BorneModel extends Model
 	 */
 	public function insererImageBorne(int $idBorne, int $idImage): bool
 	{
-		$db = \Config\Database::connect();
+		$db = Database::connect();
 		$builder = $db->table('imageborne');
 
 		$data = [
-			'id_borne'  => $idBorne,
+			'id_borne' => $idBorne,
 			'id_image' => $idImage,
 		];
 		
@@ -211,7 +225,7 @@ class BorneModel extends Model
 	/**
 	 * Récupère un tableau d'Option de la borne.
 	 * @param int $idBorne
-	 * @return array<\App\Entities\Option>
+	 * @return array<Option>
 	 */
 	public function getOptions(int $idBorne): array
 	{
@@ -221,7 +235,7 @@ class BorneModel extends Model
 				->where('optionborne.id_borne', $idBorne);
 			
 		$options = $builder->get()->getResult('App\Entities\Option');
-		return $options ? $options : [];
+		return $options ?: [];
 	}
 
 	/**
@@ -232,7 +246,7 @@ class BorneModel extends Model
 	 */
 	public function insererOptionBorne(int $idBorne, int $idOption): bool
 	{
-		$db = \Config\Database::connect();
+		$db = Database::connect();
 		$builder = $db->table('optionborne');
 
 		$data = [
@@ -249,7 +263,7 @@ class BorneModel extends Model
 	 */
 	public function suppPeriodiqueBornePerso(): bool
     {
-        $db = \Config\Database::connect();
+        $db = Database::connect();
         $builder = $db->table('borneperso');
 
         $moisDernier = date('d-m-Y H:i:s', strtotime('-1 month'));
@@ -257,11 +271,13 @@ class BorneModel extends Model
         $builder->where('date_modif <', $moisDernier);
         return $builder->delete();
     }
-
+	
 	/**
 	 * Insertion d'une BornePerso.
-	 * @param \App\Entities\Borne $borne
+	 *
+	 * @param Borne $borne
 	 * @return bool
+	 * @throws Exception
 	 */
 	public function insererBornePerso(Borne $borne): bool
 	{

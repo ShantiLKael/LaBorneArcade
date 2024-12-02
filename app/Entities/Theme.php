@@ -6,13 +6,15 @@ use CodeIgniter\Entity\Entity;
 class Theme extends Entity
 {
     protected $casts = [
-        'id'  => 'integer',
-        'nom' => 'string',
+        'id' =>'integer',
+        'nom'=>'string',
     ];
 
-	protected $datamap = [ 'id' => 'id_theme' ];
+	protected $datamap = [
+		'id'=>'id_theme'
+	];
 
-	public function setNom(string $nom)
+	public function setNom(string $nom): static
 	{
 		$this->attributes['nom'] = $nom;
 		return $this;

@@ -1,2 +1,6 @@
 # Ignorer tous les fichiers .txt
 *.txt
+
+.idea/
+
+./app/Config/Database.php
