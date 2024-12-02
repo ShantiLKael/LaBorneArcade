@@ -13,6 +13,7 @@ use App\Entities\Borne;
 use CodeIgniter\I18n\Time;
 use Config\Database;
 use Exception;
+use JetBrains\PhpStorm\ArrayShape;
 
 class BorneModel extends Model
 {
@@ -78,23 +79,16 @@ class BorneModel extends Model
 		'id_theme'    => [ 'required' => 'Champ requis.'],
 	];
 	
-	public function getBorneParTheme(string $theme): array {
-		return $this->where('theme', $theme)->findAll();
+	public function getBornes(string $theme = null, string $type = null): array {
+//		$model = $this;
+//		if ($theme)
+//			$model = $model->where('theme', $theme);
+//		return ->findAll();
+		return $this->findAll();
 	}
 	
 	public function getBorneParId(int $id): Borne {
 		return new Borne($this->find($id));
-	}
-
-	/**
-	 * Récupère le Theme de la borne.
-	 * @param int $idTheme
-	 * @return Theme
-	 */
-	public function getTheme(int $idTheme): Theme
-	{
-		$themeModele = new ThemeModel();
-		return new Theme($themeModele->find($idTheme));
 	}
 
 	/**
