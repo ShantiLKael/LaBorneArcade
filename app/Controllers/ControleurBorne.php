@@ -55,8 +55,9 @@ class ControleurBorne extends BaseController {
 	 * @return string La vue qui liste les bornes prédéfinies.
 	 */
 	public function index(string $theme = null) : string {
-		
-		
+	
+//		dd($theme, $this->request->getGet('type'));
+		dd($this->borneModel->getBornes());
 		return view('borne/index_borne', [
 			'titre' =>"Liste des bornes prédéfines",
 			'bornes'=>$this->borneModel->getBorneParTheme($theme),
