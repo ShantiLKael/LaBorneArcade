@@ -47,22 +47,16 @@ class ArticleBlogController extends BaseController
 	public function traitement_creation_article()
 	{
 		$validation = \Config\Services::validation();
-	
 		$articleBlogModel = new ArticleBlogModel();
-		
 		if (!$this->validate($articleBlogModel->getValidationRules(), $articleBlogModel->getValidationMessages())) {
 			return redirect()->back()->withInput()->with('errors', $validation->getErrors());
 		}
 		
 		/// Verifier la
-	
 		$data = $this->request->getPost();
 		$articleBlog = new ArticleBlog();
-
 		$articleBlog->fill($data);
-
 		$articleBlogModel->insert($articleBlog);
-
 		return redirect()->back();
 	}
 }

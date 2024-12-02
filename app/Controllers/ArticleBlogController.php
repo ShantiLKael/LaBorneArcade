@@ -16,16 +16,15 @@ class ArticleBlogController extends BaseController
 	
 	public function index()
 	{
-    	echo view('commun/Navbar'); 
-    	echo view('blog-articles'); 
-    	echo view('commun/Footer'); 
+		$articleModele = new ArticleBlogModel();
+		$articles = $articleModele->findAllArticle();
+		return redirect()->to('blog-articles')->with('articles',"$articles");
 	}
 
-    public function voirArticle(int $idArticle)
+	public function voirArticle(int $idArticle)
 	{
-        $articleModele = new ArticleBlogModel();
+		$articleModele = new ArticleBlogModel();
 		$article = $articleModele->find($idArticle)->getArticle();
-
-        return redirect()->to('blog-articles/'.$idArticle)->with('article',"$article");
+		return redirect()->to('blog-articles/'.$idArticle)->with('article',"$article");
 	}
 }
