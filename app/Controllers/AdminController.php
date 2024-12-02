@@ -4,6 +4,7 @@ use CodeIgniter\Controller;
 use App\Entities\ArticleBlog;
 use App\Models\UtilisateurModel;
 use App\Models\ArticleBlogModel;
+use App\Models\FaqModel;
 use CodeIgniter\Model;
 
 class ArticleBlogController extends BaseController
@@ -104,7 +105,7 @@ class ArticleBlogController extends BaseController
 		$data = $this->request->getPost();
 		if (!$this->validate($articleBlogModel->getValidationRules(), $articleBlogModel->getValidationMessages())) 
 		{
-			return redirect()->back()->withInput()->with('errors', $articleBlogModel->getErrors());
+			return redirect()->back()->withInput()->with('erreurs', $articleBlogModel->getErrors());
 		}
 
 		$article = $articleBlogModel->find($idArticle);
@@ -118,7 +119,7 @@ class ArticleBlogController extends BaseController
 		// Enregistrer les modifications
 		$articleBlogModel->save($article);
 		
-		return redirect()->back()->with('success', 'L\'article à été mises à jour.');
+		return redirect()->back()->with('succes', 'L\'article à été mises à jour.');
 	}
 
     /* ---------------------------------------- */
