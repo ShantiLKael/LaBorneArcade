@@ -8,6 +8,10 @@ use CodeIgniter\Model;
 
 class ArticleBlogController extends BaseController
 {
+
+    /* ---------------------------------------- */
+	/* ----------- Redirection page ----------- */
+	/* ---------------------------------------- */
 	/**
 	 * helper form
 	 */
@@ -52,6 +56,10 @@ class ArticleBlogController extends BaseController
 	{
 		return redirect()->to('/admin/faqs');
 	}
+
+    /* ---------------------------------------- */
+	/* ------------- article/Blog ------------- */
+	/* ---------------------------------------- */
 
 	/**
 	 * traitement d'ajout de nouveau article du blog
@@ -112,4 +120,44 @@ class ArticleBlogController extends BaseController
 		
 		return redirect()->back()->with('success', 'L\'article à été mises à jour.');
 	}
+
+    /* ---------------------------------------- */
+	/* ------------------ FAQ ----------------- */
+	/* ---------------------------------------- */
+
+    /**
+	 * traitement d'ajout d'une nouvelle question de la faq
+	 * @return \CodeIgniter\HTTP\RedirectResponse
+	 */
+	public function traitement_creation_faq()
+	{
+		$validation = \Config\Services::validation();
+		$faqModel = $faq = new FaqModel();
+		if (!$this->validate($faqModel->getValidationRules(), $faqModel->getValidationMessages())) {
+			return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+		}
+		
+		/// Verifier la
+		$data = $this->request->getPost();
+		$faq->fill($data);
+		$faqModel->insert($faq);
+		return redirect()->back();
+	}
+
+	/**
+	 * Traitement de suppression de la question faq en parametre
+	 * @param int $idfaq 
+	 * @return \CodeIgniter\HTTP\RedirectResponse 
+	 */
+	public function traitement_delete_faq(int $idfaq)
+	{
+		$faqModel = new ArticleBlogModel();
+		$faqModel->deleteCascade($idfaq);
+		return redirect()->back();
+	}
+
+    /* ---------------------------------------- */
+	/* ----------------- Borne ---------------- */
+	/* ---------------------------------------- */
+
 }
