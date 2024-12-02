@@ -13,7 +13,11 @@ class ArticleBlogController extends BaseController
 		//Chargement du helper Form
 		helper(['form']);
 	}
-	
+
+	/**
+	 * page par défaut
+	 * @return \CodeIgniter\HTTP\RedirectResponse blog-articles version potentiel acheteur
+	 */
 	public function index()
 	{
 		$articleModele = new ArticleBlogModel();
@@ -21,10 +25,15 @@ class ArticleBlogController extends BaseController
 		return redirect()->to('blog-articles')->with('articles',"$articles");
 	}
 
+	/**
+	 * page détail d'un article
+	 * @param int $idArticle
+	 * @return \CodeIgniter\HTTP\RedirectResponse
+	 */
 	public function voirArticle(int $idArticle)
 	{
 		$articleModele = new ArticleBlogModel();
-		$article = $articleModele->find($idArticle)->getArticle();
-		return redirect()->to('blog-articles/'.$idArticle)->with('article',"$article");
+		$articles = $articleModele->find($idArticle)->getArticle();
+		return redirect()->to('blog-articles/'.$idArticle)->with('articles',"$articles");
 	}
 }
