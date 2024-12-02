@@ -16,33 +16,24 @@ class ArticleBlogController extends BaseController
 	
 	public function index()
 	{
-    	echo view('commun/Navbar'); 
-    	echo view('/admin/bornes'); 
-    	echo view('commun/Footer'); 
+		return redirect()->to('/admin/bornes');
 	}
 
-    public function adminContact()
+	public function adminContact()
 	{
-    	echo view('commun/Navbar'); 
-    	echo view('/admin/contact'); 
-    	echo view('commun/Footer'); 
+		return redirect()->to('/admin/contact');
 	}
 
-    public function adminArticle()
+	public function adminArticle()
 	{
-    	echo view('commun/Navbar'); 
-    	echo view('/admin/articles'); 
-    	echo view('commun/Footer'); 
+		return redirect()->to('/admin/articles');
 	}
 
-    public function adminFaq()
+	public function adminFaq()
 	{
-    	echo view('commun/Navbar'); 
-    	echo view('/admin/faqs'); 
-    	echo view('commun/Footer'); 
+		return redirect()->to('/admin/faqs');
 	}
 
-	
 
 	public function traitement_creation_article()
 	{
@@ -57,6 +48,20 @@ class ArticleBlogController extends BaseController
 		$articleBlog = new ArticleBlog();
 		$articleBlog->fill($data);
 		$articleBlogModel->insert($articleBlog);
+		return redirect()->back();
+	}
+
+	public function traitement_delete_article(int $idArticle)
+	{
+		$articleBlogModel = new ArticleBlogModel();
+		$articleBlogModel->deleteCascade($idArticle);
+		return redirect()->back();
+	}
+
+	public function traitement_modifier_article(int $idArticle)
+	{
+		$articleBlogModel = new ArticleBlogModel();
+		$articleBlogModel->deleteCascade($idArticle);
 		return redirect()->back();
 	}
 }
