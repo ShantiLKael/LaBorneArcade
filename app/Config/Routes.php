@@ -7,7 +7,7 @@ use CodeIgniter\Router\RouteCollection;
  */
 //$routes->group('', ['filter' => 'invite'], function($routes) {
 	// Page vitrine
-	$routes->get('/'                  , 'HomeController::index');
+	$routes->get('/'                  , 'Home::index');
 	$routes->get('/contact'           , 'HomeController::contact');
 	$routes->get('/qui-sommes-nous'   , 'HomeController::quiSommesNous');
 	$routes->get('/faq'               , 'HomeController::faq');
@@ -24,9 +24,10 @@ use CodeIgniter\Router\RouteCollection;
 	$routes->get('/blog-articles/(:num)', 'ArticleBlogController::index');
 
 	// Bornes
-	$routes->get('/bornes'       , 'BorneController::index');
-	$routes->get('/bornes/(:num)', 'BorneController::voirBorne');
-	$routes->match(['get', 'post'], '/bornes-perso/(:num)', 'BorneController::editBorne');
+	$routes->get('/bornes'       , 'ControleurBorne::index');
+	$routes->get('/bornes/(:any)', 'ControleurBorne::index/$1');
+	$routes->get('/bornes/(:num)', 'ControleurBorne::voirBorne');
+	$routes->match(['get', 'post'], '/bornes-perso/(:num)', 'ControleurBorne::editBorne');
 
 	// Panier
 	$routes->get('/panier', 'CommandeController::panier');
