@@ -23,38 +23,38 @@ class ArticleBlogController extends BaseController
 	
 	/**
 	 * Page d'admin borne
-	 * @return \CodeIgniter\HTTP\RedirectResponse admin/borne
+	 * @return string admin/borne
 	 */
 	public function index()
 	{
-		return redirect()->to('/admin/bornes');
+		return view('/admin/bornes');
 	}
 
 	/**
 	 * Page contact version admin (pas compris le pourquoi de cette page)
-	 * @return \CodeIgniter\HTTP\RedirectResponse admin/contact
+	 * @return string admin/contact
 	 */
 	public function adminContact()
 	{
-		return redirect()->to('/admin/contact');
+		return view('/admin/contact');
 	}
 
 	/**
 	 * Page admin des article
-	 * @return \CodeIgniter\HTTP\RedirectResponse admin/articles
+	 * @return string admin/articles
 	 */
 	public function adminArticle()
 	{
-		return redirect()->to('/admin/articles');
+		return view('/admin/articles');
 	}
 
 	/**
 	 * Page admin faq
-	 * @return \CodeIgniter\HTTP\RedirectResponse
+	 * @return string
 	 */
 	public function adminFaq()
 	{
-		return redirect()->to('/admin/faqs');
+		return view('/admin/faqs');
 	}
 
     /* ---------------------------------------- */

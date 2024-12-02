@@ -13,49 +13,49 @@ class HomeController extends BaseController
 	
 	/**
 	 * Page ..........
-	 * @return \CodeIgniter\HTTP\RedirectResponse 
+	 * @return string
 	 */
 	public function index()
 	{
-		return redirect()->to('/'); //TODO je sais pas redirectionner 
+		return view('/'); //TODO je sais pas redirectionner 
 	}
 
 	/**
 	 * Page contact version visiteur 
-	 * @return \CodeIgniter\HTTP\RedirectResponse contact
+	 * @return string contact
 	 */
 	public function contact()
 	{
-		return redirect()->to('/contact');
+		return view('/contact');
 	}
 
-	/**
-	 * Page visiteur de qui-sommes-nous
-	 * @return \CodeIgniter\HTTP\RedirectResponse qui-sommes-nous
-	 */
+    /**
+     * Page visiteur de qui-sommes-nous
+     * @return string qui-sommes-nous
+     */
 	public function quiSommesNous()
 	{
-		return redirect()->to('/qui-sommes-nous');
+		return view('/qui_sommes_nous');
 	}
 
 	/**
 	 * Page visiteur faq
-	 * @return \CodeIgniter\HTTP\RedirectResponse
+	 * @return string 
 	 */
 	public function faq()
 	{
         $faqModele = new FaqModel();
 		$faqs = $faqModele->findAllFaq();
-		return redirect()->to('faq')->with('faqs',"$faqs");
+		return view('faq')->with('faqs',"$faqs");
 	}
 
     /**
 	 * Page visiteur condition de vente
-	 * @return \CodeIgniter\HTTP\RedirectResponse
+	 * @return string
 	 */
 	public function cgv()
 	{
-		return redirect()->to('condition-de-vente');
+		return view('condition-de-vente');
 	}
 
     /* ---------------------------------------- */
