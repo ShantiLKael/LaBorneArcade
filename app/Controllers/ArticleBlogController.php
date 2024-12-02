@@ -21,7 +21,7 @@ class ArticleBlogController extends BaseController
 	public function index()
 	{
 		$articleModele = new ArticleBlogModel();
-		$articles = $articleModele->findAllArticle();
+		$articles = $articleModele->findAll();
 		return redirect()->to('blog-articles')->with('articles',"$articles");
 	}
 
