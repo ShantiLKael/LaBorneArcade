@@ -45,7 +45,7 @@ class HomeController extends BaseController
 	public function faq()
 	{
         $faqModele = new FaqModel();
-		$faqs = $faqModele->findAllFaq();
+		$faqs = $faqModele->findAll();
 		return view('faq')->with('faqs',"$faqs");
 	}
 
