@@ -3,25 +3,38 @@
 namespace App\Controllers;
 
 use App\Entities\ArticleBlog;
+use App\Entities\Faq;
 use App\Models\ArticleBlogModel;
 use CodeIgniter\HTTP\RedirectResponse;
+use CodeIgniter\Validation\ValidationInterface;
+use Config\Services;
 use ReflectionException;
 use App\Models\FaqModel;
 
-class ArticleBlogController extends BaseController
+class AdminController extends BaseController
 {
-
-    /* ---------------------------------------- */
-	/* ----------- Redirection page ----------- */
-	/* ---------------------------------------- */
-	/**
-	 * helper form
-	 */
-	public function __construct()
-	{
+	
+	/** @var ArticleBlogModel $articleBlogModel */
+	private ArticleBlogModel $articleBlogModel;
+	
+	/** @var FaqModel $faqModel */
+	private FaqModel $faqModel;
+	
+	/** @var ValidationInterface $validation */
+	private ValidationInterface $validation;
+	
+	public function __construct() {
+		$this->articleBlogModel = new ArticleBlogModel();
+		$this->faqModel = new FaqModel();
+		
+		$this->validation = Services::validation();
 		//Chargement du helper Form
 		helper(['form']);
 	}
+	
+    /* ---------------------------------------- */
+	/* ----------- Redirection page ----------- */
+	/* ---------------------------------------- */
 	
 	/**
 	 * Page d'admin borne
@@ -72,49 +85,44 @@ class ArticleBlogController extends BaseController
 	 */
 	public function traitement_creation_article(): RedirectResponse
 	{
-		$validation = \Config\Services::validation();
-		$articleBlogModel = new ArticleBlogModel();
-		if (!$this->validate($articleBlogModel->getValidationRules(), $articleBlogModel->getValidationMessages())) {
-			return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+		if (!$this->validate($this->articleBlogModel->getValidationRules(), $this->articleBlogModel->getValidationMessages())) {
+			return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
 		}
 		
 		/// Verifier la
 		$data = $this->request->getPost();
-		$articleBlog = new ArticleBlog();
-		$articleBlog->fill($data);
-		$articleBlogModel->insert($articleBlog);
+		$this->articleBlogModel->insert(new ArticleBlog($data));
 		return redirect()->back();
 	}
 
 	/**
 	 * Traitement de suppression de l'article en paramètre.
 	 *
-	 * @param int $idArticle
+	 * @param int $id_article
 	 * @return RedirectResponse
 	 */
-	public function traitement_delete_article(int $idArticle): RedirectResponse
+	public function traitement_delete_article(int $id_article): RedirectResponse
 	{
-		$articleBlogModel = new ArticleBlogModel();
-		$articleBlogModel->deleteCascade($idArticle);
+		$this->articleBlogModel->delete($id_article);
 		return redirect()->back();
 	}
 	
 	/**
-	 * Traitement de modification de l'article en parametre
-	 * @param int $idArticle
+	 * Traitement de modification de l'article en paramètre.
+	 *
+	 * @param int $id_article
 	 * @return RedirectResponse
 	 * @throws ReflectionException
 	 */
-	public function traitement_modifier_article(int $idArticle): RedirectResponse
+	public function traitement_modifier_article(int $id_article): RedirectResponse
 	{
-		$articleBlogModel = new ArticleBlogModel();
 		$data = $this->request->getPost();
-		if (!$this->validate($articleBlogModel->getValidationRules(), $articleBlogModel->getValidationMessages()))
+		if (!$this->validate($this->articleBlogModel->getValidationRules(), $this->articleBlogModel->getValidationMessages()))
 		{
-			return redirect()->back()->withInput()->with('erreurs', $articleBlogModel->getErrors());
+			return redirect()->back()->withInput()->with('erreurs', $this->validation->getErrors());
 		}
 
-		$article = $articleBlogModel->find($idArticle);
+		$article = $this->articleBlogModel->find($id_article);
 
 		// Mise à jour des propriétés
 		$article->setTitre      ($data['titre']			?? $article->getTitre()       );
@@ -123,43 +131,42 @@ class ArticleBlogController extends BaseController
 		$article->setModiffArticleBlog();
 
 		// Enregistrer les modifications
-		$articleBlogModel->save($article);
+		$this->articleBlogModel->save($article);
 		
-		return redirect()->back()->with('succes', 'L\'article à été mises à jour.');
+		return redirect()->back()->with('succes', "L'article à été mis à jour.");
 	}
 
     /* ---------------------------------------- */
 	/* ------------------ FAQ ----------------- */
 	/* ---------------------------------------- */
-
-    /**
-	 * traitement d'ajout d'une nouvelle question de la faq
-	 * @return \CodeIgniter\HTTP\RedirectResponse
+	
+	/**
+	 * Traitement d'ajout d'une nouvelle question de la faq.
+	 *
+	 * @return RedirectResponse
+	 * @throws ReflectionException
 	 */
-	public function traitement_creation_faq()
+	public function traitement_creation_faq(): RedirectResponse
 	{
-		$validation = \Config\Services::validation();
-		$faqModel = $faq = new FaqModel();
-		if (!$this->validate($faqModel->getValidationRules(), $faqModel->getValidationMessages())) {
-			return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+		if (!$this->validate($this->faqModel->getValidationRules(), $this->faqModel->getValidationMessages())) {
+			return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
 		}
 		
 		/// Verifier la
 		$data = $this->request->getPost();
-		$faq->fill($data);
-		$faqModel->insert($faq);
+		$this->faqModel->insert(new Faq($data));
 		return redirect()->back();
 	}
 
 	/**
-	 * Traitement de suppression de la question faq en parametre
-	 * @param int $idfaq
-	 * @return \CodeIgniter\HTTP\RedirectResponse
+	 * Traitement de suppression de la question faq en paramètre.
+	 *
+	 * @param int $id_faq
+	 * @return RedirectResponse
 	 */
-	public function traitement_delete_faq(int $idfaq)
+	public function traitement_delete_faq(int $id_faq): RedirectResponse
 	{
-		$faqModel = new ArticleBlogModel();
-		$faqModel->deleteCascade($idfaq);
+		$this->faqModel->delete($id_faq);
 		return redirect()->back();
 	}
 
