@@ -14,8 +14,8 @@ use CodeIgniter\Router\RouteCollection;
 	$routes->match(['get', 'post'], '/contact', 'ControleurHome::contact');
 
 	// Connexion
-	$routes->get('/connexion'  , 'LoginController::connexion');
-	$routes->get('/inscription', 'LoginController::inscription');
+	$routes->match(['get', 'post'],'/connexion'  , 'LoginController::connexion');
+	$routes->match(['get', 'post'],'/inscription', 'LoginController::inscription');
 	$routes->get('/connexion/oubli-mdp'       , 'LoginController::oubliMdp');
 	$routes->get('/connexion/oubli-mdp/(:any)', 'LoginController::resetMdp');
 

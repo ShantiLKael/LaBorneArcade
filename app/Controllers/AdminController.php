@@ -6,9 +6,14 @@ use App\Entities\ArticleBlog;
 use App\Models\ArticleBlogModel;
 use CodeIgniter\HTTP\RedirectResponse;
 use ReflectionException;
+use App\Models\FaqModel;
 
 class ArticleBlogController extends BaseController
 {
+
+    /* ---------------------------------------- */
+	/* ----------- Redirection page ----------- */
+	/* ---------------------------------------- */
 	/**
 	 * helper form
 	 */
@@ -20,41 +25,45 @@ class ArticleBlogController extends BaseController
 	
 	/**
 	 * Page d'admin borne
-	 * @return RedirectResponse admin/borne
+	 * @return string admin/borne
 	 */
-	public function index(): RedirectResponse
+	public function index(): string
 	{
-		return redirect()->to('/admin/bornes');
+		return view('/admin/bornes');
 	}
 
 	/**
 	 * Page contact version admin (pas compris le pourquoi de cette page)
-	 * @return RedirectResponse admin/contact
+	 * @return string admin/contact
 	 */
-	public function adminContact(): RedirectResponse
+	public function adminContact(): string
 	{
-		return redirect()->to('/admin/contact');
+		return view('/admin/contact');
 	}
 
 	/**
 	 * Page admin des articles.
 	 *
-	 * @return RedirectResponse admin/articles
+	 * @return string admin/articles
 	 */
-	public function adminArticle(): RedirectResponse
+	public function adminArticle(): string
 	{
-		return redirect()->to('/admin/articles');
+		return view('/admin/articles');
 	}
 
 	/**
 	 * Page admin faq
-	 * @return RedirectResponse
+	 * @return string
 	 */
-	public function adminFaq(): RedirectResponse
+	public function adminFaq(): string
 	{
-		return redirect()->to('/admin/faqs');
+		return view('/admin/faqs');
 	}
-	
+
+    /* ---------------------------------------- */
+	/* ------------- article/Blog ------------- */
+	/* ---------------------------------------- */
+
 	/**
 	 * Traitement d'ajout de nouveau article du blog.
 	 *
@@ -102,7 +111,7 @@ class ArticleBlogController extends BaseController
 		$data = $this->request->getPost();
 		if (!$this->validate($articleBlogModel->getValidationRules(), $articleBlogModel->getValidationMessages()))
 		{
-			return redirect()->back()->withInput()->with('errors', $articleBlogModel->getErrors());
+			return redirect()->back()->withInput()->with('erreurs', $articleBlogModel->getErrors());
 		}
 
 		$article = $articleBlogModel->find($idArticle);
@@ -116,6 +125,47 @@ class ArticleBlogController extends BaseController
 		// Enregistrer les modifications
 		$articleBlogModel->save($article);
 		
-		return redirect()->back()->with('success', 'L\'article à été mises à jour.');
+		return redirect()->back()->with('succes', 'L\'article à été mises à jour.');
 	}
+
+    /* ---------------------------------------- */
+	/* ------------------ FAQ ----------------- */
+	/* ---------------------------------------- */
+
+    /**
+	 * traitement d'ajout d'une nouvelle question de la faq
+	 * @return \CodeIgniter\HTTP\RedirectResponse
+	 */
+	public function traitement_creation_faq()
+	{
+		$validation = \Config\Services::validation();
+		$faqModel = $faq = new FaqModel();
+		if (!$this->validate($faqModel->getValidationRules(), $faqModel->getValidationMessages())) {
+			return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+		}
+		
+		/// Verifier la
+		$data = $this->request->getPost();
+		$faq->fill($data);
+		$faqModel->insert($faq);
+		return redirect()->back();
+	}
+
+	/**
+	 * Traitement de suppression de la question faq en parametre
+	 * @param int $idfaq
+	 * @return \CodeIgniter\HTTP\RedirectResponse
+	 */
+	public function traitement_delete_faq(int $idfaq)
+	{
+		$faqModel = new ArticleBlogModel();
+		$faqModel->deleteCascade($idfaq);
+		return redirect()->back();
+	}
+
+    /* ---------------------------------------- */
+	/* ----------------- Borne ---------------- */
+	/* ---------------------------------------- */
+
 }
+
