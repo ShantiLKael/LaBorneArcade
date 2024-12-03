@@ -18,7 +18,7 @@ class CreerArticleBlog extends Migration {
 			],
 			'titre'=>[
 				'type'      =>"VARCHAR",
-				'constraint'=>"50",
+				'constraint'=>"100",
 				'null'      =>false,
 			],
 			'texte'=>[
