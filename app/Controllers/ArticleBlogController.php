@@ -16,24 +16,23 @@ class ArticleBlogController extends BaseController
 
 	/**
 	 * page par défaut
-	 * @return \CodeIgniter\HTTP\RedirectResponse blog-articles version potentiel acheteur
+     * 
 	 */
 	public function index()
 	{
 		$articleModele = new ArticleBlogModel();
 		$articles = $articleModele->findAll();
-		return redirect()->to('blog-articles')->with('articles',$articles);
+        return view('blog-articles', ['articles' => $articles]);
 	}
 
 	/**
 	 * page détail d'un article
 	 * @param int $idArticle
-	 * @return \CodeIgniter\HTTP\RedirectResponse
 	 */
 	public function voirArticle(int $idArticle)
 	{
 		$articleModele = new ArticleBlogModel();
 		$articles = $articleModele->find($idArticle)->getArticle();
-		return redirect()->to('blog-articles/'.$idArticle)->with('articles',$articles);
+        return view('blog-articles'.$idArticle, ['articles' => $articles]);
 	}
 }
