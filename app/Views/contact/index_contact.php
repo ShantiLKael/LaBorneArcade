@@ -6,7 +6,7 @@
 	<div class="grid grid-cols-1 lg:grid-cols-2">
 		
 	<!-- Rectangle de gauche -->
-	<div class="bg-dark-blue p-6">
+	<div class="bg-medium-blue p-6">
 		<h3 class="uppercase text-lg font-semibold mb-6">Une question, un devis ?<br>Appelez nous !</h3>
 		<div class="space-y-4">
 			<div class="flex items-center space-x-4">

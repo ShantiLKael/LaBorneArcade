@@ -3,13 +3,23 @@
 	<link href="/assets/css/style.css" rel="stylesheet" type="text/css">
 	<title><?= $titre ?></title>
 </head>
-<body class="bg-deep-blue text-white">
-<div class="bg-dark-blue text-center py-4 lg:px-4">
-  <div class="p-2 dark-blue items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex" role="alert">
-    <span class="flex rounded-full dark-blue uppercase px-2 py-1 text-xs font-bold mr-3">I</span>
-    <span class="font-semibold mr-2 text-left flex-auto">Get the coolest t-shirts from our brand new store</span>
-    <svg class="fill-current opacity-75 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-		<path d="M12.95 10.707l.707-.707L8 4.343 6.586 5.757 10.828 10l-4.242 4.243L8 15.657l4.95-4.95z"/>
-	</svg>
-  </div>
-</div>
+<body class="bg-dark-blue text-white">
+<header class="border-b-4 border-deep-blue shadow-xl shadow-deep-blue/70 text-center py-4 lg:px-4">
+	<!-- Barre de navigation -->
+    <nav class="bg-black/55 py-4 rounded-full mx-auto max-w-7xl px-6 flex items-center justify-between shadow-lg">
+        <!-- Logo -->
+        <div class="flex items-center">
+			<img src="chemin-vers-logo.png" alt="Logo La Borne Arcade" class="h-10 w-auto">
+        </div>
+        <!-- Liens -->
+        <ul class="flex space-x-8 text-white font-medium">
+            <li><a href="/bornes"          class="link-underline link-underline-black">Trouver ma borne</a></li>
+            <li><a href="/borne-perso"     class="link-underline link-underline-black">Personnalise ma borne</a></li>
+            <li><a href="/qui-sommes-nous" class="link-underline link-underline-black">À propos</a></li>
+            <li><a href="/faq"             class="link-underline link-underline-black">FAQ</a></li>
+            <li><a href="/articles"        class="link-underline link-underline-black">Blog</a></li>
+        </ul>
+    </nav>
+	<style>
+	</style>
+</header>
