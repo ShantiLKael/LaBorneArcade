@@ -21,7 +21,7 @@ use CodeIgniter\Router\RouteCollection;
 
 	// Blog articles
 	$routes->get('/blog-articles'       , 'ArticleBlogController::index');
-	$routes->get('/blog-articles/(:num)', 'ArticleBlogController::voirArticle');
+	$routes->get('/blog-articles/(:num)', 'ArticleBlogController::voirArticle/$1');
 
 	// Bornes
 	$routes->get('/bornes'       , 'ControleurBorne::index');
