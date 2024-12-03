@@ -38,7 +38,7 @@ class CreerOption extends Migration {
 			],
 		]);
 		$this->forge->addPrimaryKey('id_option');
-		$this->forge->addForeignKey('id_image','image','id_image');
+		$this->forge->addForeignKey('id_image','image','id_image', 'CASCADE', 'CASCADE');
 		$this->forge->createTable('option');
 	}
 	

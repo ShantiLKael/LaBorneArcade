@@ -24,8 +24,8 @@ class CreerJoystickBorne extends Migration {
 		]);
 		$this->forge->addPrimaryKey('id_borne');
 		$this->forge->addPrimaryKey('id_joystick');
-		$this->forge->addForeignKey('id_borne','borne','id_borne');
-		$this->forge->addForeignKey('id_joystick','joystick','id_joystick');
+		$this->forge->addForeignKey('id_borne','borne','id_borne', 'CASCADE', 'CASCADE');
+		$this->forge->addForeignKey('id_joystick','joystick','id_joystick', 'CASCADE', 'CASCADE');
 		$this->forge->createTable('joystickborne');
 	}
 	

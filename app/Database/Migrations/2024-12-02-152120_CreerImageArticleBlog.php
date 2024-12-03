@@ -24,8 +24,8 @@ class CreerImageArticleBlog extends Migration {
 		]);
 		$this->forge->addPrimaryKey('id_articleblog');
 		$this->forge->addPrimaryKey('id_image');
-		$this->forge->addForeignKey('id_articleblog','articleblog','id_articleblog');
-		$this->forge->addForeignKey('id_image','image','id_image');
+		$this->forge->addForeignKey('id_articleblog','articleblog','id_articleblog', 'CASCADE', 'CASCADE');
+		$this->forge->addForeignKey('id_image','image','id_image', 'CASCADE', 'CASCADE');
 		$this->forge->createTable('imagearticleblog');
 	}
 	

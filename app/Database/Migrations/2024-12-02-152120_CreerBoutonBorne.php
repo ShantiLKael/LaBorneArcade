@@ -24,8 +24,8 @@ class CreerBoutonBorne extends Migration {
 		]);
 		$this->forge->addPrimaryKey('id_borne');
 		$this->forge->addPrimaryKey('id_bouton');
-		$this->forge->addForeignKey('id_borne','borne','id_borne');
-		$this->forge->addForeignKey('id_bouton','bouton','id_bouton');
+		$this->forge->addForeignKey('id_borne','borne','id_borne', 'CASCADE', 'CASCADE');
+		$this->forge->addForeignKey('id_bouton','bouton','id_bouton', 'CASCADE', 'CASCADE');
 		$this->forge->createTable('boutonborne');
 	}
 	

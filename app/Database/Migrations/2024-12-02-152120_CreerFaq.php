@@ -33,7 +33,7 @@ class CreerFaq extends Migration {
 			],
 		]);
 		$this->forge->addPrimaryKey('id_faq');
-		$this->forge->addForeignKey('id_utilisateur','utilisateur','id_utilisateur');
+		$this->forge->addForeignKey('id_utilisateur','utilisateur','id_utilisateur', 'CASCADE', 'CASCADE');
 		$this->forge->createTable('faq');
 	}
 	

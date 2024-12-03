@@ -41,8 +41,8 @@ class CreerCommande extends Migration {
 			],
 		]);
 		$this->forge->addPrimaryKey('id_commande');
-		$this->forge->addForeignKey('id_borne','borne','id_borne');
-		$this->forge->addForeignKey('id_utilisateur','utilisateur','id_utilisateur');
+		$this->forge->addForeignKey('id_borne','borne','id_borne', 'CASCADE', 'CASCADE');
+		$this->forge->addForeignKey('id_utilisateur','utilisateur','id_utilisateur', 'CASCADE', 'CASCADE');
 		$this->forge->createTable('commande');
 	}
 	
