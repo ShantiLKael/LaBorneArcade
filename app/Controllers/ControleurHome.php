@@ -2,21 +2,23 @@
 
 namespace App\Controllers;
 
-class ControleurHome extends BaseController 
+use Config\Services;
+
+class ControleurHome extends BaseController
 {
 	public function __construct() {
 		helper(['form']); // Chargement du helper Form
 	}
 
 	/**
-	 * Méthode qui affiche une interface de contact 
+	 * Méthode qui affiche une interface de contact
 	 * pour joindre les administrateurs.
 	 *
 	 * @return string La vue de contact.
 	 */
 	public function contact(): string {
 		$data = $this->request->getPost();
-		$validation = \Config\Services::validation();
+		$validation = Services::validation();
 		$regleValidation = [
 			'phone'   => 'required|regex_match[/^[0-9]{10}$/]',
 			'email'   => 'required|valid_email',
@@ -54,7 +56,7 @@ class ControleurHome extends BaseController
 	}
 
 	/**
-	 * Méthode qui affiche une interface de contact 
+	 * Méthode qui affiche une interface de contact
 	 * pour joindre les administrateurs.
 	 *
 	 * @return string La vue de contact.
@@ -64,7 +66,7 @@ class ControleurHome extends BaseController
 	}
 
 	/**
-	 * Méthode qui affiche les conditions générales de vente 
+	 * Méthode qui affiche les conditions générales de vente
 	 *
 	 * @return string La vue des conditions de vente.
 	 */
