@@ -2,15 +2,21 @@
 
 namespace App\Controllers;
 use CodeIgniter\Session\Session;
+use CodeIgniter\Validation\Validation;
 
 class HomeController extends BaseController 
 {
 	/** @var Session $session */
 	private Session $session;
+	
+	/** @var Validation $validation */
+	private Validation $validation;
 
 	public function __construct() {
 		$this->session = session();
-		helper(['form']);
+		$this->validation = \Config\Services::validation();
+
+		helper(['form']);		
 	}
 
 	public function index():string {
@@ -26,7 +32,6 @@ class HomeController extends BaseController
 	public function contact(): string {
 
 		$data = $this->request->getPost();
-		$validation = \Config\Services::validation();
 		
 		$regleValidation = [
 			'phone'   => 'required|regex_match[/^[0-9]{10}$/]',
@@ -55,7 +60,7 @@ class HomeController extends BaseController
 			if (!$this->validate($regleValidation, $messageValidation)) {
 				return view('contact/index_contact', [
 					'titre' => 'Me Contacter | LBA',
-					'erreurs' => $validation->getErrors(),
+					'erreurs' => $this->validation->getErrors(),
 				]);
 			} else {
 				// TODO : Envoie de mail
