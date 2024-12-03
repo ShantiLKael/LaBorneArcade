@@ -16,8 +16,8 @@ use CodeIgniter\Router\RouteCollection;
 	// Connexion
 	$routes->match(['get', 'post'],'/connexion'  , 'LoginController::connexion');
 	$routes->match(['get', 'post'],'/inscription', 'LoginController::inscription');
-	$routes->get('/connexion/oubli-mdp'       , 'LoginController::oubliMdp');
-	$routes->get('/connexion/oubli-mdp/(:any)', 'LoginController::resetMdp');
+	$routes->match(['get', 'post'],'/connexion/oubli-mdp'       , 'LoginController::oubliMdp');
+	$routes->match(['get', 'post'],'/connexion/oubli-mdp/(:any)', 'LoginController::resetMdp/$1');
 
 	// Blog articles
 	$routes->get('/blog-articles'       , 'ArticleBlogController::index');
