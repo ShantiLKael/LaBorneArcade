@@ -1,38 +1,42 @@
 <?php
+
 namespace App\Controllers;
-use CodeIgniter\Controller;
-use App\Entities\ArticleBlog;
-use App\Models\UtilisateurModel;
+
 use App\Models\ArticleBlogModel;
-use CodeIgniter\Model;
 
 class ArticleBlogController extends BaseController
 {
+	/** @var ArticleBlogModel $articleBlogModele */
+	private ArticleBlogModel $articleBlogModele;
+	
 	public function __construct()
 	{
+		$this->articleBlogModele = new ArticleBlogModel();
 		//Chargement du helper Form
 		helper(['form']);
 	}
 
 	/**
-	 * page par défaut
-     * 
+	 * Page par défaut
+	 *
+	 * @return string blog-articles version potentiel acheteur
 	 */
-	public function index()
+	public function index(): string
 	{
-		$articleModele = new ArticleBlogModel();
-		$articles = $articleModele->findAll();
-        return view('blog-articles', ['articles' => $articles]);
+		$articles = $this->articleBlogModele->findAll();
+		return view('blog-articles', ['articles' => $articles]);
 	}
 
 	/**
-	 * page détail d'un article
-	 * @param int $idArticle
+	 * Page détail d'un article
+	 *
+	 * @param int $id_article
+	 * @return string
 	 */
-	public function voirArticle(int $idArticle)
+	public function voirArticle(int $id_article): string
 	{
-		$articleModele = new ArticleBlogModel();
-		$articles = $articleModele->find($idArticle)->getArticle();
-        return view('blog-articles'.$idArticle, ['articles' => $articles]);
+//		dd($id_article, $this->articleBlogModele->find($id_article));
+		$articles = $this->articleBlogModele->find($id_article)->getArticle();
+		return view('blog-articles'.$id_article, ['articles' => $articles]);
 	}
 }

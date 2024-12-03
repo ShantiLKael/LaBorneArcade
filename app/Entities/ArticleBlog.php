@@ -21,17 +21,17 @@ class ArticleBlog extends Entity
 	/* ---------------- Setter ---------------- */
 	/* ---------------------------------------- */
 
-	public function setTitre(string $titre) {
+	public function setTitre(string $titre): static {
 		$this->attributes['titre'] = $titre;
 		return $this;
 	}
 
-	public function setTexte(string $texte){
+	public function setTexte(string $texte): static {
 		$this->attributes['texte'] = $texte;
 		return $this;
 	}
 
-	public function setIdUtilisateur(int $idUtilisateur){
+	public function setIdUtilisateur(int $idUtilisateur): static {
 		$this->attributes['id_Utilisateur'] = $idUtilisateur;
 		return $this;
 	}

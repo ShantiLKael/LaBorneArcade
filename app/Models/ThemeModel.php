@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 
+use App\Entities\Theme;
 use CodeIgniter\Model;
 
 class ThemeModel extends Model
@@ -24,4 +25,17 @@ class ThemeModel extends Model
             'is_unique'   => 'Ce nom de thème existe déjà.'
 		]
 	];
+	
+	/**
+	 * Récupère le Theme de la borne.
+	 *
+	 * @param int $id_theme L'identifiant du thème.
+	 * @return Theme L'instance du thème de type {@link Theme}.
+	 */
+	public function getTheme(int $id_theme): Theme
+	{
+		$themeModele = new ThemeModel();
+		return new Theme($themeModele->find($id_theme));
+	}
+	
 }

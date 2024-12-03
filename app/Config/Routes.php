@@ -21,24 +21,25 @@ use CodeIgniter\Router\RouteCollection;
 
 	// Blog articles
 	$routes->get('/blog-articles'       , 'ArticleBlogController::index');
-	$routes->get('/blog-articles/(:num)', 'ArticleBlogController::voirArticle');
+	$routes->get('/blog-articles/(:num)', 'ArticleBlogController::voirArticle/$1');
 
 	// Bornes
-	$routes->get('/bornes'       , 'BorneController::index');
-	$routes->get('/bornes/(:num)', 'BorneController::voirBorne');
-	$routes->match(['get', 'post'], '/bornes-perso/(:num)', 'BorneController::editBorne');
+	$routes->get('/bornes'       , 'ControleurBorne::index');
+	$routes->get('/bornes/(:any)', 'ControleurBorne::index/$1');
+	$routes->get('/bornes/(:num)', 'ControleurBorne::voirBorne');
+	$routes->match(['get', 'post'], '/bornes-perso/(:num)', 'ControleurBorne::editBorne');
 
 	// Panier
-	$routes->get('/panier', 'CommandeController::panier');
+	$routes->get('/panier', 'ControleurCommande::panier');
 //});
 
 //$routes->group('', ['filter' => 'auth'], function($routes) {
-	$routes->get  ('/commandes', 'CommandeController::index');
+	$routes->get  ('/commandes', 'ControleurCommande::index');
 	$routes->match(['get', 'post'], '/profile', 'LoginController::profile');
 //});
 
 //$routes->group('', ['filter' => 'admin'], function($routes) {
-	$routes->match(['get', 'post', 'delete'], '/admin/bornes'  , 'AdminController::index');
+	$routes->match(['get', 'post', 'delete'], '/admin/bornes'  , 'AdminController::adminBorne');
 	$routes->match(['get', 'post', 'delete'], '/admin/contact' , 'AdminController::adminContact');
 	$routes->match(['get', 'post', 'delete'], '/admin/articles', 'AdminController::adminArticle');
 	$routes->match(['get', 'post', 'delete'], '/admin/faqs'    , 'AdminController::adminFaq');
