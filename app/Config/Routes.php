@@ -25,9 +25,9 @@ use CodeIgniter\Router\RouteCollection;
 
 	// Bornes
 	$routes->get('/bornes'       , 'ControleurBorne::index');
-	$routes->get('/bornes/(:any)', 'ControleurBorne::index/$1');
-	$routes->get('/bornes/(:num)', 'ControleurBorne::voirBorne');
-	$routes->match(['get', 'post'], '/bornes-perso/(:num)', 'ControleurBorne::editBorne');
+	$routes->match(['get', 'post'], '/bornes/(:num)', 'ControleurBorne::voirBorne/$1');
+	$routes->match(['get', 'post'], '/borne-perso/(:num)', 'ControleurBorne::editBorne/$1');
+	$routes->match(['get', 'post'], '/borne-perso/', 'ControleurBorne::editBorne');
 
 	// Panier
 	$routes->get('/panier', 'ControleurCommande::panier');
