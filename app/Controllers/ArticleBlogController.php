@@ -22,7 +22,7 @@ class ArticleBlogController extends BaseController
 	{
 		$articleModele = new ArticleBlogModel();
 		$articles = $articleModele->findAll();
-        return view('blog-articles', ['articles' => $articles]);
+        return view('blog/index_article', ['articles' => $articles, 'titre' => 'blog']);
 	}
 
 	/**
@@ -33,6 +33,6 @@ class ArticleBlogController extends BaseController
 	{
 		$articleModele = new ArticleBlogModel();
 		$articles = $articleModele->find($idArticle)->getArticle();
-        return view('blog-articles'.$idArticle, ['articles' => $articles]);
+        return view('blog/voir_article'.$idArticle, ['articles' => $articles, 'titre' => 'blog']);
 	}
 }
