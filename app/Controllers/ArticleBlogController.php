@@ -8,8 +8,11 @@ use CodeIgniter\Model;
 
 class ArticleBlogController extends BaseController
 {
+    /** @var ArticleBlogModel $articleBlogModele */
+	private ArticleBlogModel $articleBlogModele;
 	public function __construct()
 	{
+        $this->articleBlogModele = new ArticleBlogModel();
 		//Chargement du helper Form
 		helper(['form']);
 	}
@@ -20,9 +23,8 @@ class ArticleBlogController extends BaseController
 	 */
 	public function index()
 	{
-		$articleModele = new ArticleBlogModel();
-		$articles = $articleModele->findAll();
-        return view('blog/index_article', ['articles' => $articles, 'titre' => 'blog']);
+		$articles = $this->articleBlogModele->findAll();
+        return view('blog/index_article', ['titre' => 'blog', 'articles' => $articles]);
 	}
 
 	/**
@@ -31,8 +33,7 @@ class ArticleBlogController extends BaseController
 	 */
 	public function voirArticle(int $idArticle)
 	{
-		$articleModele = new ArticleBlogModel();
-		$articles = $articleModele->find($idArticle)->getArticle();
-        return view('blog/voir_article'.$idArticle, ['articles' => $articles, 'titre' => 'blog']);
+		$article = $this->articleBlogModele->find($idArticle);
+        return view('blog/voir_article', ['titre' => 'blog', 'article' => $article]);
 	}
 }
