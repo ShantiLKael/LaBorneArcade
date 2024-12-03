@@ -20,15 +20,18 @@ class CreerBorne extends Migration {
 				'type'      =>"VARCHAR",
 				'constraint'=>"50",
 				'null'      =>false,
+				'unique'    =>false,
 			],
 			'description'=>[
-				'type'=>"TEXT",
-				'null'=>false,
+				'type'  =>"TEXT",
+				'null'  =>false,
+				'unique'=>false,
 			],
 			'prix'=>[
 				'type'    =>"INT",
 				'unsigned'=>true,
 				'null'    =>false,
+				'unique'  =>false,
 			],
 			'id_tmolding'=>[
 				'type'    =>"INT",
@@ -63,6 +66,6 @@ class CreerBorne extends Migration {
 	 * @inheritDoc
 	 */
 	public function down(): void {
-		$this->forge->dropTable('borne', true);
+		$this->forge->dropTable('borne', true, true);
 	}
 }

@@ -20,11 +20,13 @@ class CreerFaq extends Migration {
 				'type'      =>"VARCHAR",
 				'constraint'=>"50",
 				'null'      =>false,
+				'unique'    =>false,
 			],
 			'reponse'=>[
 				'type'      =>"VARCHAR",
 				'constraint'=>"255",
 				'null'      =>false,
+				'unique'    =>false,
 			],
 			'id_utilisateur'=>[
 				'type'    =>"INT",
