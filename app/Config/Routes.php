@@ -7,11 +7,11 @@ use CodeIgniter\Router\RouteCollection;
  */
 //$routes->group('', ['filter' => 'invite'], function($routes) {
 	// Page vitrine
-	$routes->get('/'                  , 'ControleurHome::index');
-	$routes->get('/qui-sommes-nous'   , 'ControleurHome::quiSommesNous');
-	$routes->get('/faq'               , 'ControleurHome::faq');
-	$routes->get('/condition-de-vente', 'ControleurHome::cgv');
-	$routes->match(['get', 'post'], '/contact', 'ControleurHome::contact');
+	$routes->get('/'                  , 'HomeController::index');
+	$routes->get('/qui-sommes-nous'   , 'HomeController::quiSommesNous');
+	$routes->get('/faq'               , 'HomeController::faq');
+	$routes->get('/condition-de-vente', 'HomeController::cgv');
+	$routes->match(['get', 'post'], '/contact', 'HomeController::contact');
 
 	// Connexion
 	$routes->match(['get', 'post'],'/connexion'  , 'LoginController::connexion');
