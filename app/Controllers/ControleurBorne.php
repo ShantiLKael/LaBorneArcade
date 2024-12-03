@@ -8,6 +8,7 @@ use App\Models\JoystickModel;
 use App\Models\MatiereModel;
 use App\Models\OptionModel;
 use App\Models\ThemeModel;
+use CodeIgniter\Config\Services;
 
 /**
  * @author Gabriel Roche
@@ -57,10 +58,10 @@ class ControleurBorne extends BaseController {
 	public function index(string $theme = null) : string {
 	
 //		dd($theme, $this->request->getGet('type'));
-		dd($this->borneModel->getBornes());
+//		dd($this->borneModel->getBornes());
 		return view('borne/index_borne', [
 			'titre' =>"Liste des bornes prédéfines",
-			'bornes'=>$this->borneModel->getBorneParTheme($theme),
+			'bornes'=>$this->borneModel->getBornes($theme),
 		]);
 	}
 	
