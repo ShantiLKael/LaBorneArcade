@@ -22,7 +22,7 @@ class ArticleBlogController extends BaseController
 	{
 		$articleModele = new ArticleBlogModel();
 		$articles = $articleModele->findAll();
-		return redirect()->to('blog-articles')->with('articles',"$articles");
+		return redirect()->to('blog-articles')->with('articles',$articles);
 	}
 
 	/**
@@ -34,6 +34,6 @@ class ArticleBlogController extends BaseController
 	{
 		$articleModele = new ArticleBlogModel();
 		$articles = $articleModele->find($idArticle)->getArticle();
-		return redirect()->to('blog-articles/'.$idArticle)->with('articles',"$articles");
+		return redirect()->to('blog-articles/'.$idArticle)->with('articles',$articles);
 	}
 }
