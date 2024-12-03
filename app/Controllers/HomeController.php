@@ -1,11 +1,20 @@
 <?php
 
 namespace App\Controllers;
+use CodeIgniter\Session\Session;
 
 class HomeController extends BaseController 
 {
+	/** @var Session $session */
+	private Session $session;
+
 	public function __construct() {
-		helper(['form']); // Chargement du helper Form
+		$this->session = session();
+		helper(['form']);
+	}
+
+	public function index():string {
+		return view('home');
 	}
 
 	/**
@@ -15,8 +24,10 @@ class HomeController extends BaseController
 	 * @return string La vue de contact.
 	 */
 	public function contact(): string {
+
 		$data = $this->request->getPost();
 		$validation = \Config\Services::validation();
+		
 		$regleValidation = [
 			'phone'   => 'required|regex_match[/^[0-9]{10}$/]',
 			'email'   => 'required|valid_email',
