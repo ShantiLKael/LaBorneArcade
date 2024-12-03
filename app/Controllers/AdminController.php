@@ -1,10 +1,11 @@
 <?php
+
 namespace App\Controllers;
-use CodeIgniter\Controller;
+
 use App\Entities\ArticleBlog;
-use App\Models\UtilisateurModel;
 use App\Models\ArticleBlogModel;
-use CodeIgniter\Model;
+use CodeIgniter\HTTP\RedirectResponse;
+use ReflectionException;
 
 class ArticleBlogController extends BaseController
 {
@@ -19,45 +20,48 @@ class ArticleBlogController extends BaseController
 	
 	/**
 	 * Page d'admin borne
-	 * @return \CodeIgniter\HTTP\RedirectResponse admin/borne
+	 * @return RedirectResponse admin/borne
 	 */
-	public function index()
+	public function index(): RedirectResponse
 	{
 		return redirect()->to('/admin/bornes');
 	}
 
 	/**
 	 * Page contact version admin (pas compris le pourquoi de cette page)
-	 * @return \CodeIgniter\HTTP\RedirectResponse admin/contact
+	 * @return RedirectResponse admin/contact
 	 */
-	public function adminContact()
+	public function adminContact(): RedirectResponse
 	{
 		return redirect()->to('/admin/contact');
 	}
 
 	/**
-	 * Page admin des article
-	 * @return \CodeIgniter\HTTP\RedirectResponse admin/articles
+	 * Page admin des articles.
+	 *
+	 * @return RedirectResponse admin/articles
 	 */
-	public function adminArticle()
+	public function adminArticle(): RedirectResponse
 	{
 		return redirect()->to('/admin/articles');
 	}
 
 	/**
 	 * Page admin faq
-	 * @return \CodeIgniter\HTTP\RedirectResponse
+	 * @return RedirectResponse
 	 */
-	public function adminFaq()
+	public function adminFaq(): RedirectResponse
 	{
 		return redirect()->to('/admin/faqs');
 	}
-
+	
 	/**
-	 * traitement d'ajout de nouveau article du blog
-	 * @return \CodeIgniter\HTTP\RedirectResponse
+	 * Traitement d'ajout de nouveau article du blog.
+	 *
+	 * @return RedirectResponse
+	 * @throws ReflectionException
 	 */
-	public function traitement_creation_article()
+	public function traitement_creation_article(): RedirectResponse
 	{
 		$validation = \Config\Services::validation();
 		$articleBlogModel = new ArticleBlogModel();
@@ -74,27 +78,29 @@ class ArticleBlogController extends BaseController
 	}
 
 	/**
-	 * Traitement de suppression de l'article en parametre
-	 * @param int $idArticle 
-	 * @return \CodeIgniter\HTTP\RedirectResponse 
+	 * Traitement de suppression de l'article en paramètre.
+	 *
+	 * @param int $idArticle
+	 * @return RedirectResponse
 	 */
-	public function traitement_delete_article(int $idArticle)
+	public function traitement_delete_article(int $idArticle): RedirectResponse
 	{
 		$articleBlogModel = new ArticleBlogModel();
 		$articleBlogModel->deleteCascade($idArticle);
 		return redirect()->back();
 	}
-
+	
 	/**
 	 * Traitement de modification de l'article en parametre
 	 * @param int $idArticle
-	 * @return \CodeIgniter\HTTP\RedirectResponse
+	 * @return RedirectResponse
+	 * @throws ReflectionException
 	 */
-	public function traitement_modifier_article(int $idArticle)
+	public function traitement_modifier_article(int $idArticle): RedirectResponse
 	{
 		$articleBlogModel = new ArticleBlogModel();
 		$data = $this->request->getPost();
-		if (!$this->validate($articleBlogModel->getValidationRules(), $articleBlogModel->getValidationMessages())) 
+		if (!$this->validate($articleBlogModel->getValidationRules(), $articleBlogModel->getValidationMessages()))
 		{
 			return redirect()->back()->withInput()->with('errors', $articleBlogModel->getErrors());
 		}

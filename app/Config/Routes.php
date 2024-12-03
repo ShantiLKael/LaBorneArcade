@@ -30,11 +30,11 @@ use CodeIgniter\Router\RouteCollection;
 	$routes->match(['get', 'post'], '/bornes-perso/(:num)', 'ControleurBorne::editBorne');
 
 	// Panier
-	$routes->get('/panier', 'CommandeController::panier');
+	$routes->get('/panier', 'ControleurCommande::panier');
 //});
 
 //$routes->group('', ['filter' => 'auth'], function($routes) {
-	$routes->get  ('/commandes', 'CommandeController::index');
+	$routes->get  ('/commandes', 'ControleurCommande::index');
 	$routes->match(['get', 'post'], '/profile', 'LoginController::profile');
 //});
 
