@@ -43,7 +43,7 @@ class UtilisateurModel extends Model
 		'mdp' => [
 			'required'    => 'Champ requis.',
 			'max_length'  => 'Votre mot de passe est trop long (max. 255 caractères).',
-			'min_length'  => 'Votre mot de passe est trop court (max. 8 caractères).',
+			'min_length'  => 'Votre mot de passe est trop court (min. 8 caractères).',
 		],
 
 		'email' => [
