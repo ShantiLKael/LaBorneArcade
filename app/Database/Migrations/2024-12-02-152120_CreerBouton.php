@@ -3,6 +3,7 @@
 namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
+use CodeIgniter\Database\Query;
 
 class CreerBouton extends Migration {
 	
@@ -20,27 +21,34 @@ class CreerBouton extends Migration {
 				'type'      =>"VARCHAR",
 				'constraint'=>"50",
 				'null'      =>false,
+				'unique'    =>false,
 			],
 			'forme'=>[
 				'type'      =>"VARCHAR", // TODO: Ajouter contrainte check
 				'constraint'=>"50",
 				'null'      =>false,
+				'unique'    =>false,
 			],
 			'couleur'=>[
 				'type'      =>"CHAR",
 				'constraint'=>"6",
 				'null'      =>false,
+				'unique'    =>false,
 			],
 			'eclairage'=>[
-				'type'=>"BOOLEAN",
-				'null'=>false,
+				'type'  =>"BOOLEAN",
+				'null'  =>false,
+				'unique'=>false,
 			],
 		]);
 		$this->forge->addPrimaryKey('id_bouton');
-		$this->forge->addUniqueKey('modele');
-		$this->forge->addUniqueKey('couleur');
-		$this->forge->addUniqueKey('eclairage');
 		$this->forge->createTable('bouton');
+		
+		$prepare = $this->db->prepare(static function($db) {
+			$sql = "ALTER TABLE bouton ADD CONSTRAINT unique_bouton UNIQUE (modele, couleur, eclairage);";
+			return (new Query($db))->setQuery($sql);
+		});
+		$prepare->execute();
 	}
 	
 	/**
