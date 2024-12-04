@@ -8,5 +8,5 @@ class ImageModel extends Model
     protected $table = 'image';
     protected $primaryKey = 'id_image';
     protected $allowedFields = ['chemin'];
-    protected $useTimestamps = false;
+	protected $returnType = 'App\Entities\Image';
 }

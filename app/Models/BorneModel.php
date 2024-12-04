@@ -31,7 +31,6 @@ class BorneModel extends Model
 
 
 	protected $table      = 'borne';
-    protected $useAutoIncrement = true;
 	protected $primaryKey = 'id_borne';
 	protected $returnType = 'App\Entities\Borne';
 	protected $allowedFields = [
@@ -88,7 +87,7 @@ class BorneModel extends Model
 	}
 	
 	public function getBorneParId(int $id): Borne {
-		return new Borne($this->find($id));
+		return $this->find($id);
 	}
 
 	/**
@@ -99,7 +98,18 @@ class BorneModel extends Model
 	public function getMatiere(int $idMatiere): Matiere
 	{
 		$matiereModele = new MatiereModel();
-		return new Matiere($matiereModele->find($idMatiere));
+		return $matiereModele->find($idMatiere);
+	}
+
+	/**
+	 * Récupère la Thème de la borne.
+	 * @param int $idTheme
+	 * @return Theme
+	 */
+	public function getTheme(int $idTheme): Theme
+	{
+		$themeModel = new ThemeModel();
+		return $themeModel->find($idTheme);
 	}
 
 	/**
@@ -110,7 +120,7 @@ class BorneModel extends Model
 	public function getTMolding(int $idTMolding): TMolding
 	{
 		$tmoldingModele = new TMoldingModel();
-		return new TMolding($tmoldingModele->find($idTMolding));
+		return $tmoldingModele->find($idTMolding);
 	}
 
 	/**

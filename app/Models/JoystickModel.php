@@ -8,7 +8,7 @@ class JoystickModel extends Model
     protected $table = 'joystick';
     protected $primaryKey = 'id_joystick';
     protected $allowedFields = ['modele', 'couleur'];
-    protected $useTimestamps = false;
+	protected $returnType = 'App\Entities\Joystick';
 
 	// Règles de validation
 	protected $validationRules = [

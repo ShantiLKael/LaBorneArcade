@@ -10,7 +10,7 @@ class CommandeModel extends Model
     protected $table = 'commande';
     protected $primaryKey = 'id_commande';
     protected $allowedFields = ['date_creation', 'date_modif', 'etat', 'id_borne', 'id_utilisateur'];
-    protected $useTimestamps = false;
+	protected $returnType = 'App\Entities\Commande';
 
 	/**
 	 * Récupère la Borne de la commande.

@@ -63,7 +63,7 @@ class UtilisateurModel extends Model
 	public function getPanier(int $idUtilisateur): array
 	{
 		$builder = $this->builder();
-		$builder->select('borne.*')->from('borne')
+		$builder->select('borne.*')->distinct()->from('panier')
 				->join('borne', 'borne.id_borne = panier.id_borne')
 				->where('panier.id_utilisateur', $idUtilisateur);
 			
@@ -113,7 +113,7 @@ class UtilisateurModel extends Model
 	public function getCommandes(int $idUtilisateur): array
 	{
 		$commandeModel = new CommandeModel();
-		$commandeModel->where('faq.id_utilisateur', $idUtilisateur);
+		$commandeModel->where('commande.id_utilisateur', $idUtilisateur);
 		
 		$commandes = $commandeModel->get()->getResult('App\Entities\Commande');
 		return $commandes ? $commandes : [];

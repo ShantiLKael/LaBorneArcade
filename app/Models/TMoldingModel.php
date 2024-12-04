@@ -8,7 +8,8 @@ class TMoldingModel extends Model
     protected $table = 'tmolding';
     protected $primaryKey = 'id_tmolding';
     protected $allowedFields = ['nom', 'couleur'];
-    protected $useTimestamps = false;
+	protected $returnType = 'App\Entities\TMolding';
+	
 
 	// Règles de validation
 	protected $validationRules = [

@@ -10,7 +10,7 @@ class ArticleBlogModel extends Model
 	protected $table = 'articleblog';
 	protected $primaryKey = 'id_articleblog';
 	protected $allowedFields = ['titre', 'texte', 'id_utilisateur'];
-	protected $useTimestamps = false;
+	protected $returnType = 'App\Entities\Borne';
 	
 	// Règles de validation
 	protected $validationRules = [
