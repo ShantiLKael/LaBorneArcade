@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers;
+use App\Models\FaqModel;
 use CodeIgniter\Session\Session;
 use CodeIgniter\Validation\Validation;
 
@@ -11,11 +12,14 @@ class HomeController extends BaseController
 	
 	/** @var Validation $validation */
 	private Validation $validation;
+	
+	/** @var FaqModel $validation */
+	private FaqModel $faqModel;
 
 	public function __construct() {
 		$this->session = session();
 		$this->validation = \Config\Services::validation();
-
+		$this->faqModel = new FaqModel();
 		helper(['form']);		
 	}
 
@@ -95,6 +99,10 @@ class HomeController extends BaseController
 	 * @return string La vue FAQ.
 	 */
 	public function faq(): string {
-		return view('faq/index_faq', ['titre' => 'FAQ | LBA']);
+		$faqs = $this->faqModel->findAll();
+		return view('faq/index_faq', [
+			'titre' => 'FAQ | LBA',
+			'faqs'   => $faqs,
+		]);
 	}
 }
