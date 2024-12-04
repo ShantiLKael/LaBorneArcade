@@ -6,14 +6,12 @@ use App\Entities\Image;
 use App\Entities\Joystick;
 use App\Entities\Option;
 use CodeIgniter\Model;
-use App\Entities\Theme;
 use App\Entities\Matiere;
 use App\Entities\TMolding;
 use App\Entities\Borne;
 use CodeIgniter\I18n\Time;
 use Config\Database;
 use Exception;
-use JetBrains\PhpStorm\ArrayShape;
 
 class BorneModel extends Model
 {
@@ -40,9 +38,9 @@ class BorneModel extends Model
         'prix',
         'id_tmolding',
         'id_matiere',
+		'id_image',
         'id_theme',
 		'date_creation', // Table fille BornePerso
-		'date_modif', // Table fille BornePerso
     ];
 	
 	// Règles de validation
@@ -80,15 +78,27 @@ class BorneModel extends Model
 	];
 	
 	public function getBornes(string $theme = null, string $type = null): array {
-//		$model = $this;
-//		if ($theme)
-//			$model = $model->where('theme', $theme);
-//		return ->findAll();
-		return $this->findAll();
+		$builder = $this->builder()->select("b.*, string_agg(i.chemin, ',') AS image");
+		$builder = $builder->from('ONLY Borne b', true);
+		$builder = $builder->join('Image i', 'b.id_image = i.id_image');
+		$builder = $builder->groupBy('b.id_image, id_borne, nom, description, prix, id_tmolding, id_matiere, id_theme');
+		return $builder->get()->getCustomResultObject($this->returnType);
 	}
 	
 	public function getBorneParId(int $id): Borne {
 		return new Borne($this->find($id));
+	}
+	
+	/**
+	 * @deprecated À supprimer si aucune utilitée dans l'avenir proche.
+	 * @return array
+	 */
+	private function getBornePersoIds(): array {
+		$builder = $this->builder("BornePerso")->select('id_borne');
+		$results = $builder->get()->getResult();
+		return array_map(function ($r) {
+			return $r->id_borne;
+		}, $results);
 	}
 
 	/**
