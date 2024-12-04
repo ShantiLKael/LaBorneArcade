@@ -35,7 +35,7 @@ class ArticleBlogController extends BaseController
 	 */
 	public function voirArticle(int $id_article): string
 	{
-		$article = $this->articleBlogModele->find($idArticle);
+		$article = $this->articleBlogModele->find($id_article);
         return view('blog/voir_article', ['titre' => 'blog', 'article' => $article]);
 	}
 }
