@@ -11,7 +11,7 @@
 			<?php foreach($articles as $article) : ?>
 				<?php //var_dump($article)  ?>
 				<div class="border-b-2 border-white/50 p-4 bg-[#161c2d]" id="div-article-<?= $article->id ?>">
-					<div class="mb-4 flex items-center"> <img src="https://via.placeholder.com/150"  alt="Image de l'article"> </div>
+					<div class="mb-4 flex items-center"> <img class="flex items-center" src="https://via.placeholder.com/150"  alt="Image de l'article"> </div>
 					<div class="w-[25vw] h-[30px] flex items-center justify-start"> <h3 class="text-lg font-bold pr-4"><?= $article->titre ?></h3> </div>
 					<div> <p id="reponse-<?= $article->id  ?>" class="mt-4 "><?= mb_substr($article->texte, 0, 150) ?>...</p> </div>
 					<div>
