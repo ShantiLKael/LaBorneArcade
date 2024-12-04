@@ -33,6 +33,10 @@ class ArticleBlogModel extends Model
 		],
 	];
 
+    /* ---------------------------------------- */
+	/* --------------- Fonction --------------- */
+	/* ---------------------------------------- */
+
 	/**
 	 * Récupère un tableau d'Image de l'article.
 	 * @param int $idArticleBlog
