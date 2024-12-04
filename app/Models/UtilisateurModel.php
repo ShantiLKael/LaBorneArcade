@@ -85,7 +85,6 @@ class UtilisateurModel extends Model
 		$data = [
 			'id_utilisateur'  => $idUtilisateur,
 			'id_borne' => $idBorne,
-			'date_creation' => Time::now('Europe/Paris', 'fr_FR'),
 		];
 
 		return $builder->insert($data);

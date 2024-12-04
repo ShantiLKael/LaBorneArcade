@@ -131,8 +131,8 @@ class BorneModel extends Model
 	public function getJoysticks(int $idBorne): array
 	{
 		$builder = $this->builder();
-		$builder->select('joystick.*')->from('joystick')
-				->join('joystick', 'joystick.id_joystick = joystickBorne.id_joystick')
+		$builder->select('joystick.*')->from('joystickborne')
+				->join('joystick', 'joystick.id_joystick = joystickborne.id_joystick')
 				->where('joystickborne.id_borne', $idBorne);
 			
 		return $builder->get(BorneModel::$MAX_JOYSTICK)->getResult('App\Entities\Joystick');
@@ -165,8 +165,8 @@ class BorneModel extends Model
 	public function getBoutons(int $idBorne): array
 	{
 		$builder = $this->builder();
-		$builder->select('bouton.*')->from('bouton')
-				->join('bouton', 'bouton.id_joystick = boutonborne.id_borne')
+		$builder->select('bouton.*')->from('boutonborne')
+				->join('bouton', 'bouton.id_bouton = boutonborne.id_bouton')
 				->where('boutonborne.id_borne', $idBorne);
 			
 		return $builder->get(BorneModel::$MAX_BOUTON)->getResult('App\Entities\Bouton');
@@ -291,4 +291,71 @@ class BorneModel extends Model
 		$bornePerso['date_modiff']   = Time::now('Europe/Paris', 'fr_FR');
 		return $builder->insert($bornePerso);
 	}
+
+	/**
+	 * Suppression d'une borne et de ses composants
+	 * (Panier, Option, Joystick, Bouton, Image et Commande)
+	 * 
+	 * @param int $idBorne identifiant de la borne
+	 * @return void
+	 */
+	public function deleteCascade(int $idBorne)
+	{
+		$db = Database::connect();
+
+		// Chargement des modèles
+		$panierModel        = $db->table('panier');
+		$optionBorneModel   = $db->table('optionborne');
+		$joystickBorneModel = $db->table('joystickborne');
+		$boutonBorneModel   = $db->table('boutonborne');
+		$imageBorneModel    = $db->table('imageborne');
+
+		$commandeModel = new CommandeModel();
+		$joystickModel = new JoystickModel();
+		$boutonModel   = new BoutonModel();
+		$borneModel    = new BorneModel();
+
+		// Suppression de la borne des images
+		$imageBorneModel->where('id_borne', $idBorne)->delete();
+
+		// Suppression de la borne de la commande
+		$commandeModel->where('id_borne', $idBorne)->delete();
+
+		// Suppression de la borne du panier
+		$panierModel->where('id_borne', $idBorne)->delete();
+
+		// Suppression des options associées
+		$optionBorneModel->where('id_borne', $idBorne)->delete();
+
+		// Suppression des relations Joysticks-Borne et gestion des joysticks orphelins
+		$joysticks = $this->getJoysticks($idBorne);
+		foreach ($joysticks as $joystick) {
+			$idJoystick = $joystick->id;
+			$joystickBorneModel->where('id_borne', $idBorne)
+								->where('id_joystick', $idJoystick)
+								->delete();
+
+			// Vérifier si le joystick est utilisé ailleurs
+			if ($joystickBorneModel->where('id_joystick', $idJoystick)->countAllResults() == 0) {
+				$joystickModel->delete($idJoystick);
+			}
+		}
+
+		// Suppression des relations Boutons-Borne et gestion des boutons orphelins
+		$boutons = $this->getBoutons($idBorne);
+		foreach ($boutons as $bouton) {
+			$idBouton = $bouton->id;
+			$boutonBorneModel->where('id_borne', $idBorne)
+								->where('id_bouton', $idBouton)
+								->delete();
+
+			// Vérifier si le bouton est utilisé ailleurs
+			if ($boutonBorneModel->where('id_bouton', $idBouton)->countAllResults() == 0) {
+				$boutonModel->delete($idBouton);
+			}
+		}
+
+		$borneModel->delete($idBorne);
+	}
+	
 }
