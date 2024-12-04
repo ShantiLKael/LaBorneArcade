@@ -17,17 +17,20 @@ class CreerCommande extends Migration {
 				'auto_increment'=>true,
 			],
 			'date_creation'=>[
-				'type'=>"TIMESTAMP",
-				'null'=>false,
+				'type'  =>"TIMESTAMP",
+				'null'  =>false,
+				'unique'=>false,
 			],
 			'date_modif'=>[
-				'type'=>"TIMESTAMP",
-				'null'=>false,
+				'type'  =>"TIMESTAMP",
+				'null'  =>false,
+				'unique'=>false,
 			],
 			'etat'=>[
 				'type'      =>"VARCHAR", // TODO: Ajouter une contrainte check
 				'constraint'=>"50",
 				'null'      =>false,
+				'unique'    =>false,
 			],
 			'id_borne'=>[
 				'type'    =>"INT",
