@@ -38,12 +38,12 @@ class ControleurBorne extends BaseController {
 	 */
 	public function __construct() {
 		helper(['form']);
-		$this->borneModel = new BorneModel();
-		$this->boutonModel = new BoutonModel();
+		$this->borneModel    = new BorneModel();
+		$this->boutonModel   = new BoutonModel();
 		$this->joystickModel = new JoystickModel();
-		$this->optionModel = new OptionModel();
-		$this->themeModel = new ThemeModel();
-		$this->matiereModel = new MatiereModel();
+		$this->optionModel   = new OptionModel();
+		$this->themeModel    = new ThemeModel();
+		$this->matiereModel  = new MatiereModel();
 	}
 	
 	/*===================================*/
@@ -53,16 +53,17 @@ class ControleurBorne extends BaseController {
 	/**
 	 * Méthode qui affiche la liste des bornes prédéfinies.
 	 *
-	 * @param string|null $theme Le thème des bornes à sélectionner.
 	 * @return string La vue qui liste les bornes prédéfinies.
 	 */
-	public function index(string $theme = null) : string {
-	
-//		dd($theme, $this->request->getGet('type'));
-//		dd($this->borneModel->getBornes());
+	public function indexBorne() : string {
+		$theme = $this->request->getGet('theme');
+		$type = $this->request->getGet('type');
 		return view('borne/index_borne', [
 			'titre' =>"Liste des bornes prédéfines",
-			'bornes'=>$this->borneModel->getBornes($theme),
+			'themes'=>$this->themeModel->findAll(),
+			'theme'=>$theme,
+			'type'=>$type,
+			'bornes'=>$this->borneModel->getBornes($theme, $type),
 		]);
 	}
 	
