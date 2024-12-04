@@ -1,3 +1,4 @@
+
 <?= view('commun/header', ['titre' => $titre]) ?>
 <section class="container mx-auto my-16 px-4">
 	<h1 class="text-3xl font-bold mb-6 text-center">Mes Commandes</h1>
