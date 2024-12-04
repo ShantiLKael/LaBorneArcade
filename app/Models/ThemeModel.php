@@ -9,7 +9,8 @@ class ThemeModel extends Model
     protected $table = 'theme';
     protected $primaryKey = 'id_theme';
     protected $allowedFields = ['nom'];
-    protected $useTimestamps = false;
+	protected $returnType = 'App\Entities\Theme';
+	
 	
 	// Règles de validation
 	protected $validationRules = [
@@ -18,11 +19,11 @@ class ThemeModel extends Model
 
 	protected $validationMessages = [
 		'nom' => [
-			'required'    => 'Champ requis.',
-			'max_length'  => 'Le nom du thème est trop long (max. 50 caractères).',
-			'min_length'  => 'Le nom du thème est trop court (min. 5 caractères).',
-			'regex_match' => 'Les caractères < > ; { } sont interdits.',
-            'is_unique'   => 'Ce nom de thème existe déjà.'
+			'required'   =>'Champ requis.',
+			'max_length' =>'Le nom du thème est trop long (max. 50 caractères).',
+			'min_length' =>'Le nom du thème est trop court (min. 5 caractères).',
+			'regex_match'=>'Les caractères < > ; { } sont interdits.',
+            'is_unique'  =>'Ce nom de thème existe déjà.'
 		]
 	];
 	

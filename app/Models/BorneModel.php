@@ -5,6 +5,8 @@ use App\Entities\Bouton;
 use App\Entities\Image;
 use App\Entities\Joystick;
 use App\Entities\Option;
+use App\Entities\Theme;
+use CodeIgniter\Database\Query;
 use CodeIgniter\Model;
 use App\Entities\Matiere;
 use App\Entities\TMolding;
@@ -29,7 +31,6 @@ class BorneModel extends Model
 
 
 	protected $table      = 'borne';
-    protected $useAutoIncrement = true;
 	protected $primaryKey = 'id_borne';
 	protected $returnType = 'App\Entities\Borne';
 	protected $allowedFields = [
@@ -77,16 +78,27 @@ class BorneModel extends Model
 		'id_theme'    => [ 'required' => 'Champ requis.'],
 	];
 	
-	public function getBornes(string $theme = null, string $type = null): array {
+	public function getBornes(array $themes = [], array $types = []): array {
 		$builder = $this->builder()->select("b.*, string_agg(i.chemin, ',') AS image");
 		$builder = $builder->from('ONLY Borne b', true);
 		$builder = $builder->join('Image i', 'b.id_image = i.id_image');
-		$builder = $builder->groupBy('b.id_image, id_borne, nom, description, prix, id_tmolding, id_matiere, id_theme');
-		return $builder->get()->getCustomResultObject($this->returnType);
+		if (count($themes) > 0)
+			$builder = $builder->whereIn('id_theme', $themes);
+		$query = $builder->getCompiledSelect();
+		$types = array_map(fn($type) => match($type) {
+			"sticker"=>1,
+			"wood"=>2,
+			"gravure"=>3,
+			default=>-1,
+		}, $types);
+		foreach ($types as $type)
+			$query .= " OR $type IN (SELECT id_option FROM OptionBorne ob WHERE ob.id_borne = b.id_borne)";
+		$query .= " GROUP BY b.id_image, id_borne, nom, description, prix, id_tmolding, id_matiere, id_theme";
+		return $this->db->prepare(fn($db) => (new Query($db))->setQuery($query))->execute()->getCustomResultObject($this->returnType);
 	}
 	
-	public function getBorneParId(int $id): Borne {
-		return new Borne($this->find($id));
+	public function getBorneParId(int $id): Borne|array {
+		return $this->find($id);
 	}
 	
 	/**
@@ -104,23 +116,34 @@ class BorneModel extends Model
 	/**
 	 * Récupère la Matière de la borne.
 	 * @param int $idMatiere
-	 * @return Matiere
+	 * @return Matiere|array
 	 */
-	public function getMatiere(int $idMatiere): Matiere
+	public function getMatiere(int $idMatiere): Matiere|array
 	{
 		$matiereModele = new MatiereModel();
-		return new Matiere($matiereModele->find($idMatiere));
+		return $matiereModele->find($idMatiere);
+	}
+
+	/**
+	 * Récupère le Thème de la borne.
+	 * @param int $idTheme
+	 * @return Theme|array
+	 */
+	public function getTheme(int $idTheme): Theme|array
+	{
+		$themeModel = new ThemeModel();
+		return $themeModel->find($idTheme);
 	}
 
 	/**
 	 * Récupère le TMolding de la borne.
 	 * @param int $idTMolding
-	 * @return TMolding
+	 * @return TMolding|array
 	 */
-	public function getTMolding(int $idTMolding): TMolding
+	public function getTMolding(int $idTMolding): TMolding|array
 	{
 		$tmoldingModele = new TMoldingModel();
-		return new TMolding($tmoldingModele->find($idTMolding));
+		return $tmoldingModele->find($idTMolding);
 	}
 
 	/**
@@ -131,8 +154,8 @@ class BorneModel extends Model
 	public function getJoysticks(int $idBorne): array
 	{
 		$builder = $this->builder();
-		$builder->select('joystick.*')->from('joystick')
-				->join('joystick', 'joystick.id_joystick = joystickBorne.id_joystick')
+		$builder->select('joystick.*')->from('joystickborne')
+				->join('joystick', 'joystick.id_joystick = joystickborne.id_joystick')
 				->where('joystickborne.id_borne', $idBorne);
 			
 		return $builder->get(BorneModel::$MAX_JOYSTICK)->getResult('App\Entities\Joystick');
@@ -165,8 +188,8 @@ class BorneModel extends Model
 	public function getBoutons(int $idBorne): array
 	{
 		$builder = $this->builder();
-		$builder->select('bouton.*')->from('bouton')
-				->join('bouton', 'bouton.id_joystick = boutonborne.id_borne')
+		$builder->select('bouton.*')->from('boutonborne')
+				->join('bouton', 'bouton.id_bouton = boutonborne.id_bouton')
 				->where('boutonborne.id_borne', $idBorne);
 			
 		return $builder->get(BorneModel::$MAX_BOUTON)->getResult('App\Entities\Bouton');
@@ -291,4 +314,71 @@ class BorneModel extends Model
 		$bornePerso['date_modiff']   = Time::now('Europe/Paris', 'fr_FR');
 		return $builder->insert($bornePerso);
 	}
+
+	/**
+	 * Suppression d'une borne et de ses composants
+	 * (Panier, Option, Joystick, Bouton, Image et Commande)
+	 *
+	 * @param int $idBorne identifiant de la borne
+	 * @return void
+	 */
+	public function deleteCascade(int $idBorne): void
+	{
+		$db = Database::connect();
+
+		// Chargement des modèles
+		$panierModel        = $db->table('panier');
+		$optionBorneModel   = $db->table('optionborne');
+		$joystickBorneModel = $db->table('joystickborne');
+		$boutonBorneModel   = $db->table('boutonborne');
+		$imageBorneModel    = $db->table('imageborne');
+
+		$commandeModel = new CommandeModel();
+		$joystickModel = new JoystickModel();
+		$boutonModel   = new BoutonModel();
+		$borneModel    = new BorneModel();
+
+		// Suppression de la borne des images
+		$imageBorneModel->where('id_borne', $idBorne)->delete();
+
+		// Suppression de la borne de la commande
+		$commandeModel->where('id_borne', $idBorne)->delete();
+
+		// Suppression de la borne du panier
+		$panierModel->where('id_borne', $idBorne)->delete();
+
+		// Suppression des options associées
+		$optionBorneModel->where('id_borne', $idBorne)->delete();
+
+		// Suppression des relations Joysticks-Borne et gestion des joysticks orphelins
+		$joysticks = $this->getJoysticks($idBorne);
+		foreach ($joysticks as $joystick) {
+			$idJoystick = $joystick->id;
+			$joystickBorneModel->where('id_borne', $idBorne)
+								->where('id_joystick', $idJoystick)
+								->delete();
+
+			// Vérifier si le joystick est utilisé ailleurs
+			if ($joystickBorneModel->where('id_joystick', $idJoystick)->countAllResults() == 0) {
+				$joystickModel->delete($idJoystick);
+			}
+		}
+
+		// Suppression des relations Boutons-Borne et gestion des boutons orphelins
+		$boutons = $this->getBoutons($idBorne);
+		foreach ($boutons as $bouton) {
+			$idBouton = $bouton->id;
+			$boutonBorneModel->where('id_borne', $idBorne)
+								->where('id_bouton', $idBouton)
+								->delete();
+
+			// Vérifier si le bouton est utilisé ailleurs
+			if ($boutonBorneModel->where('id_bouton', $idBouton)->countAllResults() == 0) {
+				$boutonModel->delete($idBouton);
+			}
+		}
+
+		$borneModel->delete($idBorne);
+	}
+	
 }

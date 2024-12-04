@@ -8,7 +8,7 @@ class FaqModel extends Model
     protected $table = 'faq';
     protected $primaryKey = 'id_faq';
     protected $allowedFields = ['question', 'reponse', 'id_utilisateur'];
-    protected $useTimestamps = false;
+	protected $returnType = 'App\Entities\Faq';
 
 	// Règles de validation
 	protected $validationRules = [
