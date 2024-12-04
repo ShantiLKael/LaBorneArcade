@@ -37,6 +37,7 @@ class ControleurBorne extends BaseController {
 	 * Constructeur du contrôleur Borne.
 	 */
 	public function __construct() {
+		helper(['form']);
 		$this->borneModel = new BorneModel();
 		$this->boutonModel = new BoutonModel();
 		$this->joystickModel = new JoystickModel();

@@ -3,10 +3,9 @@
 	<div class="min-h-screen flex fle-col items-center justify-center py-6 px-4">
 		<div class="grid md:grid-cols-2 items-center gap-4 max-w-6xl w-full">
 		<div class="bg-gray-800 border border-gray-600 rounded-lg p-6 max-w-md max-md:mx-auto">
-		<?= form_open('/connexion') ?>
-			<div class="mb-8">
-				<h3 class="text-gray-300 text-3xl font-extrabold">Connectez vous !</h3>
-				<p class="text-gray-300/50 text-sm mt-4 leading-relaxed">Faites une demande de commande directement depuis notre site.</p>
+		<?= form_open('/inscription') ?>
+			<div class="mb-10">
+				<h3 class="text-gray-300 text-3xl font-extrabold">Créer votre compte !</h3>
 			</div>
 
 			<div class="mb-5">
@@ -34,6 +33,7 @@
 					<?php if(isset($erreurs['email'])) echo $erreurs['email'] ?>
 				</span>
 			</div>
+
 			<div class="mb-5">
 				<?= form_label('Mot de passe', 'mdp', ['class' => 'text-sm block font-medium mb-1 ml-1']); ?>
 				<div class="relative flex items-center">
@@ -57,40 +57,42 @@
 				</span>
 			</div>
 
-			<div class="flex flex-wrap items-center justify-between gap-4">
-				<div class="flex items-center">
-					<?= 
-					form_input([
-						'name'   => 'remember_me',
-						'id'     => 'remember_me',
-						'class'  => 'h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded',
-						'value'  => set_value('remember_me'),
-						'type'   => 'checkbox',
+			<div class="mb-5">
+				<?= form_label('Confirmation du mot de passe', 'mdpConf', ['class' => 'text-sm block font-medium mb-1 ml-1']); ?>
+				<div class="relative flex items-center">
+					<?php
+					$focusRIng = isset($erreurs['mdpConf']) ? 'border-red-600 focus:ring-red-500' : 'border-gray-600 focus:ring-2 focus:ring-green-600';
+					echo form_input([
+						'name'          => 'mdpConf',
+						'id'            => 'mdpConf',
+						'class'         => 'w-full text-sm bg-gray-700 border border-gray-300 px-4 py-3 rounded-lg outline-green-600 focus:outline-none focus:ring-2 '.$focusRIng,
+						'value'         => set_value('mdpConf'),
+						'type'          => 'password',
+						'aria-required' => 'true',
+						'required'
 					]); ?>
-					<?= form_label('Se souvenir de moi', 'remember_me', ['class' => 'ml-3 block text-sm text-gray-400']); ?>
 				</div>
-
-				<div class="text-sm">
-				<a href="/connexion/oubli-mdp" class="text-green-600 hover:underline font-semibold">
-					Mot de passe oublié ?
-				</a>
-				</div>
+				<span class="items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+					<?php if(isset($erreurs['mdpConf'])) echo $erreurs['mdpConf'] ?>
+				</span>
 			</div>
 
 			<div class="!mt-8">
-				<?= form_submit('submit', 'Se connecter', "class='w-full shadow-xl py-3 px-4 text-sm tracking-wide rounded-lg text-white bg-green-600 hover:bg-green-500/60 focus:outline-none cursor-pointer'"); ?>
+				<?= form_submit('submit', 'Créer son compte', "class='w-full shadow-xl py-3 px-4 text-sm tracking-wide rounded-lg text-white bg-green-600 hover:bg-green-500/60 focus:outline-none cursor-pointer'"); ?>
 			</div>
 
-			<p class="text-sm !mt-8 text-center text-gray-400">Vous n'avez pas de compte <a href="/inscription" class="text-green-600 font-semibold hover:underline ml-1 whitespace-nowrap">Créer en un !</a></p>
+			<p class="text-sm !mt-8 text-center text-gray-400">Vous avez déjà un compte ? <a href="/connexion" class="text-green-600 font-semibold hover:underline ml-1 whitespace-nowrap">Connectez vous !</a></p>
 		<?= form_close() ?>
 		</div>
 		<div class="rounded-b-lg max-md:mt-8 bg-gradient-to-r from-green-800/70 to-medium-blue">
 			<div class="px-4 py-6 text-white md:mx-6 md:p-12">
 				<h4 class="mb-2 text-2xl font-semibold">
-					Bienvenue La Borne d'Arcade
+                Bienvenue sur La Borne d'Arcade
 				</h4>
 				<p class="text-sm">
-					Retrouvez l'état de votre commande directement sur le site. Une demande de devis, une question ? Contactez nous !<br>
+					Arcade jeux Borne de jeux vintage personnalisée intégralement votre borne d'arcade retro. 
+					Nos bornes arcade jeux retro vintage multi jeux made in France. 
+					Délai de 3 à 4 semaines.<br>
 				</p>
 				<p class="mt-5 text-lg font-semibold bold">Conseil, suivi, fiabilité.</p>
 			</div>

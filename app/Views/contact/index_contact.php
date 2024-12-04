@@ -131,7 +131,7 @@
 						<?= validation_show_error('message') ?>
 					</span>
 			</div>
-			<?= form_submit('submit', 'Envoyer', "class='w-full bg-green-700 text-gray-300 text-xs font-semibold rounded-lg px-4 py-2 mb-2 hover:bg-green-600 cursor-pointer'"); ?>
+			<?= form_submit('submit', 'Envoyer', "class='w-full bg-green-700 text-gray-300 text-xs font-semibold rounded-lg px-4 py-2 mb-2  hover:bg-green-500/60 cursor-pointer'"); ?>
 
 		<?= form_close(); ?>
 	</div>
