@@ -1,67 +1,100 @@
 <?php
+
 namespace App\Controllers;
-use CodeIgniter\Controller;
-use App\Models\FaqModel;
-use CodeIgniter\Model;
+use CodeIgniter\Session\Session;
+use CodeIgniter\Validation\Validation;
 
-class HomeController extends BaseController
+class HomeController extends BaseController 
 {
-
-    /* ---------------------------------------- */
-	/* ----------- Redirection page ----------- */
-	/* ---------------------------------------- */
+	/** @var Session $session */
+	private Session $session;
 	
-	/**
-	 * Page ..........
-	 * @return string
-	 */
-	public function index()
-	{
-		return view('/'); //TODO je sais pas redirectionner 
+	/** @var Validation $validation */
+	private Validation $validation;
+
+	public function __construct() {
+		$this->session = session();
+		$this->validation = \Config\Services::validation();
+
+		helper(['form']);		
+	}
+
+	public function index():string {
+		return view('home');
 	}
 
 	/**
-	 * Page contact version visiteur 
-	 * @return string contact
+	 * Méthode qui affiche une interface de contact 
+	 * pour joindre les administrateurs.
+	 *
+	 * @return string La vue de contact.
 	 */
-	public function contact()
-	{
-		return view('/contact');
-	}
+	public function contact(): string {
 
-    /**
-     * Page visiteur de qui-sommes-nous
-     * @return string qui-sommes-nous
-     */
-	public function quiSommesNous()
-	{
-		return view('/qui_sommes_nous');
+		$data = $this->request->getPost();
+		
+		$regleValidation = [
+			'phone'   => 'required|regex_match[/^[0-9]{10}$/]',
+			'email'   => 'required|valid_email',
+			'message' => 'required',
+		];
+
+		$messageValidation = [
+			'phone' => [
+				'required'    => 'Champ requis.',
+				'regex_match' => 'Entrer un numéro valide.'
+			],
+
+			'email'  => [
+				'required'    => 'Champ requis.',
+				'valid_email' => 'Entrer un émail valide.'
+			],
+
+			'message'  => [
+				'required'    => 'Champ requis.',
+			],
+		];
+
+		// Methode POST
+		if ($data)
+			if (!$this->validate($regleValidation, $messageValidation)) {
+				return view('contact/index_contact', [
+					'titre' => 'Me Contacter | LBA',
+					'erreurs' => $this->validation->getErrors(),
+				]);
+			} else {
+				// TODO : Envoie de mail
+			}
+
+		return view('contact/index_contact', ['titre' => 'Me Contacter | LBA']);
 	}
 
 	/**
-	 * Page visiteur faq
-	 * @return string 
+	 * Méthode qui affiche une interface de contact 
+	 * pour joindre les administrateurs.
+	 *
+	 * @return string La vue de contact.
 	 */
-	public function faq()
-	{
-        $faqModele = new FaqModel();
-		$faqs = $faqModele->findAll();
-		return view('faq')->with('faqs',"$faqs");
+	public function quiSommesNous(): string {
+		return view('qui_sommes_nous', ['titre' => 'Qui sommes nous | LBA']);
 	}
 
-    /**
-	 * Page visiteur condition de vente
-	 * @return string
+	/**
+	 * Méthode qui affiche les conditions générales de vente 
+	 *
+	 * @return string La vue des conditions de vente.
 	 */
-	public function cgv()
-	{
-		return view('condition-de-vente');
+	public function cgv(): string {
+		return view('cgv', ['titre' => 'Conditions générales de vente | LBA']);
 	}
 
-    /* ---------------------------------------- */
-	/* ------------- ............ ------------- */
-	/* ---------------------------------------- */
-
-	
-
+	/**
+	 * Méthode qui affiche les réponses des questions fréquemment posées
+	 * Rubrique FAQ
+	 *
+	 * @return string La vue FAQ.
+	 */
+	public function faq(): string {
+		return view('faq/index_faq', ['titre' => 'FAQ | LBA']);
+	}
 }

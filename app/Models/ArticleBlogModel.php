@@ -1,7 +1,9 @@
 <?php
 namespace App\Models;
 
+use App\Entities\Image;
 use CodeIgniter\Model;
+use Config\Database;
 
 class ArticleBlogModel extends Model
 {
@@ -40,7 +42,7 @@ class ArticleBlogModel extends Model
 	/**
 	 * Récupère un tableau d'Image de l'article.
 	 * @param int $idArticleBlog
-	 * @return array<\App\Entities\Image>
+	 * @return array<Image>
 	 */
 	public function getImages(int $idArticleBlog): array
 	{
@@ -50,23 +52,24 @@ class ArticleBlogModel extends Model
 				->where('imagearticleblog.id_articleblog', $idArticleBlog);
 			
 		$images = $builder->get()->getResult('App\Entities\Image');
-		return $images ? $images : [];
+		return $images ?: [];
 	}
 
 	/**
 	 * Insertion d'une Image de l'article.
+	 *
 	 * @param int $idArticleBlog
 	 * @param int $idImage
 	 * @return bool
 	 */
 	public function insererImageArticle(int $idArticleBlog, int $idImage): bool
 	{
-		$db = \Config\Database::connect();
+		$db = Database::connect();
 		$builder = $db->table('imagearticleblog');
 
 		$data = [
-			'id_articleblog'  => $idArticleBlog,
-			'id_image' => $idImage,
+			'id_articleblog'=>$idArticleBlog,
+			'id_image'      =>$idImage,
 		];
 
 		return $builder->insert($data);
