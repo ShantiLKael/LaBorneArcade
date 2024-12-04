@@ -24,7 +24,7 @@ use CodeIgniter\Router\RouteCollection;
 	$routes->get('/blog-articles/(:num)', 'ArticleBlogController::voirArticle/$1');
 
 	// Bornes
-	$routes->get('/bornes'       , 'ControleurBorne::index');
+	$routes->get('/bornes'       , 'ControleurBorne::indexBorne');
 	$routes->match(['get', 'post'], '/bornes/(:num)', 'ControleurBorne::voirBorne/$1');
 	$routes->match(['get', 'post'], '/borne-perso/(:num)', 'ControleurBorne::editBorne/$1');
 	$routes->match(['get', 'post'], '/borne-perso/', 'ControleurBorne::editBorne');
