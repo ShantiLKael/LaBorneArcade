@@ -16,7 +16,7 @@ class SeederBornes extends Seeder {
 		});
 		
 		$data = [
-			[1, "Borne D'arcade Galaktronik", "Une borne d'arcade", 1490, 1, 2, 3, 3],
+			[1, "Borne D'arcade Galaktronik", "Une borne d'arcade", 1490, 1, 2, 1, 3],
 			[2, "Borne D'arcade Ken le survivant", "Une borne d'arcade", 1490, 3, 1, 1, 1],
 		];
 		

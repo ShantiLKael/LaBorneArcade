@@ -24,7 +24,7 @@ class Borne extends Entity
     ];
 
 	protected $dates = ['creation_borne'];
-
+	
     public function setNom(string $nom)
     {
         $this->attributes['nom'] = $nom;
