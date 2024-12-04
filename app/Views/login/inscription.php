@@ -78,7 +78,7 @@
 			</div>
 
 			<div class="!mt-8">
-				<?= form_submit('submit', 'Créer son compte', "class='w-full shadow-xl py-3 px-4 text-sm tracking-wide rounded-lg text-white bg-green-600 hover:bg-green-500 focus:outline-none cursor-pointer'"); ?>
+				<?= form_submit('submit', 'Créer son compte', "class='w-full shadow-xl py-3 px-4 text-sm tracking-wide rounded-lg text-white bg-green-600 hover:bg-green-500/60 focus:outline-none cursor-pointer'"); ?>
 			</div>
 
 			<p class="text-sm !mt-8 text-center text-gray-400">Vous avez déjà un compte ? <a href="/connexion" class="text-green-600 font-semibold hover:underline ml-1 whitespace-nowrap">Connectez vous !</a></p>

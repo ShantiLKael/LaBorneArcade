@@ -4,9 +4,9 @@
 	<div class="bg-gradient-to-r from-dark-teal max-w-100 to-medium-blue text-center py-10 mb-8">
 		<h2 class="text-2xl font-bold mb-4">Choisis ta borne préférée</h2>
 		<div class="grid col-span-1 md:flex md:justify-center md:space-x-4">
-			<a href="/bornes?option=sticker" class="bg-green-700      hover:bg-green-800    my-2 md:my-0 md:mx-0 mx-20 border border-spacing-1 border-gray-300 text-white px-4 py-3 rounded-2xl">Sticker</a>
-			<a href="/bornes?option=wood"    class="bg-medium-blue/70 hover:bg-deep-blue/70 my-2 md:my-0 md:mx-0 mx-20 border border-spacing-1 border-gray-300 text-white px-4 py-3 rounded-2xl">Classique Wood</a>
-			<a href="/bornes?option=gravure" class="bg-medium-blue/70 hover:bg-deep-blue/70 my-2 md:my-0 md:mx-0 mx-20 border border-spacing-1 border-gray-300 text-white px-4 py-3 rounded-2xl">Classique Wood Gravé</a>
+			<a href="/bornes?option=sticker" class="bg-green-700      hover:bg-green-800    my-2 md:my-0 md:mx-0 mx-20 border border-spacing-1 border-gray-400 text-white px-4 py-3 rounded-2xl">Sticker</a>
+			<a href="/bornes?option=wood"    class="bg-medium-blue/70 hover:bg-deep-blue/70 my-2 md:my-0 md:mx-0 mx-20 border border-spacing-1 border-gray-400 text-white px-4 py-3 rounded-2xl">Classique Wood</a>
+			<a href="/bornes?option=gravure" class="bg-medium-blue/70 hover:bg-deep-blue/70 my-2 md:my-0 md:mx-0 mx-20 border border-spacing-1 border-gray-400 text-white px-4 py-3 rounded-2xl">Classique Wood Gravé</a>
 		</div>
 		<p class="text-gray-300 mx-10 mt-8">
 			Pour toute information complémentaire ou pour passer commande, prenez <a href="/contact" class="text-green-400 hover:text-green-300 underline">rdv</a>.
@@ -65,14 +65,14 @@
 					<a href='/bornes/{$borne['id']}'>
 						<img src='{$borne['image']}' alt='Image de {$borne['title']}' href='/bornes/{$borne['id']}' class='w-full mb-8 max-w-sm mx-auto h-auto relative z-0 transition duration-200 ease-in-out hover:scale-110'>
 						<h3 class='text-xl font-bold mb-2'>{$borne['title']}</h3>
-						<p class='text-green-600 hover:text-green-500 font-bold mb-4'>{$borne['price']}</p>
+						<p class='text-green-600 font-bold mb-4'>{$borne['price']}</p>
 					</a>
-					<div class='flex justify-between'>
-						<a href='#' class='invisible lg:visible bg-green-700 hover:bg-green-600 text-white px-4 py-2 rounded-3xl'>
+					<div class='grid grid-cols-1 md:grid-cols-2 mx-4'>
+						<a href='#' class='md:mr-2 bg-green-700 hover:bg-green-600 p-2 text-white text-center rounded-3xl'>
 							Ajouter au panier
 						</a>
 
-						<a href='/borne-perso/{$borne['id']}' class='invisible lg:visible bg-blue-800 hover:bg-blue-700 text-white px-4 py-2 rounded-3xl'>
+						<a href='/borne-perso/{$borne['id']}' class='md:ml-2 bg-blue-800 hover:bg-blue-700 p-2 text-white text-center rounded-3xl'>
 							Personnaliser
 						</a>
 					</div>

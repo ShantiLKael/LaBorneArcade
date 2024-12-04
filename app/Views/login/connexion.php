@@ -6,7 +6,7 @@
 		<?= form_open('/connexion') ?>
 			<div class="mb-8">
 				<h3 class="text-gray-300 text-3xl font-extrabold">Connectez vous !</h3>
-				<p class="text-gray-300/50 text-sm mt-4 leading-relaxed">Faites un demande de commande directement depuis notre site.</p>
+				<p class="text-gray-300/50 text-sm mt-4 leading-relaxed">Faites une demande de commande directement depuis notre site.</p>
 			</div>
 
 			<div class="mb-5">
@@ -78,7 +78,7 @@
 			</div>
 
 			<div class="!mt-8">
-				<?= form_submit('submit', 'Se connecter', "class='w-full shadow-xl py-3 px-4 text-sm tracking-wide rounded-lg text-white bg-green-600 hover:bg-green-500 focus:outline-none cursor-pointer'"); ?>
+				<?= form_submit('submit', 'Se connecter', "class='w-full shadow-xl py-3 px-4 text-sm tracking-wide rounded-lg text-white bg-green-600 hover:bg-green-500/60 focus:outline-none cursor-pointer'"); ?>
 			</div>
 
 			<p class="text-sm !mt-8 text-center text-gray-400">Vous n'avez pas de compte <a href="/inscription" class="text-green-600 font-semibold hover:underline ml-1 whitespace-nowrap">Créer en un !</a></p>
