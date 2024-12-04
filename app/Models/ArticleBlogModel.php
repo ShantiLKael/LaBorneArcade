@@ -11,7 +11,6 @@ class ArticleBlogModel extends Model
 	protected $primaryKey = 'id_articleblog';
 	protected $allowedFields = ['titre', 'texte', 'id_utilisateur'];
 	protected $returnType = 'App\Entities\ArticleBlog';
-	protected $useTimestamps = false;
 	
 	// Règles de validation
 	protected $validationRules = [

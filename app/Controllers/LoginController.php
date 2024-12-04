@@ -17,7 +17,7 @@ class LoginController extends BaseController
 	public function __construct() {
 		helper(['form']);
 		$this->utilisateurModel = new UtilisateurModel();
-		$this->validation = \Config\Services::validation();
+		$this->validation = Services::validation();
 	}
 
 	public function inscription()

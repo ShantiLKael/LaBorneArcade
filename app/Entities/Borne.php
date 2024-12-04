@@ -2,25 +2,28 @@
 namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
+use App\Models\BorneModel;
 use CodeIgniter\I18n\Time;
 
 class Borne extends Entity
 {
+    private BorneModel $borneModel;
+
     protected $casts = [
         'id'          => 'integer',
         'nom'         => 'string',
         'description' => 'string',
         'prix'        => 'integer',
-        'tmolding'    => 'App\Entities\TMolding',
-        'matiere'     => 'App\Entities\Matiere',
-        'theme'       => 'App\Entities\Theme',
+        'idTMolding'  => 'integer',
+        'idMatiere'   => 'integer',
+        'idTheme'     => 'integer',
     ];
 
     protected $datamap = [
-        'id'            => 'id_borne',
-        'tmolding'      => 'id_tmolding',
-        'matiere'       => 'id_matiere',
-        'theme'         => 'id_theme',
+        'id'          => 'id_borne',
+        'idTMolding'  => 'id_tmolding',
+        'idMatiere'   => 'id_matiere',
+        'idTheme'     => 'id_theme',
     ];
 
 	protected $dates = ['creation_borne'];
@@ -66,4 +69,23 @@ class Borne extends Entity
         $this->attributes['id_Theme'] = $idTheme;
         return $this;
     }
+
+    public function getTheme(): Theme
+    {
+        $borneModel = new BorneModel();
+        return $borneModel->getTheme($this->idTheme);
+    }
+
+    public function getMatier(): Matiere
+    {
+        $borneModel = new BorneModel();
+        return $borneModel->getMatiere($this->idMatiere);
+    }
+
+    public function getTMolding(): TMolding
+    {
+        $borneModel = new BorneModel();
+        return $borneModel->getTMolding($this->idTMolding);
+    }
+
 }

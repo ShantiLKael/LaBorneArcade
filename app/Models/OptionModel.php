@@ -8,7 +8,8 @@ class OptionModel extends Model
     protected $table = 'option';
     protected $primaryKey = 'id_option';
     protected $allowedFields = ['nom', 'description', 'cout', 'id_image'];
-    protected $useTimestamps = false;
+	protected $returnType = 'App\Entities\Option';
+	
 
 	// Règles de validation
 	protected $validationRules = [

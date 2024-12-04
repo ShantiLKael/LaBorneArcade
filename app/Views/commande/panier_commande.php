@@ -3,55 +3,47 @@
 	
 	<!-- Section Panier -->
 	<div class="w-full lg:w-2/3 bg-gray-800 rounded-lg shadow-md p-6">
-	<h2 class="text-2xl font-bold mb-4">Votre Panier</h2>
+	<h2 class="text-2xl font-bold mb-4">Votre Panier <?= (count($bornes) == 0) ? 'est vide' : '' ?></h2>
 	<div class="space-y-4">
 		
-		<!-- Ex produit dans le panier -->
-		<div class="flex items-center justify-between p-4 border border-gray-700 rounded-lg">
-			<p>Aucun Produit</p>
-		</div>
-		<div class="flex items-center justify-between p-4 border border-gray-700 rounded-lg hover:shadow-md transition">
-		<div class="flex">
-			<img src="https://via.placeholder.com/100" alt="Image Borne" class="w-25 h-25 rounded-md mr-4">
-			<div class="space-y-2">
-				<h3 class="text-lg font-semibold">Borne Rétro</h3>
-				<p class="text-sm text-gray-400">Thème : <span class="font-medium text-blue-500">Rétro</span></p>
-				<p class="text-sm text-gray-400">Prix  : <span class="font-medium text-green-500">1500€</span></p>
+		<!-- Affichage des produis -->
+		<?php $prixTot = 0; ?>
+		<?php if (count($bornes) == 0) : ?>
+			<div class="flex items-center justify-between p-4 border border-gray-700 rounded-lg">
+				<p>Aucun Produit</p>
 			</div>
-		</div>
-			<a class="pr-4 font-bold cursor-pointer">
-				<svg class="w-6 h-6 fill-gray-400 hover:fill-red-500 " viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
-					<path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"></path>
-				</svg>
-			</a>
-		</div>
-
-		<!-- Deuxième produit -->
-		<div class="flex items-center justify-between p-4 border border-gray-700 rounded-lg hover:shadow-md transition">
-		<div class="flex">
-			<img src="https://via.placeholder.com/100" alt="Image Borne" class="w-25 h-25 rounded-md mr-4">
-			<div class="space-y-2">
-				<h3 class="text-lg font-semibold">Borne Moderne</h3>
-				<p class="text-sm text-gray-400">Thème : <span class="font-medium text-blue-500">Futuriste</span></p>
-				<p class="text-sm text-gray-400">Prix  : <span class="font-medium text-green-500">2000€</span></p>
-			</div>
-		</div>
-			<a class="pr-4 font-bold cursor-pointer">
-				<svg class="w-6 h-6 fill-gray-400 hover:fill-red-500 " viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
-					<path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"></path>
-				</svg>
-			</a>
-		</div>
+		<?php else : ?>
+			<?php foreach($bornes as $borne) : ?>
+				<div class="flex items-center justify-between p-4 border border-gray-700 rounded-lg hover:shadow-md transition">
+				<div class="flex">
+					<img src="https://via.placeholder.com/100" alt="Image Borne" class="w-25 h-25 rounded-md mr-4">
+					<div class="space-y-2">
+						<h3 class="text-lg font-semibold"><?= $borne->nom ?></h3>
+						<p class="text-sm text-gray-400">Thème : <span class="font-medium text-blue-500"><?= $borne->theme->nom ?></span></p>
+						<p class="text-sm text-gray-400">Prix  : <span class="font-medium text-green-500"><?= $borne->prix ?> €</span></p>
+					</div>
+				</div>
+					<a href="/panier/delete-borne/<?= $borne->id ?>" class="pr-4 font-bold cursor-pointer">
+						<svg class="w-6 h-6 fill-gray-400 hover:fill-red-500 " viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
+							<path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"></path>
+						</svg>
+					</a>
+				</div>
+				<?php $prixTot += $borne->prix; ?>
+			<?php endforeach; ?>
+		<?php endif; ?>
 
 		<!-- Total des prix -->
 		<div class="flex justify-between items-center pt-4 mt-4 border-t border-gray-700">
-		<h3 class="text-xl font-semibold">Total :</h3>
-		<p class="text-xl font-bold text-green-500">3500€</p>
+			<h3 class="text-xl font-semibold">Total :</h3>
+			<p class="text-xl font-bold text-green-500">
+				<?= $prixTot ?> €
+			</p>
 		</div>
-        <button class="mt-4 w-full shadow-xl py-3 px-4 tracking-wide rounded-lg text-white bg-green-600 hover:bg-green-500/60 focus:outline-none cursor-pointer">
-        	Passer la commande
-        </button>
-	</div>
+			<button class="mt-4 w-full py-3 px-4 tracking-wide rounded-lg text-white <?= (count($bornes) == 0) ? 'opacity-30 border border-gray-700 cursor-not-allowed' : 'shadow-xl hover:bg-green-500/60 cursor-pointer' ?>  bg-green-600 focus:outline-none">
+				Passer la commande
+			</button>
+		</div>
 	</div>
 
 	<!-- Section "Contactez-nous" -->

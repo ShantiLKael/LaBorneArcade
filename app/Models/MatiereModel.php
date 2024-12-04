@@ -8,7 +8,8 @@ class MatiereModel extends Model
     protected $table = 'matiere';
     protected $primaryKey = 'id_matiere';
     protected $allowedFields = ['nom', 'couleur'];
-    protected $useTimestamps = false;
+	protected $returnType = 'App\Entities\Matiere';
+	
 
 	// Règles de validation
 	protected $validationRules = [

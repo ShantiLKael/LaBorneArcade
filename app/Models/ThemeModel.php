@@ -10,7 +10,6 @@ class ThemeModel extends Model
     protected $primaryKey = 'id_theme';
     protected $allowedFields = ['nom'];
     protected $useTimestamps = false;
-
     protected $returnType = 'App\Entities\Theme';
 	
 	// Règles de validation

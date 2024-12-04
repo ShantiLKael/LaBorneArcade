@@ -1,6 +1,7 @@
 <?php
 namespace App\Entities;
 
+use App\Models\CommandeModel;
 use CodeIgniter\Entity\Entity;
 use CodeIgniter\I18n\Time;
 
@@ -11,16 +12,16 @@ class Commande extends Entity
         'etat'         => 'string',
         'dateCreation' => 'datetime',
         'dateModif'    => 'datetime',
-		'borne'        => 'App\Entities\Borne',
-		'utilisateur'  => 'App\Entities\Utilisateur',
+		'idBorne'      => 'integer',
+		'idUtilisateur'=> 'integer',
     ];
 
     protected $datamap = [ 
 		'id'           => 'id_commande',
-		'utilisateur'  => 'id_utilisateur',
+		'idUtilisateur'  => 'id_utilisateur',
 		'dateCreation' => 'date_creation',
 		'dateModif'    => 'date_modif',
-		'borne'      => 'id_borne',
+		'idBorne'        => 'id_borne',
 	];
 
 	protected $dates = ['date_creation', 'date_modif'];
@@ -41,5 +42,11 @@ class Commande extends Entity
 	{
 		$this->attributes['date_modif'] = $time;
 		return $this;
+	}
+
+	public function getBorne()
+	{
+		$commandeModel = new CommandeModel();
+		return $commandeModel->getBorne($this->idBorne);
 	}
 }

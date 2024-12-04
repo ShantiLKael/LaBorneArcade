@@ -8,7 +8,7 @@ class BoutonModel extends Model
     protected $table = 'bouton';
     protected $primaryKey = 'id_bouton';
     protected $allowedFields = ['modele', 'forme', 'couleur', 'eclairage'];
-    protected $useTimestamps = false;
+	protected $returnType = 'App\Entities\Bouton';
 
 	// Règles de validation
 	protected $validationRules = [
