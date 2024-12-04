@@ -10,6 +10,7 @@ class ArticleBlogModel extends Model
 	protected $table = 'articleblog';
 	protected $primaryKey = 'id_articleblog';
 	protected $allowedFields = ['titre', 'texte', 'id_utilisateur'];
+	protected $returnType = 'App\Entities\ArticleBlog';
 	protected $useTimestamps = false;
 	
 	// Règles de validation
@@ -33,6 +34,10 @@ class ArticleBlogModel extends Model
 			'regex_match' => 'Les caractères < > ; { } sont interdits.',
 		],
 	];
+
+    /* ---------------------------------------- */
+	/* --------------- Fonction --------------- */
+	/* ---------------------------------------- */
 
 	/**
 	 * Récupère un tableau d'Image de l'article.

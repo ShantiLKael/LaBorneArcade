@@ -6,15 +6,15 @@ use App\Models\ArticleBlogModel;
 
 class ArticleBlogController extends BaseController
 {
-	/** @var ArticleBlogModel $articleBlogModele */
-	private ArticleBlogModel $articleBlogModele;
-	
-	public function __construct()
-	{
-		$this->articleBlogModele = new ArticleBlogModel();
-		//Chargement du helper Form
-		helper(['form']);
-	}
+  /** @var ArticleBlogModel $articleBlogModele */
+		private ArticleBlogModel $articleBlogModele;
+
+		public function __construct()
+		{
+			$this->articleBlogModele = new ArticleBlogModel();
+			//Chargement du helper Form
+			helper(['form']);
+		}
 
 	/**
 	 * Page par défaut
@@ -24,7 +24,7 @@ class ArticleBlogController extends BaseController
 	public function index(): string
 	{
 		$articles = $this->articleBlogModele->findAll();
-		return view('blog-articles', ['articles' => $articles]);
+        return view('blog/index_article', ['titre' => 'blog', 'articles' => $articles]);
 	}
 
 	/**
@@ -35,8 +35,7 @@ class ArticleBlogController extends BaseController
 	 */
 	public function voirArticle(int $id_article): string
 	{
-//		dd($id_article, $this->articleBlogModele->find($id_article));
-		$articles = $this->articleBlogModele->find($id_article)->getArticle();
-		return view('blog-articles'.$id_article, ['articles' => $articles]);
+		$article = $this->articleBlogModele->find($idArticle);
+        return view('blog/voir_article', ['titre' => 'blog', 'article' => $article]);
 	}
 }
