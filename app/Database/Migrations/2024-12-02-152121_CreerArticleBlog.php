@@ -4,27 +4,26 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class CreerFaq extends Migration {
+class CreerArticleBlog extends Migration {
 	
 	/**
 	 * @inheritDoc
 	 */
 	public function up(): void {
 		$this->forge->addField([
-			'id_faq'=>[
+			'id_articleblog'=>[
 				'type'          =>"SERIAL",
 				'unsigned'      =>true,
 				'auto_increment'=>true,
 			],
-			'question'=>[
+			'titre'=>[
 				'type'      =>"VARCHAR",
-				'constraint'=>"50",
+				'constraint'=>"100",
 				'null'      =>false,
 			],
-			'reponse'=>[
-				'type'      =>"VARCHAR",
-				'constraint'=>"255",
-				'null'      =>false,
+			'texte'=>[
+				'type'=>"TEXT",
+				'null'=>false,
 			],
 			'id_utilisateur'=>[
 				'type'    =>"INT",
@@ -32,15 +31,15 @@ class CreerFaq extends Migration {
 				'null'    =>false,
 			],
 		]);
-		$this->forge->addPrimaryKey('id_faq');
+		$this->forge->addPrimaryKey('id_articleblog');
 		$this->forge->addForeignKey('id_utilisateur','utilisateur','id_utilisateur', 'CASCADE', 'CASCADE');
-		$this->forge->createTable('faq');
+		$this->forge->createTable('articleblog');
 	}
 	
 	/**
 	 * @inheritDoc
 	 */
 	public function down(): void {
-		$this->forge->dropTable('faq', true);
+		$this->forge->dropTable('articleblog', true);
 	}
 }
