@@ -1,14 +1,13 @@
 writable/*
 
 #DATABASE CAR WINDOWS ET IUT
-app/Config/Database.php
+./app/Config/Database.php
 # Ignore le fichier Routes.php dans /app/Config/
-app/Config/Routes.php
+./app/Config/Routes.php
 
 # Fichiers de configuration de l'environnement
 .env
 .env.*
-.idea/
 
 # Dossiers de cache
 application/cache/

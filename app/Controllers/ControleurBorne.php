@@ -43,12 +43,12 @@ class ControleurBorne extends BaseController {
 	 */
 	public function __construct() {
 		helper(['form']);
-		$this->borneModel = new BorneModel();
-		$this->boutonModel = new BoutonModel();
-		$this->joystickModel = new JoystickModel();
-		$this->optionModel = new OptionModel();
-		$this->themeModel = new ThemeModel();
-		$this->matiereModel = new MatiereModel();
+		$this->borneModel       = new BorneModel();
+		$this->boutonModel      = new BoutonModel();
+		$this->joystickModel    = new JoystickModel();
+		$this->optionModel      = new OptionModel();
+		$this->themeModel       = new ThemeModel();
+		$this->matiereModel     = new MatiereModel();
 		$this->utilisateurModel = new UtilisateurModel();
 	}
 	
@@ -59,16 +59,17 @@ class ControleurBorne extends BaseController {
 	/**
 	 * Méthode qui affiche la liste des bornes prédéfinies.
 	 *
-	 * @param string|null $theme Le thème des bornes à sélectionner.
 	 * @return string La vue qui liste les bornes prédéfinies.
 	 */
-	public function index(string $theme = null) : string {
-	
-//		dd($theme, $this->request->getGet('type'));
-//		dd($this->borneModel->getBornes());
+	public function indexBorne() : string {
+		$theme = $this->request->getGet('theme') ?: [];
+		$type = $this->request->getGet('type') ?: [];
 		return view('borne/index_borne', [
-			'titre' =>"Liste des bornes prédéfines",
-			'bornes'=>$this->borneModel->getBornes($theme),
+			'titre'         =>"Liste des bornes prédéfines",
+			'themes'        =>$this->themeModel->findAll(),
+			'selectionTheme'=>$theme,
+			'selectionType' =>$type,
+			'bornes'        =>$this->borneModel->getBornes($theme, $type),
 		]);
 	}
 	
@@ -89,7 +90,7 @@ class ControleurBorne extends BaseController {
 				$session->set('panier', []);
 
 			// si le client est authentifié
-			$panier = $session->has('user') ? 
+			$panier = $session->has('user') ?
 					  $this->utilisateurModel->getPanier($session->get('user')['id']) : // panier de l'utilisateur en bdd
 					  $session->get('panier'); // panier de la session
 

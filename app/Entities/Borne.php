@@ -7,6 +7,7 @@ use CodeIgniter\I18n\Time;
 
 class Borne extends Entity
 {
+	/** @var BorneModel $borneModel */
     private BorneModel $borneModel;
 
     protected $casts = [
@@ -27,7 +28,12 @@ class Borne extends Entity
     ];
 
 	protected $dates = ['creation_borne'];
-
+	
+	public function __construct(?array $data = null) {
+		parent::__construct($data);
+		$this->borneModel = new BorneModel();
+	}
+	
     public function setNom(string $nom)
     {
         $this->attributes['nom'] = $nom;
@@ -72,8 +78,7 @@ class Borne extends Entity
 
     public function getTheme(): Theme
     {
-        $borneModel = new BorneModel();
-        return $borneModel->getTheme($this->idTheme);
+        return $this->borneModel->getTheme($this->idTheme);
     }
 
     public function getMatier(): Matiere
