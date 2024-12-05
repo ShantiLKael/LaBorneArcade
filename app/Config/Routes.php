@@ -18,6 +18,8 @@ use CodeIgniter\Router\RouteCollection;
 	$routes->match(['get', 'post'],'/inscription', 'LoginController::inscription');
 	$routes->match(['get', 'post'],'/connexion/oubli-mdp'       , 'LoginController::oubliMdp');
 	$routes->match(['get', 'post'],'/connexion/oubli-mdp/(:any)', 'LoginController::resetMdp/$1');
+	$routes->post'/connexion/deconnexion', 'LoginController::deconnexion');
+
 
 	// Blog articles
 	$routes->get('/blog-articles'       , 'ArticleBlogController::index');
