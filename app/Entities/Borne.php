@@ -88,4 +88,16 @@ class Borne extends Entity
         return $borneModel->getTMolding($this->idTMolding);
     }
 
+    public function getOptions(): array
+    {
+        $borneModel = new BorneModel();
+        return $borneModel->getOptions($this->id);
+    }
+
+    public function getImages(): array
+    {
+        $borneModel = new BorneModel();
+        return $borneModel->getImages($this->id);
+    }
+
 }

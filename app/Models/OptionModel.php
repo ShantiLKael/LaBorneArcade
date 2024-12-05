@@ -2,6 +2,7 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use App\Entities\Image;
 
 class OptionModel extends Model
 {
@@ -41,4 +42,16 @@ class OptionModel extends Model
 
 		'id_image' => [ 'required' => 'Champ requis.' ],
 	];
+
+	
+	/**
+	 * Récupère l'Image de l'option.
+	 * @param int $idImage
+	 * @return Image
+	 */
+	public function getImage(int $idImage): Image
+	{
+		$imageModel = new ImageModel();
+		return $imageModel->find($idImage);
+	}
 }
