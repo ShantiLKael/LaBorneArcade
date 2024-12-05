@@ -265,5 +265,28 @@ class LoginController extends BaseController
 		log_message("error", $emailService->printDebugger());
 		return false;
 	}
+	
+	public function deconnexion() : String {
+		
+		//On arrête tous les traitements en cours sur la session
+		$this->session_abort();
+
+		// On vide les variables de session en plus de la détruire
+		$_SESSION = [];
+		session_destroy();
+
+		// En théorie : supprime tous les cookies associés à la session
+		if (ini_get("session.use_cookies")) {
+			$params = session_get_cookie_params();
+			setcookie(session_name(), '', time() - 42000,
+				$params["path"], $params["domain"],
+				$params["secure"], $params["httponly"]
+			);
+		}
+
+		//Redirection
+		return redirect()->to('/connexion')->with('success', 'Vous êtes déconnecté.');
+
+	}
 
 }
