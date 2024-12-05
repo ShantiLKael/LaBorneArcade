@@ -54,19 +54,19 @@ class Borne extends Entity
 
     public function setIdTMolding(?int $idTMolding)
     {
-        $this->attributes['id_TMolding'] = $idTMolding;
+        $this->attributes['id_tmolding'] = $idTMolding;
         return $this;
     }
 
     public function setIdMatiere(?int $idMatiere)
     {
-        $this->attributes['id_Matiere'] = $idMatiere;
+        $this->attributes['id_matiere'] = $idMatiere;
         return $this;
     }
 
     public function setIdTheme(?int $idTheme)
     {
-        $this->attributes['id_Theme'] = $idTheme;
+        $this->attributes['id_theme'] = $idTheme;
         return $this;
     }
 

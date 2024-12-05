@@ -33,6 +33,7 @@ class BorneModel extends Model
 	protected $table      = 'borne';
 	protected $primaryKey = 'id_borne';
 	protected $returnType = 'App\Entities\Borne';
+
 	protected $allowedFields = [
         'nom',
         'description',
@@ -78,6 +79,12 @@ class BorneModel extends Model
 		'id_theme'    => [ 'required' => 'Champ requis.'],
 	];
 	
+	/**
+	 * Recupération d'e' toutes les bornes selon des critères
+	 * @param string $theme
+	 * @param string $type
+	 * @return array<Borne> tableau de bornes
+	 */
 	public function getBornes(string $theme = null, string $type = null): array {
 //		$model = $this;
 //		if ($theme)
