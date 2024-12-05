@@ -85,14 +85,21 @@ class BorneModel extends Model
 		if (count($themes) > 0)
 			$builder = $builder->whereIn('id_theme', $themes);
 		$query = $builder->getCompiledSelect();
+		if (count($themes) === 0)
+			$query .= " WHERE";
 		$types = array_map(fn($type) => match($type) {
 			"sticker"=>1,
 			"wood"=>2,
 			"gravure"=>3,
 			default=>-1,
 		}, $types);
-		foreach ($types as $type)
-			$query .= " OR $type IN (SELECT id_option FROM OptionBorne ob WHERE ob.id_borne = b.id_borne)";
+		$typeStr = array_map(fn($t) => " $t IN (SELECT id_option FROM OptionBorne ob WHERE ob.id_borne = b.id_borne)", $types);
+		$typeStr = implode(" OR", $typeStr);
+		if (count($themes) > 0)
+			$query .= " OR" . $typeStr;
+		else {
+			$query .= $typeStr;
+		}
 		$query .= " GROUP BY b.id_image, id_borne, nom, description, prix, id_tmolding, id_matiere, id_theme";
 		return $this->db->prepare(fn($db) => (new Query($db))->setQuery($query))->execute()->getCustomResultObject($this->returnType);
 	}
