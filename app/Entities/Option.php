@@ -1,17 +1,23 @@
 <?php
 namespace App\Entities;
 
+use App\Models\OptionModel;
 use CodeIgniter\Entity\Entity;
 
 class Option extends Entity
 {
     protected $casts = [
-        'id_option' => 'integer',
-        'cout'      => 'integer',
-        'nom'       => 'string',
+        'id'          => 'integer',
+        'cout'        => 'integer',
+        'nom'         => 'string',
+        'description' => 'string',
+        'idImage'     => 'integer'
     ];
 
-    protected $datamap = [ 'id' => 'id_option' ];
+    protected $datamap = [
+        'id'      => 'id_option',
+        'idImage' => 'id_image'
+    ];
 
     public function setCout(int $cout)
     {
@@ -25,5 +31,25 @@ class Option extends Entity
         $this->attributes['nom'] = $nom;
         
         return $this;
+    }
+
+    public function setDescription(int $desc)
+    {
+        $this->attributes['description'] = $desc;
+        
+        return $this;
+    }
+
+    public function setIdImage(int $idImage)
+    {
+        $this->attributes['id_image'] = $idImage;
+        
+        return $this;
+    }
+
+    public function getImage(): Image
+    {
+        $optionModel = new OptionModel();
+        return $optionModel->getImage($this->idImage);
     }
 }

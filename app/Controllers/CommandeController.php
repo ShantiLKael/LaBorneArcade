@@ -40,6 +40,8 @@ class CommandeController extends BaseController {
 	public function panier() : string {
 	
         $session = session();
+		if (!$session->has('panier'))
+			$session->set('panier', []);
         
         // Vérifier si le client est authentifié
         $bornes = ($session->get('user')) ? 

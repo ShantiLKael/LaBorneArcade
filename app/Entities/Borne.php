@@ -7,6 +7,7 @@ use CodeIgniter\I18n\Time;
 
 class Borne extends Entity
 {
+	/** @var BorneModel $borneModel */
     private BorneModel $borneModel;
 
     protected $casts = [
@@ -27,7 +28,12 @@ class Borne extends Entity
     ];
 
 	protected $dates = ['creation_borne'];
-
+	
+	public function __construct(?array $data = null) {
+		parent::__construct($data);
+		$this->borneModel = new BorneModel();
+	}
+	
     public function setNom(string $nom)
     {
         $this->attributes['nom'] = $nom;
@@ -54,26 +60,25 @@ class Borne extends Entity
 
     public function setIdTMolding(?int $idTMolding)
     {
-        $this->attributes['id_TMolding'] = $idTMolding;
+        $this->attributes['id_tmolding'] = $idTMolding;
         return $this;
     }
 
     public function setIdMatiere(?int $idMatiere)
     {
-        $this->attributes['id_Matiere'] = $idMatiere;
+        $this->attributes['id_matiere'] = $idMatiere;
         return $this;
     }
 
     public function setIdTheme(?int $idTheme)
     {
-        $this->attributes['id_Theme'] = $idTheme;
+        $this->attributes['id_theme'] = $idTheme;
         return $this;
     }
 
     public function getTheme(): Theme
     {
-        $borneModel = new BorneModel();
-        return $borneModel->getTheme($this->idTheme);
+        return $this->borneModel->getTheme($this->idTheme);
     }
 
     public function getMatier(): Matiere
@@ -86,6 +91,18 @@ class Borne extends Entity
     {
         $borneModel = new BorneModel();
         return $borneModel->getTMolding($this->idTMolding);
+    }
+
+    public function getOptions(): array
+    {
+        $borneModel = new BorneModel();
+        return $borneModel->getOptions($this->id);
+    }
+
+    public function getImages(): array
+    {
+        $borneModel = new BorneModel();
+        return $borneModel->getImages($this->id);
     }
 
 }
