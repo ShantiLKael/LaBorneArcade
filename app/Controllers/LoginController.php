@@ -222,9 +222,8 @@ class LoginController extends BaseController
 		string $sujet,
 		string $corps,
 		string $titre,
-		string $lien_btn,
-		string $sous_titre =
-		""
+		string $lien_btn = '',
+		string $sous_titre = ""
 	): bool {
 		$emailService = Services::email();
 
