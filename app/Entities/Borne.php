@@ -78,7 +78,6 @@ class Borne extends Entity
 
     public function getTheme(): Theme
     {
-        $borneModel = new BorneModel();
         return $this->borneModel->getTheme($this->idTheme);
     }
 
@@ -92,6 +91,18 @@ class Borne extends Entity
     {
         $borneModel = new BorneModel();
         return $borneModel->getTMolding($this->idTMolding);
+    }
+
+    public function getOptions(): array
+    {
+        $borneModel = new BorneModel();
+        return $borneModel->getOptions($this->id);
+    }
+
+    public function getImages(): array
+    {
+        $borneModel = new BorneModel();
+        return $borneModel->getImages($this->id);
     }
 
 }

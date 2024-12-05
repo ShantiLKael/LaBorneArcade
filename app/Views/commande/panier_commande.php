@@ -84,7 +84,8 @@
 					<p class="text-sm text-gray-300 ">07 68 53 46 26</p>
 				</div>
 			</div>
-			<div class="flex items-center space-x-4 py-8 lg:py-20">
+			<?php if (session()->has('user')) :?>
+				<div class="flex items-center space-x-4 py-8 lg:py-20">
 				<div>
 					<p class="font-bold text-gray-300 text-lg">
 						> Voir mes 
@@ -94,6 +95,7 @@
 					</p>
 				</div>
 			</div>
+			<?php endif; ?>
 		</div>
 	</div>
 </section>

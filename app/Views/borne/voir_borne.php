@@ -1,6 +1,7 @@
 <?= view('commun/header', ['titre' => $titre]) ?>
 <section class="container mx-auto pt-16 px-4">
-	<form action="/bornes/1" method="post" id="optionsForm"> <!-- Formulaire des options choisies -->
+	<form action="/bornes/<?= $borne->id ?>" method="post" id="optionsForm"> <!-- Formulaire des options choisies -->
+	<input type="hidden" id="id_borne" name="id_borne" value=<?= $borne->id?> />
 	
 	<!-- Section du produit principal -->
 	<div class="flex flex-col md:flex-row gap-8 items-start">
@@ -11,8 +12,8 @@
 
 		<!-- Informations produit -->
 		<div class="flex-1">
-			<h1 class="text-3xl font-bold mb-2">Borne D’arcade Golddorak</h1>
-			<p class="text-green-400 text-2xl font-bold mb-4">1490,00€</p>
+			<h1 class="text-3xl font-bold mb-2"><?= $borne->nom ?></h1>
+			<p class="text-green-400 text-2xl font-bold mb-4"><?= $borne->prix ?> €</p>
 
 			<!-- Contenu de la borne -->
 			<div class="bg-gradient-to-r from-medium-blue max-w-100 to-dark-teal p-4 rounded mb-4">
@@ -30,10 +31,10 @@
 
 			<!-- Boutons -->
 			<div class="text-center md:flex md:items-center gap-4">
-				<a class="bg-blue-800 hover:bg-blue-700   text-white font-bold py-2 px-6 my-5 mb-8 rounded-3xl cursor-pointer">Personnaliser</a>
-				<button class="bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-6 my-5 mb-8 rounded-3xl cursor-pointer">
-					Ajouter au panier
-				</button>
+				<a href="/borne-perso/<?= $borne->id ?>" class="bg-blue-800 hover:bg-blue-700   text-white font-bold py-2 px-6 my-5 mb-8 rounded-3xl cursor-pointer">
+					Personnaliser
+				</a>
+				<input type="submit" value="Ajouter au panier" class="bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-6 my-5 mb-8 rounded-3xl cursor-pointer">
 			</div>
 
 			<!-- Infos supplémentaires -->
@@ -64,38 +65,17 @@
 	<div class="mt-12">
 		<h2 class="text-2xl font-bold mb-3 text-center">Options</h2>
 		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-			<!-- Option 1 -->
-			<div class="relative p-4 rounded border-2 border-transparent hover:border-green-600/50  transition duration-300">
-				<input type="checkbox" id="optionSpinner" name="options[]" value="Spinner" class="absolute top-2 right-2 w-5 h-5 cursor-pointer">
-				<img src="option_spiner.jpg" alt="Spinner" class="w-full h-40 object-cover rounded mb-4">
-				<p class="text-green-400 text-lg font-bold mb-2">100€</p>
-				<div class="text-base">
-					<h3 class="font-bold text-lg text-left mb-2">Spinner</h3>
-					<p class="text-left">Le spinner vous permettra de jouer au jeu Arkanoid et à d'autres jeux de casse brique avec précision.</p>
+			<?php foreach($borne->options as $option) : ?>
+				<div class="relative p-4 rounded border-2 border-transparent hover:border-green-600/50  transition duration-300">
+					<input type="checkbox" id="option<?= $option->nom ?>" name="options[]" value="<?= $option->nom ?>" class="absolute top-2 right-2 w-5 h-5 cursor-pointer">
+					<img src="" alt="<?= $option->nom ?>" class="w-full h-40 object-cover rounded mb-4">
+					<p class="text-green-400 text-lg font-bold mb-2"><?= $option->cout ?> €</p>
+					<div class="text-base">
+						<h3 class="font-bold text-lg text-left mb-2"><?= $option->nom ?></h3>
+						<p class="text-left"><?= $option->description ?>.</p>
+					</div>
 				</div>
-			</div>
-
-			<!-- Option 2 -->
-			<div class="relative p-4 rounded border-2 border-transparent hover:border-green-600/50  transition duration-300">
-				<input type="checkbox" id="optionMonnayeur" name="options[]" value="Monnayeur" class="absolute top-2 right-2 w-5 h-5 cursor-pointer">
-				<img src="option_monyneur.jpg" alt="Monnayeur" class="w-full h-40 object-cover rounded mb-4">
-				<p class="text-green-400 text-lg font-bold mb-2">100€</p>
-				<div class="text-base">
-					<h3 class="font-bold text-lg text-left mb-2">Monnayeur</h3>
-					<p class="text-left">Ajoutez un monnayeur pour le côté vintage ou pour faire payer vos amis ou vos clients !</p>
-				</div>
-			</div>
-
-			<!-- Option 3 -->
-			<div class="relative p-4 rounded border-2 border-transparent hover:border-green-600/50  transition duration-300">
-				<input type="checkbox" id="optionCarteGraphique" name="options[]" value="Carte graphique" class="absolute top-2 right-2 w-5 h-5 cursor-pointer">
-				<img src="option_carte_graphique.jpg" alt="Carte graphique" class="w-full h-40 object-cover rounded mb-4">
-				<p class="text-green-400 text-lg font-bold mb-2">120€</p>
-				<div class="text-base">
-					<h3 class="font-bold text-lg text-left mb-2">Carte graphique</h3>
-					<p class="text-left">Cette carte graphique vous permettra d'ajouter les systèmes Arcade Naomi, Atomiswave et Taito Type X.</p>
-				</div>
-			</div>
+			<?php endforeach; ?>
 		</div>
 		</form>
 	</div>

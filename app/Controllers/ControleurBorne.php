@@ -8,6 +8,8 @@ use App\Models\JoystickModel;
 use App\Models\MatiereModel;
 use App\Models\OptionModel;
 use App\Models\ThemeModel;
+use App\Models\UtilisateurModel;
+use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Config\Services;
 
 /**
@@ -33,17 +35,21 @@ class ControleurBorne extends BaseController {
 	/** @var MatiereModel $matiereModel */
 	private MatiereModel $matiereModel;
 	
+	/** @var UtilisateurModel $utilisateurModel */
+	private UtilisateurModel $utilisateurModel;
+	
 	/**
 	 * Constructeur du contrôleur Borne.
 	 */
 	public function __construct() {
 		helper(['form']);
-		$this->borneModel    = new BorneModel();
-		$this->boutonModel   = new BoutonModel();
-		$this->joystickModel = new JoystickModel();
-		$this->optionModel   = new OptionModel();
-		$this->themeModel    = new ThemeModel();
-		$this->matiereModel  = new MatiereModel();
+		$this->borneModel       = new BorneModel();
+		$this->boutonModel      = new BoutonModel();
+		$this->joystickModel    = new JoystickModel();
+		$this->optionModel      = new OptionModel();
+		$this->themeModel       = new ThemeModel();
+		$this->matiereModel     = new MatiereModel();
+		$this->utilisateurModel = new UtilisateurModel();
 	}
 	
 	/*===================================*/
@@ -73,7 +79,32 @@ class ControleurBorne extends BaseController {
 	 * @param int $id_borne L'identifiant de la borne à afficher.
 	 * @return string La vue d'une borne.
 	 */
-	public function voirBorne(int $id_borne) : string {
+	public function voirBorne(int $id_borne) : string|RedirectResponse {
+
+		$session = session();
+		$data = $this->request->getPost();
+
+		// Methode POST
+		if ($data) {
+			if (!$session->has('panier'))
+				$session->set('panier', []);
+
+			// si le client est authentifié
+			$panier = $session->has('user') ?
+					  $this->utilisateurModel->getPanier($session->get('user')['id']) : // panier de l'utilisateur en bdd
+					  $session->get('panier'); // panier de la session
+
+			foreach ($panier as $borne) {
+				if ($borne->id == $id_borne)
+					return redirect()->to('/bornes/'.$id_borne)->with('flash_erreur', 'Ce produit se trouve déjà dans votre panier.');
+			}
+
+			if ($session->has('user'))
+				$this->utilisateurModel->insererPanier($session->get('user')['id'], $id_borne);
+			else
+				$session->push('panier', [$this->borneModel->getBorneParId($id_borne)]);
+		}
+
 		return view('borne/voir_borne', [
 			'titre'=>"Voir la borne",
 			'borne'=>$this->borneModel->getBorneParId($id_borne),
@@ -88,7 +119,7 @@ class ControleurBorne extends BaseController {
 	 */
 	public function editBorne(int $id_borne = null) : string {
 		return view('borne/edit_borne', [
-			'titre'=>"Modifier le borne",
+			'titre'=>"Personnaliser une borne",
 			'borne'=>$id_borne ? $this->borneModel->getBorneParId($id_borne) : null,
 		]);
 	}

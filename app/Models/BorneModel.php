@@ -264,7 +264,7 @@ class BorneModel extends Model
 	public function getOptions(int $idBorne): array
 	{
 		$builder = $this->builder();
-		$builder->select('option.*')->from('option')
+		$builder->select('option.*')->distinct()->from('optionborne')
 				->join('option', 'option.id_option = optionborne.id_option')
 				->where('optionborne.id_borne', $idBorne);
 			
