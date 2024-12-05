@@ -85,7 +85,7 @@ class BorneModel extends Model
 		if (count($themes) > 0)
 			$builder = $builder->whereIn('id_theme', $themes);
 		$query = $builder->getCompiledSelect();
-		if (count($themes) === 0)
+		if (count($themes) === 0 && count($types) !== 0)
 			$query .= " WHERE";
 		$types = array_map(fn($type) => match($type) {
 			"sticker"=>1,

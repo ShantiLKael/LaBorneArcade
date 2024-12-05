@@ -25,10 +25,13 @@ use App\Entities\Borne;
 	</div>
 
 	<!-- Filtres -->
-	<div class="flex flex-col md:flex-row md:space-x-8 mb-8 py-3 px-10">
-		<div class="md:w-1/4 md:h-1/3 bg-medium-blue p-4 rounded mb-5 border border-gray-700">
+	<div class="flex flex-col md:flex-row md:space-x-8 mb-8 py-3 px-10 ">
+		<div class="md:w-1/4 md:h-1/3 bg-medium-blue p-4 rounded mb-5 border border-gray-700 sticky top-7">
 			<h3 class="text-lg font-bold mb-4">Filtrer par :</h3>
 			<?= form_open('/bornes', ['method'=>"GET"]) ?>
+				<?php if (count($selectionTheme) !== 0 || count($selectionType) !== 0): ?>
+					<a href="<?= site_url('bornes') ?>">Réinitialiser</a>
+				<?php endif; ?>
 				<?php if (isset($themes)): ?>
 					<div id="filtre-theme-container">
 						<?php foreach ($themes as $theme): ?>
