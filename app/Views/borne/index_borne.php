@@ -32,54 +32,29 @@
 				<?php else : ?>
 					<p class="text-center mb-8">Aucun filtre</p>
 				<?php endif; ?>
-			<?= form_open('/connexion') ?>
+			<?= form_close() ?>
 		</div>
 
 		<!-- Liste des bornes -->
 		<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 xl:w-3/4">
-			<?php
-			$bornesTest = [
-				[
-					'id'    => 1,
-					'image' => 'https://via.placeholder.com/150',
-					'title' => 'Borne D\'arcade Galaktronik',
-					'price' => '1490,00 €',
-				],
-				[
-					'id'    => 1,
-					'image' => 'https://via.placeholder.com/150',
-					'title' => 'Borne D\'arcade Pac-Man',
-					'price' => '1490,00 €',
-				],
-				[
-					'id'    => 1,
-					'image' => 'https://via.placeholder.com/150',
-					'title' => 'Borne D\'arcade Ken le survivant',
-					'price' => '1490,00 €',
-				],
-			];
-
-			foreach ($bornesTest as $borne) {
-				echo "
-				<div class='bg-gray-800 p-4 rounded'>
-					<a href='/bornes/{$borne['id']}'>
-						<img src='{$borne['image']}' alt='Image de {$borne['title']}' href='/bornes/{$borne['id']}' class='w-full mb-8 max-w-sm mx-auto h-auto relative z-0 transition duration-200 ease-in-out hover:scale-110'>
-						<h3 class='text-xl font-bold mb-2'>{$borne['title']}</h3>
-						<p class='text-green-600 font-bold mb-4'>{$borne['price']}</p>
+			<?php foreach($bornes as $borne) : ?>
+				<div class="bg-gray-800 p-4 rounded">
+				<a href="/bornes/<?= $borne->id ?>">
+					<img src="https://via.placeholder.com/150" alt="Image de <?= $borne->nom ?>" class="w-full mb-8 max-w-sm mx-auto h-auto relative z-0 transition duration-200 ease-in-out hover:scale-110">
+					<h3 class="text-xl font-bold mb-2"><?= $borne->nom ?></h3>
+					<p class="text-green-600 font-bold mb-4"><?= $borne->prix ?> €</p>
+				</a>
+				<div class="grid grid-cols-1 md:grid-cols-2 mx-4">
+					<a href="#" class="md:mr-2 bg-green-700 hover:bg-green-600 p-2 text-white text-center rounded-3xl">
+						Ajouter au panier
 					</a>
-					<div class='grid grid-cols-1 md:grid-cols-2 mx-4'>
-						<a href='#' class='md:mr-2 bg-green-700 hover:bg-green-600 p-2 text-white text-center rounded-3xl'>
-							Ajouter au panier
-						</a>
 
-						<a href='/borne-perso/{$borne['id']}' class='md:ml-2 bg-blue-800 hover:bg-blue-700 p-2 text-white text-center rounded-3xl'>
-							Personnaliser
-						</a>
-					</div>
+					<a href="/borne-perso/1" class="md:ml-2 bg-blue-800 hover:bg-blue-700 p-2 text-white text-center rounded-3xl">
+						Personnaliser
+					</a>
 				</div>
-				";
-			}
-			?>
+			</div>
+			<?php endforeach; ?>
 		</div>
 	</div>
 </section>
