@@ -63,11 +63,11 @@
 <!-- Section des options -->
 <section class="container mx-auto px-4">
 	<div class="mt-12">
-		<h2 class="text-2xl font-bold mb-3 text-center">Options</h2>
+		<h2 class="text-2xl font-bold mb-3 text-center">Options disponibles</h2>
 		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 			<?php foreach($borne->options as $option) : ?>
 				<div class="relative p-4 rounded border-2 border-transparent hover:border-green-600/50  transition duration-300">
-					<input type="checkbox" id="option<?= $option->nom ?>" name="options[]" value="<?= $option->nom ?>" class="absolute top-2 right-2 w-5 h-5 cursor-pointer">
+					<input type="checkbox" id="option<?= $option->nom ?>" name="options[]" value="<?= $option->id ?>" class="absolute top-2 right-2 w-5 h-5 cursor-pointer">
 					<img src="" alt="<?= $option->nom ?>" class="w-full h-40 object-cover rounded mb-4">
 					<p class="text-green-400 text-lg font-bold mb-2"><?= $option->cout ?> €</p>
 					<div class="text-base">

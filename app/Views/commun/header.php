@@ -6,21 +6,25 @@
 </head>
 <body class="bg-dark-blue text-white">
 <header class="border-b-4 border-deep-blue text-center py-4 lg:px-4">
-	<!-- Barre de navigation -->
-    <nav class="bg-black/55 py-4 rounded-full mx-auto max-w-7xl px-6 flex items-center justify-between shadow-lg  shadow-gray-700/20">
+    <nav class="bg-black/55 py-4 rounded-full mx-auto max-w-7xl px-6 flex items-center justify-between shadow-lg shadow-gray-700/20">
         <!-- Logo -->
         <div class="flex items-center">
-			<img src="chemin-vers-logo.png" alt="Logo La Borne Arcade" class="h-10 w-auto">
+            <img src="chemin-vers-logo.png" alt="Logo La Borne Arcade" class="h-10 w-auto">
         </div>
         <!-- Liens -->
-        <ul class="flex space-x-8 text-white font-medium">
+        <ul class="flex space-x-8 text-white font-medium items-center">
             <li><a href="/bornes"          class="link-underline link-underline-black">Trouver ma borne</a></li>
             <li><a href="/borne-perso"     class="link-underline link-underline-black">Personnalise ma borne</a></li>
             <li><a href="/qui-sommes-nous" class="link-underline link-underline-black">À propos</a></li>
             <li><a href="/faq"             class="link-underline link-underline-black">FAQ</a></li>
-            <li><a href="/blog-articles"        class="link-underline link-underline-black">Blog</a></li>
+            <li><a href="/blog-articles"   class="link-underline link-underline-black">Blog</a></li>
+            <?php if (session()->has('user')) : ?>
+                <li class="flex items-center">
+                    <a href="/compte" class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden rounded-full bg-gray-600">
+                        <span class="font-medium text-gray-300 uppercase"><?= substr(session()->get('user')['email'], 0, 4) ?></span>
+                    </a>
+                </li>
+            <?php endif; ?>
         </ul>
     </nav>
-	<style>
-	</style>
 </header>
