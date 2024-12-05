@@ -56,6 +56,13 @@
 				<?php // var_dump($theme)  ?>
 				<div class="border-b-2 border-white/50 p-4 bg-[#161c2d]" id="div-theme-<?= $theme->id ?>">
 					<div class="w-[25vw] h-[30px] flex items-center justify-start"> <h3 class="text-lg font-bold pr-4"><?= $theme->nom ?></h3> </div>
+					<div class="w-[45vw] h-[30px] flex items-center justify-start">
+						<!-- Formulaire pour supprimer le thème -->
+						<?php echo form_open('/admin/theme/delete', ['onsubmit' => 'return confirm("Êtes-vous sûr de vouloir supprimer ce thème ?")']); ?>
+							<?php echo form_hidden('id', $theme->id); ?>
+							<?php echo form_submit('delete', 'Supprimer', "class='text-red-600 hover:text-red-800 font-bold'"); ?>
+						<?php echo form_close(); ?>
+					</div>
 				</div>
 			<?php endforeach; ?>
 		<?php else : ?>

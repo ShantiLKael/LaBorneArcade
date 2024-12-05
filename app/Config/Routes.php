@@ -40,9 +40,20 @@ use CodeIgniter\Router\RouteCollection;
 //});
 
 //$routes->group('', ['filter' => 'admin'], function($routes) {
-	$routes->match(['get', 'post', 'delete'], 	'/admin/bornes'		, 'AdminController::adminBorne');
-	$routes->match(['get', 'post', 'delete'], 	'/admin/contact'	, 'AdminController::adminContact');
-	$routes->match(['get', 'post', 'delete'], 	'/admin/articles'	, 'AdminController::adminArticle');
-	$routes->match(['get', 'post', 'delete'], 	'/admin/faqs'		, 'AdminController::adminFaq');
-	$routes->match(['get', 'post', 'delete'],	'/admin/theme'		, 'AdminController::adminTheme');
+	$routes->match(['get', 'post', 'delete'], 	'/admin/bornes'			, 'AdminController::adminBorne');
+	$routes->match(['get', 'post', 'delete'], 	'/admin/contact'		, 'AdminController::adminContact');
+	$routes->match(['get', 'post', 'delete'], 	'/admin/articles'		, 'AdminController::adminArticle');
+	$routes->match(['get', 'post', 'delete'], 	'/admin/faqs'			, 'AdminController::adminFaq');
+	$routes->match(['get', 'post', 'delete'],	'/admin/theme'			, 'AdminController::adminTheme');
+	$routes->post(								'/admin/theme/delete'	, 'AdminController::suppTheme');
+	$routes->match(['get', 'post', 'delete'],	'/admin/matiere'		, 'AdminController::adminMatiere');
+	$routes->post(								'/admin/matiere/delete'	, 'AdminController::suppMatiere');
+	$routes->match(['get', 'post', 'delete'],	'/admin/option'			, 'AdminController::adminOption');
+	$routes->post(								'/admin/option/delete'	, 'AdminController::suppOption');
+	$routes->match(['get', 'post', 'delete'],	'/admin/Joystick'		, 'AdminController::adminJoystick');
+	$routes->post(								'/admin/Joystick/delete', 'AdminController::suppJoystick');
+	$routes->match(['get', 'post', 'delete'],	'/admin/TMolding'		, 'AdminController::adminTMolding');
+	$routes->post(								'/admin/TMolding/delete', 'AdminController::suppTMolding');
+	$routes->match(['get', 'post', 'delete'],	'/admin/Bouton'			, 'AdminController::adminBouton');
+	$routes->post(								'/admin/Bouton/delete'	, 'AdminController::suppBouton');
 //});
