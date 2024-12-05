@@ -9,7 +9,7 @@ class Faq extends Entity
         'id'       => 'integer',
         'question' => 'string',
         'reponse'  => 'string',
-		'idUtilisateur' => 'App\Entities\Utilisateur',
+		'idUtilisateur' => 'integer',
     ];
 
     protected $datamap = [ 

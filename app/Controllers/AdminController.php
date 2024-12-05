@@ -4,12 +4,16 @@ namespace App\Controllers;
 
 use App\Entities\ArticleBlog;
 use App\Entities\Faq;
+
+use App\Entities\Theme;
 use App\Models\ArticleBlogModel;
+use App\Models\FaqModel;
+use App\Models\ThemeModel;
+
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Validation\ValidationInterface;
 use Config\Services;
 use ReflectionException;
-use App\Models\FaqModel;
 
 class AdminController extends BaseController
 {
@@ -19,6 +23,9 @@ class AdminController extends BaseController
 	
 	/** @var FaqModel $faqModel */
 	private FaqModel $faqModel;
+
+    /** @var ThemeModel $themeModel */
+    private ThemeModel $themeModel;
 	
 	/** @var ValidationInterface $validation */
 	private ValidationInterface $validation;
@@ -26,6 +33,7 @@ class AdminController extends BaseController
 	public function __construct() {
 		$this->articleBlogModel = new ArticleBlogModel();
 		$this->faqModel = new FaqModel();
+        $this->themeModel = new ThemeModel();
 		
 		$this->validation = Services::validation();
 		//Chargement du helper Form
@@ -71,6 +79,26 @@ class AdminController extends BaseController
 	public function adminFaq(): string
 	{
 		return view('/admin/faqs');
+	}
+
+	public function adminTheme()
+	{
+		if ($this->request->getPost() ) {
+			if ( ! $this->validate( $this->themeModel->getValidationRules(), $this->themeModel->getValidationMessages() ) ) {
+				return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
+			}
+			else {
+				$data = $this->request->getPost();
+				$theme = new Theme();
+				$theme->fill($data);
+				$this->themeModel->insert($theme);
+
+				return redirect()->back()->with('success', "$theme->nom ajouté avec succès.");
+			}
+		} 
+		$themes = $this->themeModel->findAll();
+		$themes = array_reverse($themes);
+		return view('admin/config_theme', ['titre' => 'configuration des theme', 'themes' => $themes]);
 	}
 
     /* ---------------------------------------- */
@@ -169,6 +197,36 @@ class AdminController extends BaseController
 		$this->faqModel->delete($id_faq);
 		return redirect()->back();
 	}
+
+    /* ---------------------------------------- */
+	/* ----------------- theme ---------------- */
+	/* ---------------------------------------- */
+
+
+    /* ---------------------------------------- */
+	/* ---------------- Matiere --------------- */
+	/* ---------------------------------------- */
+
+    
+    /* ---------------------------------------- */
+	/* ---------------- option ---------------- */
+	/* ---------------------------------------- */
+
+
+    /* ---------------------------------------- */
+	/* --------------- joystick --------------- */
+	/* ---------------------------------------- */
+
+
+    /* ---------------------------------------- */
+	/* --------------- Tmolding --------------- */
+	/* ---------------------------------------- */
+
+
+    /* ---------------------------------------- */
+	/* ---------------- bouton ---------------- */
+	/* ---------------------------------------- */
+
 
     /* ---------------------------------------- */
 	/* ----------------- Borne ---------------- */
