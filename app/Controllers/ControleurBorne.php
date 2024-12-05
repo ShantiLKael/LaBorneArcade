@@ -80,7 +80,6 @@ class ControleurBorne extends BaseController {
 	 */
 	public function voirBorne(int $id_borne) : string|RedirectResponse {
 
-		session()->destroy();
 		$session = session();
 		$data = $this->request->getPost();
 
