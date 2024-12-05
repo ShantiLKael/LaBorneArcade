@@ -291,6 +291,9 @@ class Query implements QueryInterface, Stringable
     protected function compileBinds()
     {
         $sql   = $this->swappedQueryString ?? $this->originalQueryString;
+		// TODO: La requête sql ici est surplonbée de guillements, alors on les enlève sinon ça plante.
+		$sql = str_replace('"', "", $sql);
+		
         $binds = $this->binds;
 
         if (empty($binds)) {
@@ -308,7 +311,6 @@ class Query implements QueryInterface, Stringable
             // Reverse the binds so that duplicate named binds
             // will be processed prior to the original binds.
             $binds = array_reverse($binds);
-
             $this->finalQueryString = $this->matchNamedBinds($sql, $binds);
         }
     }
