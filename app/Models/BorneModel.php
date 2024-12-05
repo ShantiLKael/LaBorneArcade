@@ -33,6 +33,7 @@ class BorneModel extends Model
 	protected $table      = 'borne';
 	protected $primaryKey = 'id_borne';
 	protected $returnType = 'App\Entities\Borne';
+
 	protected $allowedFields = [
         'nom',
         'description',
@@ -78,6 +79,13 @@ class BorneModel extends Model
 		'id_theme'    => [ 'required' => 'Champ requis.'],
 	];
 	
+	/**
+	 * Recupération de toutes les bornes selon des critères.
+	 *
+	 * @param array $themes
+	 * @param array $types
+	 * @return Borne[] tableau de bornes
+	 */
 	public function getBornes(array $themes = [], array $types = []): array {
 		$builder = $this->builder()->select("b.*, string_agg(i.chemin, ',') AS image");
 		$builder = $builder->from('ONLY Borne b', true);
@@ -132,7 +140,7 @@ class BorneModel extends Model
 	}
 
 	/**
-	 * Récupère le Thème de la borne.
+	 * Récupère le thème de la borne.
 	 * @param int $idTheme
 	 * @return Theme|array
 	 */

@@ -40,9 +40,16 @@ class Option extends Entity
         return $this;
     }
 
-    public function getImage(): TMolding
+    public function setIdImage(int $idImage)
+    {
+        $this->attributes['id_image'] = $idImage;
+        
+        return $this;
+    }
+
+    public function getImage(): Image
     {
         $optionModel = new OptionModel();
-        return $optionModel->getImage($this->idIidTMolding);
+        return $optionModel->getImage($this->idImage);
     }
 }

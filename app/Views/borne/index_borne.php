@@ -9,10 +9,7 @@ use App\Entities\Borne;
 	<div class="bg-gradient-to-r from-dark-teal max-w-100 to-medium-blue text-center py-10 mb-8">
 		<h2 class="text-2xl font-bold mb-4">Choisis ta borne préférée</h2>
 		<div class="grid col-span-1 md:flex md:justify-center md:space-x-4">
-			<a href="/bornes?type[]=sticker" class="<?= in_array("sticker", $selectionType, true) ? "bg-green-700 hover:bg-green-800" : "bg-medium-blue/70 hover:bg-deep-blue/70" ?> my-2
-			md:my-0 md:mx-0 mx-20 border
-			border-spacing-1
-			border-gray-400 text-white px-4 py-3 rounded-2xl">Sticker</a>
+			<a href="/bornes?type[]=sticker" class="<?= in_array("sticker", $selectionType, true) ? "bg-green-700 hover:bg-green-800" : "bg-medium-blue/70 hover:bg-deep-blue/70" ?> my-2 md:my-0 md:mx-0 mx-20 border border-spacing-1 border-gray-400 text-white px-4 py-3 rounded-2xl">Sticker</a>
 			<a href="/bornes?type[]=wood"    class="<?= in_array("wood", $selectionType, true) ? "bg-green-700 hover:bg-green-800" : "bg-medium-blue/70 hover:bg-deep-blue/70" ?> my-2 md:my-0 md:mx-0 mx-20 border border-spacing-1 border-gray-400 text-white px-4 py-3 rounded-2xl">Classique Wood</a>
 			<a href="/bornes?type[]=gravure" class="<?= in_array("gravure", $selectionType, true) ? "bg-green-700 hover:bg-green-800" : "bg-medium-blue/70 hover:bg-deep-blue/70" ?> my-2 md:my-0 md:mx-0 mx-20 border border-spacing-1 border-gray-400 text-white px-4 py-3 rounded-2xl">Classique Wood Gravé</a>
 		</div>
@@ -25,8 +22,8 @@ use App\Entities\Borne;
 	</div>
 
 	<!-- Filtres -->
-	<div class="flex flex-col md:flex-row md:space-x-8 mb-8 py-3 px-10 ">
-		<div class="md:w-1/4 md:h-1/3 bg-medium-blue p-4 rounded mb-5 border border-gray-700 sticky top-7">
+	<div class="flex flex-col md:flex-row md:space-x-8 mb-8 py-3 px-10">
+		<div class="md:w-1/4 md:h-1/3 bg-medium-blue p-4 rounded mb-5 border border-gray-700">
 			<h3 class="text-lg font-bold mb-4">Filtrer par :</h3>
 			<?= form_open('/bornes', ['method'=>"GET"]) ?>
 				<?php if (count($selectionTheme) !== 0 || count($selectionType) !== 0): ?>
@@ -63,53 +60,25 @@ use App\Entities\Borne;
 
 		<!-- Liste des bornes -->
 		<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 xl:w-3/4">
-			<?php
-			$bornesTest = [
-				(object) [
-					'id'   =>1,
-					'image'=>"https://via.placeholder.com/150",
-					'nom'  =>"Borne D'arcade Galaktronik",
-					'prix' =>"1490,00",
-				],
-				(object) [
-					'id'   =>1,
-					'image'=>"https://via.placeholder.com/150",
-					'nom'  =>"Borne D'arcade Pac-Man",
-					'prix' =>"1490,00",
-				],
-				(object) [
-					'id'   =>1,
-					'image'=>"https://via.placeholder.com/150",
-					'nom'  =>"Borne D'arcade Ken le survivant",
-					'prix' =>"1490,00",
-				],
-			];
-			
-//			$bornes = $bornesTest;
-			
-			/** @var Borne[] $bornes */
-			/** @var Borne $borne */
-			foreach ($bornes as $borne) {
-				echo "
-				<div class='bg-gray-800 p-4 rounded'>
-					<a href='/bornes/$borne->id'>
-						<img src='$borne->image' alt='Image de $borne->nom' class='w-full mb-8 max-w-sm mx-auto h-auto relative z-0 transition duration-200 ease-in-out hover:scale-110' onerror='this.src = \"https://via.placeholder.com/150\";'>
-						<h3 class='text-xl font-bold mb-2'>$borne->nom</h3>
-						<p class='text-green-600 font-bold mb-4'>".sprintf("%.02F €", $borne->prix)."</p>
+			<?php foreach($bornes as $borne): ?>
+				<div class="bg-gray-800 p-4 rounded">
+				<a href="/bornes/<?= $borne->id ?>">
+					<img src="<?= $borne->image ?>" alt="Image de <?= $borne->nom ?>" class="w-full mb-8 max-w-sm mx-auto h-auto
+					relative z-0 transition duration-200 ease-in-out hover:scale-110" onerror="this.src = 'https://via.placeholder.com/150';">
+					<h3 class="text-xl font-bold mb-2"><?= $borne->nom ?></h3>
+					<p class="text-green-600 font-bold mb-4"><?= sprintf("%.02F €", $borne->prix) ?></p>
+				</a>
+				<div class="grid grid-cols-1 md:grid-cols-2 mx-4">
+					<a href="#" class="md:mr-2 bg-green-700 hover:bg-green-600 p-2 text-white text-center rounded-3xl">
+						Ajouter au panier
 					</a>
-					<div class='grid grid-cols-1 md:grid-cols-2 mx-4'>
-						<a href='#' class='md:mr-2 bg-green-700 hover:bg-green-600 p-2 text-white text-center rounded-3xl'>
-							Ajouter au panier
-						</a>
 
-						<a href='/borne-perso/$borne->id' class='md:ml-2 bg-blue-800 hover:bg-blue-700 p-2 text-white text-center rounded-3xl'>
-							Personnaliser
-						</a>
-					</div>
+					<a href="/borne-perso/1" class="md:ml-2 bg-blue-800 hover:bg-blue-700 p-2 text-white text-center rounded-3xl">
+						Personnaliser
+					</a>
 				</div>
-				";
-			}
-			?>
+			</div>
+			<?php endforeach; ?>
 		</div>
 	</div>
 </section>
