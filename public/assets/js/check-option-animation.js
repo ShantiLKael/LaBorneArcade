@@ -6,10 +6,8 @@ checkboxes.forEach((checkbox) => {
 		const parentDiv = checkbox.closest("div");
 		if (checkbox.checked) {
 			parentDiv.classList.add("border-green-600");
-			console.log(parentDiv);
 		} else {
 			parentDiv.classList.remove("border-green-600");
-			console.log(parentDiv);
 			}
 		});
 	});

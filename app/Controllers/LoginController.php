@@ -216,6 +216,10 @@ class LoginController extends BaseController
 		}
 
 	}
+
+	public function profile(): string {
+		return view('login/profile', [ 'titre' => 'Mon profil' ]);
+	}
 	
 	public static function envoyer_mail(
 		string $mail,

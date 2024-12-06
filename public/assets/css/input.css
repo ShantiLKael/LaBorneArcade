@@ -20,3 +20,8 @@
 textarea {
   resize: none;
 }
+
+.border-green-600 {
+  --tw-border-opacity: 1;
+  border-color: rgb(22 163 74 / var(--tw-border-opacity, 1));
+}
