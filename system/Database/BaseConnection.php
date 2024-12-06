@@ -620,7 +620,7 @@ abstract class BaseConnection implements ConnectionInterface
          * @var Query $query
          */
         $query = new $queryClass($this);
-
+		
         $query->setQuery($sql, $binds, $setEscapeFlags);
 
         if (! empty($this->swapPre) && ! empty($this->DBPrefix)) {
@@ -641,7 +641,7 @@ abstract class BaseConnection implements ConnectionInterface
 
             return $query;
         }
-
+		
         // Run the query for real
         try {
             $exception      = null;
@@ -730,7 +730,6 @@ abstract class BaseConnection implements ConnectionInterface
         if (empty($this->connID)) {
             $this->initialize();
         }
-
         return $this->execute($sql);
     }
 
@@ -1070,7 +1069,7 @@ abstract class BaseConnection implements ConnectionInterface
 
         // If you pass `['column1', 'column2']`, `$item` will be int because the array keys are int.
         $item = (string) $item;
-
+		
         // This is basically a bug fix for queries that use MAX, MIN, etc.
         // If a parenthesis is found we know that we do not need to
         // escape the data or add a prefix. There's probably a more graceful
@@ -1132,6 +1131,8 @@ abstract class BaseConnection implements ConnectionInterface
         if ($protectIdentifiers === true && ! in_array($item, $this->reservedIdentifiers, true)) {
             $item = $this->escapeIdentifiers($item);
         }
+		
+		// TODO: Les guillemets sont ajoutés ici.*
 
         return $item . $alias;
     }

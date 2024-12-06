@@ -81,5 +81,6 @@ use App\Entities\Borne;
 			<?php endforeach; ?>
 		</div>
 	</div>
+	<?= $pager_links ?>
 </section>
 <?= view('commun/footer') ?>

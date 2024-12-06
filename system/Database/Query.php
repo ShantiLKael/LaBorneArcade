@@ -292,7 +292,6 @@ class Query implements QueryInterface, Stringable
     {
         $sql   = $this->swappedQueryString ?? $this->originalQueryString;
 		// TODO: La requête sql ici est surplonbée de guillements, alors on les enlève sinon ça plante.
-		$sql = str_replace('"', "", $sql);
 		
         $binds = $this->binds;
 

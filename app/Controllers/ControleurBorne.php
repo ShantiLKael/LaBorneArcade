@@ -14,6 +14,7 @@ use App\Models\UtilisateurModel;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Config\Services;
+use CodeIgniter\Pager\Pager;
 
 /**
  * @author Gabriel Roche
@@ -66,17 +67,41 @@ class ControleurBorne extends BaseController {
 	/**
 	 * Méthode qui affiche la liste des bornes prédéfinies.
 	 *
-	 * @return string La vue qui liste les bornes prédéfinies.
+	 * @return RedirectResponse|string La vue qui liste les bornes prédéfinies.
 	 */
-	public function indexBorne() : string {
+	public function indexBorne() : RedirectResponse|string {
 		$theme = $this->request->getGet('theme') ?: [];
 		$type = $this->request->getGet('type') ?: [];
+		/** @var Pager $pager */
+		$pager = service('pager');
+		
+		$pageGet = $this->request->getGet('page');
+		
+		if ($pageGet !== null && !preg_match("#\d#", $pageGet)) {
+			return redirect()->to('/bornes');
+		}
+		
+		$page    = intval($pageGet) ?: 1;
+		$perPage = 9;
+		$bornes  = $this->borneModel->getBornes($perPage, $theme, $type);
+		$total   = $this->borneModel->getNombreBornes();
+		
+		if ($page < 1) {
+			return redirect()->to("/bornes");
+		}
+		
+		if (count($bornes) === 0) {
+			$derniere_page = ceil($total / $perPage);
+			return redirect()->to("/bornes?page=$derniere_page");
+		}
+		
 		return view('borne/index_borne', [
 			'titre'         =>"Liste des bornes prédéfines",
 			'themes'        =>$this->themeModel->findAll(),
 			'selectionTheme'=>$theme,
 			'selectionType' =>$type,
-			'bornes'        =>$this->borneModel->findAll(),
+			'bornes'        =>$bornes,
+			'pager_links'   =>$pager->makeLinks($page, $perPage, $total),
 		]);
 	}
 	
@@ -84,7 +109,7 @@ class ControleurBorne extends BaseController {
 	 * Affiche une borne prédéfinie en fonction de son identifiant.
 	 *
 	 * @param int $id_borne L'identifiant de la borne à afficher.
-	 * @return string La vue d'une borne.
+	 * @return string|RedirectResponse La vue d'une borne.
 	 */
 	public function voirBorne(int $id_borne) : string|RedirectResponse {
 
