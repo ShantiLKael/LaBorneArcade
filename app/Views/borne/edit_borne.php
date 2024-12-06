@@ -62,7 +62,7 @@
 		<h2 class="text-2xl font-bold mb-3 text-center">Options</h2>
 		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 			<?php foreach($options as $option) : ?>
-				<div class="relative p-4 rounded border-2 border-transparent hover:border-green-600/50  transition duration-300">
+				<div class="relative p-4 rounded border-2 border-transparent hover:border-green-600/50 transition duration-300">
 					<input type="checkbox" id="option<?= $option->nom ?>" name="options[]" value="<?= $option->nom ?>" class="absolute top-2 right-2 w-5 h-5 cursor-pointer">
 					<img loading="lazy" src="" alt="<?= $option->nom ?>" class="w-full h-40 object-cover rounded mb-4">
 					<p class="text-green-400 text-lg font-bold mb-2"><?= $option->cout ?> €</p>
