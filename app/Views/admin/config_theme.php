@@ -20,7 +20,7 @@
 	<!-- Formulaire pour ajouter un commentaire -->
 	<?php echo form_open('/admin/theme'); ?>
 
-		<table class="grid grid-cols-1 md:grid-cols-1 gap-6 max-w-3xl mx-auto flex items-center justify-start">
+		<table class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto flex items-center justify-start">
 			<tbody>
 				<tr>
 					<td colspan=2 class="mt-5 p-0"><h3 class="text-center text-3xl font-bold mb-4"><?php echo form_label('Ajoutez un thème : ', 'theme'); ?></h3></td>

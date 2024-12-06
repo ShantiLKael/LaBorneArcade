@@ -207,13 +207,13 @@ class AdminController extends BaseController
 				$tMolding = new TMolding();
 				$tMolding->fill($data);
 				$this->tMoldingModel->insert($tMolding);
-
+				
 				return redirect()->back()->with('success', "$tMolding->nom, $tMolding->couleur ajouté avec succès.");
 			}
 		} 
 		$tMoldings = $this->tMoldingModel->findAll();
 		$tMoldings = array_reverse($tMoldings);
-		return view('admin/config_tMolding', ['titre' => 'configuration des tMolding', 'tMoldings' => $tMoldings]);
+		return view('admin/config_tMolding', ['titre' => 'configuration des TMolding', 'tMoldings' => $tMoldings]);
 	}
 
 	public function adminBouton()

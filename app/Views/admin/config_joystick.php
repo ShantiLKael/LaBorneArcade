@@ -20,7 +20,7 @@
 	<!-- Formulaire pour ajouter un commentaire -->
 	<?php echo form_open('/admin/joystick'); ?>
 
-		<table class="grid grid-cols-1 md:grid-cols-1 gap-6 max-w-3xl mx-auto flex items-center justify-start">
+		<table class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto flex items-center justify-start">
 		<tbody>
 		<tr>
 			<td colspan=2 class="mt-5 p-0">

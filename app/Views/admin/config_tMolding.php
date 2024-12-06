@@ -19,11 +19,11 @@
 	<?php endif; ?>
 	<!-- Formulaire pour ajouter un commentaire -->
 	<?php echo form_open('/admin/TMolding'); ?>
-    <table class="grid grid-cols-1 md:grid-cols-1 gap-6 max-w-3xl mx-auto flex items-center justify-start">
+    <table class="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-3xl mx-auto flex items-center justify-start">
 		<tbody>
 			<tr>
 				<td colspan=2 class="mt-5 p-0">
-					<h3 class="text-center text-3xl font-bold mb-4">
+					<h3 class="text-center text-2xl font-bold mb-4">
 						<?php echo form_label('Ajoutez un tMolding : ', 'tMolding'); ?>
 					</h3>
 				</td>
@@ -74,7 +74,11 @@
 				<?php // var_dump($tMolding)  ?>
 				<div class="border-b-2 border-white/50 p-4 bg-[#161c2d]1" id="div-tMolding-<?= $tMolding->id ?>">
 					<div class="w-[25w] h-[30px] flex items-center justify-start"> <h3 class="text-lg font-bold pr-4"><?= $tMolding->nom  ?></h3> </div>
-					<div class="w-[35vw] h-[30px] flex items-center justify-start"> <h4 class="text-lg font-bold pr-4"><?= $tMolding->couleur   ?></h4> </div>
+					<div 
+						class="w-6 h-6 rounded-full border-2 border-black" 
+						style="background-color: <?= $tMolding->couleur ?>;"
+						title="Couleur : <?= $tMolding->couleur ?>">
+					</div>
 					<div class="w-[45vw] h-[30px] flex items-center justify-start">
 						<!-- Formulaire pour supprimer la tMolding -->
 						<?php echo form_open("/admin/TMolding/delete/$tMolding->id", ['onsubmit' => 'return confirm("Êtes-vous sûr de vouloir supprimer ce tMolding ?")']); ?>

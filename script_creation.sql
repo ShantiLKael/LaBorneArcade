@@ -34,21 +34,21 @@ CREATE TABLE Utilisateur(
 CREATE TABLE Joystick(
 	id_Joystick SERIAL PRIMARY KEY,
 	modele      VARCHAR(50) NOT NULL,
-	couleur     CHAR   (6 ) NOT NULL,
+	couleur     CHAR   (7 ) NOT NULL,
 	UNIQUE     (modele,couleur)
 );
 
 CREATE TABLE TMolding(
 	id_TMolding SERIAL PRIMARY KEY,
 	nom         VARCHAR(50) NOT NULL,
-	couleur     CHAR   (6 ) NOT NULL,
+	couleur     CHAR   (7 ) NOT NULL,
 	UNIQUE      (nom,couleur)
 );
 
 CREATE TABLE Matiere(
 	id_Matiere SERIAL PRIMARY KEY,
 	nom    VARCHAR(50) NOT NULL,
-	couleur    CHAR   (6 ) NOT NULL,
+	couleur    CHAR   (7 ) NOT NULL,
 	UNIQUE(nom,couleur)
 );
 
@@ -103,7 +103,7 @@ CREATE TABLE Bouton(
 	id_Bouton SERIAL PRIMARY KEY,
 	modele    VARCHAR(50) NOT NULL,
 	forme     VARCHAR(50) NOT NULL, /* TODO Group in */
-	couleur   CHAR(6) NOT NULL,
+	couleur   CHAR(7) NOT NULL,
 	eclairage BOOLEAN NOT NULL,
 	UNIQUE  (modele,couleur,eclairage)
 );

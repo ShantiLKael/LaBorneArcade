@@ -78,9 +78,9 @@
 					<!-- Champ pour la couleur -->
 					<?php echo form_input(
 						[
-							'type' => 'checkbox', // Définit le champ comme un sélecteur de couleur
+							'type' => 'radio',
 							'name' => 'eclairage',
-							'value' => set_value('eclairage', ''), // Valeur par défaut (noir)
+							'value' => set_value('eclairage', ''),
 							'required' => 'required',
 						]
 					); ?>
