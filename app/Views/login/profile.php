@@ -5,7 +5,7 @@
             <p class="text-3xl font-extrabold">Détails du compte</p>
             <p class="text-medium px-2 mt-2 text-gray-400">Modifier vos informations</p>
         </div>
-        <a href="/profile/delete-<?= session()->get('user')['id'] ?>" class="mr-2 hidden rounded-lg border-2 px-4 py-2 font-medium border-gray-700 text-gray-400 hover:text-red-500 sm:inline outline-red-900 focus:ring hover:bg-gray-700">Supprimer le compte</a>
+        <a href="/deconnexion" class="mr-2 hidden rounded-lg border-2 px-4 py-2 font-medium border-gray-700 text-gray-400 hover:text-red-500 sm:inline outline-red-900 focus:ring hover:bg-gray-700">Se déconnecter</a>
 		<?= form_submit('submit', 'Enregistrer', "class='hidden rounded-lg border-2 border-transparent bg-green-600 hover:bg-green-500/60 px-4 py-2 font-medium text-white sm:inline outline-green-600 focus:ring'"); ?>
     </div>
 
@@ -20,8 +20,6 @@
             'class'       => 'w-full rounded-md text-sm bg-gray-700 px-2 py-2 outline-none focus:ring-2 '.$focusRIng,
             'value'       => set_value('email'),
             'placeholder' => 'Email@domaine.fr',
-            'aria-required' => 'true',
-            'required',
 		]); ?>
         <span class="items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
             <?= validation_show_error('email') ?>
@@ -39,8 +37,6 @@
             'class'       => 'w-full rounded-md text-sm bg-gray-700 px-2 py-2 outline-none focus:ring-2 '.$focusRIng,
             'value'       => set_value('mdp'),
             'placeholder' => 'Nouveau mot de passe',
-            'aria-required' => 'true',
-            'required',
 		]); ?>
         <span class="items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
             <?= validation_show_error('mdp') ?>
@@ -59,8 +55,6 @@
             'class'       => 'w-full rounded-md text-sm bg-gray-700 px-2 py-2 outline-none focus:ring-2 '.$focusRIng,
             'value'       => set_value('mdpConf'),
             'placeholder' => 'Confirmation du mot de passe',
-            'aria-required' => 'true',
-            'required',
 		]); ?>
         <span class="items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
             <?= validation_show_error('mdpConf') ?>
@@ -68,7 +62,7 @@
     </div>
     
     <div class="flex justify-end py-4 sm:hidden">
-        <a href="/profile/delete-<?= session()->get('user')['id'] ?>" class="mr-2 rounded-lg border-2 px-4 py-2 font-medium border-gray-700 text-gray-400 hover:text-red-500 outline-red-900 focus:ring hover:bg-gray-700">Supprimer le compte</a>
+        <a href="/profile/delete-<?= session()->get('user')['id'] ?>" class="mr-2 rounded-lg border-2 px-4 py-2 font-medium border-gray-700 text-gray-400 hover:text-red-500 outline-red-900 focus:ring hover:bg-gray-700">Se déconnecter</a>
 		<?= form_submit('submit', 'Enregistrer', "class='rounded-lg border-2 border-transparent bg-green-600 hover:bg-green-500/60 px-4 py-2 font-medium text-white outline-green-600 focus:ring'"); ?>
     </div>
 <?= form_close() ?>
