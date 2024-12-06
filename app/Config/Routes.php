@@ -5,6 +5,8 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
+$routes->setAutoRoute(false);
+
 //$routes->group('', ['filter' => 'invite'], function($routes) {
 	// Page vitrine
 	$routes->get('/'                  , 'HomeController::index');
@@ -40,9 +42,9 @@ use CodeIgniter\Router\RouteCollection;
 //});
 
 //$routes->group('', ['filter' => 'admin'], function($routes) {
-	$routes->match(['get', 'post', 'delete'], 	'/admin/bornes'		, 'AdminController::adminBorne');
-	$routes->match(['get', 'post', 'delete'], 	'/admin/contact'	, 'AdminController::adminContact');
-	$routes->match(['get', 'post', 'delete'], 	'/admin/articles'	, 'AdminController::adminArticle');
-	$routes->match(['get', 'post', 'delete'], 	'/admin/faqs'		, 'AdminController::adminFaq');
-	$routes->match(['get', 'post', 'delete'],	'/admin/theme'		, 'AdminController::adminTheme');
+	$routes->match(['get', 'post'], 	'/admin/bornes'		, 'AdminController::adminBorne');
+	$routes->match(['get', 'post'], 	'/admin/contact'	, 'AdminController::adminContact');
+	$routes->match(['get', 'post'], 	'/admin/articles'	, 'AdminController::adminArticle');
+	$routes->match(['get', 'post'], 	'/admin/faqs'		, 'AdminController::adminFaq');
+	$routes->match(['get', 'post'],	'/admin/theme'		, 'AdminController::adminTheme');
 //});

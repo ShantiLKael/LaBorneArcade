@@ -7,7 +7,7 @@
 	<div class="flex flex-col md:flex-row gap-8 items-start">
 		<!-- Images du produit -->
 		<div class="w-full md:w-1/2 lg:w-7/12">
-			<img src="image_principale.jpg" alt="Borne Arcade" class="w-full h-auto rounded-lg">
+			<img loading="lazy" src="image_principale.jpg" alt="Borne Arcade" class="w-full h-auto rounded-lg">
 		</div>
 
 		<!-- Informations produit -->
@@ -40,19 +40,19 @@
 			<!-- Infos supplémentaires -->
 			<div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
 				<div class="text-center">
-					<img src="fabrique_france_icon.png" alt="Fabriqué en France" class="w-10 mx-auto mb-2">
+					<img loading="lazy" src="fabrique_france_icon.png" alt="Fabriqué en France" class="w-10 mx-auto mb-2">
 					<p class="text-sm">Fabriqué en France</p>
 				</div>
 				<div class="text-center">
-					<img src="garantie_icon.png" alt="Garantie 2 ans" class="w-10 mx-auto mb-2">
+					<img loading="lazy" src="garantie_icon.png" alt="Garantie 2 ans" class="w-10 mx-auto mb-2">
 					<p class="text-sm">Garantie 2 ans</p>
 				</div>
 				<div class="text-center">
-					<img src="support_icon.png" alt="Support" class="w-10 mx-auto mb-2">
+					<img loading="lazy" src="support_icon.png" alt="Support" class="w-10 mx-auto mb-2">
 					<p class="text-sm">Assistance disponible</p>
 				</div>
 				<div class="text-center">
-					<img src="paiement_icon.png" alt="Paiement sécurisé" class="w-10 mx-auto mb-2">
+					<img loading="lazy" src="paiement_icon.png" alt="Paiement sécurisé" class="w-10 mx-auto mb-2">
 					<p class="text-sm">Paiement 100% sécurisé</p>
 				</div>
 			</div>

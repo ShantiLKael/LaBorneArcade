@@ -16,7 +16,7 @@
 			<?php foreach($bornes as $bornePerso) : ?>
 				<div class="flex items-center justify-between p-4 border border-gray-700 rounded-lg hover:shadow-md transition">
 				<div class="flex">
-					<img src="https://via.placeholder.com/100" alt="Image Borne" class="w-25 h-25 rounded-md mr-4">
+					<img loading="lazy" src="https://via.placeholder.com/100" alt="Image Borne" class="w-25 h-25 rounded-md mr-4">
 					<div class="space-y-2">
 						<h3 class="text-lg font-semibold"><?= $bornePerso->nom ?></h3>
 						<p class="text-sm text-gray-400">Thème : <span class="font-medium text-blue-500"><?= $bornePerso->borne ? $bornePerso->borne->theme->nom : 'Personnalisée' ?></span></p>

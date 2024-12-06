@@ -63,7 +63,7 @@ use App\Entities\Borne;
 			<?php foreach($bornes as $borne): ?>
 				<div class="bg-gray-800 p-4 rounded">
 				<a href="/bornes/<?= $borne->id ?>">
-					<img src="<?= $borne->image ?>" alt="Image de <?= $borne->nom ?>" class="w-full mb-8 max-w-sm mx-auto h-auto
+					<img loading="lazy" src="<?= $borne->image ?>" alt="Image de <?= $borne->nom ?>" class="w-full mb-8 max-w-sm mx-auto h-auto
 					relative z-0 transition duration-200 ease-in-out hover:scale-110" onerror="this.src = 'https://via.placeholder.com/150';">
 					<h3 class="text-xl font-bold mb-2"><?= $borne->nom ?></h3>
 					<p class="text-green-600 font-bold mb-4"><?= sprintf("%.02F €", $borne->prix) ?></p>
