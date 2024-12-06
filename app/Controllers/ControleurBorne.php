@@ -2,7 +2,9 @@
 
 namespace App\Controllers;
 
+use App\Entities\BornePerso;
 use App\Models\BorneModel;
+use App\Models\BornePersoModel;
 use App\Models\BoutonModel;
 use App\Models\JoystickModel;
 use App\Models\MatiereModel;
@@ -10,6 +12,7 @@ use App\Models\OptionModel;
 use App\Models\ThemeModel;
 use App\Models\UtilisateurModel;
 use CodeIgniter\HTTP\RedirectResponse;
+use CodeIgniter\I18n\Time;
 use CodeIgniter\Config\Services;
 use CodeIgniter\Pager\Pager;
 
@@ -20,6 +23,9 @@ class ControleurBorne extends BaseController {
 	
 	/** @var BorneModel $borneModel */
 	private BorneModel $borneModel;
+
+	/** @var BornePersoModel $bornePersoModel */
+	private BornePersoModel $bornePersoModel;
 	
 	/** @var BoutonModel $boutonModel */
 	private BoutonModel $boutonModel;
@@ -51,6 +57,7 @@ class ControleurBorne extends BaseController {
 		$this->themeModel       = new ThemeModel();
 		$this->matiereModel     = new MatiereModel();
 		$this->utilisateurModel = new UtilisateurModel();
+		$this->bornePersoModel  = new BornePersoModel();
 	}
 	
 	/*===================================*/
@@ -111,23 +118,44 @@ class ControleurBorne extends BaseController {
 
 		// Methode POST
 		if ($data) {
-			if (!$session->has('panier'))
-				$session->set('panier', []);
-
-			// si le client est authentifié
-			$panier = $session->has('user') ?
-					  $this->utilisateurModel->getPanier($session->get('user')['id']) : // panier de l'utilisateur en bdd
-					  $session->get('panier'); // panier de la session
-
-			foreach ($panier as $borne) {
-				if ($borne->id == $id_borne)
-					return redirect()->to('/bornes/'.$id_borne)->with('flash_erreur', 'Ce produit se trouve déjà dans votre panier.');
+			if (!$session->has('panier')) {
+				$session->set('panier' , []);
+				$session->set('options', []);
 			}
 
-			if ($session->has('user'))
-				$this->utilisateurModel->insererPanier($session->get('user')['id'], $id_borne);
-			else
-				$session->push('panier', [$this->borneModel->getBorneParId($id_borne)]);
+			$borne = $this->borneModel->find($id_borne);
+
+			$bornePerso = new BornePerso();
+			$bornePerso->idTMolding = intval  ($borne->idTMolding);
+			$bornePerso->idMatiere  = intval  ($borne->idMatiere);
+			$bornePerso->prix       = floatval($borne->prix);
+			$bornePerso->idBorne    = intval  ($id_borne);
+			$bornePerso->dateCreation = Time::now('Europe/Paris', 'fr_FR');
+			$bornePerso->dateModif    = Time::now('Europe/Paris', 'fr_FR');
+
+			if ($session->has('user')) { // Utilisateur connécté
+				$idBornePerso = $this->bornePersoModel->insert($bornePerso);
+
+				if (isset($data['options']))
+					foreach($data['options'] as $idOption)
+						$this->bornePersoModel->insererOptionBorne($idBornePerso, $idOption);
+				
+				$this->utilisateurModel->insererPanier(session()->get('user')['id'], $idBornePerso);
+
+			} else { // Utilisateur non connécté
+				
+				if (isset($data['options'])) {
+					$options = [];
+					foreach ($data['options'] as $idOption)
+						$options[] = $this->optionModel->find($idOption);
+
+					$session->push('options', [$options]);
+				} else {
+					$session->push('options', [null]);
+				}
+
+				$session->push('panier', [$bornePerso]);
+			}
 		}
 
 		return view('borne/voir_borne', [
@@ -144,8 +172,9 @@ class ControleurBorne extends BaseController {
 	 */
 	public function editBorne(int $id_borne = null) : string {
 		return view('borne/edit_borne', [
-			'titre'=>"Personnaliser une borne",
-			'borne'=>$id_borne ? $this->borneModel->getBorneParId($id_borne) : null,
+			'titre'   => "Personnaliser une borne",
+			'options' => $this->optionModel->findAll(),
+			'borne'   => $id_borne ? $this->borneModel->getBorneParId($id_borne) : null,
 		]);
 	}
 	

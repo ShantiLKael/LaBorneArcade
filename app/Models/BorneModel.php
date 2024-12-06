@@ -44,7 +44,6 @@ class BorneModel extends Model
         'id_matiere',
 		'id_image',
         'id_theme',
-		'date_creation', // Table fille BornePerso
     ];
 	
 	// Règles de validation
@@ -318,37 +317,6 @@ class BorneModel extends Model
 	}
 
 	/**
-	 * Suppression d'une BornePerso un mois après sa dernière modification.
-	 * @return bool
-	 */
-	public function suppPeriodiqueBornePerso(): bool
-    {
-        $db = Database::connect();
-        $builder = $db->table('borneperso');
-
-        $moisDernier = date('d-m-Y H:i:s', strtotime('-1 month'));
-
-        $builder->where('date_modif <', $moisDernier);
-        return $builder->delete();
-    }
-	
-	/**
-	 * Insertion d'une BornePerso.
-	 *
-	 * @param Borne $borne
-	 * @return bool
-	 * @throws Exception
-	 */
-	public function insererBornePerso(Borne $borne): bool
-	{
-		$builder = db_connect()->table('borneperso');
-		$bornePerso = $borne->toArray();
-		$bornePerso['date_creation'] = Time::now('Europe/Paris', 'fr_FR');
-		$bornePerso['date_modiff']   = Time::now('Europe/Paris', 'fr_FR');
-		return $builder->insert($bornePerso);
-	}
-
-	/**
 	 * Suppression d'une borne et de ses composants
 	 * (Panier, Option, Joystick, Bouton, Image et Commande)
 	 *
@@ -366,16 +334,12 @@ class BorneModel extends Model
 		$boutonBorneModel   = $db->table('boutonborne');
 		$imageBorneModel    = $db->table('imageborne');
 
-		$commandeModel = new CommandeModel();
 		$joystickModel = new JoystickModel();
 		$boutonModel   = new BoutonModel();
 		$borneModel    = new BorneModel();
 
 		// Suppression de la borne des images
 		$imageBorneModel->where('id_borne', $idBorne)->delete();
-
-		// Suppression de la borne de la commande
-		$commandeModel->where('id_borne', $idBorne)->delete();
 
 		// Suppression de la borne du panier
 		$panierModel->where('id_borne', $idBorne)->delete();

@@ -71,7 +71,7 @@
 				</div>
 
 				<div class="text-sm">
-				<a href="/connexion/oubli-mdp" class="text-green-600 hover:underline font-semibold">
+				<a href="/connexion/oubli-mdp" class="text-green-600 hover:text-green-500 hover:underline font-semibold">
 					Mot de passe oublié ?
 				</a>
 				</div>
@@ -81,7 +81,7 @@
 				<?= form_submit('submit', 'Se connecter', "class='w-full shadow-xl py-3 px-4 text-sm tracking-wide rounded-lg text-white bg-green-600 hover:bg-green-500/60 focus:outline-none cursor-pointer'"); ?>
 			</div>
 
-			<p class="text-sm !mt-8 text-center text-gray-400">Vous n'avez pas de compte <a href="/inscription" class="text-green-600 font-semibold hover:underline ml-1 whitespace-nowrap">Créer en un !</a></p>
+			<p class="text-sm !mt-8 text-center text-gray-400">Vous n'avez pas de compte <a href="/inscription" class="text-green-600 hover:text-green-500 font-semibold hover:underline ml-1 whitespace-nowrap">Créer en un !</a></p>
 		<?= form_close() ?>
 		</div>
 		<div class="rounded-b-lg max-md:mt-8 bg-gradient-to-r from-green-800/70 to-medium-blue">
