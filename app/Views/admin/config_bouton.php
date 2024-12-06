@@ -65,9 +65,9 @@
 					<!-- Champ pour la couleur -->
 					<?php echo form_input(
 						[
+							'type' => 'color', // Définit le champ comme un sélecteur de couleur
 							'name' => 'couleur',
-							'value' => set_value('couleur', ''),
-							'placeholder' => 'Entrez la couleur ici...',
+							'value' => set_value('couleur', '#000000'), // Valeur par défaut (noir)
 							'required' => 'required',
 						]
 					); ?>
@@ -93,11 +93,32 @@
 			<?php foreach($boutons as $bouton) : ?>
 				<?php // var_dump($bouton)  ?>
 				<div class="border-b-2 border-white/50 p-4 bg-[#161c2d]1" id="div-bouton-<?= $bouton->id ?>">
-					<div class="w-[15w] h-[30px] flex items-center justify-start"> <h3 class="text-lg font-bold pr-4"><?= $bouton->nom  ?></h3> </div>
-					<div class="w-[25vw] h-[30px] flex items-center justify-start"> <h4 class="text-lg font-bold pr-4"><?= $bouton->forme   ?></h4> </div>
-					<div class="w-[35vw] h-[30px] flex items-center justify-start"> <h4 class="text-lg font-bold pr-4"><?= $bouton->couleur   ?></h4> </div>
+					<div class="w-[15vw] h-[30px] flex items-center justify-start">
+						<h3 class="text-lg font-bold pr-4"><?= $bouton->modele ?></h3>
+					</div>
+					<div class="w-[35vw] h-[30px] flex items-center justify-start">
+						<!-- Pastille avec forme et couleur dynamiques -->
+						<div 
+							class="
+								<?php if ($bouton->forme === 'rond') : ?>
+									w-8 h-8 rounded-full
+								<?php elseif ($bouton->forme === 'carré') : ?>
+									w-8 h-8
+								<?php elseif ($bouton->forme === 'triangle') : ?>
+									w-0 h-0 border-l-4 border-r-4 border-b-8
+								<?php endif; ?>
+							"
+							style="
+								<?php if ($bouton->forme === 'triangle') : ?>
+									border-color: transparent transparent <?= $bouton->couleur ?> transparent;
+								<?php else : ?>
+									background-color: <?= $bouton->couleur ?>;
+								<?php endif; ?>
+							">
+						</div>
+					</div>
 					<div class="w-[45vw] h-[30px] flex items-center justify-start">
-						<!-- Formulaire pour supprimer la bouton -->
+						<!-- Formulaire pour supprimer le bouton -->
 						<?php echo form_open('/admin/bouton/delete', ['onsubmit' => 'return confirm("Êtes-vous sûr de vouloir supprimer ce bouton ?")']); ?>
 							<?php echo form_hidden('id', $bouton->id); ?>
 							<?php echo form_submit('delete', 'Supprimer', "class='text-red-600 hover:text-red-800 font-bold'"); ?>

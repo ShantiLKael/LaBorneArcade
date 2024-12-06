@@ -36,7 +36,7 @@
 							[
 								'name' => 'nom',
 								'value' => set_value('nom', ''),
-								'placeholder' => 'Entrez votre option ici...',
+								'placeholder' => 'Entrez votre nom d\'option ici...',
 								'required' => 'required',
 							]
 						); ?>
@@ -47,6 +47,7 @@
 						<!-- Champ pour la description -->
 						<?php echo form_input(
 							[
+                                'type' => 'text',
 								'name' => 'description',
 								'value' => set_value('description', ''),
 								'placeholder' => 'Entrez la description ici...',

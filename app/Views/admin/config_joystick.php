@@ -22,46 +22,46 @@
 
 		<table class="grid grid-cols-1 md:grid-cols-1 gap-6 max-w-3xl mx-auto flex items-center justify-start">
 		<tbody>
-        <tr>
-            <td colspan=2 class="mt-5 p-0">
-                <h3 class="text-center text-3xl font-bold mb-4">
-                    <?php echo form_label('Ajoutez un joystick : ', 'joystick'); ?>
-                </h3>
-            </td>
-        </tr>
-        <tr class="">
-            <td class="">
-                <!-- Champ pour le modèle -->
-                <?php echo form_input(
-                    [
-                        'name' => 'modele',
-                        'value' => set_value('modele', ''),
-                        'placeholder' => 'Entrez votre modèle ici...',
-                        'required' => 'required',
-                    ]
-                ); ?>
-            </td>
-        </tr>
-        <tr>
-            <td class="">
-                <!-- Champ pour la couleur -->
-                <?php echo form_input(
-                    [
-                        'type' => 'color', // Définit le champ comme un sélecteur de couleur
-                        'name' => 'couleur',
-                        'value' => set_value('couleur', '#000000'), // Valeur par défaut (noir)
-                        'required' => 'required',
-                    ]
-                ); ?>
-            </td>
-        </tr>
-        <tr>
-            <td class="">
-                <!-- Bouton d'enregistrement -->
-                <?php echo form_submit('submit', 'Enregistrer', "class='bouton'"); ?>
-            </td>
-        </tr>
-    </tbody>
+		<tr>
+			<td colspan=2 class="mt-5 p-0">
+				<h3 class="text-center text-3xl font-bold mb-4">
+					<?php echo form_label('Ajoutez un joystick : ', 'joystick'); ?>
+				</h3>
+			</td>
+		</tr>
+		<tr class="">
+			<td class="">
+				<!-- Champ pour le modèle -->
+				<?php echo form_input(
+					[
+						'name' => 'modele',
+						'value' => set_value('modele', ''),
+						'placeholder' => 'Entrez votre modèle ici...',
+						'required' => 'required',
+					]
+				); ?>
+			</td>
+		</tr>
+		<tr>
+			<td class="">
+				<!-- Champ pour la couleur -->
+				<?php echo form_input(
+					[
+						'type' => 'color', // Définit le champ comme un sélecteur de couleur
+						'name' => 'couleur',
+						'value' => set_value('couleur', '#000000'), // Valeur par défaut (noir)
+						'required' => 'required',
+					]
+				); ?>
+			</td>
+		</tr>
+		<tr>
+			<td class="">
+				<!-- Bouton d'enregistrement -->
+				<?php echo form_submit('submit', 'Enregistrer', "class='bouton'"); ?>
+			</td>
+		</tr>
+	</tbody>
 </table>
 <p class=""><?= validation_show_error('texte_joystick') ?></p>
 
@@ -76,7 +76,11 @@
 				<?php // var_dump($joystick)  ?>
 				<div class="border-b-2 border-white/50 p-4 bg-[#161c2d]1" id="div-joystick-<?= $joystick->id ?>">
 					<div class="w-[25w] h-[30px] flex items-center justify-start"> <h3 class="text-lg font-bold pr-4"><?= $joystick->modele  ?></h3> </div>
-					<div class="w-[35vw] h-[30px] flex items-center justify-start"> <h4 class="text-lg font-bold pr-4"><?= $joystick->couleur   ?></h4> </div>
+					<div 
+						class="w-6 h-6 rounded-full border-2 border-black" 
+						style="background-color: <?= $joystick->couleur ?>;"
+						title="Couleur : <?= $joystick->couleur ?>">
+					</div>
 					<div class="w-[45vw] h-[30px] flex items-center justify-start">
 						<!-- Formulaire pour supprimer la joystick -->
 						<?php echo form_open('/admin/joystick/delete', ['onsubmit' => 'return confirm("Êtes-vous sûr de vouloir supprimer ce joystick ?")']); ?>

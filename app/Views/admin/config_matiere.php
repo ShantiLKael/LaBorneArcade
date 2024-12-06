@@ -74,7 +74,7 @@
 				<?php // var_dump($matiere)  ?>
 				<div class="border-b-2 border-white/50 p-4 bg-[#161c2d]" id="div-matiere-<?= $matiere->id ?>">
 					<div class="w-[25vw] h-[30px] flex items-center justify-start"> <h3 class="text-lg font-bold pr-4"><?= $matiere->nom ?></h3> </div>
-                    <div class="w-[35vw] h-[30px] flex items-center justify-start"> <h4 class="text-lg font-bold pr-4"><?= $matiere->couleur ?></h4> </div>
+                    <div class="w-[35vw] h-[30px] rounded-full border-2 border-black" style="background-color: <?= $matiere->couleur ?>;" title="Couleur : <?= $matiere->couleur ?>"> </div>
                     <div class="w-[45vw] h-[30px] flex items-center justify-start">
 						<!-- Formulaire pour supprimer la matiere -->
 						<?php echo form_open('/admin/matiere/delete', ['onsubmit' => 'return confirm("Êtes-vous sûr de vouloir supprimer cette matiere ?")']); ?>

@@ -13,7 +13,7 @@ use App\Models\MatiereModel;
 use App\Models\OptionModel;
 use App\Models\JoystickModel;
 use App\Models\TMoldingModel;
-use App\Models\BoutoneModel;
+use App\Models\BoutonModel;
 
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Validation\ValidationInterface;
@@ -227,7 +227,7 @@ class AdminController extends BaseController
 		} 
 		$boutons = $this->boutonModel->findAll();
 		$boutons = array_reverse($boutons);
-		return view('admin/config_bouton', ['titre' => 'configuration des boutons', 'boutons' => $matiboutonseres]);
+		return view('admin/config_bouton', ['titre' => 'configuration des boutons', 'boutons' => $boutons]);
 	}
 
     /* ---------------------------------------- */
