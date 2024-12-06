@@ -20,7 +20,7 @@
 		<!-- Formulaire pour ajouter un commentaire -->
 		<?php echo form_open('/admin/option'); ?>
 
-			<table class="grid grid-cols-1 md:grid-cols-1 gap-6 max-w-3xl mx-auto flex items-center justify-start">
+			<table class="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-3xl mx-auto flex items-center justify-start">
 			<tbody>
 				<tr>
 					<td colspan=2 class="mt-5 p-0">
@@ -93,8 +93,8 @@
 					<?php // var_dump($option)  ?>
 					<div class="border-b-2 border-white/50 p-4 bg-[#161c2d]1" id="div-option-<?= $option->id ?>">
 						<div class="w-[15vw] h-[30px] flex items-center justify-start"> <h3 class="text-lg font-bold pr-4"><?= $option->nom ?></h3> </div>
-						<div class="w-[25vw] h-[30px] flex items-center justify-start"> <h4 class="text-lg font-bold pr-4"><?= $option->description  ?></h4> </div>
-						<div class="w-[35vw] h-[30px] flex items-center justify-start"> <h4 class="text-lg font-bold pr-4"><?= $option->cout  ?></h4> </div>
+						<div class="w-[25vw] h-[30px] flex items-center justify-start"> <h4 class="text-lg pr-4"><?= $option->description  ?></h4> </div>
+						<div class="w-[35vw] h-[30px] flex items-center justify-start"> <h4 class="text-lg font-bold pr-4"><?= $option->cout  ?> €</h4> </div>
 						<div class="w-[45vw] h-[30px] flex items-center justify-start">
 							<!-- Formulaire pour supprimer la option -->
 							<?php echo form_open('/admin/option/delete', ['onsubmit' => 'return confirm("Êtes-vous sûr de vouloir supprimer cette option ?")']); ?>

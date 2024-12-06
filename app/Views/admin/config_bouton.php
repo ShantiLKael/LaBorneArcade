@@ -19,7 +19,7 @@
 	<?php endif; ?>
 	<!-- Formulaire pour ajouter un commentaire -->
 	<?php echo form_open('/admin/bouton'); ?>
-	<table class="grid grid-cols-1 md:grid-cols-1 gap-6 max-w-3xl mx-auto flex items-center justify-start">
+	<table class="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-3xl mx-auto flex items-center justify-start">
 		<tbody>
 			<tr>
 				<td colspan=2 class="mt-5 p-0">
@@ -75,6 +75,19 @@
 			</tr>
 			<tr>
 				<td class="">
+					<!-- Champ pour la couleur -->
+					<?php echo form_input(
+						[
+							'type' => 'checkbox', // Définit le champ comme un sélecteur de couleur
+							'name' => 'eclairage',
+							'value' => set_value('eclairage', ''), // Valeur par défaut (noir)
+							'required' => 'required',
+						]
+					); ?>
+				</td>
+			</tr>
+			<tr>
+				<td class="">
 					<!-- Bouton d'enregistrement -->
 					<?php echo form_submit('submit', 'Enregistrer', "class='bouton'"); ?>
 				</td>
@@ -96,20 +109,20 @@
 					<div class="w-[15vw] h-[30px] flex items-center justify-start">
 						<h3 class="text-lg font-bold pr-4"><?= $bouton->modele ?></h3>
 					</div>
-					<div class="w-[35vw] h-[30px] flex items-center justify-start">
+					<div class="w-[25vw] h-[30px] flex items-center justify-start">
 						<!-- Pastille avec forme et couleur dynamiques -->
 						<div 
 							class="
-								<?php if ($bouton->forme === 'rond') : ?>
+								<?php if ($bouton->forme === 'Rond') : ?>
 									w-8 h-8 rounded-full
-								<?php elseif ($bouton->forme === 'carré') : ?>
+								<?php elseif ($bouton->forme === 'Carré') : ?>
 									w-8 h-8
-								<?php elseif ($bouton->forme === 'triangle') : ?>
+								<?php elseif ($bouton->forme === 'Triangle') : ?>
 									w-0 h-0 border-l-4 border-r-4 border-b-8
 								<?php endif; ?>
 							"
 							style="
-								<?php if ($bouton->forme === 'triangle') : ?>
+								<?php if ($bouton->forme === 'Triangle') : ?>
 									border-color: transparent transparent <?= $bouton->couleur ?> transparent;
 								<?php else : ?>
 									background-color: <?= $bouton->couleur ?>;
@@ -119,7 +132,7 @@
 					</div>
 					<div class="w-[45vw] h-[30px] flex items-center justify-start">
 						<!-- Formulaire pour supprimer le bouton -->
-						<?php echo form_open('/admin/bouton/delete', ['onsubmit' => 'return confirm("Êtes-vous sûr de vouloir supprimer ce bouton ?")']); ?>
+						<?php echo form_open("/admin/bouton/delete/$bouton->id", ['onsubmit' => 'return confirm("Êtes-vous sûr de vouloir supprimer ce bouton ?")']); ?>
 							<?php echo form_hidden('id', $bouton->id); ?>
 							<?php echo form_submit('delete', 'Supprimer', "class='text-red-600 hover:text-red-800 font-bold'"); ?>
 						<?php echo form_close(); ?>

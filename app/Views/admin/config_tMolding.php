@@ -18,7 +18,7 @@
 		</div>
 	<?php endif; ?>
 	<!-- Formulaire pour ajouter un commentaire -->
-	<?php echo form_open('/admin/tMolding'); ?>
+	<?php echo form_open('/admin/TMolding'); ?>
     <table class="grid grid-cols-1 md:grid-cols-1 gap-6 max-w-3xl mx-auto flex items-center justify-start">
 		<tbody>
 			<tr>
@@ -35,7 +35,7 @@
 						[
 							'name' => 'nom',
 							'value' => set_value('nom', ''),
-							'placeholder' => 'Entrez votre nom du tMolding ici...',
+							'placeholder' => 'Entrez votre nom du TMolding ici...',
 							'required' => 'required',
 						]
 					); ?>
@@ -77,7 +77,7 @@
 					<div class="w-[35vw] h-[30px] flex items-center justify-start"> <h4 class="text-lg font-bold pr-4"><?= $tMolding->couleur   ?></h4> </div>
 					<div class="w-[45vw] h-[30px] flex items-center justify-start">
 						<!-- Formulaire pour supprimer la tMolding -->
-						<?php echo form_open('/admin/tMolding/delete', ['onsubmit' => 'return confirm("Êtes-vous sûr de vouloir supprimer ce tMolding ?")']); ?>
+						<?php echo form_open("/admin/TMolding/delete/$tMolding->id", ['onsubmit' => 'return confirm("Êtes-vous sûr de vouloir supprimer ce tMolding ?")']); ?>
 							<?php echo form_hidden('id', $tMolding->id); ?>
 							<?php echo form_submit('delete', 'Supprimer', "class='text-red-600 hover:text-red-800 font-bold'"); ?>
 						<?php echo form_close(); ?>

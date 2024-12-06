@@ -6,6 +6,12 @@ use App\Entities\ArticleBlog;
 use App\Entities\Faq;
 
 use App\Entities\Theme;
+use App\Entities\Matiere;
+use App\Entities\Option;
+use App\Entities\Joystick;
+use App\Entities\TMolding;
+use App\Entities\Bouton;
+
 use App\Models\ArticleBlogModel;
 use App\Models\FaqModel;
 use App\Models\ThemeModel;
@@ -331,13 +337,9 @@ class AdminController extends BaseController
 	/* ----------------- theme ---------------- */
 	/* ---------------------------------------- */
 
-	public function suppTheme(): RedirectResponse
+	public function suppTheme( int $id_theme ): RedirectResponse
 	{
 		$id_theme = $this->request->getPost('id');
-
-		if (empty($id_theme) || !$this->themeModel->find($id_theme)) {
-			return redirect()->back()->with('errors', ['Thème introuvable ou ID invalide.']);
-		}
 
 		// Suppression du thème
 		if ($this->themeModel->delete($id_theme)) {
@@ -353,13 +355,9 @@ class AdminController extends BaseController
 	/* ---------------- Matiere --------------- */
 	/* ---------------------------------------- */
 
-	public function suppMatiere(): RedirectResponse
+	public function suppMatiere( int $id_matiere ): RedirectResponse
 	{
 		$id_matiere = $this->request->getPost('id');
-
-		if (empty($id_matiere) || !$this->matiereModel->find($id_matiere)) {
-			return redirect()->back()->with('errors', ['Matiere introuvable ou ID invalide.']);
-		}
 
 		// Suppression du thème
 		if ($this->matiereModel->delete($id_matiere)) {
@@ -375,13 +373,10 @@ class AdminController extends BaseController
 	/* ---------------- option ---------------- */
 	/* ---------------------------------------- */
 
-	public function suppOption(): RedirectResponse
+	public function suppOption( int $id_option ): RedirectResponse
 	{
 		$id_option = $this->request->getPost('id');
 
-		if (empty($id_option) || !$this->optionModel->find($id_option)) {
-			return redirect()->back()->with('errors', ['Option introuvable ou ID invalide.']);
-		}
 
 		// Suppression du thème
 		if ($this->optionModel->delete($id_option)) {
@@ -397,13 +392,9 @@ class AdminController extends BaseController
 	/* --------------- joystick --------------- */
 	/* ---------------------------------------- */
 
-	public function suppJoystick(): RedirectResponse
+	public function suppJoystick( int $id_joystick ): RedirectResponse
 	{
 		$id_joystick = $this->request->getPost('id');
-
-		if (empty($id_joystick) || !$this->joystickModel->find($id_joystick)) {
-			return redirect()->back()->with('errors', ['Joystick introuvable ou ID invalide.']);
-		}
 
 		// Suppression du thème
 		if ($this->joystickModel->delete($id_joystick)) {
@@ -419,16 +410,12 @@ class AdminController extends BaseController
 	/* --------------- Tmolding --------------- */
 	/* ---------------------------------------- */
 
-	public function suppTmolding(): RedirectResponse
+	public function suppTmolding( int $id_tmolding ): RedirectResponse
 	{
 		$id_tmolding = $this->request->getPost('id');
 
-		if (empty($id_tmolding) || !$this->TmoldingModel->find($id_tmolding)) {
-			return redirect()->back()->with('errors', ['Tmolding introuvable ou ID invalide.']);
-		}
-
 		// Suppression du thème
-		if ($this->TmoldingModel->delete($id_tmolding)) {
+		if ($this->tMoldingModel->delete($id_tmolding)) {
 			return redirect()->back()->with('success', 'Tmolding supprimé avec succès.');
 		}
 
@@ -441,16 +428,12 @@ class AdminController extends BaseController
 	/* ---------------- bouton ---------------- */
 	/* ---------------------------------------- */
 
-	public function suppBouton(): RedirectResponse
+	public function suppBouton( int $id_bouton ): RedirectResponse
 	{
 		$id_bouton = $this->request->getPost('id');
 
-		if (empty($id_bouton) || !$this->BoutonModel->find($id_bouton)) {
-			return redirect()->back()->with('errors', ['Bouton introuvable ou ID invalide.']);
-		}
-
 		// Suppression du thème
-		if ($this->BoutonModel->delete($id_bouton)) {
+		if ($this->boutonModel->delete($id_bouton)) {
 			return redirect()->back()->with('success', 'Bouton supprimé avec succès.');
 		}
 
@@ -464,4 +447,3 @@ class AdminController extends BaseController
 	/* ---------------------------------------- */
 
 }
-
