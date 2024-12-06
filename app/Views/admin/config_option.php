@@ -81,7 +81,7 @@
 			</tbody>
 		</table>
 		<p class=""><?= validation_show_error('texte_option') ?></p>
-
+        option
 		<?php echo form_close(); ?>
 
 		<!-- Grille des options -->

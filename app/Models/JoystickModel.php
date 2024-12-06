@@ -19,8 +19,8 @@ class JoystickModel extends Model
 	protected $validationMessages = [
 		'modele' => [
 			'required'    => 'Champ requis.',
-			'max_length'  => 'Le nom de modèle est trop long (max. 50 caractères).',
-			'min_length'  => 'Le nom de modèle est trop court (min. 5 caractères).',
+			'max_length'  => 'Le modele de modèle est trop long (max. 50 caractères).',
+			'min_length'  => 'Le modele de modèle est trop court (min. 5 caractères).',
 			'is_unique'   => 'Ce joystick existe déjà.',
 			'regex_match' => 'Les caractères < > ; { } sont interdits.',
         ],

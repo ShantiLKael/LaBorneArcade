@@ -24,7 +24,7 @@
 			<tr>
 				<td colspan=2 class="mt-5 p-0">
 					<h3 class="text-center text-3xl font-bold mb-4">
-						<?php echo form_label('Ajoutez un joystick : ', 'joystick'); ?>
+						<?php echo form_label('Ajoutez un matiere : ', 'matiere'); ?>
 					</h3>
 				</td>
 			</tr>
@@ -62,7 +62,7 @@
 			</tr>
 		</tbody>
 	</table>
-	<p class=""><?= validation_show_error('texte_joystick') ?></p>
+	<p class=""><?= validation_show_error('texte_matiere') ?></p>
 	<?php echo form_close(); ?>
 
 	<!-- Grille des matieres -->
@@ -74,10 +74,14 @@
 				<?php // var_dump($matiere)  ?>
 				<div class="border-b-2 border-white/50 p-4 bg-[#161c2d]" id="div-matiere-<?= $matiere->id ?>">
 					<div class="w-[25vw] h-[30px] flex items-center justify-start"> <h3 class="text-lg font-bold pr-4"><?= $matiere->nom ?></h3> </div>
-                    <div class="w-[35vw] h-[30px] rounded-full border-2 border-black" style="background-color: <?= $matiere->couleur ?>;" title="Couleur : <?= $matiere->couleur ?>"> </div>
+                    <div 
+						class="w-6 h-6 rounded-full border-2 border-black" 
+						style="background-color: <?= $matiere->couleur ?>;"
+						title="Couleur : <?= $matiere->couleur ?>">
+					</div>
                     <div class="w-[45vw] h-[30px] flex items-center justify-start">
 						<!-- Formulaire pour supprimer la matiere -->
-						<?php echo form_open('/admin/matiere/delete', ['onsubmit' => 'return confirm("Êtes-vous sûr de vouloir supprimer cette matiere ?")']); ?>
+						<?php echo form_open("/admin/matiere/delete/$matiere->id", ['onsubmit' => 'return confirm("Êtes-vous sûr de vouloir supprimer cette matiere ?")']); ?>
 							<?php echo form_hidden('id', $matiere->id); ?>
 							<?php echo form_submit('delete', 'Supprimer', "class='text-red-600 hover:text-red-800 font-bold'"); ?>
 						<?php echo form_close(); ?>

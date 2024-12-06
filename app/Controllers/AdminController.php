@@ -207,7 +207,7 @@ class AdminController extends BaseController
 				$tMolding = new TMolding();
 				$tMolding->fill($data);
 				$this->tMoldingModel->insert($tMolding);
-				
+
 				return redirect()->back()->with('success', "$tMolding->nom, $tMolding->couleur ajouté avec succès.");
 			}
 		} 
