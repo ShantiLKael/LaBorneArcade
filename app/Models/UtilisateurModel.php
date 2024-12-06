@@ -65,7 +65,7 @@ class UtilisateurModel extends Model
 	{
 		$builder = $this->builder();
 		$builder->select('borneperso.*')->distinct()->from('panier')
-				->join('borneperso', 'borne.id_borneperso = panier.id_borneperso')
+				->join('borneperso', 'borneperso.id_borneperso = panier.id_borneperso')
 				->where('panier.id_utilisateur', $idUtilisateur);
 			
 		$bornes = $builder->get()->getResult('App\Entities\BornePerso');

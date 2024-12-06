@@ -125,7 +125,7 @@ CREATE TABLE Commande(
 CREATE TABLE Panier(
 	id_Utilisateur INT REFERENCES Utilisateur(id_Utilisateur) NOT NULL,
 	id_BornePerso  INT REFERENCES BornePerso (id_BornePerso ) NOT NULL,
-	PRIMARY KEY(id_Borne, id_Utilisateur)
+	PRIMARY KEY(id_BornePerso, id_Utilisateur)
 );
 
 CREATE TABLE OptionBornePerso(

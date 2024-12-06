@@ -109,11 +109,13 @@ class ControleurBorne extends BaseController {
 			$bornePerso->dateModif    = Time::now('Europe/Paris', 'fr_FR');
 
 			if ($session->has('user')) { // Utilisateur connécté
-				$idBornePerso = $this->bornePersoModel->insert($borne);
+				$idBornePerso = $this->bornePersoModel->insert($bornePerso);
 
 				if (isset($data['options']))
 					foreach($data['options'] as $idOption)
 						$this->bornePersoModel->insererOptionBorne($idBornePerso, $idOption);
+				
+				$this->utilisateurModel->insererPanier(session()->get('user')['id'], $idBornePerso);
 
 			} else { // Utilisateur non connécté
 				
