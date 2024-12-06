@@ -7,11 +7,13 @@ use App\Entities\Joystick;
 use App\Entities\Option;
 use App\Entities\Theme;
 use CodeIgniter\Database\Query;
+use CodeIgniter\Entity\Cast\IntegerCast;
 use CodeIgniter\Model;
 use App\Entities\Matiere;
 use App\Entities\TMolding;
 use App\Entities\Borne;
 use CodeIgniter\I18n\Time;
+use CodeIgniter\Pager\Pager;
 use Config\Database;
 use Exception;
 
@@ -82,11 +84,12 @@ class BorneModel extends Model
 	/**
 	 * Recupération de toutes les bornes selon des critères.
 	 *
+	 * @param int $max_par_page
 	 * @param array $themes
 	 * @param array $types
 	 * @return Borne[] tableau de bornes
 	 */
-	public function getBornes(array $themes = [], array $types = []): array {
+	public function getBornes(int $max_par_page, array $themes = [], array $types = []): array {
 		$builder = $this->builder()->select("b.*, string_agg(i.chemin, ',') AS image");
 		$builder = $builder->from('Borne b', true);
 		$builder = $builder->join('Image i', 'b.id_image = i.id_image');
@@ -109,12 +112,26 @@ class BorneModel extends Model
 			$query .= $typeStr;
 		}
 		$query .= " GROUP BY b.id_image, id_borne, nom, description, prix, id_tmolding, id_matiere, id_theme";
+		/*  Pager  */
+		/** @var Pager $pager */
+		$pager = service('pager');
+		$offset      = ($pager->getCurrentPage() - 1) * $max_par_page;
+		/*  Pager fin  */
+		$query .= " LIMIT $max_par_page OFFSET $offset";
 		$query = str_replace('"', "", $query);
 		return $this->db->prepare(fn($db) => (new Query($db))->setQuery($query))->execute()->getCustomResultObject($this->returnType);
 	}
 	
 	public function getBorneParId(int $id): Borne|array {
 		return $this->find($id);
+	}
+	
+	public function getNombreBornes(): int {
+		$sql = $this->builder->from("Borne", true)->selectCount("*", "count")->getCompiledSelect();
+		$sql = str_replace('"', "", $sql);
+		/** @var IntegerCast[] $result */
+		$result = $this->db->prepare(fn($db) => (new Query($db))->setQuery($sql))->execute()->getResult(IntegerCast::class);
+		return intval($result[0]->{'count'}) ?: 0;
 	}
 	
 	/**
