@@ -88,7 +88,7 @@ class BorneModel extends Model
 	 */
 	public function getBornes(array $themes = [], array $types = []): array {
 		$builder = $this->builder()->select("b.*, string_agg(i.chemin, ',') AS image");
-		$builder = $builder->from('ONLY Borne b', true);
+		$builder = $builder->from('Borne b', true);
 		$builder = $builder->join('Image i', 'b.id_image = i.id_image');
 		if (count($themes) > 0)
 			$builder = $builder->whereIn('id_theme', $themes);
@@ -109,6 +109,7 @@ class BorneModel extends Model
 			$query .= $typeStr;
 		}
 		$query .= " GROUP BY b.id_image, id_borne, nom, description, prix, id_tmolding, id_matiere, id_theme";
+		$query = str_replace('"', "", $query);
 		return $this->db->prepare(fn($db) => (new Query($db))->setQuery($query))->execute()->getCustomResultObject($this->returnType);
 	}
 	
