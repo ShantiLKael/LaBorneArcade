@@ -28,7 +28,7 @@
 				<!-- Produit 1 -->
 				<div class="flex items-center justify-between border-b border-gray-700 pb-4">
 					<div class="flex items-start">
-					<img src="https://via.placeholder.com/100" alt="Image Borne" class="w-20 h-20 rounded-md mr-4">
+					<img loading="lazy" src="https://via.placeholder.com/100" alt="Image Borne" class="w-20 h-20 rounded-md mr-4">
 					<div>
 						<h3 class="text-lg font-semibold">Borne Rétro</h3>
 						<p class="text-sm text-gray-400 ">Thème : <span class="font-medium"><?= $commande->borne->theme->nom ?></span></p>

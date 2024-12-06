@@ -1,6 +1,5 @@
 <html lang="fr">
 <head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.bubble.css" />
 	<link href="/assets/css/style.css" rel="stylesheet" type="text/css">
 	<title><?= $titre ?></title>
 </head>
@@ -9,7 +8,7 @@
     <nav class="bg-black/55 py-4 rounded-full mx-auto max-w-7xl px-6 flex items-center justify-between shadow-lg shadow-gray-700/20">
         <!-- Logo -->
         <div class="flex items-center">
-            <img src="chemin-vers-logo.png" alt="Logo La Borne Arcade" class="h-10 w-auto">
+            <img loading="lazy" src="chemin-vers-logo.png" alt="Logo La Borne Arcade" class="h-10 w-auto">
         </div>
         <!-- Liens -->
         <ul class="flex space-x-8 text-white font-medium items-center">

@@ -6,7 +6,7 @@
 	<div class="flex flex-col md:flex-row gap-8 items-start">
 		<!-- Images du produit -->
 		<div class="w-full md:w-1/2 lg:w-7/12">
-			<img src="image_principale.jpg" alt="Borne Arcade" class="w-full h-auto rounded-lg">
+			<img loading="lazy" src="image_principale.jpg" alt="Borne Arcade" class="w-full h-auto rounded-lg">
 		</div>
 
 		<!-- Informations produit -->
@@ -30,25 +30,25 @@
 
 			<!-- Boutons -->
 			<div class="text-center md:flex md:items-center gap-4">
-				<a href="" class="bg-blue-800 hover:bg-blue-700   text-white font-bold py-2 px-6 my-5 mb-8 rounded-3xl cursor-pointer">Ajouter dans panier</a>
+				<a href="" class=" bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-6 my-5 mb-8 rounded-3xl cursor-pointer">Ajouter dans panier</a>
 			</div>
 
 			<!-- Infos supplémentaires -->
 			<div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
 				<div class="text-center">
-					<img src="fabrique_france_icon.png" alt="Fabriqué en France" class="w-10 mx-auto mb-2">
+					<img loading="lazy" src="fabrique_france_icon.png" alt="Fabriqué en France" class="w-10 mx-auto mb-2">
 					<p class="text-sm">Fabriqué en France</p>
 				</div>
 				<div class="text-center">
-					<img src="garantie_icon.png" alt="Garantie 2 ans" class="w-10 mx-auto mb-2">
+					<img loading="lazy" src="garantie_icon.png" alt="Garantie 2 ans" class="w-10 mx-auto mb-2">
 					<p class="text-sm">Garantie 2 ans</p>
 				</div>
 				<div class="text-center">
-					<img src="support_icon.png" alt="Support" class="w-10 mx-auto mb-2">
+					<img loading="lazy" src="support_icon.png" alt="Support" class="w-10 mx-auto mb-2">
 					<p class="text-sm">Assistance disponible</p>
 				</div>
 				<div class="text-center">
-					<img src="paiement_icon.png" alt="Paiement sécurisé" class="w-10 mx-auto mb-2">
+					<img loading="lazy" src="paiement_icon.png" alt="Paiement sécurisé" class="w-10 mx-auto mb-2">
 					<p class="text-sm">Paiement 100% sécurisé</p>
 				</div>
 			</div>
@@ -64,7 +64,7 @@
 			<?php foreach($options as $option) : ?>
 				<div class="relative p-4 rounded border-2 border-transparent hover:border-green-600/50  transition duration-300">
 					<input type="checkbox" id="option<?= $option->nom ?>" name="options[]" value="<?= $option->nom ?>" class="absolute top-2 right-2 w-5 h-5 cursor-pointer">
-					<img src="" alt="<?= $option->nom ?>" class="w-full h-40 object-cover rounded mb-4">
+					<img loading="lazy" src="" alt="<?= $option->nom ?>" class="w-full h-40 object-cover rounded mb-4">
 					<p class="text-green-400 text-lg font-bold mb-2"><?= $option->cout ?> €</p>
 					<div class="text-base">
 						<h3 class="font-bold text-lg text-left mb-2"><?= $option->nom ?></h3>
@@ -74,38 +74,6 @@
 			<?php endforeach; ?>
 		</form>
 	</div>
-</section><div class="carousel carousel-center rounded-box">
-  <div class="carousel-item">
-    <img src="https://img.daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.webp" alt="Pizza" />
-  </div>
-  <div class="carousel-item">
-    <img
-      src="https://img.daisyui.com/images/stock/photo-1565098772267-60af42b81ef2.webp"
-      alt="Pizza" />
-  </div>
-  <div class="carousel-item">
-    <img
-      src="https://img.daisyui.com/images/stock/photo-1572635148818-ef6fd45eb394.webp"
-      alt="Pizza" />
-  </div>
-  <div class="carousel-item">
-    <img
-      src="https://img.daisyui.com/images/stock/photo-1494253109108-2e30c049369b.webp"
-      alt="Pizza" />
-  </div>
-  <div class="carousel-item">
-    <img src="https://img.daisyui.com/images/stock/photo-1550258987-190a2d41a8ba.webp" alt="Pizza" />
-  </div>
-  <div class="carousel-item">
-    <img src="https://img.daisyui.com/images/stock/photo-1559181567-c3190ca9959b.webp" alt="Pizza" />
-  </div>
-  <div class="carousel-item">
-    <img
-      src="https://img.daisyui.com/images/stock/photo-1601004890684-d8cbf643f5f2.webp"
-      alt="Pizza" />
-  </div>
-</div>
-
-
+</section>
 <script src="./assets/js/check-option-animation.js"></script>
 <?= view('commun/footer') ?>

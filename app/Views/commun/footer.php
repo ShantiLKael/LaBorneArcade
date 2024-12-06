@@ -14,19 +14,19 @@
 	<div class="bg-gradient-to-r from-dark-teal to-medium-blue text-center pt-4">
 		<h3 class="text-lg text-white font-semibold mb-4">Ils nous font confiance</h3>
 		<div class="grid grid-cols-3 sm:grid-cols-6 gap-4 p-5 items-center justify-center">
-			<img src="./assets/images/logos/fanta.png" alt="Fanta" class="h-6 mx-auto">
-			<img src="./assets/images/logos/bestwestern.png" alt="Best Western" class="h-6 mx-auto">
-			<img src="./assets/images/logos/printers.png" alt="Printers" class="h-6 mx-auto">
-			<img src="./assets/images/logos/orange.png" alt="Orange" class="h-6 mx-auto">
-			<img src="./assets/images/logos/twitter.png" alt="Twitter" class="h-6 mx-auto">
-			<img src="./assets/images/logos/otacos.png" alt="Otacos" class="h-6 mx-auto">
+			<img loading="lazy" src="./assets/images/logos/fanta.png" alt="Fanta" class="h-6 mx-auto">
+			<img loading="lazy" src="./assets/images/logos/bestwestern.png" alt="Best Western" class="h-6 mx-auto">
+			<img loading="lazy" src="./assets/images/logos/printers.png" alt="Printers" class="h-6 mx-auto">
+			<img loading="lazy" src="./assets/images/logos/orange.png" alt="Orange" class="h-6 mx-auto">
+			<img loading="lazy" src="./assets/images/logos/twitter.png" alt="Twitter" class="h-6 mx-auto">
+			<img loading="lazy" src="./assets/images/logos/otacos.png" alt="Otacos" class="h-6 mx-auto">
 		</div>
 		<div class="bg-white p-3 grid grid-cols-5 gap-2">
-			<img src="./assets/images/logos/decathlon.png" alt="Decathlon" class="h-6 mx-auto">
-			<img src="./assets/images/logos/bnp.png" alt="BNP Paribas" class="h-6 mx-auto">
-			<img src="./assets/images/logos/mini.png" alt="Mini" class="h-6 mx-auto">
-			<img src="./assets/images/logos/galerie-lafayette.png" alt="Galerie LaFayette" class="h-6 mx-auto">
-			<img src="./assets/images/logos/enedis.png" alt="Enedis" class="h-6 mx-auto">
+			<img loading="lazy" src="./assets/images/logos/decathlon.png" alt="Decathlon" class="h-6 mx-auto">
+			<img loading="lazy" src="./assets/images/logos/bnp.png" alt="BNP Paribas" class="h-6 mx-auto">
+			<img loading="lazy" src="./assets/images/logos/mini.png" alt="Mini" class="h-6 mx-auto">
+			<img loading="lazy" src="./assets/images/logos/galerie-lafayette.png" alt="Galerie LaFayette" class="h-6 mx-auto">
+			<img loading="lazy" src="./assets/images/logos/enedis.png" alt="Enedis" class="h-6 mx-auto">
 		</div>
 	</div>
 </section>
