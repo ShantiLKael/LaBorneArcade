@@ -40,7 +40,7 @@ class CommandeController extends BaseController {
 	public function panier() : string {
 	
         $session = session();
-		if (!$session->has('panier')) {
+		if (!$session->has('user')) {
 			$session->set('panier' , []);
 			$session->set('options', []);
 		}
