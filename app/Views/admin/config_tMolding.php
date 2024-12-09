@@ -80,7 +80,7 @@
 		<?php foreach ($tMoldings as $tMolding) : ?>
 			<div class="flex items-center border-b border-gray-700 py-3 bg-[#161c2d]">
 				<!-- Nom du tMolding avec une largeur fixe -->
-				<div class="text-lg font-medium text-white font-bold w-1/3 min-w-[200px] truncate">
+				<div class="text-lg font-medium text-white font-bold w-1/3 min-w-[150px] truncate">
 					<?= $tMolding->nom ?>
 				</div>
 

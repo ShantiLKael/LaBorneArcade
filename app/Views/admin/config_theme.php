@@ -21,7 +21,7 @@
 					'id' => 'nom',
 					'value' => set_value('nom', ''),
 					'placeholder' => 'Entrez votre thème ici...',
-					'class' => 'border border-gray-300 rounded-lg p-2 w-full md:w-auto',
+					'class' => 'border border-gray-300 rounded-lg p-2 w-full md:w-auto bg-gray-100 text-black',
 					'required' => 'required',
 				]); ?>
 			</div>
@@ -68,7 +68,8 @@
 					<!-- Bouton Supprimer -->
 					<div>
 						<?php echo form_open("/admin/theme/delete/$theme->id", ['onsubmit' => 'return confirm("Êtes-vous sûr de vouloir supprimer ce thème ?")']); ?>
-							<?php echo form_submit('delete', 'Supprimer', "class='bg-red-500 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-full'"); ?>
+						<?php echo form_hidden('id', $theme->id); ?>	
+                        <?php echo form_submit('delete', 'Supprimer', "class='bg-red-500 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-full'"); ?>
 						<?php echo form_close(); ?>
 					</div>
 				</div>
