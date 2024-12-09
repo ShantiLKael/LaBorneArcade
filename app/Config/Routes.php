@@ -16,6 +16,7 @@ $routes->setAutoRoute(false);
 	$routes->match(['get', 'post'], '/contact', 'HomeController::contact');
 
 	// Connexion
+	$routes->get('/deconnexion', 'LoginController::deconnexion');
 	$routes->match(['get', 'post'],'/connexion'  , 'LoginController::connexion');
 	$routes->match(['get', 'post'],'/inscription', 'LoginController::inscription');
 	$routes->match(['get', 'post'],'/connexion/oubli-mdp'       , 'LoginController::oubliMdp');
