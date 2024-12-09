@@ -1,8 +1,3 @@
-<?php
-
-use App\Entities\Borne;
-
-?>
 <?= view('commun/header', ['titre' => $titre]) ?>
 <section class="mx-auto">
 	<!-- Section de sélection -->
@@ -44,7 +39,6 @@ use App\Entities\Borne;
 				<?php else: ?>
 					<p class="text-center mb-8">Aucun filtre</p>
 				<?php endif; ?>
-<!--			 bg-green-700 hover:bg-green-800 my-2 md:my-0 md:mx-0 mx-20 border border-spacing-1 border-gray-400 text-white px-4 py-3 rounded-2xl-->
 				<hr>
 				<div id="filtre-type-container">
 					<?= form_label('<input type="checkbox" name="type[]" value="sticker" class="mr-2"'.(in_array("sticker",	$selectionType, true) ?
