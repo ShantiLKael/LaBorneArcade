@@ -260,8 +260,8 @@ view('commun/header', ['titre' => $titre]) ?>
 	const boutons   = <?php echo json_encode($boutons); ?>;
 	const joysticks = <?php echo json_encode($joysticks); ?>;
 </script>
-<script src="./assets/js/canva-boutons.js"></script>
-<script src="./assets/js/filtre-bouton-joystick.js"></script>
-<script src="./assets/js/check-option-animation.js"></script>
+<script src="/assets/js/canva-boutons.js"></script>
+<script src="/assets/js/filtre-bouton-joystick.js"></script>
+<script src="/assets/js/check-option-animation.js"></script>
 <?= view('commun/footer') ?>
 

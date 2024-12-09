@@ -51,6 +51,8 @@ for (i = 0; i < boutons.length; i++)
 	coulSelectBouton.add(option);
 }
 
+coulOption = coulSelectBouton.options[0].getAttribute('data-color');
+idBoutonOption = coulSelectBouton.options[0].value;
 console.log(formeBoutons);
 
 // Fonction màj select des couleurs de bouton

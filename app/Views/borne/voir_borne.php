@@ -61,6 +61,7 @@
 	</div>
 </div>
 
+<?php if ($borne->options) : ?>
 <!-- Séléction des options -->
 <div class="px-0 md:px-20">
 	<h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-2xl md:text-3xl text-gray-300">Options</h2>
@@ -78,6 +79,7 @@
 		<?php endforeach; ?>
 	</div>
 </div>
+<?php endif; ?>
 </section>
-<script src="./assets/js/check-option-animation.js"></script>
+<script src="/assets/js/check-option-animation.js"></script>
 <?= view('commun/footer') ?>
