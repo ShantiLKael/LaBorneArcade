@@ -123,7 +123,7 @@ class ControleurBorne extends BaseController {
 
 		// Methode POST
 		if ($data) {
-			if (!$session->has('user')) {
+			if (!$session->has('panier')) {
 				$session->set('panier' , []);
 				$session->set('options', []);
 			}
