@@ -4,7 +4,60 @@
 	<!-- Titre principal -->
 	<h2 class="text-center text-3xl font-bold mb-4">configuration des matiere</h2>
 
-	<?php if (session()->has('errors')): ?>
+	<!-- Formulaire pour ajouter un commentaire -->
+    <?php echo form_open('/admin/matiere'); ?>
+    <table class="max-w-3xl mx-auto">
+		<tbody>
+			<tr>
+				<td colspan=2 class="mt-5 p-0">
+					<h3 class="text-center text-3xl font-bold mb-6">
+						<?php echo form_label('Ajoutez une matiere : ', 'matiere'); ?>
+					</h3>
+				</td>
+			</tr>
+			<tr class="flex flex-col md:flex-row md:items-center">
+				<td> <label class="text-lg font-medium mb-2 md:mb-0 md:mr-4" for="nom">Nom de la matiere : * </label> </td>
+				<td class="">
+					<!-- Champ pour le modèle -->
+					<?php echo form_input(
+						[
+							'name' => 'nom',
+							'value' => set_value('nom', ''),
+							'placeholder' => 'Entrez votre nom de la matiere ici...',
+							'class' => 'border border-gray-300 rounded-lg p-2 w-full md:w-auto',
+							'required' => 'required',
+						]
+					); ?>
+				</td>
+			</tr>
+			<tr class="flex flex-col md:flex-row md:items-center">
+				<td> <label class="text-lg font-medium mb-2 md:mb-0 md:mr-4" for="couleur">Couleur de la matiere : * </label> </td>
+				<td class="">
+					<!-- Champ pour la couleur -->
+					<?php echo form_input(
+						[
+							'type' => 'color', // Définit le champ comme un sélecteur de couleur
+							'name' => 'couleur',
+							'value' => set_value('couleur', '#000000'), // Valeur par défaut (noir)
+							'class' => '',
+							'required' => 'required',
+						]
+					); ?>
+				</td>
+			</tr>
+            <tr><td><br></td></tr>
+			<tr>
+				<td class="flex justify-start md:justify-center">
+					<!-- Bouton d'enregistrement -->
+					<?php echo form_submit('submit', 'Enregistrer', "class='bg-[#00bf63] hover:bg-green-700 text-white font-medium py-2 px-4 rounded-full'"); ?>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<p class=""><?= validation_show_error('texte_matiere') ?></p>
+	<?php echo form_close(); ?>
+
+    <?php if (session()->has('errors')): ?>
 		<div class="alert alert-danger">
 			<?php foreach (session('errors') as $error): ?>
 				<p><?= $error ?></p>
@@ -17,53 +70,6 @@
 			<p><?= session('success') ?></p>
 		</div>
 	<?php endif; ?>
-	<!-- Formulaire pour ajouter un commentaire -->
-	<?php echo form_open('/admin/matiere'); ?>
-	<table class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto flex items-center justify-start">
-		<tbody>
-			<tr>
-				<td colspan=2 class="mt-5 p-0">
-					<h3 class="text-center text-3xl font-bold mb-4">
-						<?php echo form_label('Ajoutez un matiere : ', 'matiere'); ?>
-					</h3>
-				</td>
-			</tr>
-			<tr class="">
-				<td class="">
-					<!-- Champ pour le modèle -->
-					<?php echo form_input(
-						[
-							'name' => 'nom',
-							'value' => set_value('nom', ''),
-							'placeholder' => 'Entrez votre nom de matiere ici...',
-							'required' => 'required',
-						]
-					); ?>
-				</td>
-			</tr>
-			<tr>
-				<td class="">
-					<!-- Champ pour la couleur -->
-					<?php echo form_input(
-						[
-							'type' => 'color', // Définit le champ comme un sélecteur de couleur
-							'name' => 'couleur',
-							'value' => set_value('couleur', '#000000'), // Valeur par défaut (noir)
-							'required' => 'required',
-						]
-					); ?>
-				</td>
-			</tr>
-			<tr>
-				<td class="">
-					<!-- Bouton d'enregistrement -->
-					<?php echo form_submit('submit', 'Enregistrer', "class='bouton'"); ?>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-	<p class=""><?= validation_show_error('texte_matiere') ?></p>
-	<?php echo form_close(); ?>
 
 	<!-- Grille des matieres -->
 	<h3 class="text-center text-3xl font-bold mb-4">Liste des matieres</h3>
