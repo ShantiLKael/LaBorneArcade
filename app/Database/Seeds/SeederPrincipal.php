@@ -3,7 +3,7 @@
 namespace App\Database\Seeds;
 
 use CodeIgniter\Database\Seeder;
-use Laminas\Escaper\Exception\InvalidArgumentException;
+use InvalidArgumentException;
 
 class SeederPrincipal extends Seeder {
 	

@@ -11,22 +11,21 @@ class CreerImageBorne extends Migration {
 	 */
 	public function up(): void {
 		$this->forge->addField([
-			'id_borne'=>[
-				'type'    =>"INT",
-				'unsigned'=>true,
-				'null'    =>false,
-			],
-			
 			'id_image'=>[
 				'type'    =>"INT",
 				'unsigned'=>true,
 				'null'    =>false,
 			],
+			'id_borne'=>[
+				'type'    =>"INT",
+				'unsigned'=>true,
+				'null'    =>false,
+			],
 		]);
-		$this->forge->addPrimaryKey('id_borne');
 		$this->forge->addPrimaryKey('id_image');
-		$this->forge->addForeignKey('id_borne','borne','id_borne', 'CASCADE', 'CASCADE');
+		$this->forge->addPrimaryKey('id_borne');
 		$this->forge->addForeignKey('id_image','image','id_image', 'CASCADE', 'CASCADE');
+		$this->forge->addForeignKey('id_borne','borne','id_borne', 'CASCADE', 'CASCADE');
 		$this->forge->createTable('imageborne');
 	}
 	
