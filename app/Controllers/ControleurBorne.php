@@ -10,6 +10,7 @@ use App\Models\JoystickModel;
 use App\Models\MatiereModel;
 use App\Models\OptionModel;
 use App\Models\ThemeModel;
+use App\Models\TMoldingModel;
 use App\Models\UtilisateurModel;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\I18n\Time;
@@ -45,6 +46,9 @@ class ControleurBorne extends BaseController {
 	/** @var UtilisateurModel $utilisateurModel */
 	private UtilisateurModel $utilisateurModel;
 	
+	/** @var TMoldingModel $utilisateurModel */
+	private TMoldingModel $tmoldingModel;
+	
 	/**
 	 * Constructeur du contrôleur Borne.
 	 */
@@ -56,6 +60,7 @@ class ControleurBorne extends BaseController {
 		$this->optionModel      = new OptionModel();
 		$this->themeModel       = new ThemeModel();
 		$this->matiereModel     = new MatiereModel();
+		$this->tmoldingModel    = new TMoldingModel();
 		$this->utilisateurModel = new UtilisateurModel();
 		$this->bornePersoModel  = new BornePersoModel();
 	}
@@ -172,9 +177,13 @@ class ControleurBorne extends BaseController {
 	 */
 	public function editBorne(int $id_borne = null) : string {
 		return view('borne/edit_borne', [
-			'titre'   => "Personnaliser une borne",
-			'options' => $this->optionModel->findAll(),
-			'borne'   => $id_borne ? $this->borneModel->getBorneParId($id_borne) : null,
+			'titre'     => "Personnaliser une borne",
+			'options'   => $this->optionModel->findAll(),
+			'tmoldings' => $this->tmoldingModel->findAll(),
+			'matieres'  => $this->matiereModel->findAll(),
+			'joysticks' => $this->joystickModel->findAll(),
+			'boutons'   => $this->boutonModel->findAll(),
+			'borne'     => $id_borne ? $this->borneModel->getBorneParId($id_borne) : null,
 		]);
 	}
 	

@@ -83,7 +83,7 @@ class BornePersoModel extends Model
 				->join('joystick', 'joystick.id_joystick = joystickborneperso.id_joystick')
 				->where('joystickborneperso.id_borneperso', $idBorne);
 			
-		return $builder->get(BorneModel::$MAX_JOYSTICK)->getResult('App\Entities\Joystick');
+		return $builder->get(BornePersoModel::$MAX_JOYSTICK)->getResult('App\Entities\Joystick');
 	}
 
 	/**
@@ -115,9 +115,9 @@ class BornePersoModel extends Model
 		$builder = $this->builder();
 		$builder->select('bouton.*')->from('boutonborneperso')
 				->join('bouton', 'bouton.id_bouton = boutonborneperso.id_bouton')
-				->where('boutonborneperso.id_bornepersoperso', $idBorne);
+				->where('boutonborneperso.id_borneperso', $idBorne);
 			
-		return $builder->get(BorneModel::$MAX_BOUTON)->getResult('App\Entities\Bouton');
+		return $builder->get(BornePersoModel::$MAX_BOUTON)->getResult('App\Entities\Bouton');
 	}
 
 	/**
@@ -202,7 +202,7 @@ class BornePersoModel extends Model
 
 		// Chargement des modèles
 		$panierModel        = $db->table('panier');
-		$optionBorneModel   = $db->table('optionborne');
+		$optionBorneModel   = $db->table('optionborneperso');
 		$joystickBorneModel = $db->table('joystickborneperso');
 		$boutonBorneModel   = $db->table('boutonborneperso');
 

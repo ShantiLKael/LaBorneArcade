@@ -24,7 +24,7 @@ class ArticleBlogController extends BaseController
 	public function index(): string
 	{
 		$articles = $this->articleBlogModele->findAll();
-        return view('blog/index_article', ['titre' => 'blog', 'articles' => $articles]);
+        return view('blog/index_article', ['titre' => 'Blog', 'articles' => $articles]);
 	}
 
 	/**
@@ -36,6 +36,6 @@ class ArticleBlogController extends BaseController
 	public function voirArticle(int $id_article): string
 	{
 		$article = $this->articleBlogModele->find($id_article);
-        return view('blog/voir_article', ['titre' => 'blog', 'article' => $article]);
+        return view('blog/voir_article', ['titre' => $article->titre .' | Blog LBA', 'article' => $article]);
 	}
 }

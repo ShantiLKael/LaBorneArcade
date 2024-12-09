@@ -2,6 +2,7 @@
 namespace App\Controllers;
 use App\Models\UtilisateurModel;
 use App\Entities\Utilisateur;
+use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Validation\Validation;
 use \Config\Services;
 
@@ -215,6 +216,73 @@ class LoginController extends BaseController
 
 	}
 
+	public function profile(): string {
+        $session = session();
+        $data = $this->request->getPost();
+
+        if ($data) {
+
+			$regleValidation = [
+				'email'   => 'valid_email',
+                'mdpConf' => 'matches[mdp]',
+			];
+
+            $messagesValidation = [
+                'email' => [
+                    'matches' => 'Entrer un email valide.',
+                ],
+
+                'mdpConf' => [
+                    'matches' => 'Les mots de passe ne correspondent pas.',
+                ]
+            ];
+
+            if (!$this->validate($regleValidation, $messagesValidation)) {
+                return view('login/profile', [ 
+                    'titre'   => 'Mon profil',
+                    'erreurs' => $this->validation->getErrors(),
+                ]);
+            } else {
+                // Gestion mot de passe
+                if ($data['mdp']) {
+                    if (strlen($data['mdp']) < 8) {
+                        return view('login/profile', [ 
+                            'titre'   => 'Mon profil',
+                            'erreurs' => ['mdp' => 'Votre mot de passe est trop court (min. 8 caractères).'],
+                        ]);
+                    }
+
+                    if (strcmp($data['mdp'],$data['mdpConf']) != 0) {
+                        return view('login/profile', [ 
+                            'titre'   => 'Mon profil',
+                            'erreurs' => ['mdpConf' => 'Les mots de passe ne correspondent pas.'],
+                        ]);
+                    }
+                }
+                
+
+                $idUtilisateur = $session->get('user')['id'];
+                $utilisateur = $this->utilisateurModel->find($idUtilisateur);
+                $utilisateur->email = $data['email'];
+                $utilisateur->mdp ?: $data['mdp'];
+
+                $this->utilisateurModel->save($utilisateur);
+                
+                $session->set('user', [
+                    'id'    => $idUtilisateur,
+                    'email' => $utilisateur->email,
+                ]);
+            }
+        }
+		
+		return view('login/profile', [ 'titre' => 'Mon profil' ]);
+	}
+
+	public function deconnexion(): RedirectResponse {
+        session()->destroy();
+		return redirect()->to('/')->with('msg', 'Vous êtes déconnecté');
+	}
+	
 	public static function envoyer_mail(
 		string $mail,
 		string $sujet,

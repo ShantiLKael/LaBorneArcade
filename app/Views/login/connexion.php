@@ -19,6 +19,7 @@
 						'id'            => 'email',
 						'class'         => 'w-full text-sm bg-gray-700 border border-gray-300 px-4 py-3 rounded-lg outline-green-600 focus:outline-none focus:ring-2 '.$focusRIng,
 						'value'         => set_value('email'),
+            			'placeholder'   => 'Email@domaine.fr',
 						'aria-required' => 'true',
 						'type'          => 'text',
 						'required'
@@ -44,6 +45,7 @@
 						'id'            => 'mdp',
 						'class'         => 'w-full text-sm bg-gray-700 border border-gray-300 px-4 py-3 rounded-lg outline-green-600 focus:outline-none focus:ring-2 '.$focusRIng,
 						'value'         => set_value('mdp'),
+            			'placeholder'   => 'Mot de passe',
 						'type'          => 'password',
 						'aria-required' => 'true',
 						'required'

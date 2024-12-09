@@ -38,7 +38,6 @@ class CommandeController extends BaseController {
 	 * @return string La vue qui liste les bornes du panier.
 	 */
 	public function panier() : string {
-	
         $session = session();
 		if (!$session->has('panier')) {
 			$session->set('panier' , []);
