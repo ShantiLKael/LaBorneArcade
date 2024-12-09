@@ -77,31 +77,31 @@
 	<div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto">
 	<!-- tMolding -->
 		<?php if (!empty($tMoldings)) : ?>
-			<?php foreach($tMoldings as $tMolding) : ?>
-
-				<?php // var_dump($theme)  ?>
-				<div class="flex justify-between items-center border-b border-gray-700 py-2 bg-[#161c2d]">
-					<!-- Nom du thème -->
-					<div class="flex-2 text-lg font-medium text-white font-bold">
-						<?= $tMolding->nom ?>
-					</div>
-					<div 
-						class="w-6 h-6 rounded-full border-2 border-black flex-shrink-0 ml-2" 
-						style="background-color: <?= $tMolding->couleur ?>;"
-						title="Couleur : <?= $tMolding->couleur ?>">
-					</div>
-					
-					<!-- Bouton Supprimer -->
-					<div class="ml-6">
-						<?php echo form_open("/admin/theme/delete/$tMolding->id", ['onsubmit' => 'return confirm("Êtes-vous sûr de vouloir supprimer ce thème ?")']); ?>
-							<?php echo form_submit('delete', 'Supprimer', "class='bg-red-500 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-full'"); ?>
-						<?php echo form_close(); ?>
-					</div>
+		<?php foreach ($tMoldings as $tMolding) : ?>
+			<div class="flex items-center border-b border-gray-700 py-3 bg-[#161c2d]">
+				<!-- Nom du tMolding avec une largeur fixe -->
+				<div class="text-lg font-medium text-white font-bold w-1/3 min-w-[200px] truncate">
+					<?= $tMolding->nom ?>
 				</div>
-			<?php endforeach; ?>
-		<?php else : ?>
-			<p class="p-4">Aucun tMolding disponible pour le moment.</p>
-		<?php endif; ?>
+
+				<!-- Pastille de couleur -->
+				<div 
+					class="w-6 h-6 rounded-full border-2 border-black flex-shrink-0 ml-4" 
+					style="background-color: <?= $tMolding->couleur ?>;"
+					title="Couleur : <?= $tMolding->couleur ?>">
+				</div>
+
+				<!-- Bouton Supprimer -->
+				<div class="ml-auto">
+					<?php echo form_open("/admin/theme/delete/$tMolding->id", ['onsubmit' => 'return confirm("Êtes-vous sûr de vouloir supprimer ce thème ?")']); ?>
+						<?php echo form_submit('delete', 'Supprimer', "class='bg-red-500 hover:bg-red-700 text-white font-medium py-1 px-4 rounded'"); ?>
+					<?php echo form_close(); ?>
+				</div>
+			</div>
+		<?php endforeach; ?>
+	<?php else : ?>
+		<p class="p-4">Aucun tMolding disponible pour le moment.</p>
+	<?php endif; ?>
 	</div><br>
 </div>
 <script src="./assets/js/btn-faq.js">
