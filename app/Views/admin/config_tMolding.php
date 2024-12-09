@@ -2,7 +2,7 @@
 <?php // var_dump($tMoldings)  ?>
 <div class="text-white py-12 px-6">
 	<!-- Titre principal -->
-	<h2 class="text-center text-3xl font-bold mb-4">configuration des tMoldings</h2>
+	<h2 class="text-center text-3xl font-bold mb-4">Configuration des TMoldings</h2>
 
 	<?php echo form_open('/admin/TMolding'); ?>
     <table class="max-w-3xl mx-auto">
@@ -15,7 +15,7 @@
 				</td>
 			</tr>
 			<tr class="flex flex-col md:flex-row md:items-center">
-				<td> <label class="text-lg font-medium mb-2 md:mb-0 md:mr-4" for="nom">Nom du tmolding :</label> </td>
+				<td> <label class="text-lg font-medium mb-2 md:mb-0 md:mr-4" for="nom">Nom du tmolding : * </label> </td>
 				<td class="">
 					<!-- Champ pour le modèle -->
 					<?php echo form_input(
@@ -30,7 +30,7 @@
 				</td>
 			</tr>
 			<tr class="flex flex-col md:flex-row md:items-center">
-				<td> <label class="text-lg font-medium mb-2 md:mb-0 md:mr-4" for="couleur">Couleur du tmolding :</label> </td>
+				<td> <label class="text-lg font-medium mb-2 md:mb-0 md:mr-4" for="couleur">Couleur du tmolding : * </label> </td>
 				<td class="">
 					<!-- Champ pour la couleur -->
 					<?php echo form_input(
@@ -44,7 +44,7 @@
 					); ?>
 				</td>
 			</tr>
-			<br>
+            <tr><td><br></td></tr>
 			<tr>
 				<td class="flex justify-start md:justify-center">
 					<!-- Bouton d'enregistrement -->
@@ -76,19 +76,23 @@
 	<!-- tMolding -->
 		<?php if (!empty($tMoldings)) : ?>
 			<?php foreach($tMoldings as $tMolding) : ?>
-				<?php // var_dump($tMolding)  ?>
-				<div class="border-b-2 border-white/50 p-4 bg-[#161c2d]1" id="div-tMolding-<?= $tMolding->id ?>">
-					<div class="w-[25w] h-[30px] flex items-center justify-start"> <h3 class="text-lg font-bold pr-4"><?= $tMolding->nom  ?></h3> </div>
-					<div 
-						class="w-6 h-6 rounded-full border-2 border-black" 
+
+                <?php // var_dump($theme)  ?>
+				<div class="flex justify-between items-center border-b border-gray-700 py-2 bg-[#161c2d]">
+					<!-- Nom du thème -->
+					<div class="flex-1 text-lg font-medium text-white font-bold">
+						<?= $tMolding->nom ?>
+					</div>
+                    <div 
+						class="w-6 h-6 rounded-full border-2 border-black flex-shrink-0 ml-4" 
 						style="background-color: <?= $tMolding->couleur ?>;"
 						title="Couleur : <?= $tMolding->couleur ?>">
 					</div>
-					<div class="w-[45vw] h-[30px] flex items-center justify-start">
-						<!-- Formulaire pour supprimer la tMolding -->
-						<?php echo form_open("/admin/TMolding/delete/$tMolding->id", ['onsubmit' => 'return confirm("Êtes-vous sûr de vouloir supprimer ce tMolding ?")']); ?>
-							<?php echo form_hidden('id', $tMolding->id); ?>
-							<?php echo form_submit('delete', 'Supprimer', "class='text-red-600 hover:text-red-800 font-bold'"); ?>
+					
+					<!-- Bouton Supprimer -->
+					<div>
+						<?php echo form_open("/admin/theme/delete/$tMolding->id", ['onsubmit' => 'return confirm("Êtes-vous sûr de vouloir supprimer ce thème ?")']); ?>
+							<?php echo form_submit('delete', 'Supprimer', "class='bg-red-500 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-full'"); ?>
 						<?php echo form_close(); ?>
 					</div>
 				</div>

@@ -15,7 +15,7 @@
 		<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 			<!-- Nom du thème -->
 			<div class="flex flex-col md:flex-row md:items-center">
-				<label class="text-lg font-medium mb-2 md:mb-0 md:mr-4" for="nom">Nom du thème :</label>
+				<label class="text-lg font-medium mb-2 md:mb-0 md:mr-6" for="nom">Nom du thème : *  </label>
 				<?php echo form_input([
 					'name' => 'nom',
 					'id' => 'nom',
@@ -52,26 +52,29 @@
 		</div>
 	<?php endif; ?>
 	
-	<!-- Grille des article -->
+	<!-- Grille des themes -->
 	<h3 class="text-center text-3xl font-bold mb-4">Liste des thèmes</h3>
 	<div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto">
-	<!-- Article -->
+	<!-- themes -->
 		<?php if (!empty($themes)) : ?>
 			<?php foreach($themes as $theme) : ?>
 				<?php // var_dump($theme)  ?>
-				<div class="border-b-2 border-white/50 p-4 bg-[#161c2d]" id="div-theme-<?= $theme->id ?>">
-					<div class="w-[25vw] h-[30px] flex items-center justify-start"> <h3 class="text-lg font-bold pr-4"><?= $theme->nom ?></h3> </div>
-					<div class="w-[45vw] h-[30px] flex items-center justify-start">
-						<!-- Formulaire pour supprimer le thème -->
-						<?php echo form_open('/admin/theme/delete', ['onsubmit' => 'return confirm("Êtes-vous sûr de vouloir supprimer ce thème ?")']); ?>
-							<?php echo form_hidden('id', $theme->id); ?>
+				<div class="flex justify-between items-center border-b border-gray-700 py-2 bg-[#161c2d]">
+					<!-- Nom du thème -->
+					<div class="text-lg font-medium text-white font-bold">
+						<?= $theme->nom ?>
+					</div>
+					
+					<!-- Bouton Supprimer -->
+					<div>
+						<?php echo form_open("/admin/theme/delete/$theme->id", ['onsubmit' => 'return confirm("Êtes-vous sûr de vouloir supprimer ce thème ?")']); ?>
 							<?php echo form_submit('delete', 'Supprimer', "class='bg-red-500 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-full'"); ?>
 						<?php echo form_close(); ?>
 					</div>
 				</div>
 			<?php endforeach; ?>
 		<?php else : ?>
-			<p class="p-4">Aucune article disponible pour le moment.</p>
+			<p class="p-4">Aucune themes disponible pour le moment.</p>
 		<?php endif; ?>
 	</div><br>
 </div>
