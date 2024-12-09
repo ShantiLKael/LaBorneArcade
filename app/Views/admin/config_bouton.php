@@ -47,12 +47,11 @@
 					<?php echo form_dropdown(
 						'forme',
 						[
-							'' => 'Sélectionnez une forme',
 							'rond' => 'Rond',
 							'carré' => 'Carré',
 							'triangle' => 'Triangle',
 						],
-						set_value('forme', ''), // Valeur sélectionnée par défaut
+						set_value('forme', 'rond'), // Valeur sélectionnée par défaut
 						[
 							'required' => 'required',
 							'class' => 'form-select', // Classe CSS personnalisée si besoin

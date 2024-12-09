@@ -12,7 +12,7 @@ class JoystickModel extends Model
 
 	// Règles de validation
 	protected $validationRules = [
-		'modele'   => 'required|min_length[5]|max_length[50]|is_unique[bouton.modele,couleur]|regex_match[/^[^<>;{}]*$/]',
+		'modele'   => 'required|min_length[5]|max_length[50]|is_unique[joystick.modele,couleur]|regex_match[/^[^<>;{}]*$/]',
 		'couleur'  => 'required|exact_length[7]',
 	];
 
