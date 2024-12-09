@@ -2,24 +2,10 @@
 <?php // var_dump($boutons)  ?>
 <div class="text-white py-12 px-6">
 	<!-- Titre principal -->
-	<h2 class="text-center text-3xl font-bold mb-4">configuration des boutons</h2>
-
-	<?php if (session()->has('errors')): ?>
-		<div class="alert alert-danger">
-			<?php foreach (session('errors') as $error): ?>
-				<p><?= $error ?></p>
-			<?php endforeach; ?>
-		</div>
-	<?php endif; ?>
-
-	<?php if (session()->has('success')): ?>
-		<div class="alert alert-success">
-			<p><?= session('success') ?></p>
-		</div>
-	<?php endif; ?>
+	<h2 class="text-center text-3xl font-bold mb-4">Configuration des boutons</h2>
 	<!-- Formulaire pour ajouter un commentaire -->
 	<?php echo form_open('/admin/bouton'); ?>
-	<table class="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-3xl mx-auto flex items-center justify-start">
+	<table class="grid grid-cols-1 md:grid-cols-6 gap-6 max-w-3xl mx-auto flex items-center justify-start">
 		<tbody>
 			<tr>
 				<td colspan=2 class="mt-5 p-0">
@@ -33,8 +19,8 @@
 					<!-- Champ pour le modèle -->
 					<?php echo form_input(
 						[
-							'name' => 'modele  ',
-							'value' => set_value('modele  ', ''),
+							'name' => 'modele',
+							'value' => set_value('modele', ''),
 							'placeholder' => 'Entrez le modèle ici...',
 							'required' => 'required',
 						]
@@ -48,7 +34,7 @@
 						'forme',
 						[
 							'rond' => 'Rond',
-							'carré' => 'Carré',
+							'carre' => 'Carré',
 							'triangle' => 'Triangle',
 						],
 						set_value('forme', 'rond'), // Valeur sélectionnée par défaut
@@ -79,8 +65,7 @@
 						[
 							'type' => 'radio',
 							'name' => 'eclairage',
-							'value' => set_value('eclairage', ''),
-							'required' => 'required',
+							'value' => set_value('eclairage', ''), 
 						]
 					); ?>
 				</td>
@@ -94,9 +79,22 @@
 		</tbody>
 	</table>
 	<p class=""><?= validation_show_error('texte_bouton') ?></p>
-
 	<?php echo form_close(); ?>
 
+	<?php if (session()->has('errors')): ?>
+		<div class="alert alert-danger">
+			<?php foreach (session('errors') as $error): ?>
+				<p><?= $error ?></p>
+			<?php endforeach; ?>
+		</div>
+	<?php endif; ?>
+
+	<?php if (session()->has('success')): ?>
+		<div class="alert alert-success">
+			<p><?= session('success') ?></p>
+		</div>
+	<?php endif; ?>
+	
 	<!-- Grille des boutons -->
 	<h3 class="text-center text-3xl font-bold mb-4">Liste des boutons</h3>
 	<div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto">

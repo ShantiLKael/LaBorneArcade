@@ -225,6 +225,10 @@ class AdminController extends BaseController
 			else {
 				$data = $this->request->getPost();
 				$bouton = new Bouton();
+				//dd($data);
+				if ( !isset($data['eclairage']) ) {
+					$data['eclairage'] = false;
+				}
 				$bouton->fill($data);
 				$this->boutonModel->insert($bouton);
 

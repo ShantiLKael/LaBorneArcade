@@ -26,11 +26,10 @@
 					<td colspan=2 class="mt-5 p-0"><h3 class="text-center text-3xl font-bold mb-4"><?php echo form_label('Ajoutez un thème : ', 'theme'); ?></h3></td>
 				</tr>
 				<tr class="">
-					<td class=""> 
-							
+					<td class=""> 	
 						<?php echo form_input(
 							[
-								'name' => 'nom', // Assurez-vous que le nom est correctement défini
+								'name' => 'nom',
 								'value' => set_value('nom', ''),
 								'placeholder' => 'Entrez votre thème ici...',
 								'required' => 'required',
