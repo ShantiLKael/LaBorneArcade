@@ -15,7 +15,7 @@ view('commun/header', ['titre' => $titre]) ?>
 		<!-- Informations produit -->
 		<div class="flex-1">
 			<h1 class="text-3xl md:text-4xl font-bold mb-2">Borne Personnalisée <span class="text-xl text-gray-500"><?= isset($borne) ? '<br> de '.$borne->nom : '' ?></span></h1>
-			<p class="text-green-400 text-2xl md:text-3xl font-bold mb-4">1490,00€</p>
+			<p  class="text-green-400 text-2xl md:text-3xl font-bold mb-4">1490,00€</p>
 
 			<!-- Contenu de la borne -->
 			<div class="bg-gradient-to-r from-dark-blue max-w-100 to-dark-teal p-4 rounded md:mb-2 mb-10">

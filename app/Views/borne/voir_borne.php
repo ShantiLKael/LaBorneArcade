@@ -13,8 +13,8 @@
 
 		<!-- Informations produit -->
 		<div class="flex-1">
-			<h1 class="text-3xl font-bold mb-2"><?= $borne->nom ?></h1>
-			<p class="text-green-400 text-2xl font-bold mb-4"><?= $borne->prix ?> €</p>
+			<h1 class="text-3xl md:text-4xl font-bold mb-2"><?= $borne->nom ?></h1>
+			<p  class="text-green-400 text-2xl md:text-3xl font-bold mb-4"><?= $borne->prix ?> €</p>
 
 			<!-- Contenu de la borne -->
 			<div class="bg-gradient-to-r from-dark-blue max-w-100 to-dark-teal p-4 rounded mb-4">
