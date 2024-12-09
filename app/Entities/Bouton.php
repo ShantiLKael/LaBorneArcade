@@ -37,7 +37,7 @@ class Bouton extends Entity
 		return $this;
 	}
 	
-	public function setEclairage( string $bool='false'): Bouton
+	public function setEclairage( bool $bool=false): Bouton
 	{
 		$this->attributes['eclairage'] = $bool;
 

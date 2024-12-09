@@ -105,7 +105,7 @@ CREATE TABLE Bouton(
 	forme     VARCHAR(50) NOT NULL, /* TODO Group in */
 	couleur   CHAR(7) NOT NULL,
 	eclairage BOOLEAN NOT NULL,
-	UNIQUE  (modele,couleur,eclairage)
+	UNIQUE  (modele,couleur,forme)
 );
 
 CREATE TABLE Commande(

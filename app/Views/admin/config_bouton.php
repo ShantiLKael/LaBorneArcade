@@ -115,11 +115,11 @@
 								<?php elseif ($bouton->forme === 'carre') : ?>
 									w-8 h-8
 								<?php elseif ($bouton->forme === 'triangle') : ?>
-									w-0 h-0 border-l-4 border-r-4 border-b-8
+									w-8 h-8 border-l-4 border-r-8 border-b-16
 								<?php endif; ?>
 							"
 							style="
-								<?php if ($bouton->forme === 'Triangle') : ?>
+								<?php if ($bouton->forme === 'triangle') : ?>
 									border-color: transparent transparent <?= $bouton->couleur ?> transparent;
 								<?php else : ?>
 									background-color: <?= $bouton->couleur ?>;

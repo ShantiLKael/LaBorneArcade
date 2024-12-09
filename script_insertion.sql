@@ -136,13 +136,13 @@ INSERT INTO Option (nom, description, cout, id_Image) VALUES
 
 
 INSERT INTO Bouton (modele, forme, couleur, eclairage) VALUES
-('Sanwa OBSF-30', 'Rond', '#FF0000', TRUE),
-('Sanwa OBSF-30', 'Rond', '#0000FF', FALSE),
-('Happ Standard', 'Carré', '#FFFF00', TRUE),
-('Happ Standard', 'Carré', '#00FF00', FALSE),
-('Seimitsu PS-14', 'Rond', '#FFFFFF', TRUE),
-('Seimitsu PS-14', 'Rond', '#000000', FALSE),
-('Custom Arcade', 'Oval', '#FFA500', TRUE);
+('Sanwa OBSF-30', 'rond', '#FF0000', TRUE),
+('Sanwa OBSF-30', 'rond', '#0000FF', FALSE),
+('Happ Standard', 'carre', '#FFFF00', TRUE),
+('Happ Standard', 'carre', '#00FF00', FALSE),
+('Seimitsu PS-14', 'rond', '#FFFFFF', TRUE),
+('Seimitsu PS-14', 'rond', '#000000', FALSE),
+('Custom Arcade', 'triangle', '#FFA500', TRUE);
 
 
 INSERT INTO TMolding (nom, couleur) VALUES
