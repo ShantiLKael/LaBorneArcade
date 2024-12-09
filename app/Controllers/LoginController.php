@@ -160,7 +160,7 @@ class LoginController extends BaseController
 					$email,
 					'LaBorneArcade - Réinitialisation de mot de passe',
 					'Cliquez pour réinitialiser votre mot de passe',
-					'titre',
+					'Réinitialisation de mot de passe',
 					$resetLink
 				);
 
@@ -168,9 +168,9 @@ class LoginController extends BaseController
 				echo 'Adresse e-mail non valide.';
 			}
 		} else {
-			return view('login/oubliMdp',['titre' => "Profile"]);
+			return view('login/oubliMdp', ['titre' => "Profile"]);
 		}
-		return view('login/oubliMdp',['titre' => "Profile"]);
+		return view('login/oubliMdp', ['titre' => "Profile"]);
 
 	}
 
@@ -207,7 +207,7 @@ class LoginController extends BaseController
 				->where('date_creation_token >', date('Y-m-d H:i:s'))
 				->first();
 			if ($user) {
-				return view('login/resetMdp', ['token' => $token,'titre' => "Profile"]);
+				return view('login/resetMdp', ['token' => $token, 'titre' => "Profile"]);
 			} else {
 				return 'Lien de réinitialisation non valide.';
 			}
@@ -226,99 +226,92 @@ class LoginController extends BaseController
 	): bool {
 		$emailService = Services::email();
 
+		echo $titre;
 		$emailService->setTo($mail);
 		$emailService->setFrom('mailingtestIUT@gmail.com');
 		$emailService->setSubject($sujet);
 		$emailService->setMessage(
-			'<!DOCTYPE HTML>
-			<html lang="fr">
-				<head>
-					<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-					<meta name="viewport" content="width=device-width, initial-scale=1.0">
-					<style>
-						body {
-							margin: 0;
-							font-family: Arial, sans-serif;
-							color: #ffffff;
-							background-color: #1f2937;
-						}
-						.container {
-							display: flex;
-							justify-content: center;
-							align-items: center;
-							min-height: 100vh;
-							padding: 16px;
-							background-color: #1f2937; /* Bleu-noir */
-						}
-						.card {
-							max-width: 600px;
-							width: 100%;
-							background: #2d3748;
-							border: 1px solid #4a5568;
-							border-radius: 8px;
-							padding: 24px;
-							box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-							text-align: center;
-						}
-						h1 {
-							font-size: 24px;
-							font-weight: bold;
-							color: #ffffff; /* Titre en blanc */
-							margin-bottom: 16px;
-						}
-						h2 {
-							font-size: 18px;
-							font-weight: normal;
-							color: #a0aec0;
-							margin-bottom: 16px;
-						}
-						p {
-							font-size: 16px;
-							line-height: 1.5;
-							color: #cbd5e0;
-							margin-bottom: 24px;
-						}
-						a {
-							text-decoration: none;
-						}
-						.button {
-							display: inline-block;
-							padding: 12px 24px;
-							background-color: #38a169;
-							color: #ffffff !important; /* Assure que le texte est blanc */
-							font-size: 16px;
-							font-weight: bold;
-							border-radius: 4px;
-							text-decoration: none; /* Supprime les soulignements */
-							transition: background-color 0.3s ease, color 0.3s ease;
-						}
-						.button:hover {
-							background-color: #2f855a;
-							color: #ffffff !important; /* Le texte reste blanc même au survol */
-						}
-						.footer {
-							font-size: 12px;
-							color: #718096;
-							margin-top: 16px;
-						}
-					</style>
-				</head>
-				<body>
-					<div class="container">
-						<div class="card">
-							<h1>' . $titre . '</h1>
-							<h2>' . $sous_titre . '</h2>
-							<p>' . $corps . '</p>
-							<a href="' . $lien_btn . '" class="button" target="_blank">Cliquer ici</a>
-							<div class="footer">
-								<p>&copy; ' . date('Y') . ' La Borne d\'Arcade. Tous droits réservés.</p>
-							</div>
-						</div>
-					</div>
-				</body>
-			</html>'
+			"
+    <!DOCTYPE HTML>
+    <html lang='fr'>
+    <head>
+        <meta charset='UTF-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <style>
+            body {
+                margin: 0;
+                font-family: Arial, sans-serif;
+                background-color: #1f2937; /* Bleu-noir */
+                color: #ffffff; /* Texte blanc */
+                text-align: center;
+            }
+            .container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 10vh;
+				max-height: 100vh;
+                padding: 20px;
+            }
+            .card {
+                background-color: #2d3748; /* Fond de la carte */
+                border: 1px solid #4a5568; /* Bordure gris foncé */
+                border-radius: 8px;
+                padding: 20px;
+                max-width: 600px;
+                width: 100%;
+            }
+            h1 {
+				text-color : #ffffff;
+				color : #ffffff;
+                font-size: 24px;
+                margin-bottom: 10px;
+            }
+            h2 {
+                font-size: 18px;
+                margin-bottom: 15px;
+                color: #a0aec0; /* Gris clair */
+            }
+            p {
+                font-size: 16px;
+                margin-bottom: 20px;
+                color: #cbd5e0; /* Gris clair */
+            }
+            a.button {
+                display: inline-block;
+                padding: 10px 20px;
+                background-color: #38a169; /* Vert */
+                color: #ffffff; /* Blanc */
+                text-decoration: none;
+                border-radius: 4px;
+                font-weight: bold;
+            }
+            a.button:hover {
+                background-color: #2f855a; /* Vert plus foncé */
+            }
+            .footer {
+                font-size: 12px;
+                margin-top: 15px;
+                color: #718096; /* Gris foncé */
+            }
+        </style>
+    </head>
+    <body>
+        <div class='container'>
+            <div class='card'>
+                <h1>$titre</h1>
+                <h2>$sous_titre</h2>
+                <p>$corps</p>
+                <a href='$lien_btn' class='button' target='_blank'>Cliquer ici</a>
+                <div class='footer'>
+                    &copy; " . date('Y') . " La Borne d'Arcade. Tous droits réservés.
+                </div>
+            </div>
+        </div>
+    </body>
+    </html>"
 		);
-		
+
 
 		if ($emailService->send())
 			return true;
