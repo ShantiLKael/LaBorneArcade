@@ -13,11 +13,11 @@
         <?= form_label('Email', 'email', ['class' => 'shrink-0 w-32 font-medium pl-2']); ?>
 
         <?php
-		$focusRIng = (validation_show_error('email')) ? 'border-red-600 focus:ring-red-500' : 'border border-gray-500 focus:ring-green-500';
+        $focusRIng = isset($erreurs['email']) ? 'border-red-600 focus:ring-red-500' : 'border-gray-600 focus:ring-2 focus:ring-green-600';
         echo form_input([
             'name'        => 'email',
             'id'          => 'email',
-            'class'       => 'w-full rounded-md text-sm bg-gray-700 px-2 py-2 outline-none focus:ring-2 '.$focusRIng,
+            'class'       => 'w-full rounded-md text-sm bg-gray-700 px-2 py-2 outline-green-600 focus:ring-2 '.$focusRIng,
             'value'       => set_value('email'),
             'placeholder' => 'Email@domaine.fr',
 		]); ?>
@@ -31,10 +31,11 @@
 
         <?php
 		$focusRIng = (validation_show_error('mdp')) ? 'border-red-600 focus:ring-red-500' : 'border border-gray-500 focus:ring-green-500';
+        $focusRIng = isset($erreurs['mdp']) ? 'border-red-600 focus:ring-red-500' : 'border-gray-600 focus:ring-2 focus:ring-green-600';
         echo form_input([
             'name'        => 'mdp',
             'id'          => 'mdp',
-            'class'       => 'w-full rounded-md text-sm bg-gray-700 px-2 py-2 outline-none focus:ring-2 '.$focusRIng,
+            'class'       => 'w-full rounded-md text-sm bg-gray-700 px-2 py-2 outline-green-600 focus:ring-2 '.$focusRIng,
             'value'       => set_value('mdp'),
             'placeholder' => 'Nouveau mot de passe',
 		]); ?>
@@ -47,12 +48,12 @@
         <?= form_label('Confirmation', 'mdpConf', ['class' => 'shrink-0 w-32 font-medium pl-2']); ?>
 
         <?php
-		$focusRIng = (validation_show_error('mdpConf')) ? 'border-red-600 focus:ring-red-500' : 'border border-gray-500 focus:ring-green-500';
+        $focusRIng = isset($erreurs['mdpConf']) ? 'border-red-600 focus:ring-red-500' : 'border-gray-600 focus:ring-2 focus:ring-green-600';
         echo form_input([
             'name'        => 'mdpConf',
             'id'          => 'mdpConf',
             'type'        => 'password',
-            'class'       => 'w-full rounded-md text-sm bg-gray-700 px-2 py-2 outline-none focus:ring-2 '.$focusRIng,
+            'class'       => 'w-full rounded-md text-sm bg-gray-700 px-2 py-2 outline-green-600 focus:ring-2 '.$focusRIng,
             'value'       => set_value('mdpConf'),
             'placeholder' => 'Confirmation du mot de passe',
 		]); ?>

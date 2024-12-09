@@ -23,9 +23,8 @@
 						<p class="text-sm text-gray-400">Prix  : 
 							<span class="font-medium text-green-500">
 							<?php
-								$idPanierSession = array_search($bornePerso, session()->get('panier'));
-
 								if ($options) {
+									$idPanierSession = array_search($bornePerso, session()->get('panier'));
 									if ($options[$idPanierSession])
 										foreach ($options[$idPanierSession] as $option)
 											$prixTotBorne += $option->cout;

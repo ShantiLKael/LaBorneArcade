@@ -260,72 +260,67 @@ class LoginController extends BaseController
 		}
 
 	}
-	
-	/**
-	 * @return string
-	 * @throws ReflectionException
-	 */
-	public function profile(): string {
+	public function profile(): string|RedirectResponse {
         $session = session();
         $data = $this->request->getPost();
 
         if ($data) {
+            // Prépare les règles de validation conditionnelles
+            $regleValidation = [
+                'email' => 'required|valid_email|is_unique[utilisateur.email]',
+            ];
 
-			$regleValidation = [
-				'email'   => 'valid_email',
-                'mdpConf' => 'matches[mdp]',
-			];
+            // Ajoutez les règles pour le mot de passe si rempli
+            if (!empty($data['mdp'])) {
+                $regleValidation['mdp'] = 'min_length[8]';
+                $regleValidation['mdpConf'] = 'matches[mdp]';
+            }
 
             $messagesValidation = [
                 'email' => [
-                    'matches' => 'Entrer un email valide.',
+                    'required'    => 'Veuillez saisir votre émail.',
+                    'valid_email' => 'Entrez un email valide.',
+                    'is_unique'   => 'Cet émail est déjà utilisé.',
                 ],
-
+                'mdp' => [
+                    'min_length' => 'Votre mot de passe est trop court (min. 8 caractères).',
+                ],
                 'mdpConf' => [
                     'matches' => 'Les mots de passe ne correspondent pas.',
-                ]
+                ],
             ];
 
+            // Validation des données
             if (!$this->validate($regleValidation, $messagesValidation)) {
                 return view('login/profile', [
-                    'titre'   => 'Mon profil',
-                    'erreurs' => $this->validation->getErrors(),
-                ]);
-            } else {
-                // Gestion mot de passe
-                if ($data['mdp']) {
-                    if (strlen($data['mdp']) < 8) {
-                        return view('login/profile', [
-                            'titre'   => 'Mon profil',
-                            'erreurs' => ['mdp' => 'Votre mot de passe est trop court (min. 8 caractères).'],
-                        ]);
-                    }
-
-                    if (strcmp($data['mdp'],$data['mdpConf']) != 0) {
-                        return view('login/profile', [
-                            'titre'   => 'Mon profil',
-                            'erreurs' => ['mdpConf' => 'Les mots de passe ne correspondent pas.'],
-                        ]);
-                    }
-                }
-                
-
-                $idUtilisateur = $session->get('user')['id'];
-                $utilisateur = $this->utilisateurModel->find($idUtilisateur);
-                $utilisateur->email = $data['email'];
-                $utilisateur->mdp ?: $data['mdp']; // TODO: WTF
-
-                $this->utilisateurModel->save($utilisateur);
-                
-                $session->set('user', [
-                    'id'    => $idUtilisateur,
-                    'email' => $utilisateur->email,
+                    'titre' => 'Mon profil',
+                    'erreurs' => $this->validator->getErrors(),
                 ]);
             }
+
+            // Récupération des données utilisateur et sauvegarde
+            $session = session();
+            $idUtilisateur = $session->get('user')['id'];
+            $utilisateur = $this->utilisateurModel->find($idUtilisateur);
+
+            $utilisateur->email = $data['email'];
+            if (!empty($data['mdp'])) {
+                $utilisateur->mdp = $data['mdp']; // Hachage du mot de passe
+            }
+
+            $this->utilisateurModel->save($utilisateur);
+
+            // Màj session
+            $session->set('user', [
+                'id' => $idUtilisateur,
+                'email' => $utilisateur->email,
+            ]);
+
+            return redirect()->to('/profile')->with('msg', 'Profil mis à jour avec succès.');
         }
-		
-		return view('login/profile', [ 'titre' => 'Mon profil' ]);
-	}
+        
+        return view('login/profile', [ 'titre' => 'Mon profil' ]);
+    }
 
 	public function deconnexion(): RedirectResponse {
         session()->destroy();
