@@ -23,7 +23,7 @@ class UtilisateurModel extends Model
 	static string $ROLE_UTILISATEUR = 'utilisateur';
 
 	protected $table      = 'utilisateur';
-	protected $autoIncrement = true;
+	protected $useAutoIncrement = true;
 	protected $primaryKey = 'id_utilisateur';
 	protected $returnType = 'App\Entities\Utilisateur';
 	protected $allowedFields = [

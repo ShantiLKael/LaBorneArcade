@@ -1,6 +1,7 @@
 <?php
 namespace App\Controllers;
 use App\Models\UtilisateurModel;
+use App\Models\BornePersoModel;
 use App\Entities\Utilisateur;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Validation\Validation;
@@ -11,6 +12,9 @@ class LoginController extends BaseController
 	/** @var UtilisateurModel $utilisateurModel */
 	private UtilisateurModel $utilisateurModel;
 
+	/** @var BornePersoModel $bornePersoModel */
+	private BornePersoModel $bornePersoModel;
+
 	/** @var Validation $validation */
 	private Validation $validation;
 
@@ -19,7 +23,9 @@ class LoginController extends BaseController
 	{
 		helper(['form']);
 		$this->utilisateurModel = new UtilisateurModel();
-		$this->validation = \Config\Services::validation();
+		$this->bornePersoModel = new BornePersoModel();
+		$this->validation = Services::validation();
+		$this->validation = Services::validation();
 	}
 
 	public function inscription()
@@ -95,10 +101,35 @@ class LoginController extends BaseController
 					if (password_verify($password, $pass)) {
 						// Authentification réussie
 						// Stocker l'utilisateur dans la session
-						session()->set('user', [
+                        $session = session();
+						$session->set('user', [
 							'id' => $user->id,
 							'email' => $user->email,
 						]);
+                        
+                        // Si la session possède des bornes dans son panier, on les enregistre en base 
+                        if ($session->has('panier')) {
+                            $options = $session->get('options');
+                            $i = 0;
+
+                            // Parcours des bornes enregistrées dans le panier session
+                            foreach ($session->get('panier') as $bornePerso) {
+                                $idBorne = $this->bornePersoModel->insert($bornePerso, true);
+                                $this->utilisateurModel->insererPanier($user->id, $idBorne);
+
+                                // Parcours des options de la borne
+                                if ($options[$i]) {
+                                    foreach ($options[$i] as $option)
+                                        $this->bornePersoModel->insererOptionBorne($idBorne, $option->id);
+                                }
+
+                                $i++;
+                            }
+                        }
+                        
+                        // Suppression du panier utilisateur non connécté
+                        $session->remove('panier');
+                        $session->remove('options');
 
 						// Rediriger vers la page d'accueil ou le tableau de bord
 						return redirect()->to('/');
@@ -280,7 +311,7 @@ class LoginController extends BaseController
 
 	public function deconnexion(): RedirectResponse {
         session()->destroy();
-		return redirect()->to('/')->with('msg', 'Vous êtes déconnecté');
+		return redirect()->to('/connexion')->with('msg', 'Vous êtes déconnecté');
 	}
 	
 	public static function envoyer_mail(
