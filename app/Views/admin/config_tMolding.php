@@ -84,7 +84,7 @@
 						<?= $tMolding->nom ?>
 					</div>
                     <div 
-						class="w-6 h-6 rounded-full border-2 border-black flex-shrink-0 ml-4" 
+						class="w-6 h-6 rounded-full border-2 border-black flex-shrink-0 ml-2" 
 						style="background-color: <?= $tMolding->couleur ?>;"
 						title="Couleur : <?= $tMolding->couleur ?>">
 					</div>
