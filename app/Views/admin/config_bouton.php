@@ -106,26 +106,30 @@
 					<div class="w-[15vw] h-[30px] flex items-center justify-start">
 						<h3 class="text-lg font-bold pr-4"><?= $bouton->modele ?></h3>
 					</div>
-					<div class="w-[25vw] h-[30px] flex items-center justify-start">
-						<!-- Pastille avec forme et couleur dynamiques -->
-						<div 
-							class="
-								<?php if ($bouton->forme === 'rond') : ?>
-									w-8 h-8 rounded-full
-								<?php elseif ($bouton->forme === 'carre') : ?>
-									w-8 h-8
-								<?php elseif ($bouton->forme === 'triangle') : ?>
-									w-8 h-8 border-l-4 border-r-8 border-b-16
-								<?php endif; ?>
-							"
-							style="
-								<?php if ($bouton->forme === 'triangle') : ?>
-									border-color: transparent transparent <?= $bouton->couleur ?> transparent;
-								<?php else : ?>
-									background-color: <?= $bouton->couleur ?>;
-								<?php endif; ?>
-							">
-						</div>
+					<div class="flex justify-center items-center space-x-4">
+						<!-- Forme dynamique en fonction du bouton -->
+						<?php
+						$taille = "w-16 h-16"; // Taille cohérente pour toutes les formes
+						$couleur = $bouton->couleur; // Couleur dynamique
+
+						if ($bouton->forme === 'rond') {
+							// Cercle
+							echo "<div class='rounded-full $taille' style='background-color: $couleur;'></div>";
+						} elseif ($bouton->forme === 'carre') {
+							// Carré
+							echo "<div class='$taille' style='background-color: $couleur;'></div>";
+						} elseif ($bouton->forme === 'triangle') {
+							// Triangle
+							echo "
+							<div class='relative $taille'>
+								<div class='absolute w-0 h-0' style='
+									border-left: 32px solid transparent;
+									border-right: 32px solid transparent;
+									border-bottom: 64px solid $couleur;
+									'></div>
+							</div>";
+						}
+						?>
 					</div>
 					<div class="w-[45vw] h-[30px] flex items-center justify-start">
 						<!-- Formulaire pour supprimer le bouton -->
