@@ -3,6 +3,39 @@
 <div class="text-white py-12 px-6">
 	<!-- Titre principal -->
 	<h2 class="text-center text-3xl font-bold mb-4">configuration des theme</h2>
+	<!-- Formulaire pour ajouter un commentaire -->
+	<?php echo form_open('/admin/theme'); ?>
+
+	<div class="max-w-3xl mx-auto">
+		<!-- Titre centré -->
+		<h3 class="text-center text-3xl font-bold mb-6">Ajoutez un thème :</h3>
+
+		<!-- Formulaire -->
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+			<!-- Nom du thème -->
+			<div class="flex flex-col md:flex-row md:items-center">
+				<label class="text-lg font-medium mb-2 md:mb-0 md:mr-4" for="nom">Nom du thème :</label>
+				<?php echo form_input([
+					'name' => 'nom',
+					'id' => 'nom',
+					'value' => set_value('nom', ''),
+					'placeholder' => 'Entrez votre thème ici...',
+					'class' => 'border border-gray-300 rounded-lg p-2 w-full md:w-auto',
+					'required' => 'required',
+				]); ?>
+			</div>
+
+			<!-- Bouton Enregistrer -->
+			<div class="flex justify-start md:justify-center">
+				<?php echo form_submit('submit', 'Enregistrer', "class='bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg'"); ?>
+			</div>
+		</div>
+
+		<!-- Erreur validation -->
+		<p class="text-red-500 mt-4"><?= validation_show_error('texte_theme') ?></p>
+	</div>
+
+	<?php echo form_close(); ?>
 
 	<?php if (session()->has('errors')): ?>
 		<div class="alert alert-danger">
@@ -17,35 +50,7 @@
 			<p><?= session('success') ?></p>
 		</div>
 	<?php endif; ?>
-	<!-- Formulaire pour ajouter un commentaire -->
-	<?php echo form_open('/admin/theme'); ?>
-
-		<table class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto flex items-center justify-start">
-			<tbody>
-				<tr>
-					<td colspan=2 class="mt-5 p-0"><h3 class="text-center text-3xl font-bold mb-4"><?php echo form_label('Ajoutez un thème : ', 'theme'); ?></h3></td>
-				</tr>
-				<tr class="">
-					<td class=""> 	
-						<?php echo form_input(
-							[
-								'name' => 'nom',
-								'value' => set_value('nom', ''),
-								'placeholder' => 'Entrez votre thème ici...',
-								'required' => 'required',
-							]);
-						?>
-					</td>
-					<td class="">
-						<?php echo form_submit('submit', 'Enregistrer',"class='bouton'"); ?>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		<p class=""><?= validation_show_error('texte_theme') ?></p>
-
-	<?php echo form_close(); ?>
-
+	
 	<!-- Grille des article -->
 	<h3 class="text-center text-3xl font-bold mb-4">Liste des thèmes</h3>
 	<div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto">

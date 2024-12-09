@@ -109,7 +109,7 @@
 					<div class="flex justify-center items-center space-x-4">
 						<!-- Forme dynamique en fonction du bouton -->
 						<?php
-						$taille = "w-8 h-8"; // Taille cohérente pour toutes les formes
+						$taille = "w-8 h-8"; // Taille cohérente pour toutes les formes 
 						$couleur = $bouton->couleur; // Couleur dynamique
 
 						if ($bouton->forme === 'rond') {
