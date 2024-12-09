@@ -49,3 +49,6 @@ $routes->setAutoRoute(false);
 	$routes->match(['get', 'post'], 	'/admin/faqs'		, 'AdminController::adminFaq');
 	$routes->match(['get', 'post'],	'/admin/theme'		, 'AdminController::adminTheme');
 //});
+
+/** Route pour le cronjob */
+$routes->cli('/cronjob', 'ControleurCronJob::index');

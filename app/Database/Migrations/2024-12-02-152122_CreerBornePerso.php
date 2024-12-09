@@ -35,8 +35,12 @@ class CreerBornePerso extends Migration {
 				'unique'  =>false,
 			],
 			'date_creation'=>[
-				'type'    =>"TIMESTAMP",
-				'null'    =>false,
+				'type'=>"TIMESTAMP",
+				'null'=>false,
+			],
+			'date_modif'=>[
+				'type'=>"TIMESTAMP",
+				'null'=>false,
 			],
 			'id_tmolding'=>[
 				'type'    =>"INT",
@@ -44,11 +48,6 @@ class CreerBornePerso extends Migration {
 				'null'    =>false,
 			],
 			'id_matiere'=>[
-				'type'    =>"INT",
-				'unsigned'=>true,
-				'null'    =>false,
-			],
-			'id_image'=>[
 				'type'    =>"INT",
 				'unsigned'=>true,
 				'null'    =>false,
@@ -62,7 +61,6 @@ class CreerBornePerso extends Migration {
 		$this->forge->addPrimaryKey('id_borneperso');
 		$this->forge->addForeignKey('id_tmolding','tmolding','id_tmolding', 'CASCADE', 'CASCADE');
 		$this->forge->addForeignKey('id_matiere','matiere','id_matiere', 'CASCADE', 'CASCADE');
-		$this->forge->addForeignKey('id_image','image','id_image', 'CASCADE', 'CASCADE');
 		$this->forge->addForeignKey('id_theme','theme','id_theme', 'CASCADE', 'CASCADE');
 		$this->forge->createTable('borneperso');
 	}

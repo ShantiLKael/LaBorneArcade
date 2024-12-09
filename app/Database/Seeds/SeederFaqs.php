@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection SqlResolve */
+
 namespace App\Database\Seeds;
 
 use CodeIgniter\Database\Query;

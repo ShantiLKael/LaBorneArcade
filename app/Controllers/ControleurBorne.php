@@ -12,9 +12,9 @@ use App\Models\OptionModel;
 use App\Models\ThemeModel;
 use App\Models\TMoldingModel;
 use App\Models\UtilisateurModel;
+use App\ThirdParty\CronJob;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\I18n\Time;
-use CodeIgniter\Config\Services;
 use CodeIgniter\Pager\Pager;
 
 /**
