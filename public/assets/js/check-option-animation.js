@@ -1,14 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
-const checkboxes = document.querySelectorAll('input[type="checkbox"]'); // Récupération de chaque checkboxes
+	const checkboxes = document.querySelectorAll('input[type="checkbox"]'); // Récupération de chaque checkboxes
 
-checkboxes.forEach((checkbox) => {
-	checkbox.addEventListener("change", (event) => {
-		const parentDiv = checkbox.closest("div");
-		if (checkbox.checked) {
-			parentDiv.classList.add("border-green-600");
-		} else {
-			parentDiv.classList.remove("border-green-600");
-			}
+	checkboxes.forEach((checkbox) => {
+		checkbox.addEventListener("change", () => {
+			const parentDiv = checkbox.closest("div");
+			if (parentDiv)
+				parentDiv.classList.toggle("border-green-600");
 		});
 	});
 });

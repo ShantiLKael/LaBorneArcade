@@ -29,6 +29,7 @@ class SeederPrincipal extends Seeder {
 			'OptionsBornes',
 			'Paniers',
 		];
+		
 		foreach ($seeders as $seeder) {
 			try {
 				$this->call("Seeder$seeder");

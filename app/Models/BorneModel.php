@@ -6,16 +6,15 @@ use App\Entities\Image;
 use App\Entities\Joystick;
 use App\Entities\Option;
 use App\Entities\Theme;
+use App\ThirdParty\CronJob;
 use CodeIgniter\Database\Query;
 use CodeIgniter\Entity\Cast\IntegerCast;
 use CodeIgniter\Model;
 use App\Entities\Matiere;
 use App\Entities\TMolding;
 use App\Entities\Borne;
-use CodeIgniter\I18n\Time;
 use CodeIgniter\Pager\Pager;
 use Config\Database;
-use Exception;
 
 class BorneModel extends Model
 {
@@ -295,6 +294,22 @@ class BorneModel extends Model
 			
 		$options = $builder->get()->getResult('App\Entities\Option');
 		return $options ?: [];
+	}
+	
+	/**
+	 * Suppression d'une BornePerso un mois après sa dernière modification.
+	 * @return bool
+	 */
+	#[CronJob(BorneModel::class, "suppPeriodiqueBornePerso")]
+	public function suppPeriodiqueBornePerso(): bool
+	{
+		$db = Database::connect();
+		$builder = $db->table('borneperso');
+		
+		$moisDernier = date('d-m-Y H:i:s', strtotime('-1 month'));
+		
+		$builder->where('date_modif <', $moisDernier);
+		return $builder->delete();
 	}
 
 	/**

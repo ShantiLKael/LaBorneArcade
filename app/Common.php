@@ -14,6 +14,8 @@
  * @see: https://codeigniter.com/user_guide/extending/common.html
  */
 
+use App\ThirdParty\CronJob;
+
 /**
  * @param string|bool|int $value
  * @return int
