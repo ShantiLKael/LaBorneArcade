@@ -4,7 +4,7 @@
 	<title><?= $titre ?></title>
 </head>
 <body class="bg-dark-blue text-white">
-<header class="border-b-4 border-deep-blue text-center py-4 lg:px-4">
+<header class="border-b-4 border-deep-blue text-center py-4 lg:px-4 mb-10">
     <nav class="bg-black/55 py-4 rounded-full mx-auto max-w-7xl px-6 flex items-center justify-between shadow-lg shadow-gray-700/20">
         <!-- Logo -->
         <div class="flex items-center">
