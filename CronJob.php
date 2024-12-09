@@ -13,7 +13,7 @@ echo "Starting cron job...\n";
 
 while (true) {
 	sleep($delay);
-	echo "Performing cron job on ", date("d-m-Y H:i:s"), PHP_EOL;
+	echo "Performing cron job on ", date("d-m-Y H:i:s", time() + 3600), PHP_EOL;
 	shell_exec("php ".realpath(__DIR__."/public/index.php")." cronjob");
 }
 

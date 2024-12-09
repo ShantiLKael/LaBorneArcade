@@ -10,8 +10,7 @@ class ControleurCronJob extends BaseController {
 		$callables = CronJob::getCallables();
 		foreach ($callables as $callable) {
 			$instance = new $callable[0]();
-			$instance->$callable[1]();
-			var_dump($instance);
+			$instance->{$callable[1]}();
 		}
 	}
 	
