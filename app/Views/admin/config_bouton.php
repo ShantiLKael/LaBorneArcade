@@ -94,7 +94,7 @@
 			<p><?= session('success') ?></p>
 		</div>
 	<?php endif; ?>
-	
+
 	<!-- Grille des boutons -->
 	<h3 class="text-center text-3xl font-bold mb-4">Liste des boutons</h3>
 	<div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto">
@@ -110,11 +110,11 @@
 						<!-- Pastille avec forme et couleur dynamiques -->
 						<div 
 							class="
-								<?php if ($bouton->forme === 'Rond') : ?>
+								<?php if ($bouton->forme === 'rond') : ?>
 									w-8 h-8 rounded-full
-								<?php elseif ($bouton->forme === 'Carré') : ?>
+								<?php elseif ($bouton->forme === 'carre') : ?>
 									w-8 h-8
-								<?php elseif ($bouton->forme === 'Triangle') : ?>
+								<?php elseif ($bouton->forme === 'triangle') : ?>
 									w-0 h-0 border-l-4 border-r-4 border-b-8
 								<?php endif; ?>
 							"
