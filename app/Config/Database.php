@@ -25,24 +25,29 @@ class Database extends Config
      * @var array<string, mixed>
      */
     public array $default = [
-        'DSN' => 'pgsql:host=localhost;port=5432;dbname=na222180;user=na222180;password=rccoEw3Y',
-        'hostname' => 'localhost',  // Serveur local
-        'username' => 'na222180',   // Utilisateur PostgreSQL
-        'password' => 'rccoEw3Y',  // Mot de passe de l'utilisateur
-        'database' => 'na222180',   // Nom de la base de données
-        'DBDriver' => 'Postgre',    // Pilote PostgreSQL
-        'DBPrefix' => '',
-        'pConnect' => false,
-        'DBDebug' => true,          // Mode débogage
-        'charset' => 'utf8',        // Jeu de caractères
-        'DBCollat' => 'utf8_general_ci',  // Collation (même si souvent pas utilisé avec PostgreSQL)
-        'swapPre' => '',
-        'encrypt' => false,
-        'compress' => false,
-        'strictOn' => true,
-        'failover' => [],
-        'port' => 5432,             // Port par défaut de PostgreSQL
+        'DSN'          => 'Postgre://cs212535:saucisse@woody.iut.univ-lehavre.fr:5432',
+        'hostname'     => 'woody.iut.univ-lehavre.fr',
+        'username'     => 'cs212535',
+        'password'     => 'saucisse',
+        'database'     => 'cs212535',
+        'DBDriver'     => 'Postgre',
+        'DBPrefix'     => '',
+        'pConnect'     => false,
+        'DBDebug'      => true,
+        'charset'      => 'utf8',
+        'DBCollat'     => 'utf8_general_ci',
+        'swapPre'      => '',
+        'encrypt'      => false,
+        'compress'     => false,
+        'strictOn'     => false,
+        'failover'     => [],
+        'port'         => 3306,
         'numberNative' => false,
+        'dateFormat'   => [
+            'date'     => 'Y-m-d',
+            'datetime' => 'Y-m-d H:i:s',
+            'time'     => 'H:i:s',
+        ],
     ];
 
     //    /**

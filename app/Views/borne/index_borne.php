@@ -75,5 +75,6 @@
 			<?php endforeach; ?>
 		</div>
 	</div>
+	<?= $pager_links ?>
 </section>
 <?= view('commun/footer') ?>

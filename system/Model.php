@@ -271,7 +271,7 @@ class Model extends BaseModel
         }
 
         $builder = $this->builder();
-
+		
         $useCast = $this->useCasts();
         if ($useCast) {
             $returnType = $this->tempReturnType;
