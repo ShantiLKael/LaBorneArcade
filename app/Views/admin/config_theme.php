@@ -2,13 +2,14 @@
 <?php // var_dump($themes)  ?>
 <div class="text-white py-12 px-6">
 	<!-- Titre principal -->
-	<h2 class="text-center text-3xl font-bold mb-4">configuration des theme</h2>
-	<!-- Formulaire pour ajouter un commentaire -->
+	<h2 class="text-center text-3xl font-bold mb-4">Configuration des theme</h2>
+	
+	<!-- Formulaire pour ajouter un theme -->
 	<?php echo form_open('/admin/theme'); ?>
 
 	<div class="max-w-3xl mx-auto">
 		<!-- Titre centré -->
-		<h3 class="text-center text-3xl font-bold mb-6">Ajoutez un thème :</h3>
+		<h3 class="text-center text-3xl font-bold mb-6">Ajoutez un thème</h3>
 
 		<!-- Formulaire -->
 		<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -27,7 +28,7 @@
 
 			<!-- Bouton Enregistrer -->
 			<div class="flex justify-start md:justify-center">
-				<?php echo form_submit('submit', 'Enregistrer', "class='bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg'"); ?>
+				<?php echo form_submit('submit', 'Enregistrer', "class='bg-[#00bf63] hover:bg-green-700 text-white font-medium py-2 px-4 rounded-full'"); ?>
 			</div>
 		</div>
 
@@ -64,7 +65,7 @@
 						<!-- Formulaire pour supprimer le thème -->
 						<?php echo form_open('/admin/theme/delete', ['onsubmit' => 'return confirm("Êtes-vous sûr de vouloir supprimer ce thème ?")']); ?>
 							<?php echo form_hidden('id', $theme->id); ?>
-							<?php echo form_submit('delete', 'Supprimer', "class='text-red-600 hover:text-red-800 font-bold'"); ?>
+							<?php echo form_submit('delete', 'Supprimer', "class='bg-red-500 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-full'"); ?>
 						<?php echo form_close(); ?>
 					</div>
 				</div>
