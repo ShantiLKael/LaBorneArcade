@@ -1,4 +1,6 @@
-<?= view('commun/header', ['titre' => $titre]) ?>
+<?= /** @noinspection PhpUndefinedVariableInspection */
+/** @noinspection  */
+view('commun/header', ['titre' => $titre]) ?>
 <form action="/bornes/<?= isset($borne) ? $borne->id : '' ?>" method="post"> <!-- Formulaire des options choisies -->
 <section id="section"  class="container px-5 py-16 mx-auto bg-medium-blue rounded-xl ">
 <div class="px-0 md:px-20 mb-16">
@@ -81,7 +83,7 @@
 	<!-- Nom du modèle -->
 	<h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-2xl md:text-3xl text-gray-400">Joystick</h2>
 	<!-- Sélecteur du modèle -->
-	<div class="w-full max-w-sm min-w-[200px]">      
+	<div class="w-full max-w-sm min-w-[200px]">
 		<div class="relative">
 			<select id="selection-joysticks" class="w-full bg-transparent placeholder:text-slate-400 text-slate-500 text-sm border-b border-slate-400 pl-3 py-2 transition duration-300 ease focus:border-b focus:border-slate-500 hover:border-slate-200 shadow-sm focus:shadow-md appearance-none cursor-pointer">
 				<option class="bg-deep-blue" value="Tous" selected>Tous les joysticks</option>
@@ -109,8 +111,8 @@
 				<h3 class="font-bold text-base text-white"><?= $joystick->modele ?></h3>
 				
 				<!-- Rond de couleur -->
-				<div 
-					style="background-color: #<?= $joystick->couleur ?>;" 
+				<div
+					style="background-color: #<?= $joystick->couleur ?>;"
 					class="w-6 h-6 rounded-full border border-gray-300">
 				</div>
 			</div>
@@ -180,7 +182,7 @@
 			<img src="" alt="Matière <?= $matiere->nom ?>" class="w-full h-5/6 object-cover" />
 			<div style="background-color: #<?= $matiere->couleur ?>;" class="h-1/4"></div>
 		</div>
-	<?php endforeach; ?> 
+	<?php endforeach; ?>
 	</div>
 </div>
 
@@ -251,7 +253,7 @@
 	<button class="bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-6 my-5 rounded-3xl cursor-pointer" onclick="convertirEnImage()">
 		Télécharger l'image
 	</button>
-</div> 
+</div>
 </section>
 </form>
 <script>
@@ -262,3 +264,4 @@
 <script src="./assets/js/filtre-bouton-joystick.js"></script>
 <script src="./assets/js/check-option-animation.js"></script>
 <?= view('commun/footer') ?>
+

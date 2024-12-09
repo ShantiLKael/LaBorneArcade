@@ -1,10 +1,13 @@
 <?php
+
 namespace App\Controllers;
+
 use App\Models\UtilisateurModel;
 use App\Entities\Utilisateur;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Validation\Validation;
-use \Config\Services;
+use Config\Services;
+use ReflectionException;
 
 class LoginController extends BaseController
 {
@@ -19,10 +22,14 @@ class LoginController extends BaseController
 	{
 		helper(['form']);
 		$this->utilisateurModel = new UtilisateurModel();
-		$this->validation = \Config\Services::validation();
+		$this->validation = Services::validation();
 	}
-
-	public function inscription()
+	
+	/**
+	 * @return string|RedirectResponse
+	 * @throws ReflectionException
+	 */
+	public function inscription(): string|RedirectResponse
 	{
 		if ($this->request->getMethod() === 'GET') {
 			// Handle GET request
@@ -51,13 +58,13 @@ class LoginController extends BaseController
 		} else {
 			// Si les règles ne sont pas respectées, renvoi des erreurs de validation
 			return view('login/inscription', [
-				'titre' => 'Créer un compte',
+				'titre'   => 'Créer un compte',
 				'erreurs' => $this->validator->getErrors(),
 			]);
 		}
 	}
 
-	public function connexion()
+	public function connexion(): string|RedirectResponse
 	{
 		$this->utilisateurModel = new UtilisateurModel();
 
@@ -65,18 +72,18 @@ class LoginController extends BaseController
 			// Règles de validation pour l'email et le mot de passe
 			$rules = [
 				'email' => 'required|valid_email',
-				'mdp' => 'required|min_length[8]',
+				'mdp'   => 'required|min_length[8]',
 			];
 
 			$ruleMessages = [
 				'email' => [
-					'required' => 'Champ requis.',
+					'required'    => 'Champ requis.',
 					'valid_email' => 'Email invalide.',
 				],
 
 				'mdp' => [
-					'required' => 'Champ requis.',
-					'min_length' => 'Le mot de passe est trop court.',
+					'required'    => 'Champ requis.',
+					'min_length'  => 'Le mot de passe est trop court.',
 				],
 			];
 
@@ -96,7 +103,7 @@ class LoginController extends BaseController
 						// Authentification réussie
 						// Stocker l'utilisateur dans la session
 						session()->set('user', [
-							'id' => $user->id,
+							'id'    => $user->id,
 							'email' => $user->email,
 						]);
 
@@ -105,21 +112,21 @@ class LoginController extends BaseController
 					} else {
 						// Mot de passe incorrect
 						return view('login/connexion', [
-							'titre' => 'Se connecter',
+							'titre'   => 'Se connecter',
 							'erreurs' => ['mdp' => 'Mot de passe incorrect.'], // Passer les erreurs à la vue
 						]);
 					}
 				} else {
 					// L'email n'existe pas
 					return view('login/connexion', [
-						'titre' => 'Se connecter',
+						'titre'   => 'Se connecter',
 						'erreurs' => ['email' => 'Email introuvable.'], // Passer les erreurs à la vue
 					]);
 				}
 			} else {
 				// Si la validation échoue, renvoyer les erreurs
 				return view('login/connexion', [
-					'titre' => 'Se connecter',
+					'titre'   => 'Se connecter',
 					'erreurs' => $this->validator->getErrors(), // Passer les erreurs à la vue
 				]);
 			}
@@ -128,8 +135,12 @@ class LoginController extends BaseController
 		// Affiche la vue pour une requête GET
 		return view('login/connexion', ['titre' => 'Se connecter']);
 	}
-
-	public function oubliMdp()
+	
+	/**
+	 * @return string
+	 * @noinspection PhpUnhandledExceptionInspection
+	 */
+	public function oubliMdp(): string
 	{
 
 		if ($this->request->getMethod() === 'POST') {
@@ -146,7 +157,7 @@ class LoginController extends BaseController
 			echo 'Adresse e-mail soumise : ' . $email;
 
 			if ($user) {
-				// Générer un jeton de réinitialisation de MDP et enregistrer-le dans BD
+				// Générer un jeton de réinitialisation de MDP et enregistrez-le dans BD
 				$token = bin2hex(random_bytes(16));
 				$expiration = date('Y-m-d H:i:s', strtotime('+1 hour'));
 				$userModel->set('token_mdp', $token)
@@ -174,10 +185,14 @@ class LoginController extends BaseController
 		return view('login/oubliMdp', ['titre' => "Profile"]);
 
 	}
-
-	public function resetMdp(string $token)
+	
+	/**
+	 * @param $token
+	 * @return string
+	 * @throws ReflectionException
+	 */
+	public function resetMdp(string $token): string
 	{
-		$userModel = new UtilisateurModel();
 		if ($this->request->getMethod() === 'POST') {
 
 
@@ -186,13 +201,13 @@ class LoginController extends BaseController
 			// Valider et traiter les données du formulaire
 
 
-			$user = $userModel->where('token_mdp', $token)
+			$user = $this->utilisateurModel->where('token_mdp', $token)
 				->where('date_creation_token >', date('Y-m-d H:i:s'))
 				->first();
 			if ($user && $password === $confirmPassword) {
 				// Mettre à jour le mot de passe et réinitialiser le jeton
 				$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-				$userModel->set('mdp', $hashedPassword)
+				$this->utilisateurModel->set('mdp', $hashedPassword)
 					->set('token_mdp', null)
 					->set('date_creation_token', null)
 					->update($user->id_utilisateur);
@@ -204,7 +219,7 @@ class LoginController extends BaseController
 		} else {
 			helper(['form']);
 
-			$user = $userModel->where('token_mdp', $token)
+			$user = $this->utilisateurModel->where('token_mdp', $token)
 				->where('date_creation_token >', date('Y-m-d H:i:s'))
 				->first();
 			if ($user) {
@@ -215,7 +230,11 @@ class LoginController extends BaseController
 		}
 
 	}
-
+	
+	/**
+	 * @return string
+	 * @throws ReflectionException
+	 */
 	public function profile(): string {
         $session = session();
         $data = $this->request->getPost();
@@ -238,7 +257,7 @@ class LoginController extends BaseController
             ];
 
             if (!$this->validate($regleValidation, $messagesValidation)) {
-                return view('login/profile', [ 
+                return view('login/profile', [
                     'titre'   => 'Mon profil',
                     'erreurs' => $this->validation->getErrors(),
                 ]);
@@ -246,14 +265,14 @@ class LoginController extends BaseController
                 // Gestion mot de passe
                 if ($data['mdp']) {
                     if (strlen($data['mdp']) < 8) {
-                        return view('login/profile', [ 
+                        return view('login/profile', [
                             'titre'   => 'Mon profil',
                             'erreurs' => ['mdp' => 'Votre mot de passe est trop court (min. 8 caractères).'],
                         ]);
                     }
 
                     if (strcmp($data['mdp'],$data['mdpConf']) != 0) {
-                        return view('login/profile', [ 
+                        return view('login/profile', [
                             'titre'   => 'Mon profil',
                             'erreurs' => ['mdpConf' => 'Les mots de passe ne correspondent pas.'],
                         ]);
@@ -264,7 +283,7 @@ class LoginController extends BaseController
                 $idUtilisateur = $session->get('user')['id'];
                 $utilisateur = $this->utilisateurModel->find($idUtilisateur);
                 $utilisateur->email = $data['email'];
-                $utilisateur->mdp ?: $data['mdp'];
+                $utilisateur->mdp ?: $data['mdp']; // TODO: WTF
 
                 $this->utilisateurModel->save($utilisateur);
                 
@@ -293,8 +312,7 @@ class LoginController extends BaseController
 		""
 	): bool {
 		$emailService = Services::email();
-
-		echo $titre;
+		
 		$emailService->setTo($mail);
 		$emailService->setFrom('mailingtestIUT@gmail.com');
 		$emailService->setSubject($sujet);
@@ -305,6 +323,7 @@ class LoginController extends BaseController
     <head>
         <meta charset='UTF-8'>
         <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <title></title>
         <style>
             body {
                 margin: 0;
@@ -380,7 +399,6 @@ class LoginController extends BaseController
     </html>"
 		);
 
-
 		if ($emailService->send())
 			return true;
 		log_message("error", $emailService->printDebugger());
@@ -388,3 +406,4 @@ class LoginController extends BaseController
 	}
 
 }
+
