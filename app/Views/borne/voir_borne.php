@@ -1,6 +1,7 @@
 <?= view('commun/header', ['titre' => $titre]) ?>
-<section class="container mx-auto pt-16 px-4">
-	<form action="/bornes/<?= $borne->id ?>" method="post" id="optionsForm"> <!-- Formulaire des options choisies -->
+<section class="container px-5 py-16 mx-auto bg-medium-blue rounded-xl ">
+<div class="px-0 md:px-20 mb-16">
+<form action="/bornes/<?= $borne->id ?>" method="post" id="optionsForm"> <!-- Formulaire des options choisies -->
 	<input type="hidden" id="id_borne" name="id_borne" value=<?= $borne->id?> />
 	
 	<!-- Section du produit principal -->
@@ -16,7 +17,7 @@
 			<p class="text-green-400 text-2xl font-bold mb-4"><?= $borne->prix ?> €</p>
 
 			<!-- Contenu de la borne -->
-			<div class="bg-gradient-to-r from-medium-blue max-w-100 to-dark-teal p-4 rounded mb-4">
+			<div class="bg-gradient-to-r from-dark-blue max-w-100 to-dark-teal p-4 rounded mb-4">
 				<h2 class="text-lg font-bold text-green-400 mb-2">Votre borne contient</h2>
 				<ul class="list-disc pl-6 space-y-1">
 					<li>8000 Jeux</li>
@@ -58,27 +59,25 @@
 			</div>
 		</div>
 	</div>
-</section>
+</div>
 
-<!-- Section des options -->
-<section class="container mx-auto px-4">
-	<div class="mt-12">
-		<h2 class="text-2xl font-bold mb-3 text-center">Options disponibles</h2>
-		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-			<?php foreach($borne->options as $option) : ?>
-				<div class="relative p-4 rounded border-2 border-transparent hover:border-green-600/50  transition duration-300">
-					<input type="checkbox" id="option<?= $option->nom ?>" name="options[]" value="<?= $option->id ?>" class="absolute top-2 right-2 w-5 h-5 cursor-pointer">
-					<img src="" alt="<?= $option->nom ?>" class="w-full h-40 object-cover rounded mb-4">
-					<p class="text-green-400 text-lg font-bold mb-2"><?= $option->cout ?> €</p>
-					<div class="text-base">
-						<h3 class="font-bold text-lg text-left mb-2"><?= $option->nom ?></h3>
-						<p class="text-left"><?= $option->description ?>.</p>
-					</div>
+<!-- Séléction des options -->
+<div class="px-0 md:px-20">
+	<h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-2xl md:text-3xl text-gray-300">Options</h2>
+	<div class="flex overflow-x-scroll p-5 hide-scroll-bar space-x-6 rounded-xl bg-light-teal/10">
+		<?php foreach($borne->options as $option) : ?>
+			<div class="relative min-w-[300px] sm:min-w-[350px] md:min-w-[400px] bg-gray-800 rounded-lg overflow-hidden border-2 border-gray-700 hover:border-green-700 shadow-gray-900 shadow-md hover:shadow-lg ease-in-out flex-shrink-0">
+				<input type="checkbox" id="option-<?= $option->id ?>" name="options[]" value="<?= $option->id ?>" class="absolute top-3 right-3 w-6 h-6 cursor-pointer rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
+				<img loading="lazy" src="" alt="Option <?= $option->nom ?>" class="w-full h-64 object-cover">
+				<div class="p-4">
+					<p class="text-green-400 text-xl font-bold mb-2"><?= $option->cout ?> €</p>
+					<h3 class="font-bold text-xl text-left mb-2"><?= $option->nom ?></h3>
+					<p class="text-left text-sm text-gray-400"><?= $option->description ?>.</p>
 				</div>
-			<?php endforeach; ?>
-		</div>
-		</form>
+			</div>
+		<?php endforeach; ?>
 	</div>
+</div>
 </section>
 <script src="./assets/js/check-option-animation.js"></script>
 <?= view('commun/footer') ?>
