@@ -88,9 +88,8 @@ class BorneModel extends Model
 	 * @return Borne[] tableau de bornes
 	 */
 	public function getBornes(int $max_par_page, array $themes = [], array $types = []): array {
-		$builder = $this->builder()->select("b.*, string_agg(i.chemin, ',') AS image");
+		$builder = $this->builder()->select("b.*, (SELECT i.id_image FROM imageborne i WHERE i.id_borne = b.id_borne LIMIT 1) AS image");
 		$builder = $builder->from('Borne b', true);
-		$builder = $builder->join('Image i', 'b.id_image = i.id_image');
 		if (count($themes) > 0)
 			$builder = $builder->whereIn('id_theme', $themes);
 		$query = $builder->getCompiledSelect();
@@ -109,7 +108,7 @@ class BorneModel extends Model
 		else {
 			$query .= $typeStr;
 		}
-		$query .= " GROUP BY b.id_image, id_borne, nom, description, prix, id_tmolding, id_matiere, id_theme";
+		$query .= " GROUP BY id_borne, nom, description, prix, id_tmolding, id_matiere, id_theme";
 		/*  Pager  */
 		/** @var Pager $pager */
 		$pager = service('pager');
