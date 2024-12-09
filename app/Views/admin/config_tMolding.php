@@ -24,7 +24,7 @@
 							'name' => 'nom',
 							'value' => set_value('nom', ''),
 							'placeholder' => 'Entrez votre nom du TMolding ici...',
-							'class' => 'border border-gray-300 rounded-lg p-2 w-full md:w-auto',
+							'class' => 'border border-gray-300 rounded-lg p-2 w-full md:w-auto bg-gray-100 text-black',
 							'required' => 'required',
 						]
 					); ?>
@@ -80,7 +80,7 @@
 		<?php foreach ($tMoldings as $tMolding) : ?>
 			<div class="flex items-center border-b border-gray-700 py-3 bg-[#161c2d]">
 				<!-- Nom du tMolding avec une largeur fixe -->
-				<div class="text-lg font-medium text-white font-bold w-1/3 min-w-[150px] truncate">
+				<div class="text-lg font-medium text-white font-bold w-1/3 min-w-[130px] truncate">
 					<?= $tMolding->nom ?>
 				</div>
 

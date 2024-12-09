@@ -30,6 +30,7 @@
 					); ?>
 				</td>
 			</tr>
+            <tr><td><br></td></tr>
 			<tr class="flex flex-col md:flex-row md:items-center">
 				<td> <label class="text-lg font-medium mb-2 md:mb-0 md:mr-4" for="couleur">Couleur de la matiere : * </label> </td>
 				<td class="">
@@ -73,23 +74,27 @@
 
 	<!-- Grille des matieres -->
 	<h3 class="text-center text-3xl font-bold mb-4">Liste des matieres</h3>
-	<div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto">
+	<div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-7xl mx-auto">
 	<!-- matiere -->
 		<?php if (!empty($matieres)) : ?>
 			<?php foreach($matieres as $matiere) : ?>
-				<?php // var_dump($matiere)  ?>
-				<div class="border-b-2 border-white/50 p-4 bg-[#161c2d]" id="div-matiere-<?= $matiere->id ?>">
-					<div class="w-[25vw] h-[30px] flex items-center justify-start"> <h3 class="text-lg font-bold pr-4"><?= $matiere->nom ?></h3> </div>
-                    <div 
-						class="w-6 h-6 rounded-full border-2 border-black" 
+                <div class="flex items-center border-b border-gray-700 py-3 bg-[#161c2d]">
+					<!-- Nom de la matiere avec une largeur fixe -->
+					<div class="text-lg font-medium text-white font-bold w-1/3 min-w-[150px] truncate">
+						<?= $matiere->nom ?>
+					</div>
+
+					<!-- Pastille de couleur -->
+					<div 
+						class="w-6 h-6 rounded-full border-2 border-black flex-shrink-0 ml-4" 
 						style="background-color: <?= $matiere->couleur ?>;"
 						title="Couleur : <?= $matiere->couleur ?>">
 					</div>
-                    <div class="w-[45vw] h-[30px] flex items-center justify-start">
-						<!-- Formulaire pour supprimer la matiere -->
-						<?php echo form_open("/admin/matiere/delete/$matiere->id", ['onsubmit' => 'return confirm("Êtes-vous sûr de vouloir supprimer cette matiere ?")']); ?>
-							<?php echo form_hidden('id', $matiere->id); ?>
-							<?php echo form_submit('delete', 'Supprimer', "class='text-red-600 hover:text-red-800 font-bold'"); ?>
+
+					<!-- Bouton Supprimer -->
+					<div class="ml-auto">
+						<?php echo form_open("/admin/theme/delete/$matiere->id", ['onsubmit' => 'return confirm("Êtes-vous sûr de vouloir supprimer ce thème ?")']); ?>
+							<?php echo form_submit('delete', 'Supprimer', "class='bg-red-500 hover:bg-red-700 text-white font-medium py-1 px-4 rounded'"); ?>
 						<?php echo form_close(); ?>
 					</div>
 				</div>
