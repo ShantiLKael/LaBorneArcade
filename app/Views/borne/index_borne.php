@@ -1,13 +1,15 @@
-<?= view('commun/header', ['titre' => $titre]) ?>
-<form action="/bornes" method="get">
+<?= /** @noinspection PhpUndefinedVariableInspection */
+view('commun/header', ['titre' => $titre]) ?>
+<?php $get = $_GET; ?>
+<form action="/bornes" method="GET">
 <section class="mx-auto">
 	<!-- Section de sélection -->
 	<div class="bg-gradient-to-r from-dark-teal max-w-100 to-medium-blue text-center py-10 mb-8">
 		<h2 class="text-2xl font-bold mb-4">Choisis ta borne préférée</h2>
 		<div class="grid col-span-1 md:flex md:justify-center md:space-x-4">
-			<a href="/bornes?type[]=sticker" class="<?= in_array("sticker", $selectionType, true) ? "bg-green-700 hover:bg-green-800" : "bg-medium-blue/70 hover:bg-deep-blue/70" ?> my-2 md:my-0 md:mx-0 mx-20 border border-spacing-1 border-gray-400 text-white px-4 py-3 rounded-2xl">Sticker</a>
-			<a href="/bornes?type[]=wood"    class="<?= in_array("wood", $selectionType, true) ? "bg-green-700 hover:bg-green-800" : "bg-medium-blue/70 hover:bg-deep-blue/70" ?> my-2 md:my-0 md:mx-0 mx-20 border border-spacing-1 border-gray-400 text-white px-4 py-3 rounded-2xl">Classique Wood</a>
-			<a href="/bornes?type[]=gravure" class="<?= in_array("gravure", $selectionType, true) ? "bg-green-700 hover:bg-green-800" : "bg-medium-blue/70 hover:bg-deep-blue/70" ?> my-2 md:my-0 md:mx-0 mx-20 border border-spacing-1 border-gray-400 text-white px-4 py-3 rounded-2xl">Classique Wood Gravé</a>
+			<a href="/bornes<?= query_par_type($get, "sticker") ?>" class="<?= "sticker" === $selectionType ? "bg-green-700 hover:bg-green-800" : "bg-medium-blue/70 hover:bg-deep-blue/70" ?> my-2 md:my-0 md:mx-0 mx-20 border border-spacing-1 border-gray-400 text-white px-4 py-3 rounded-2xl">Sticker</a>
+			<a href="/bornes<?= query_par_type($get, "wood") ?>" class="<?= "wood" === $selectionType ? "bg-green-700 hover:bg-green-800" : "bg-medium-blue/70 hover:bg-deep-blue/70" ?> my-2 md:my-0 md:mx-0 mx-20 border border-spacing-1 border-gray-400 text-white px-4 py-3 rounded-2xl">Classique Wood</a>
+			<a href="/bornes<?= query_par_type($get, "gravure") ?>" class="<?= "gravure" === $selectionType ? "bg-green-700 hover:bg-green-800" : "bg-medium-blue/70 hover:bg-deep-blue/70" ?> my-2 md:my-0 md:mx-0 mx-20 border border-spacing-1 border-gray-400 text-white px-4 py-3 rounded-2xl">Classique Wood Gravé</a>
 		</div>
 		<p class="text-gray-300 mx-10 mt-8">
 			Pour toute information complémentaire ou pour passer commande, prenez <a href="/contact" class="text-green-400 hover:text-green-300 underline">rdv</a>.
@@ -25,20 +27,27 @@
 
 			<!-- Champ de recherche -->
 			<div class="relative mb-6">
-				<input
-					type="text"
-					placeholder="Rechercher..."
-					class="w-full bg-gray-700 border border-gray-500 text-gray-300 placeholder:text-gray-400 text-sm rounded-md py-2 pl-3 pr-4 focus:outline-none focus:ring-2 focus:ring-green-500"
-				/>
+				<label>
+					<input
+						name="search"
+						type="search"
+						placeholder="Rechercher..."
+						value="<?= @$get['search'] ?: "" ?>"
+						class="w-full bg-gray-700 border border-gray-500 text-gray-300 placeholder:text-gray-400 text-sm rounded-md py-2 pl-3 pr-4 focus:outline-none focus:ring-2 focus:ring-green-500">
+				</label>
 			</div>
+			
+			<input type="hidden" name="page" value="<?= $page ?>">
+			<input type="hidden" name="type" value="<?= @$get['type'] ?: "" ?>">
 
 			<!-- Filtres des thèmes -->
 			<div class="mb-6">
 				<h4 class="text-md font-semibold text-gray-300 mb-4">Thèmes</h4>
 				<div class="space-y-2">
 					<?php foreach ($themes as $theme): ?>
+						<?php $is_checked = in_array($theme->id, $selectionTheme) ? " checked" : ""; ?>
 						<?= form_label(
-							'<input type="checkbox" name="theme[]" value="'.$theme->id.'" class="mr-2 rounded text-green-500 focus:ring focus:ring-green-400">'
+							'<input type="checkbox" name="theme[]" value="'.$theme->id.'" class="mr-2 rounded text-green-500 focus:ring focus:ring-green-400"'.$is_checked.'>'
 							.$theme->nom,
 							'',
 							['class' => 'block text-gray-400']
@@ -52,8 +61,9 @@
 				<h4 class="text-md font-semibold text-gray-300 mb-4">Matières</h4>
 				<div class="space-y-2">
 					<?php foreach ($matieres as $matiere): ?>
+						<?php $is_checked = in_array($matiere->id, $selectionMatiere) ? " checked" : ""; ?>
 						<?= form_label(
-							'<input type="checkbox" name="matiere[]" value="'.$matiere->id.'" class="mr-2 rounded text-green-500 focus:ring focus:ring-green-400">'
+							'<input type="checkbox" name="matiere[]" value="'.$matiere->id.'" class="mr-2 rounded text-green-500 focus:ring focus:ring-green-400"'.$is_checked.'>'
 							.$matiere->nom,
 							'',
 							['class' => 'block text-gray-400']
@@ -65,24 +75,32 @@
 			<!-- Filtre par prix -->
 			<div class="mb-6">
 				<h4 class="text-md font-semibold text-gray-300 mb-4">Prix</h4>
-				<input
-					type="number"
-					name="prix_min"
-					placeholder="Min"
-					class="md:w-1/2 bg-gray-700 border border-gray-500 text-gray-300 placeholder:text-gray-400 text-sm rounded-md py-2 pl-3 focus:outline-none focus:ring-2 focus:ring-green-500"
-				/>
+				<label>
+					<input
+						type="number"
+						id="prix_min"
+						name="prix_min"
+						placeholder="Min"
+						min="0"
+						value="<?= is_numeric($get['prix_min']) ? $get['prix_min'] : "" ?>"
+						class="md:w-1/2 bg-gray-700 border border-gray-500 text-gray-300 placeholder:text-gray-400 text-sm rounded-md py-2 pl-3 focus:outline-none focus:ring-2 focus:ring-green-500">
+				</label>
 				<h4 class="text-md text-gray-300 pl-2 mb-2 mt-2">à</h4>
-				<input
-					type="number"
-					name="prix_max"
-					placeholder="Max"
-					class="md:w-1/2 bg-gray-700 border border-gray-500 text-gray-300 placeholder:text-gray-400 text-sm rounded-md py-2 pl-3 focus:outline-none focus:ring-2 focus:ring-green-500"
-				/>
+				<label>
+					<input
+						type="number"
+						id="prix_max"
+						name="prix_max"
+						placeholder="Max"
+						min="<?= is_numeric($get['prix_min']) ? $get['prix_min'] : "0" ?>"
+						value="<?= is_numeric($get['prix_max']) ? $get['prix_max'] : "" ?>"
+						class="md:w-1/2 bg-gray-700 border border-gray-500 text-gray-300 placeholder:text-gray-400 text-sm rounded-md py-2 pl-3 focus:outline-none focus:ring-2 focus:ring-green-500">
+				</label>
 			</div>
 
 			<!-- Bouton de soumission -->
 			<div>
-				<?= form_submit('submit', 'Appliquer les filtres', "class='w-full bg-green-600 hover:bg-green-500 text-white py-2 px-4 rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-green-500'"); ?>
+				<?= form_submit('', 'Appliquer les filtres', "class='w-full bg-green-600 hover:bg-green-500 text-white py-2 px-4 rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-green-500' role='button' id='submit'"); ?>
 			</div>
 		</div>
 
@@ -111,4 +129,5 @@
 	<?= $pager_links ?>
 </section>
 </form>
+<script src="/assets/js/filtres-responsifs.js"></script>
 <?= view('commun/footer') ?>
