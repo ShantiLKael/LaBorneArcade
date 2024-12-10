@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\UtilisateurModel;
 use App\Models\CommandeModel;
-use App\Models\BorneModel;
+use App\Models\BornePersoModel;
 use CodeIgniter\Config\Services;
 use CodeIgniter\HTTP\RedirectResponse;
 
@@ -16,8 +16,8 @@ class CommandeController extends BaseController {
 	/** @var CommandeModel $commandeModel */
 	private CommandeModel $commandeModel;
 
-	/** @var BorneModel $borneModel */
-	private BorneModel $borneModel;
+	/** @var bornePersoModel $bornePersoModel */
+	private bornePersoModel $bornePersoModel;
 
 	/** @var UtilisateurModel $utilisateurModel */
 	private UtilisateurModel $utilisateurModel;
@@ -29,7 +29,7 @@ class CommandeController extends BaseController {
 		helper(['form']);
 		$this->commandeModel = new CommandeModel();
 		$this->utilisateurModel = new UtilisateurModel();
-		$this->borneModel = new BorneModel();
+		$this->bornePersoModel = new BornePersoModel();
 	}
 	
 	/**
@@ -38,10 +38,11 @@ class CommandeController extends BaseController {
 	 * @return string La vue qui liste les bornes du panier.
 	 */
 	public function panier() : string {
-	
         $session = session();
-		if (!$session->has('panier'))
-			$session->set('panier', []);
+		if (!$session->has('panier') && !$session->has('user')) {
+			$session->set('panier' , []);
+			$session->set('options', []);
+		}
         
         // Vérifier si le client est authentifié
         $bornes = ($session->get('user')) ? 
@@ -49,8 +50,9 @@ class CommandeController extends BaseController {
                    $session->get('panier'); // Client visiteur
 
 		return view('commande/panier_commande', [
-			'titre'  => 'Panier',
-			'bornes' => $bornes,
+			'titre'   => 'Panier',
+			'bornes'  => $bornes,
+			'options' => $session->get('options') ?: null,
 		]);
 	}
 	
@@ -73,14 +75,25 @@ class CommandeController extends BaseController {
 	}
 	
 	/**
-	 * Suppresion d'une borne.
+	 * Suppresion d'une borne personnalisée .
 	 * Et redirection vers le panier utilisateur.
      * 
 	 * @return RedirectResponse
 	 */
-	public function suppressionBorne(int $idBorne) : RedirectResponse {
+	public function suppressionBorne(int $id) : RedirectResponse {
 	
-        $this->borneModel->deleteCascade($idBorne);
+		$session = session();
+
+		if ($session->has('user')) {
+			$this->bornePersoModel->deleteCascade($id);
+		} else {
+			$panier = $session->get('panier');
+			$options = $session->get('options');
+			unset($panier[$id]);
+			unset($options[$id]);
+			$session->set('panier', $panier);
+			$session->set('options', $options);
+		}
 
 		return redirect()->to('/panier');
 	}

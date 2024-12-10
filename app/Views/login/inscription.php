@@ -18,6 +18,7 @@
 						'id'            => 'email',
 						'class'         => 'w-full text-sm bg-gray-700 border border-gray-300 px-4 py-3 rounded-lg outline-green-600 focus:outline-none focus:ring-2 '.$focusRIng,
 						'value'         => set_value('email'),
+            			'placeholder'   => 'Email@domaine.fr',
 						'aria-required' => 'true',
 						'type'          => 'text',
 						'required'
@@ -44,6 +45,7 @@
 						'id'            => 'mdp',
 						'class'         => 'w-full text-sm bg-gray-700 border border-gray-300 px-4 py-3 rounded-lg outline-green-600 focus:outline-none focus:ring-2 '.$focusRIng,
 						'value'         => set_value('mdp'),
+            			'placeholder'   => 'Mot de passe',
 						'type'          => 'password',
 						'aria-required' => 'true',
 						'required'
@@ -67,6 +69,7 @@
 						'id'            => 'mdpConf',
 						'class'         => 'w-full text-sm bg-gray-700 border border-gray-300 px-4 py-3 rounded-lg outline-green-600 focus:outline-none focus:ring-2 '.$focusRIng,
 						'value'         => set_value('mdpConf'),
+            			'placeholder'   => 'Confirmation du mot de passe',
 						'type'          => 'password',
 						'aria-required' => 'true',
 						'required'
@@ -81,7 +84,7 @@
 				<?= form_submit('submit', 'Créer son compte', "class='w-full shadow-xl py-3 px-4 text-sm tracking-wide rounded-lg text-white bg-green-600 hover:bg-green-500/60 focus:outline-none cursor-pointer'"); ?>
 			</div>
 
-			<p class="text-sm !mt-8 text-center text-gray-400">Vous avez déjà un compte ? <a href="/connexion" class="text-green-600 font-semibold hover:underline ml-1 whitespace-nowrap">Connectez vous !</a></p>
+			<p class="text-sm !mt-8 text-center text-gray-400">Vous avez déjà un compte ? <a href="/connexion" class="text-green-600 hover:text-green-500 font-semibold hover:underline ml-1 whitespace-nowrap">Connectez vous !</a></p>
 		<?= form_close() ?>
 		</div>
 		<div class="rounded-b-lg max-md:mt-8 bg-gradient-to-r from-green-800/70 to-medium-blue">

@@ -43,11 +43,6 @@ class CreerBorne extends Migration {
 				'unsigned'=>true,
 				'null'    =>false,
 			],
-			'id_image'=>[
-				'type'    =>"INT",
-				'unsigned'=>true,
-				'null'    =>false,
-			],
 			'id_theme'=>[
 				'type'    =>"INT",
 				'unsigned'=>true,
@@ -57,7 +52,6 @@ class CreerBorne extends Migration {
 		$this->forge->addPrimaryKey('id_borne');
 		$this->forge->addForeignKey('id_tmolding','tmolding','id_tmolding', 'CASCADE', 'CASCADE');
 		$this->forge->addForeignKey('id_matiere','matiere','id_matiere', 'CASCADE', 'CASCADE');
-		$this->forge->addForeignKey('id_image','image','id_image', 'CASCADE', 'CASCADE');
 		$this->forge->addForeignKey('id_theme','theme','id_theme', 'CASCADE', 'CASCADE');
 		$this->forge->createTable('borne');
 	}

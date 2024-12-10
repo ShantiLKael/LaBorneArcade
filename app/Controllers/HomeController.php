@@ -4,9 +4,9 @@ namespace App\Controllers;
 use App\Models\FaqModel;
 use CodeIgniter\Session\Session;
 use CodeIgniter\Validation\Validation;
-use App\Controller\LoginController;
+use Config\Services;
 
-class HomeController extends BaseController 
+class HomeController extends BaseController
 {
 	/** @var Session $session */
 	private Session $session;
@@ -19,9 +19,9 @@ class HomeController extends BaseController
 
 	public function __construct() {
 		$this->session = session();
-		$this->validation = \Config\Services::validation();
+		$this->validation = Services::validation();
 		$this->faqModel = new FaqModel();
-		helper(['form']);		
+		helper(['form']);
 	}
 
 	public function index():string {
@@ -29,7 +29,7 @@ class HomeController extends BaseController
 	}
 
 	/**
-	 * Méthode qui affiche une interface de contact 
+	 * Méthode qui affiche une interface de contact
 	 * pour joindre les administrateurs.
 	 *
 	 * @return string La vue de contact.
@@ -81,7 +81,7 @@ class HomeController extends BaseController
 	}
 
 	/**
-	 * Méthode qui affiche une interface de contact 
+	 * Méthode qui affiche une interface de contact
 	 * pour joindre les administrateurs.
 	 *
 	 * @return string La vue de contact.
@@ -91,7 +91,7 @@ class HomeController extends BaseController
 	}
 
 	/**
-	 * Méthode qui affiche les conditions générales de vente 
+	 * Méthode qui affiche les conditions générales de vente
 	 *
 	 * @return string La vue des conditions de vente.
 	 */

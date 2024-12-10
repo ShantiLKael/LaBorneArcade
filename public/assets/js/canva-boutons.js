@@ -7,7 +7,7 @@ class Figure
     static figures = [];
     static histActions = [];
 
-    constructor(x, y, l, forme, couleur) {
+    constructor(x, y, l, forme, couleur, ordre) {
         this._x = x;
         this._y = y;
         this._l = l;
@@ -15,6 +15,7 @@ class Figure
         this._couleur = couleur;
         this._eclairage = false;
         this._focus = false;
+        this._ordre = ordre;
         Figure.figures.push(this);
     }
 
@@ -49,11 +50,11 @@ class Figure
 
     static dessinerTriangle(x, y, radius, coul, estFocus)
     {
-        ctx.strokeStyle = "black"; // Couleur du trait
+        ctx.strokeStyle = "#d9d9d9"; // Couleur du trait
         ctx.fillStyle = coul; // Couleur du remplissage
 
         // Triangle 1
-        ctx.lineWidth =  (estFocus) ? 3 : 1;
+        ctx.lineWidth =  (estFocus) ? 5 : 1;
         ctx.beginPath();
         ctx.moveTo(x - radius, y + radius * 0.7);
         ctx.lineTo(x + radius, y + radius * 0.7);
@@ -75,11 +76,11 @@ class Figure
 
     static dessinerCercle(x, y, radius, coul, estFocus)
     {
-        ctx.strokeStyle = "black"; // Couleur du trait
+        ctx.strokeStyle = "#d9d9d9"; // Couleur du trait
         ctx.fillStyle = coul; // Couleur du remplissage
 
         // Cercle 1
-        ctx.lineWidth =  (estFocus) ? 3 : 1;
+        ctx.lineWidth =  (estFocus) ? 5 : 1;
         ctx.beginPath();
         ctx.arc(x, y, radius, 0, 2 * Math.PI);
         ctx.fill();
@@ -103,11 +104,11 @@ class Figure
 
     static dessinerRect(x, y, width, height, coul, estFocus)
     {
-        ctx.strokeStyle = "black"; // Couleur du trait
+        ctx.strokeStyle = "#d9d9d9"; // Couleur du trait
         ctx.fillStyle = coul; // Couleur du remplissage
 
         // Rectangle 1
-        ctx.lineWidth =  (estFocus) ? 3 : 1;
+        ctx.lineWidth =  (estFocus) ? 5 : 1;
         ctx.beginPath();
         ctx.fillRect(x, y, width, height);
         ctx.rect(x, y, width, height);
@@ -136,6 +137,7 @@ class Figure
     set l(l) { this._l = l;  }
 
     set couleur  (coul ) { this._couleur = coul; }
+    set ordre    (num  ) { this._ordre   = num;  }
 
     set eclairage(bool)  { this._eclairage = bool; }
     set focus    (bool)  { this._focus     = bool; }
@@ -149,6 +151,8 @@ class Figure
     get couleur  () { return this._couleur; }
     get focus    () { return this._focus; }
     get eclairage() { return this._eclairage; }
+    get eclairage() { return this._eclairage; }
+    get ordre    () { return this._ordre; }
 }
 
 function assombrirCouleur(hexColor, magnitude)
@@ -180,29 +184,59 @@ const canvas = document.getElementById('persoBorne');
 const ctx = canvas.getContext('2d');
 
 // Listes des différents composants
-let boutonSelect = [];
-let boutonJeu = [];
-let joystick  = [];
+let boutonCanvaSelect = [];
+let boutonJeuCanva = [];
 let decalage;
-let nbJoueur;
-let nbBoutonParJoueur;
+let nbJoueur = 2;
+let nbBoutonParJoueur = 3; // TODO Modulable
+
+// Création des inputs cachées de bouton-borneperso
+let container = document.getElementById('bouton-borneperso');
+for (i = 1; i <= (nbBoutonParJoueur *2) +2; i++)
+{
+    // Creation input
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.id = `btn-${i}`;
+    input.name = 'idBoutons[]';
+    input.value = 0;
+
+    // Ajoute le nouvel input dans le div
+    container.appendChild(input);
+}
+
+for (i = 1; i <= nbJoueur; i++)
+{
+    // Creation input
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.id = `joystick-${i}`;
+    input.name = 'idJoysticks[]';
+    input.value = 0;
+
+    // Ajoute le nouvel input dans le div
+    container.appendChild(input);
+}
+
+// Sélection de la forme et couleur
+const formeSelect = document.getElementById("select-forme-bouton");
+const coulSelect  = document.getElementById("select-couleur-bouton");
+let   coulSelectJoystick = document.getElementById('select-modele-joystick');
+
 
 // Forme par défault des éléments
 let formeOption = "rond";
 
 // Couleur par défault des éléments
-let coulDefaut = "#ffffff";
-let coulOption = "#ffffff";
+let coulDefaut = coulOption = "#c0c0c0";
+let idBoutonOption = 0;
 
-// Sélection de la forme et couleur
-const formeSelect = document.getElementById("select-forme");
-const coulSelect  = document.getElementById("select-couleur");
 // TODO Bouton pour changer la configure
 // const boutonValider = document.getElementById("btn-valid-configure");
 
 // Configureuration par défault
 redimensionnerCanva(); 
-initElements(1, 6);
+initElements(nbJoueur, nbBoutonParJoueur);
 dessinerElements();
 
 
@@ -226,7 +260,7 @@ function convertirEnImage()
     // Lien temporaire pour télécharger l'image
     const link = document.createElement('a');
     link.href = image.src;
-    link.download = 'borneJoueur.png';
+    link.download = 'disposition-boutons.png';
 
     // Déclenche le téléchargement de l'image
     link.click();
@@ -358,7 +392,7 @@ canvas.addEventListener('keydown',
         }
 
         formeOption = formeSelect.options[formeSelect.selectedIndex].value;
-        coulOption = coulSelect.options[coulSelect.selectedIndex].value;
+        coulOption = coulSelect.options[coulSelect.selectedIndex].getAttribute('data-color');
 }, false);
 
 canvas.addEventListener('keyup', (event) => {
@@ -377,7 +411,12 @@ canvas.addEventListener('keyup', (event) => {
 // ******************
 
 // Evenement entrée utilisateur pour la couleur et la forme
-coulSelect .addEventListener('change', (e) => { coulOption  = e.target.value; }, false);
+coulSelect.addEventListener('change', (e) => {
+    let selectedOption = e.target.selectedOptions[0];
+    coulOption = selectedOption.getAttribute('data-color');
+    idBoutonOption = selectedOption.value;
+}, false);
+
 formeSelect.addEventListener('change', (e) => { formeOption = e.target.value; }, false);
 
 // Changement de la taille de l'écran
@@ -394,15 +433,22 @@ canvas.addEventListener('click',
         let sourisX = event.clientX - rect.left;
         let sourisY = event.clientY - rect.top;
 
+        Figure.figures.forEach(figure => {
+            figure.focus = false;
+        });
+
         console.log("X : ", sourisX, " | Y : ", sourisY);
         for (i = 0; i < Figure.figures.length; i++)
         {
             let bouton = Figure.figures[i];
+            bouton.focus = false;
             if (sourisX > bouton.x - bouton.l && sourisX < bouton.x + bouton.l &&
                 sourisY > bouton.y - bouton.l && sourisY < bouton.y + bouton.l)
                 {
                     bouton.couleur = coulOption;
                     bouton.forme   = formeOption;
+                    let input   = document.getElementById(`btn-${bouton.ordre}`);
+                    input.value = idBoutonOption;
                     dessinerElements();
                     return;
                 }
@@ -412,7 +458,7 @@ canvas.addEventListener('click',
 function dessinerElements()
 {
     // Efface graphiquement tous les éléments
-    fondBlanc();
+    fond();
 
     // TODO Si decalage ou nbJoueur modifier 
     // initElements();
@@ -425,10 +471,11 @@ function dessinerElements()
     let yJoystick = largeurEcran  * 0.20;
     let largJoystick = largeurEcran  * 0.35;
     let longJoystick = longueurEcran * 0.15 + largJoystick * 0.20;
-    let rayonCercleJoystick = longJoystick * 0.15 + largJoystick * 0.15;
+    let rayonCercleJoystick = longJoystick * 0.18 + largJoystick * 0.18;
 
     // Dessin du rectangle du Joystick
     dessinerRectAvecCercles(xJoystick, yJoystick, longJoystick, largJoystick, longueurEcran * 0.009);
+    Figure.dessinerCercle(xJoystick + (longJoystick* 0.5), yJoystick + (largJoystick * 0.5), rayonCercleJoystick, coulDefaut, false);
 
     // Dessin des boutons
     let rayonCercle = rayonCercleJoystick * 0.55;
@@ -436,46 +483,37 @@ function dessinerElements()
     let xBouton = xJoystick + longJoystick;
     let yBouton = yJoystick + largJoystick * 0.3;
 
-    // Figure du Joystick
-    for(i = 0; i < joystick.length; i++)
-    {	
-        joystick[i].x = xJoystick + (longJoystick * 0.5); 
-        joystick[i].y = yJoystick + (largJoystick * 0.5);
-        joystick[i].l = rayonCercleJoystick;
-    }
-
     // 3 ou 6 Boutons de controle du joeur
     decalage = 1;
-    let nbLigne = Math.ceil(boutonJeu.length / 3);
-    let nbCol   = Math.ceil(boutonJeu.length / nbLigne);
+    let nbLigne = Math.ceil(boutonJeuCanva.length / 3);
+    let nbCol   = Math.ceil(boutonJeuCanva.length / nbLigne);
 
     for(i = 0; i < nbLigne; i++)
-        for(j = 0; j < nbCol && i * nbCol + j < boutonJeu.length; j++)
+        for(j = 0; j < nbCol && i * nbCol + j < boutonJeuCanva.length; j++)
         {
             decalage = (decalage < j) ? 1 : 0; // Décalage des boutons pour le colonne j
 
             let x = xBouton + distBouton * (j +1);
             let y = yBouton - (distBouton * 0.2 * decalage) + distBouton * i;
 
-            boutonJeu[i * nbCol + j].x = x;
-            boutonJeu[i * nbCol + j].y = y;
-            boutonJeu[i * nbCol + j].l = rayonCercle;
+            boutonJeuCanva[i * nbCol + j].x = x;
+            boutonJeuCanva[i * nbCol + j].y = y;
+            boutonJeuCanva[i * nbCol + j].l = rayonCercle;
         }
     
     // Boutons de 1J - 2J
     rayonCercle = rayonCercleJoystick * 0.60;
     distBouton  = rayonCercle * 1.5;
 
-    boutonSelect[0].x = longueurEcran * 0.2 + distBouton * boutonJeu.length - rayonCercle * 4;
-    boutonSelect[0].y = rayonCercle * 1.2;
-    boutonSelect[0].l = rayonCercle;
-    boutonSelect[1].x = longueurEcran * 0.2 + distBouton * boutonJeu.length - rayonCercle;
-    boutonSelect[1].y = rayonCercle * 1.2;
-    boutonSelect[1].l = rayonCercle;
+    boutonCanvaSelect[0].x = longueurEcran * 0.2 + distBouton * boutonJeuCanva.length - rayonCercle * 4;
+    boutonCanvaSelect[0].y = rayonCercle * 1.2;
+    boutonCanvaSelect[0].l = rayonCercle;
+    boutonCanvaSelect[1].x = longueurEcran * 0.2 + distBouton * boutonJeuCanva.length - rayonCercle;
+    boutonCanvaSelect[1].y = rayonCercle * 1.2;
+    boutonCanvaSelect[1].l = rayonCercle;
 
-    joystick    .forEach(bouton => Figure.dessiner(bouton));
-    boutonJeu   .forEach(bouton => Figure.dessiner(bouton));
-    boutonSelect.forEach(bouton => Figure.dessiner(bouton));
+    boutonJeuCanva   .forEach(bouton => Figure.dessiner(bouton));
+    boutonCanvaSelect.forEach(bouton => Figure.dessiner(bouton));
 }
 
 function initElements(nbJoueur, nbBoutonParJoueur)
@@ -494,26 +532,20 @@ function initElements(nbJoueur, nbBoutonParJoueur)
     let rayonCercle = rayonCercleJoystick * 0.60;
     let distBouton  = rayonCercle * 1.5;
     
-    boutonSelect =
+    boutonCanvaSelect =
     [
-        new Figure(longueurEcran * 0.2 + distBouton * boutonJeu.length - rayonCercle * 4,
+        new Figure(longueurEcran * 0.2 + distBouton * boutonJeuCanva.length - rayonCercle * 4,
                 rayonCercle * 1.2,
-                rayonCercle, formeOption, coulOption),
+                rayonCercle, formeOption, coulDefaut, 1),
 
-        new Figure(longueurEcran * 0.2 + distBouton * boutonJeu.length - rayonCercle,
+        new Figure(longueurEcran * 0.2 + distBouton * boutonJeuCanva.length - rayonCercle,
                 rayonCercle * 1.2,
-                rayonCercle, formeOption, coulOption)
+                rayonCercle, formeOption, coulDefaut, 2)
     ];
 
     // Dessin du rectangle du Joystick
     dessinerRectAvecCercles(xJoystick, yJoystick, longJoystick, largJoystick, longueurEcran * 0.009);
 
-    //Figure Joystick
-    // TODO for nbJoueur
-    joystick = [
-        new Figure(xJoystick + (longJoystick* 0.5), yJoystick + (largJoystick * 0.5), rayonCercleJoystick, formeOption, coulOption),
-    ];
-    
     // Dessin des boutons joueurs
     rayonCercle = rayonCercleJoystick * 0.6;
     distBouton = rayonCercle * 2.5;
@@ -524,8 +556,6 @@ function initElements(nbJoueur, nbBoutonParJoueur)
     let nbLigne = Math.ceil(nbBoutonParJoueur / 3);
     let nbCol = Math.ceil(nbBoutonParJoueur / nbLigne);
 
-    console.log(nbLigne, nbCol);
-    
     for( i = 0; i < nbLigne; i++ )
         for( j = 0; j < nbCol && i * nbCol + j < nbBoutonParJoueur; j++ )
         {
@@ -539,33 +569,30 @@ function initElements(nbJoueur, nbBoutonParJoueur)
                 xBouton + distBouton * (j +1),
                 yBouton - (distBouton * 0.2 * decalage) + distBouton * i,
                 rayonCercle,
-                formeOption, coulOption
+                formeOption, coulDefaut, (i * nbCol + j +3)
             );
 
-            boutonJeu.push(btn);
+            boutonJeuCanva.push(btn);
         }
-    
-    console.log("Init Elements :");
-    console.log(Figure.figures);
 }
 
 function redimensionnerCanva()
 {
-    canvas.width  = window.innerWidth -10;
+    canvas.width  = document.getElementById('section').offsetWidth * 0.85;
     canvas.height = 600;
-    fondBlanc();
+    fond();
 }
 
-function fondBlanc()
+function fond()
 {
-    ctx.fillStyle = "#ffffff";
+    ctx.fillStyle = "#192033";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
 function dessinerRectAvecCercles(x, y, width, height, cornerRadius)
 {
     // Rectangle principal
-    Figure.dessinerRect(x, y, width, height, "#ffffff");
+    Figure.dessinerRect(x, y, width, height, "#a3a0a2");
 
     // Cercles aux coins
     Figure.dessinerCercle(x + cornerRadius, y + cornerRadius, cornerRadius * 0.5, coulDefaut, false);

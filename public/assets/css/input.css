@@ -1,7 +1,7 @@
-
+/* Barre de navigation */
 .link-underline {
   border-bottom-width: 0;
-  background-image: linear-gradient(transparent, transparent), linear-gradient(#18a44c, #18a44c);
+  background-image: linear-gradient(transparent, transparent), linear-gradient(#18CCA3, #18CCA3);
   background-size: 0 3px;
   background-position: 0 100%;
   background-repeat: no-repeat;
@@ -9,7 +9,7 @@
 }
 
 .link-underline-black {
-  background-image: linear-gradient(transparent, transparent), linear-gradient(#18a44c, #18a44c)
+  background-image: linear-gradient(transparent, transparent), linear-gradient(#18CCA3, #18CCA3)
 }
 
 .link-underline:hover {
@@ -19,4 +19,20 @@
 
 textarea {
   resize: none;
+}
+
+/* Check option animation */
+.hover\:bg-green-600:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(22 163 74 / var(--tw-bg-opacity, 1));
+}
+
+/* Cacher la scrollbar du carousel */
+.hide-scroll-bar {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+.hide-scroll-bar::-webkit-scrollbar {
+	display: none;
 }

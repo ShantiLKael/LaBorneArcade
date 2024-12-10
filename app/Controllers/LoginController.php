@@ -1,26 +1,40 @@
 <?php
+
 namespace App\Controllers;
+
 use App\Models\UtilisateurModel;
+use App\Models\BornePersoModel;
 use App\Entities\Utilisateur;
+use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Validation\Validation;
-use \Config\Services;
+use Config\Services;
+use ReflectionException;
 
 class LoginController extends BaseController
 {
 	/** @var UtilisateurModel $utilisateurModel */
 	private UtilisateurModel $utilisateurModel;
 
+	/** @var BornePersoModel $bornePersoModel */
+	private BornePersoModel $bornePersoModel;
+
 	/** @var Validation $validation */
 	private Validation $validation;
-	
 
-	public function __construct() {
+
+	public function __construct()
+	{
 		helper(['form']);
 		$this->utilisateurModel = new UtilisateurModel();
+		$this->bornePersoModel = new BornePersoModel();
 		$this->validation = Services::validation();
 	}
-
-	public function inscription()
+	
+	/**
+	 * @return string|RedirectResponse
+	 * @throws ReflectionException
+	 */
+	public function inscription(): string|RedirectResponse
 	{
 		if ($this->request->getMethod() === 'GET') {
 			// Handle GET request
@@ -32,8 +46,8 @@ class LoginController extends BaseController
 
 		$messagesValidation = $this->utilisateurModel->getValidationMessages();
 		$messagesValidation['mdpConf'] = [
-				'required_with' => 'Champ requis.',
-				'matches' => 'Les mots de passe ne correspondent pas.',
+			'required_with' => 'Champ requis.',
+			'matches' => 'Les mots de passe ne correspondent pas.',
 		];
 
 		if ($this->validate($regleValidation, $messagesValidation)) {
@@ -55,7 +69,7 @@ class LoginController extends BaseController
 		}
 	}
 
-	public function connexion()
+	public function connexion(): string|RedirectResponse
 	{
 		$this->utilisateurModel = new UtilisateurModel();
 
@@ -73,8 +87,8 @@ class LoginController extends BaseController
 				],
 
 				'mdp' => [
-					'required'    => 'Champ requis.',
-					'min_length'  => 'Le mot de passe est trop court.',
+					'required'   => 'Champ requis.',
+					'min_length' => 'Le mot de passe est trop court.',
 				],
 			];
 
@@ -93,10 +107,35 @@ class LoginController extends BaseController
 					if (password_verify($password, $pass)) {
 						// Authentification réussie
 						// Stocker l'utilisateur dans la session
-						session()->set('user', [
+                        $session = session();
+						$session->set('user', [
 							'id'    => $user->id,
 							'email' => $user->email,
 						]);
+                        
+                        // Si la session possède des bornes dans son panier, on les enregistre en base
+                        if ($session->has('panier')) {
+                            $options = $session->get('options');
+                            $i = 0;
+
+                            // Parcours des bornes enregistrées dans le panier session
+                            foreach ($session->get('panier') as $bornePerso) {
+                                $idBorne = $this->bornePersoModel->insert($bornePerso, true);
+                                $this->utilisateurModel->insererPanier($user->id, $idBorne);
+
+                                // Parcours des options de la borne
+                                if ($options[$i]) {
+                                    foreach ($options[$i] as $option)
+                                        $this->bornePersoModel->insererOptionBorne($idBorne, $option->id);
+                                }
+
+                                $i++;
+                            }
+                        }
+                        
+                        // Suppression du panier utilisateur non connécté
+                        $session->remove('panier');
+                        $session->remove('options');
 
 						// Rediriger vers la page d'accueil ou le tableau de bord
 						return redirect()->to('/');
@@ -126,8 +165,12 @@ class LoginController extends BaseController
 		// Affiche la vue pour une requête GET
 		return view('login/connexion', ['titre' => 'Se connecter']);
 	}
-
-	public function oubliMdp()
+	
+	/**
+	 * @return string
+	 * @noinspection PhpUnhandledExceptionInspection
+	 */
+	public function oubliMdp(): string
 	{
 
 		if ($this->request->getMethod() === 'POST') {
@@ -144,7 +187,7 @@ class LoginController extends BaseController
 			echo 'Adresse e-mail soumise : ' . $email;
 
 			if ($user) {
-				// Générer un jeton de réinitialisation de MDP et enregistrer-le dans BD
+				// Générer un jeton de réinitialisation de MDP et enregistrez-le dans BD
 				$token = bin2hex(random_bytes(16));
 				$expiration = date('Y-m-d H:i:s', strtotime('+1 hour'));
 				$userModel->set('token_mdp', $token)
@@ -159,7 +202,7 @@ class LoginController extends BaseController
 					$email,
 					'LaBorneArcade - Réinitialisation de mot de passe',
 					'Cliquez pour réinitialiser votre mot de passe',
-					'titre',
+					'Réinitialisation de mot de passe',
 					$resetLink
 				);
 
@@ -167,33 +210,34 @@ class LoginController extends BaseController
 				echo 'Adresse e-mail non valide.';
 			}
 		} else {
-			return view('oubliMdp');
+			return view('login/oubliMdp', ['titre' => "Profile"]);
 		}
-		return view('oubliMdp');
+		return view('login/oubliMdp', ['titre' => "Profile"]);
 
 	}
-
-	public function resetMdp($token)
+	
+	/**
+	 * @param $token
+	 * @return string
+	 * @throws ReflectionException
+	 */
+	public function resetMdp(string $token): string
 	{
-		$userModel = new UtilisateurModel();
 		if ($this->request->getMethod() === 'POST') {
 
-			
 
-			$token = $this->request->getPost('token');
 			$password = $this->request->getPost('mdp');
-			$confirmPassword = $this->request->getPost('confirm_password');
+			$confirmPassword = $this->request->getPost('mdpConf');
 			// Valider et traiter les données du formulaire
 
 
-			$user = $userModel->where('token_mdp', $token)
+			$user = $this->utilisateurModel->where('token_mdp', $token)
 				->where('date_creation_token >', date('Y-m-d H:i:s'))
 				->first();
-
 			if ($user && $password === $confirmPassword) {
 				// Mettre à jour le mot de passe et réinitialiser le jeton
 				$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-				$userModel->set('mdp', $hashedPassword)
+				$this->utilisateurModel->set('mdp', $hashedPassword)
 					->set('token_mdp', null)
 					->set('date_creation_token', null)
 					->update($user->id_utilisateur);
@@ -205,16 +249,82 @@ class LoginController extends BaseController
 		} else {
 			helper(['form']);
 
-			$user = $userModel->where('token_mdp', $token)
+			$user = $this->utilisateurModel->where('token_mdp', $token)
 				->where('date_creation_token >', date('Y-m-d H:i:s'))
 				->first();
 			if ($user) {
-				return view('resetMdp', ['token' => $token]);
+				return view('login/resetMdp', ['token' => $token, 'titre' => "Profile"]);
 			} else {
 				return 'Lien de réinitialisation non valide.';
 			}
 		}
 
+	}
+	public function profile(): string|RedirectResponse {
+        $session = session();
+        $data = $this->request->getPost();
+
+        if ($data) {
+            // Prépare les règles de validation conditionnelles
+            $regleValidation = [
+                'email' => 'required|valid_email|is_unique[utilisateur.email]',
+            ];
+
+            // Ajoutez les règles pour le mot de passe si rempli
+            if (!empty($data['mdp'])) {
+                $regleValidation['mdp'] = 'min_length[8]';
+                $regleValidation['mdpConf'] = 'matches[mdp]';
+            }
+
+            $messagesValidation = [
+                'email' => [
+                    'required'    => 'Veuillez saisir votre émail.',
+                    'valid_email' => 'Entrez un email valide.',
+                    'is_unique'   => 'Cet émail est déjà utilisé.',
+                ],
+                'mdp' => [
+                    'min_length' => 'Votre mot de passe est trop court (min. 8 caractères).',
+                ],
+                'mdpConf' => [
+                    'matches' => 'Les mots de passe ne correspondent pas.',
+                ],
+            ];
+
+            // Validation des données
+            if (!$this->validate($regleValidation, $messagesValidation)) {
+                return view('login/profile', [
+                    'titre' => 'Mon profil',
+                    'erreurs' => $this->validator->getErrors(),
+                ]);
+            }
+
+            // Récupération des données utilisateur et sauvegarde
+            $session = session();
+            $idUtilisateur = $session->get('user')['id'];
+            $utilisateur = $this->utilisateurModel->find($idUtilisateur);
+
+            $utilisateur->email = $data['email'];
+            if (!empty($data['mdp'])) {
+                $utilisateur->mdp = $data['mdp']; // Hachage du mot de passe
+            }
+
+            $this->utilisateurModel->save($utilisateur);
+
+            // Màj session
+            $session->set('user', [
+                'id' => $idUtilisateur,
+                'email' => $utilisateur->email,
+            ]);
+
+            return redirect()->to('/profile')->with('msg', 'Profil mis à jour avec succès.');
+        }
+        
+        return view('login/profile', [ 'titre' => 'Mon profil' ]);
+    }
+
+	public function deconnexion(): RedirectResponse {
+        session()->destroy();
+		return redirect()->to('/connexion')->with('msg', 'Vous êtes déconnecté');
 	}
 	
 	public static function envoyer_mail(
@@ -226,39 +336,93 @@ class LoginController extends BaseController
 		string $sous_titre = ""
 	): bool {
 		$emailService = Services::email();
-
+		
 		$emailService->setTo($mail);
 		$emailService->setFrom('mailingtestIUT@gmail.com');
 		$emailService->setSubject($sujet);
 		$emailService->setMessage(
-			'	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-					<html lang="fr">
-						<head>
-							<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-						</head>
-						<body style="margin: 0; font-family: Arial, sans-serif; color: black;">
-							<div style="height: 100%; display: grid; grid-template-rows: minmax(5%, calc((100% - 376px) / 2)) min-content minmax(5%, calc((100% - 376px) / 2));">
-								<div></div>
-								<div style="margin: 0 calc(25% / 2); padding: 0 30px; text-align: center; background-color: #f1f1f1; background-image: linear-gradient(46deg, #009a808c, #33ffdc); border-radius: 5px; border: 1px #9A001A solid;">
-									<h1 style="margin-bottom: 15px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; justify-items: start;">
-										<a href="' . base_url() . '" target="_blank">
-											<img src="https://i.ibb.co/hdV7vnR/Logo-Nom-Horizontal.png" alt="Quicket logo" height="50">
-										</a>
-										' . $titre . '
-									</h1>
-									<h2 style="color: #000000d9; margin-top: 0;">' . $sous_titre . '</h2>
-									<div>
-										<p>' . $corps . '</p>
-									</div>
-									<a href="' . $lien_btn . '" target="_blank">
-										<button style="margin: 35px 0; width: 150px; height: 40px; border: 2px solid #E60026; border-radius: 7.5px; background-color: #E60026; color: #ffd0d0; font-size: medium; cursor: pointer;">Cliquer ici</button>
-									</a>
-								</div>
-								<div></div>
-							</div>
-						</body>
-					</html>'
+			"
+    <!DOCTYPE HTML>
+    <html lang='fr'>
+    <head>
+        <meta charset='UTF-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <title></title>
+        <style>
+            body {
+                margin: 0;
+                font-family: Arial, sans-serif;
+                background-color: #1f2937; /* Bleu-noir */
+                color: #ffffff; /* Texte blanc */
+                text-align: center;
+            }
+            .container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 10vh;
+				max-height: 100vh;
+                padding: 20px;
+            }
+            .card {
+                background-color: #2d3748; /* Fond de la carte */
+                border: 1px solid #4a5568; /* Bordure gris foncé */
+                border-radius: 8px;
+                padding: 20px;
+                max-width: 600px;
+                width: 100%;
+            }
+            h1 {
+				text-color : #ffffff;
+				color : #ffffff;
+                font-size: 24px;
+                margin-bottom: 10px;
+            }
+            h2 {
+                font-size: 18px;
+                margin-bottom: 15px;
+                color: #a0aec0; /* Gris clair */
+            }
+            p {
+                font-size: 16px;
+                margin-bottom: 20px;
+                color: #cbd5e0; /* Gris clair */
+            }
+            a.button {
+                display: inline-block;
+                padding: 10px 20px;
+                background-color: #38a169; /* Vert */
+                color: #ffffff; /* Blanc */
+                text-decoration: none;
+                border-radius: 4px;
+                font-weight: bold;
+            }
+            a.button:hover {
+                background-color: #2f855a; /* Vert plus foncé */
+            }
+            .footer {
+                font-size: 12px;
+                margin-top: 15px;
+                color: #718096; /* Gris foncé */
+            }
+        </style>
+    </head>
+    <body>
+        <div class='container'>
+            <div class='card'>
+                <h1>$titre</h1>
+                <h2>$sous_titre</h2>
+                <p>$corps</p>
+                <a href='$lien_btn' class='button' target='_blank'>Cliquer ici</a>
+                <div class='footer'>
+                    &copy; " . date('Y') . " La Borne d'Arcade. Tous droits réservés.
+                </div>
+            </div>
+        </div>
+    </body>
+    </html>"
 		);
+
 		if ($emailService->send())
 			return true;
 		log_message("error", $emailService->printDebugger());

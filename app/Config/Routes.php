@@ -5,6 +5,8 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
+$routes->setAutoRoute(false);
+
 //$routes->group('', ['filter' => 'invite'], function($routes) {
 	// Page vitrine
 	$routes->get('/'                  , 'HomeController::index');
@@ -14,6 +16,7 @@ use CodeIgniter\Router\RouteCollection;
 	$routes->match(['get', 'post'], '/contact', 'HomeController::contact');
 
 	// Connexion
+	$routes->get('/deconnexion', 'LoginController::deconnexion');
 	$routes->match(['get', 'post'],'/connexion'  , 'LoginController::connexion');
 	$routes->match(['get', 'post'],'/inscription', 'LoginController::inscription');
 	$routes->match(['get', 'post'],'/connexion/oubli-mdp'       , 'LoginController::oubliMdp');
@@ -56,4 +59,12 @@ use CodeIgniter\Router\RouteCollection;
 	$routes->post(								'/admin/TMolding/delete/(:num)'	, 'AdminController::suppTMolding/$1');
 	$routes->match(['get', 'post', 'delete'],	'/admin/bouton'					, 'AdminController::adminBouton');
 	$routes->post(								'/admin/bouton/delete/(:num)'	, 'AdminController::suppBouton/$1');
+	$routes->match(['get', 'post'], 	'/admin/bornes'		, 'AdminController::adminBorne');
+	$routes->match(['get', 'post'], 	'/admin/contact'	, 'AdminController::adminContact');
+	$routes->match(['get', 'post'], 	'/admin/articles'	, 'AdminController::adminArticle');
+	$routes->match(['get', 'post'], 	'/admin/faqs'		, 'AdminController::adminFaq');
+	$routes->match(['get', 'post'],	'/admin/theme'		, 'AdminController::adminTheme');
 //});
+
+/** Route pour le cronjob */
+$routes->cli('/cronjob', 'ControleurCronJob::index');

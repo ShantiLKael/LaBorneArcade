@@ -11,10 +11,14 @@ DROP TABLE IF EXISTS Option CASCADE;
 DROP TABLE IF EXISTS Bouton CASCADE;
 DROP TABLE IF EXISTS Theme CASCADE;
 DROP TABLE IF EXISTS Borne CASCADE;
+DROP TABLE IF EXISTS BornePerso CASCADE;
 
 DROP TABLE IF EXISTS OptionBorne CASCADE;
 DROP TABLE IF EXISTS JoystickBorne CASCADE;
 DROP TABLE IF EXISTS BoutonBorne CASCADE;
+DROP TABLE IF EXISTS OptionBornePerso CASCADE;
+DROP TABLE IF EXISTS JoystickBornePerso CASCADE;
+DROP TABLE IF EXISTS BoutonBornePerso CASCADE;
 
 DROP TABLE IF EXISTS ImageArticleBlog CASCADE;
 DROP TABLE IF EXISTS ImageBorne CASCADE;
@@ -78,22 +82,27 @@ CREATE TABLE ArticleBlog(
 
 CREATE TABLE Borne(
 	id_Borne    SERIAL PRIMARY KEY,
-	nom     VARCHAR(50)  NOT NULL,
-	description TEXT         NOT NULL,
-	prix        INT          NOT NULL,
+	nom         VARCHAR(50) NOT NULL,
+	description TEXT    NOT NULL,
+	prix        FLOAT   NOT NULL,
 	id_TMolding INT REFERENCES TMolding(id_TMolding) NOT NULL,
 	id_Matiere  INT REFERENCES Matiere (id_Matiere ) NOT NULL,
-	id_Image    INT REFERENCES Image   (id_Image   ) NOT NULL,
 	id_Theme    INT REFERENCES Theme   (id_Theme   ) NOT NULL
 );
 
 CREATE TABLE BornePerso(
-	date_creation TIMESTAMP NOT NULL
-) INHERITS (Borne);
+	id_BornePerso SERIAL PRIMARY KEY,
+	prix          FLOAT       NOT NULL,
+	id_Borne      INT REFERENCES Borne   (id_Borne   ),
+	id_TMolding   INT REFERENCES TMolding(id_TMolding) NOT NULL,
+	id_Matiere    INT REFERENCES Matiere (id_Matiere ) NOT NULL,
+	date_creation TIMESTAMP NOT NULL,
+	date_modif    TIMESTAMP NOT NULL
+);
 
 CREATE TABLE Option(
 	id_Option   SERIAL PRIMARY KEY,
-	nom         VARCHAR(50) UNIQUE NOT NULL,
+	nom         VARCHAR(50 ) UNIQUE NOT NULL,
 	description VARCHAR(255) NOT NULL,
 	cout        INT NOT NULL,
 	id_Image    INT REFERENCES Image(id_Image) NOT NULL
@@ -113,14 +122,20 @@ CREATE TABLE Commande(
 	date_creation     TIMESTAMP   NOT NULL,
 	date_modif        TIMESTAMP   NOT NULL,
 	etat              VARCHAR(50) NOT NULL, /* TODO Group in */
-	id_Borne          INT REFERENCES Borne(id_Borne) NOT NULL,
+	id_BornePerso     INT REFERENCES BornePerso (id_BornePerso ) NOT NULL,
 	id_Utilisateur    INT REFERENCES Utilisateur(id_Utilisateur) NOT NULL
 );
 
 CREATE TABLE Panier(
 	id_Utilisateur INT REFERENCES Utilisateur(id_Utilisateur) NOT NULL,
-	id_Borne       INT REFERENCES Borne      (id_Borne      ) NOT NULL,
-	PRIMARY KEY(id_Borne, id_Utilisateur)
+	id_BornePerso  INT REFERENCES BornePerso (id_BornePerso ) NOT NULL,
+	PRIMARY KEY(id_BornePerso, id_Utilisateur)
+);
+
+CREATE TABLE OptionBornePerso(
+	id_BornePerso INT REFERENCES BornePerso(id_BornePerso) NOT NULL,
+	id_Option     INT REFERENCES Option    (id_Option    ) NOT NULL,
+	PRIMARY KEY(id_BornePerso, id_Option)
 );
 
 CREATE TABLE OptionBorne(
@@ -129,10 +144,22 @@ CREATE TABLE OptionBorne(
 	PRIMARY KEY(id_Borne, id_Option)
 );
 
+CREATE TABLE JoystickBornePerso(
+	id_BornePerso INT REFERENCES BornePerso (id_BornePerso) NOT NULL,
+	id_Joystick   INT REFERENCES Joystick   (id_Joystick  ) NOT NULL,
+	PRIMARY KEY(id_BornePerso, id_Joystick)
+);
+
 CREATE TABLE JoystickBorne(
 	id_Borne    INT REFERENCES Borne   (id_Borne   ) NOT NULL,
 	id_Joystick INT REFERENCES Joystick(id_Joystick) NOT NULL,
 	PRIMARY KEY(id_Borne, id_Joystick)
+);
+
+CREATE TABLE BoutonBornePerso(
+	id_BornePerso INT REFERENCES BornePerso(id_BornePerso) NOT NULL,
+	id_Bouton     INT REFERENCES Bouton    (id_Bouton    ) NOT NULL,
+	PRIMARY KEY(id_BornePerso, id_Bouton)
 );
 
 CREATE TABLE BoutonBorne(

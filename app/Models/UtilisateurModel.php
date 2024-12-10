@@ -2,6 +2,7 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use App\Entities\BornePerso;
 use CodeIgniter\I18n\Time;
 
 class UtilisateurModel extends Model
@@ -22,7 +23,7 @@ class UtilisateurModel extends Model
 	static string $ROLE_UTILISATEUR = 'utilisateur';
 
 	protected $table      = 'utilisateur';
-	protected $autoIncrement = true;
+	protected $useAutoIncrement = true;
 	protected $primaryKey = 'id_utilisateur';
 	protected $returnType = 'App\Entities\Utilisateur';
 	protected $allowedFields = [
@@ -58,16 +59,16 @@ class UtilisateurModel extends Model
 	 * Récupère un tableau de Borne de l'utilisateur.
 	 * Récupère le panier de l'utilisateur.
 	 * @param int $idUtilisateur
-	 * @return array<\App\Entities\Borne>
+	 * @return array<BornePerso>
 	 */
 	public function getPanier(int $idUtilisateur): array
 	{
 		$builder = $this->builder();
-		$builder->select('borne.*')->distinct()->from('panier')
-				->join('borne', 'borne.id_borne = panier.id_borne')
+		$builder->select('borneperso.*')->distinct()->from('panier')
+				->join('borneperso', 'borneperso.id_borneperso = panier.id_borneperso')
 				->where('panier.id_utilisateur', $idUtilisateur);
 			
-		$bornes = $builder->get()->getResult('App\Entities\Borne');
+		$bornes = $builder->get()->getResult('App\Entities\BornePerso');
 		return $bornes ? $bornes : [];
 	}
 
@@ -84,7 +85,7 @@ class UtilisateurModel extends Model
 
 		$data = [
 			'id_utilisateur'  => $idUtilisateur,
-			'id_borne' => $idBorne,
+			'id_borneperso' => $idBorne,
 		];
 
 		return $builder->insert($data);

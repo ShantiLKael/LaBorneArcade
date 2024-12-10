@@ -14,7 +14,7 @@ class Borne extends Entity
         'id'          => 'integer',
         'nom'         => 'string',
         'description' => 'string',
-        'prix'        => 'integer',
+        'prix'        => 'float',
         'idTMolding'  => 'integer',
         'idMatiere'   => 'integer',
         'idTheme'     => 'integer',
@@ -27,8 +27,6 @@ class Borne extends Entity
         'idTheme'     => 'id_theme',
     ];
 
-	protected $dates = ['creation_borne'];
-	
 	public function __construct(?array $data = null) {
 		parent::__construct($data);
 		$this->borneModel = new BorneModel();
@@ -40,19 +38,13 @@ class Borne extends Entity
         return $this;
     }
 
-    public function setCreationBorne(Time $time)
-    {
-        $this->attributes['date_creation'] = $time;
-        return $this;
-    }
-
     public function setDescription(string $description)
     {
         $this->attributes['description'] = $description;
         return $this;
     }
 
-    public function setPrix(int $prix)
+    public function setPrix(float $prix)
     {
         $this->attributes['prix'] = $prix;
         return $this;
@@ -81,7 +73,7 @@ class Borne extends Entity
         return $this->borneModel->getTheme($this->idTheme);
     }
 
-    public function getMatier(): Matiere
+    public function getMatiere(): Matiere
     {
         $borneModel = new BorneModel();
         return $borneModel->getMatiere($this->idMatiere);
