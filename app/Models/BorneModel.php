@@ -324,6 +324,7 @@ class BorneModel extends Model
 	
 	/**
 	 * Suppression d'une BornePerso un mois après sa dernière modification.
+	 *
 	 * @return bool
 	 */
 	#[CronJob(BorneModel::class, "suppPeriodiqueBornePerso")]
@@ -339,10 +340,11 @@ class BorneModel extends Model
 	}
 
 	/**
-	 * Insertion d'une Option de la borne.
-	 * @param int $idBorne
-	 * @param int $idOption
-	 * @return bool
+	 * Insertion d'une option de la borne.
+	 *
+	 * @param int $idBorne L'identifiant de la borne.
+	 * @param int $idOption L'identifiant de l'option.
+	 * @return bool <code>Vrai</code> si l'insertion a réussi, sinon <code>faux</code>.
 	 */
 	public function insererOptionBorne(int $idBorne, int $idOption): bool
 	{

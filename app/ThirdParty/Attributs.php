@@ -14,6 +14,12 @@ final class CronJob {
 	
 	private static array $callables = [];
 	
+	/**
+	 * Marque une méthode pour être exécutée automatiquement par le Cronjob.
+	 *
+	 * @param string $class  La classe du modèle.
+	 * @param string $method La méthode.
+	 */
 	public function __construct(private readonly string $class, private readonly string $method) {
 	}
 	
