@@ -12,11 +12,10 @@ use App\Models\OptionModel;
 use App\Models\ThemeModel;
 use App\Models\TMoldingModel;
 use App\Models\UtilisateurModel;
-use App\ThirdParty\CronJob;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Pager\Pager;
-use Config\Services;
+use ReflectionException;
 
 /**
  * @author Gabriel Roche
@@ -54,7 +53,7 @@ class ControleurBorne extends BaseController {
 	 * Constructeur du contrôleur Borne.
 	 */
 	public function __construct() {
-		helper(['form']);
+		helper(['form', 'cookie']);
 		$this->borneModel       = new BorneModel();
 		$this->boutonModel      = new BoutonModel();
 		$this->joystickModel    = new JoystickModel();
@@ -145,11 +144,17 @@ class ControleurBorne extends BaseController {
 	 *
 	 * @param int $id_borne L'identifiant de la borne à afficher.
 	 * @return string|RedirectResponse La vue d'une borne.
+	 * @throws ReflectionException
 	 */
 	public function voirBorne(int $id_borne) : string|RedirectResponse {
 
 		$session = session();
 		$data = $this->request->getPost();
+		
+		$bornes_recentes = json_decode(get_cookie("bornes_recentes") ?: "[]", true);
+		if (!in_array($id_borne, $bornes_recentes))
+			$bornes_recentes[] = $id_borne;
+		set_cookie("bornes_recentes", json_encode($bornes_recentes), 172800 + 3600);
 
 		// Methode POST
 		if ($data) {
@@ -177,7 +182,7 @@ class ControleurBorne extends BaseController {
 				
 				$this->utilisateurModel->insererPanier(session()->get('user')['id'], $idBornePerso);
 
-			} else { // Utilisateur non connécté
+			} else { // Utilisateur non connecté
 				
 				if (isset($data['options'])) {
 					$options = [];
