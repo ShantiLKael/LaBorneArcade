@@ -4,17 +4,20 @@
 	<!-- Titre principal -->
 	<h2 class="text-center text-3xl font-bold mb-4">Configuration des boutons</h2>
 	<!-- Formulaire pour ajouter un commentaire -->
+
 	<?php echo form_open('/admin/bouton'); ?>
-	<table class="grid grid-cols-1 md:grid-cols-6 gap-6 max-w-3xl mx-auto flex items-center justify-start">
+	<table class="max-w-3xl mx-auto">
 		<tbody>
 			<tr>
 				<td colspan=2 class="mt-5 p-0">
-					<h3 class="text-center text-3xl font-bold mb-4">
+					<h3 class="text-center text-3xl font-bold mb-6">
 						<?php echo form_label('Ajoutez un bouton : ', 'bouton'); ?>
 					</h3>
 				</td>
 			</tr>
-			<tr class="">
+            <tr><td><br></td></tr>
+			<tr class="flex flex-col md:flex-row md:items-center">
+                <td> <label class="text-lg font-medium mb-2 md:mb-0 md:mr-4" for="nom">Nom du modele : * </label> </td>
 				<td class="">
 					<!-- Champ pour le modèle -->
 					<?php echo form_input(
@@ -22,12 +25,15 @@
 							'name' => 'modele',
 							'value' => set_value('modele', ''),
 							'placeholder' => 'Entrez le modèle ici...',
+                            'class' => 'border border-gray-300 rounded-lg p-2 w-full md:w-auto bg-gray-100 text-black',
 							'required' => 'required',
 						]
 					); ?>
 				</td>
 			</tr>
-			<tr>
+            <tr><td><br></td></tr>
+			<tr class="flex flex-col md:flex-row md:items-center">
+                <td> <label class="text-lg font-medium mb-2 md:mb-0 md:mr-4" for="nom">Forme du bouton : * </label> </td>
 				<td class="">
 					<!-- Liste déroulante pour la forme -->
 					<?php echo form_dropdown(
@@ -40,12 +46,13 @@
 						set_value('forme', 'rond'), // Valeur sélectionnée par défaut
 						[
 							'required' => 'required',
-							'class' => 'form-select', // Classe CSS personnalisée si besoin
+                            'class' => 'border border-gray-300 rounded-lg p-2 w-full md:w-auto bg-gray-100 text-black',
 						]
 					); ?>
 				</td>
 			</tr>
-			<tr>
+			<tr class="flex flex-col md:flex-row md:items-center">
+                <td> <label class="text-lg font-medium mb-2 md:mb-0 md:mr-4" for="nom">Couleur du bouton : * </label> </td>
 				<td class="">
 					<!-- Champ pour la couleur -->
 					<?php echo form_input(
@@ -58,7 +65,8 @@
 					); ?>
 				</td>
 			</tr>
-			<tr>
+			<tr class="flex flex-col md:flex-row md:items-center">
+                <td> <label class="text-lg font-medium mb-2 md:mb-0 md:mr-4" for="nom">Bouton lumineux : </label> </td>
 				<td class="">
 					<!-- Champ pour la couleur -->
 					<?php echo form_input(
@@ -70,10 +78,10 @@
 					); ?>
 				</td>
 			</tr>
-			<tr>
-				<td class="">
+			<tr >
+				<td class="flex justify-start md:justify-center">
 					<!-- Bouton d'enregistrement -->
-					<?php echo form_submit('submit', 'Enregistrer', "class='bouton'"); ?>
+					<?php echo form_submit('submit', 'Enregistrer', "class='bg-[#00bf63] hover:bg-green-700 text-white font-medium py-2 px-4 rounded-full'"); ?>
 				</td>
 			</tr>
 		</tbody>
@@ -101,11 +109,12 @@
 	<!-- bouton -->
 		<?php if (!empty($boutons)) : ?>
 			<?php foreach($boutons as $bouton) : ?>
-				<?php // var_dump($bouton)  ?>
-				<div class="border-b-2 border-white/50 p-4 bg-[#161c2d]1" id="div-bouton-<?= $bouton->id ?>">
-					<div class="w-[15vw] h-[30px] flex items-center justify-start">
-						<h3 class="text-lg font-bold pr-4"><?= $bouton->modele ?></h3>
+                <div class="flex items-center border-b border-gray-700 py-3 bg-[#161c2d]">
+					<div class="text-lg font-medium text-white font-bold w-1/3 min-w-[150px] truncate">
+						<?= $bouton->modele ?>
 					</div>
+
+					<!-- Bouton de couleur -->
 					<div class="flex justify-center items-center space-x-4">
 						<!-- Forme dynamique en fonction du bouton -->
 						<?php
@@ -131,14 +140,16 @@
 						}
 						?>
 					</div>
-					<div class="w-[45vw] h-[30px] flex items-center justify-start">
-						<!-- Formulaire pour supprimer le bouton -->
+
+					<!-- Bouton Supprimer -->
+					<div class="ml-auto">
 						<?php echo form_open("/admin/bouton/delete/$bouton->id", ['onsubmit' => 'return confirm("Êtes-vous sûr de vouloir supprimer ce bouton ?")']); ?>
-							<?php echo form_hidden('id', $bouton->id); ?>
-							<?php echo form_submit('delete', 'Supprimer', "class='text-red-600 hover:text-red-800 font-bold'"); ?>
+							<?php echo form_hidden('id', $bouton->id); ?>	
+							<?php echo form_submit('delete', 'Supprimer', "class='bg-red-500 hover:bg-red-700 text-white font-medium py-1 px-4 rounded'"); ?>
 						<?php echo form_close(); ?>
 					</div>
 				</div>
+                
 			<?php endforeach; ?>
 		<?php else : ?>
 			<p class="p-4">Aucun bouton disponible pour le moment.</p>

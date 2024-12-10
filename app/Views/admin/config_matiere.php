@@ -24,7 +24,7 @@
 							'name' => 'nom',
 							'value' => set_value('nom', ''),
 							'placeholder' => 'Entrez votre nom de la matiere ici...',
-							'class' => 'border border-gray-300 rounded-lg p-2 w-full md:w-auto',
+							'class' => 'border border-gray-300 rounded-lg p-2 w-full md:w-auto bg-gray-100 text-black',
 							'required' => 'required',
 						]
 					); ?>
@@ -74,7 +74,7 @@
 
 	<!-- Grille des matieres -->
 	<h3 class="text-center text-3xl font-bold mb-4">Liste des matieres</h3>
-	<div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-7xl mx-auto">
+	<div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto">
 	<!-- matiere -->
 		<?php if (!empty($matieres)) : ?>
 			<?php foreach($matieres as $matiere) : ?>
