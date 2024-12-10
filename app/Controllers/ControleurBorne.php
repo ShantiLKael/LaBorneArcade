@@ -16,6 +16,7 @@ use App\ThirdParty\CronJob;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Pager\Pager;
+use Config\Services;
 
 /**
  * @author Gabriel Roche
@@ -76,31 +77,37 @@ class ControleurBorne extends BaseController {
 	 */
 	public function indexBorne() : RedirectResponse|string {
 		/*  Paramètres de recherche  */
-		$theme = $this->request->getGet('theme') ?: [];
-		$matiere = $this->request->getGet('matiere') ?: [];
-		$type = $this->request->getGet('type') ?: "";
+		$theme     = $this->request->getGet('theme') ?: [];
+		$matiere   = $this->request->getGet('matiere') ?: [];
+		$type      = $this->request->getGet('type') ?: "";
 		$recherche = $this->request->getGet('search') ?: "";
+		$prix_min  = $this->request->getGet('prix_min') ?: null;
+		$prix_max  = $this->request->getGet('prix_max') ?: null;
 		
 		/** @var Pager $pager */
 		$pager = service('pager');
 		
 		$pageGet = $this->request->getGet('page');
 		
-		if (($pageGet !== null && !preg_match("#\d#", $pageGet))) { // || $pageGet == "0"
+		if (($pageGet !== null && !preg_match("#\d#", $pageGet))) {
 			$_GET['page'] = 1;
 			$query = http_build_query($_GET);
 			return redirect()->to('/bornes'. ($query ? "?" : "") . $query);
 		}
 		
-		// array $themes = [], array $matiere = [], string $type = null, string $recherche = ""
+		if ($prix_min && $prix_max && $prix_min > $prix_max) {
+			unset($_GET['prix_max']);
+			$query = http_build_query($_GET);
+			return redirect()->to('/bornes'. ($query ? "?" : "") . $query);
+		}
 		
 		$data = [
 			'themes'=>$theme,
 			'matieres'=>$matiere,
 			'type'=>$type,
 			'recherche'=>$recherche,
-			'prix_min'=>$this->request->getGet('prix_min') ?: null,
-			'prix_max'=>$this->request->getGet('prix_max') ?: null,
+			'prix_min'=>$prix_min,
+			'prix_max'=>$prix_max,
 		];
 		
 		$page    = intval($pageGet) ?: 1;

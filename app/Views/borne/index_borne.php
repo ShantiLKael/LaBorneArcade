@@ -82,7 +82,7 @@ view('commun/header', ['titre' => $titre]) ?>
 						name="prix_min"
 						placeholder="Min"
 						min="0"
-						value="<?= is_numeric($get['prix_min']) ? $get['prix_min'] : "" ?>"
+						value="<?= is_numeric(@$get['prix_min'] ?: "") ? $get['prix_min'] : "" ?>"
 						class="md:w-1/2 bg-gray-700 border border-gray-500 text-gray-300 placeholder:text-gray-400 text-sm rounded-md py-2 pl-3 focus:outline-none focus:ring-2 focus:ring-green-500">
 				</label>
 				<h4 class="text-md text-gray-300 pl-2 mb-2 mt-2">à</h4>
@@ -92,8 +92,8 @@ view('commun/header', ['titre' => $titre]) ?>
 						id="prix_max"
 						name="prix_max"
 						placeholder="Max"
-						min="<?= is_numeric($get['prix_min']) ? $get['prix_min'] : "0" ?>"
-						value="<?= is_numeric($get['prix_max']) ? $get['prix_max'] : "" ?>"
+						min="<?= is_numeric(@$get['prix_min'] ?: "") ? $get['prix_min'] : "0" ?>"
+						value="<?= is_numeric(@$get['prix_max'] ?: "") ? $get['prix_max'] : "" ?>"
 						class="md:w-1/2 bg-gray-700 border border-gray-500 text-gray-300 placeholder:text-gray-400 text-sm rounded-md py-2 pl-3 focus:outline-none focus:ring-2 focus:ring-green-500">
 				</label>
 			</div>
