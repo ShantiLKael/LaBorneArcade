@@ -25,24 +25,24 @@ class Database extends Config
      * @var array<string, mixed>
      */
     public array $default = [
-        'DSN'          => 'Postgre://cs212535:saucisse@woody.iut.univ-lehavre.fr:5432',
-        'hostname'     => 'woody.iut.univ-lehavre.fr',
-        'username'     => 'cs212535',
-        'password'     => 'saucisse',
-        'database'     => 'cs212535',
-        'DBDriver'     => 'Postgre',
-        'DBPrefix'     => '',
-        'pConnect'     => false,
-        'DBDebug'      => true,
-        'charset'      => 'utf8',
-        'DBCollat'     => 'utf8_general_ci',
-        'swapPre'      => '',
-        'encrypt'      => false,
-        'compress'     => false,
-        'strictOn'     => false,
-        'failover'     => [],
-        'port'         => 3306,
-        'numberNative' => false,
+        'DSN'          => 'pgsql:host=localhost;port=5432;dbname=test;user=sebastien;password=saucisse', // Optionnel, la chaîne de connexion peut être construite à partir des autres paramètres.
+        'hostname'     => 'localhost', // Connexion locale
+        'username'     => 'sebastien', // Nom d'utilisateur PostgreSQL
+        'password'     => 'saucisse', // Laissez vide ou renseignez le mot de passe si requis
+        'database'     => 'test', // Nom de la base de données
+        'DBDriver'     => 'Postgre', // Spécifie PostgreSQL comme driver
+        'DBPrefix'     => '', // Pas de préfixe dans les noms de tables
+        'pConnect'     => false, // Connexion persistante désactivée
+        'DBDebug'      => true, // Activer le débogage pour voir les erreurs SQL
+        'charset'      => 'utf8', // Jeu de caractères
+        'DBCollat'     => 'utf8_general_ci', // Collation
+        'swapPre'      => '', // Pas de remplacement de préfixe
+        'encrypt'      => false, // Connexion non sécurisée (chiffrement désactivé)
+        'compress'     => false, // Compression désactivée
+        'strictOn'     => false, // Désactiver le mode strict
+        'failover'     => [], // Pas de serveur de secours
+        'port'         => 5432, // Port PostgreSQL par défaut
+        'numberNative' => false, // Désactiver le traitement natif des nombres
         'dateFormat'   => [
             'date'     => 'Y-m-d',
             'datetime' => 'Y-m-d H:i:s',

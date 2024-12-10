@@ -2,11 +2,11 @@
 <?= form_open('/connexion/oubli-mdp', ['class' => 'my-20 max-w-screen-md border border-gray-500 px-5 shadow-xl mx-4 rounded-xl py-5 md:mx-auto bg-gray-800']) ?>
 <div class="flex flex-col border-b border-gray-400 py-6 sm:flex-row sm:items-start">
 	<div class="shrink-0 mr-auto sm:py-3">
-		<p class="text-3xl font-extrabold">Détails du compte</p>
-		<p class="text-medium px-2 mt-2 text-gray-400">Modifier vos informations</p>
+		<p class="text-3xl font-extrabold">Réinitialisation du mot de passe</p>
+		<p class="text-medium px-2 mt-2 text-gray-400">Renseignez votre email</p>
 	</div>
 
-	<?= form_submit('submit', 'Envoyer', "class='hidden rounded-lg border-2 border-transparent bg-green-600 hover:bg-green-500/60 px-4 py-2 font-medium text-white sm:inline outline-green-600 focus:ring'"); ?>
+	
 </div>
 
 <div class="flex flex-col gap-2 md:gap-4 border-b border-gray-400 py-6 sm:flex-row">
@@ -23,10 +23,18 @@
 	]); ?>
 	<span class="items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
 		<?= validation_show_error('email') ?>
+		
 	</span>
+	<?= form_submit('submit', 'Envoyer', "class='hidden rounded-lg border-2 border-transparent bg-green-600 hover:bg-green-500/60 px-4 py-2 font-medium text-white sm:inline outline-green-600 focus:ring'"); ?>
 </div>
 
-<div class="flex flex-col gap-2 md:gap-4 pt-7 pb-2 sm:flex-row"></div>
+<div class="items-center gap-2 md:gap-4 pt-7 pb-2 sm:flex-row"> 
+<?php if (session()->getFlashdata('success')): ?>
+        <div class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg" role="alert">
+            <?= session()->getFlashdata('success'); ?>
+        </div>
+    <?php endif; ?>
+</div>
 
 <div class="flex justify-end py-4 sm:hidden">
 

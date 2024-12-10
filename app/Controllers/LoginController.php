@@ -168,13 +168,7 @@ class LoginController extends BaseController
 			$userModel = new UtilisateurModel();
 			$user = $userModel->where('email', $email)->first();
 
-			if ($user) {
-				echo 'Utilisateur trouvé :';
-			} else {
-				echo 'Utilisateur introuvable pour l\'e-mail : ' . $email;
-			}
-
-			echo 'Adresse e-mail soumise : ' . $email;
+			
 
 			if ($user) {
 				// Générer un jeton de réinitialisation de MDP et enregistrer-le dans BD
@@ -195,9 +189,10 @@ class LoginController extends BaseController
 					'Réinitialisation de mot de passe',
 					$resetLink
 				);
+				session()->setFlashdata('success', 'Un email de réinitialisation a été envoyé.');
 
 			} else {
-				echo 'Adresse e-mail non valide.';
+				//erreur
 			}
 		} else {
 			return view('login/oubliMdp', ['titre' => "Profile"]);
@@ -227,7 +222,7 @@ class LoginController extends BaseController
 					->set('token_mdp', null)
 					->set('date_creation_token', null)
 					->update($user->id_utilisateur);
-				return 'Mot de passe réinitialisé avec succès.';
+				return view("login/connexion", ['titre'=> 'se connecter']);;
 			} else {
 				return 'Erreur lors de la réinitialisation du mot de passe.';
 			}
@@ -325,7 +320,6 @@ class LoginController extends BaseController
 	): bool {
 		$emailService = Services::email();
 
-		echo $titre;
 		$emailService->setTo($mail);
 		$emailService->setFrom('mailingtestIUT@gmail.com');
 		$emailService->setSubject($sujet);
