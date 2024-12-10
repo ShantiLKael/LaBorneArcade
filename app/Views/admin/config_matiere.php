@@ -86,15 +86,16 @@
 
 					<!-- Pastille de couleur -->
 					<div 
-						class="w-6 h-6 rounded-full border-2 border-black flex-shrink-0 ml-4" 
+						class="w-8 h-8 rounded-full border-2 border-black flex-shrink-0 ml-4" 
 						style="background-color: <?= $matiere->couleur ?>;"
 						title="Couleur : <?= $matiere->couleur ?>">
 					</div>
 
 					<!-- Bouton Supprimer -->
 					<div class="ml-auto">
-						<?php echo form_open("/admin/theme/delete/$matiere->id", ['onsubmit' => 'return confirm("Êtes-vous sûr de vouloir supprimer ce thème ?")']); ?>
-							<?php echo form_submit('delete', 'Supprimer', "class='bg-red-500 hover:bg-red-700 text-white font-medium py-1 px-4 rounded'"); ?>
+						<?php echo form_open("/admin/matiere/delete/$matiere->id", ['onsubmit' => 'return confirm("Êtes-vous sûr de vouloir supprimer ce thème ?")']); ?>
+                            <?php echo form_hidden('id', $matiere->id); ?>	
+                            <?php echo form_submit('delete', 'Supprimer', "class='bg-red-500 hover:bg-red-700 text-white font-medium py-1 px-4 rounded'"); ?>
 						<?php echo form_close(); ?>
 					</div>
 				</div>

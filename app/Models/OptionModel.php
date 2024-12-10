@@ -22,7 +22,7 @@ class OptionModel extends Model
 
 	protected $validationMessages = [
 		'nom' => [
-			'required'    => 'Champ requis.',
+			'required'    => 'nom requis.',
 			'is_unique'   => 'Le nom de l\'option existe déjà.',
 			'max_length'  => 'Le nom de l\'option est trop long (max. 50 caractères).',
 			'min_length'  => 'Le nom de l\'option est trop court (min. 5 caractères).',
@@ -30,17 +30,17 @@ class OptionModel extends Model
         ],
 
 		'description' => [
-			'required'     => 'Champ requis.',
+			'required'     => 'description requis.',
 			'max_length'   => 'La description est trop longue (max. 500 caractères).',
 			'regex_match'  => 'Les caractères < > ; { } sont interdits.',
         ],
 
 		'cout' => [
-			'required'              => 'Champ requis.',
+			'required'              => 'cout requis.',
 			'greater_than_equal_to' => 'Entrer un cout supérieur à zéro.',
         ],
 
-		'id_image' => [ 'required' => 'Champ requis.' ],
+		'id_image' => [ 'required' => 'id_image requis.' ],
 	];
 
 	

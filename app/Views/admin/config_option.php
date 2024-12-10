@@ -2,7 +2,102 @@
 	<?php // var_dump($options)  ?>
 	<div class="text-white py-12 px-6">
 		<!-- Titre principal -->
-		<h2 class="text-center text-3xl font-bold mb-4">configuration des option</h2>
+		<h2 class="text-center text-3xl font-bold mb-4">configuration des options </h2>
+
+		<!-- Formulaire pour ajouter une option -->
+
+        <?php echo form_open('/admin/option'); ?>
+			<table class="max-w-3xl mx-auto">
+				<tbody>
+					<tr>
+						<td colspan=2 class="mt-5 p-0">
+							<h3 class="text-center text-3xl font-bold mb-6">
+								<?php echo form_label('Ajoutez une option ', 'option'); ?>
+							</h3>
+						</td>
+					</tr>
+					<tr><td><br></td></tr>
+					<tr class="flex flex-col md:flex-row md:items-center">
+						<td> <label class="text-lg font-medium mb-2 md:mb-0 md:mr-4" for="nom">Nom d'option : * </label> </td>
+						<td class="">
+							<!-- Champ pour le modèle -->
+							<?php echo form_input(
+								[
+									'name' => 'nom',
+									'value' => set_value('nom', ''),
+									'placeholder' => 'Entrez votre nom d\'option ici...',
+									'class' => 'border border-gray-300 rounded-lg p-2 w-full md:w-auto bg-gray-100 text-black',
+									'required' => 'required',
+								]
+								
+							); ?>
+						</td>
+					</tr>
+					<tr><td><br></td></tr>
+					<tr class="flex flex-col md:flex-row md:items-center">
+						<td> <label class="text-lg font-medium mb-2 md:mb-0 md:mr-4" for="nom">Desciptioon de l'option : * </label> </td>
+						<td class="">
+							<!-- Champ pour la couleur -->
+							<?php echo form_input(
+								[
+									'type' => 'text',
+									'name' => 'description',
+									'value' => set_value('description', ''),
+									'placeholder' => 'Entrez la description ici...',
+									'class' => 'border border-gray-300 rounded-lg p-2 w-full md:w-auto bg-gray-100 text-black',
+									'required' => 'required',
+								]
+							); ?>
+						</td>
+					</tr>
+					<tr><td><br></td></tr>
+					<tr class="flex flex-col md:flex-row md:items-center">
+						<td> <label class="text-lg font-medium mb-2 md:mb-0 md:mr-4" for="nom">Cout de l'option : * </label> </td>
+						<td class="">
+							<!-- Champ pour le modèle -->
+							<?php echo form_input(
+								[
+									'type' => 'number', // Définit le champ comme un champ numérique
+									'name' => 'cout',
+									'value' => set_value('cout', ''),
+									'placeholder' => 'Entrez le coût ici...',
+									'class' => 'border border-gray-300 rounded-lg p-2 w-full md:w-auto bg-gray-100 text-black',
+									'required' => 'required',
+									'min' => '0', // Limite minimale (peut être ajustée selon vos besoins)
+									'step' => '1', // Incrément ou décrément par pas de 1
+								]
+								
+							); ?>
+						</td>
+					</tr>
+					<tr><td><br></td></tr>
+					<tr class="flex flex-col md:flex-row md:items-center">
+						<td> <label class="text-lg font-medium mb-2 md:mb-0 md:mr-4" for="nom">Image de l'option : * </label> </td>
+						<td class="">
+							<!-- Champ pour le modèle -->
+							<?php echo form_input(
+								[
+									'type' => 'file',
+									'name' => 'image',
+									'id' => 'image',
+									'class' => 'border border-gray-300 rounded-lg p-2 w-full md:w-auto bg-gray-100 text-black',
+									'accept' => 'image/*', // Permet uniquement les fichiers image
+									'required' => 'required',
+								]
+							); ?>
+						</td>
+					</tr>
+					<tr><td><br></td></tr>
+					<tr>
+						<td class="flex justify-start md:justify-center">
+							<!-- Bouton d'enregistrement -->
+							<?php echo form_submit('submit', 'Enregistrer', "class='bg-[#00bf63] hover:bg-green-700 text-white font-medium py-2 px-4 rounded-full'"); ?>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<p class=""><?= validation_show_error('texte_option') ?></p>
+		<?php echo form_close(); ?> <br>
 
 		<?php if (session()->has('errors')): ?>
 			<div class="alert alert-danger">
@@ -17,72 +112,6 @@
 				<p><?= session('success') ?></p>
 			</div>
 		<?php endif; ?>
-		<!-- Formulaire pour ajouter un commentaire -->
-		<?php echo form_open('/admin/option'); ?>
-
-			<table class="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-3xl mx-auto flex items-center justify-start">
-			<tbody>
-				<tr>
-					<td colspan=2 class="mt-5 p-0">
-						<h3 class="text-center text-3xl font-bold mb-4">
-							<?php echo form_label('Ajoutez une option : ', 'option'); ?>
-						</h3>
-					</td>
-				</tr>
-				<tr class="">
-					<td class="">
-						<!-- Champ pour le nom -->
-						<?php echo form_input(
-							[
-								'name' => 'nom',
-								'value' => set_value('nom', ''),
-								'placeholder' => 'Entrez votre nom d\'option ici...',
-								'required' => 'required',
-							]
-						); ?>
-					</td>
-				</tr>
-				<tr>
-					<td class="">
-						<!-- Champ pour la description -->
-						<?php echo form_input(
-							[
-                                'type' => 'text',
-								'name' => 'description',
-								'value' => set_value('description', ''),
-								'placeholder' => 'Entrez la description ici...',
-								'required' => 'required',
-							]
-						); ?>
-					</td>
-				</tr>
-				<tr>
-					<td class="">
-						<!-- Champ pour le coût (nombre avec flèches) -->
-						<?php echo form_input(
-							[
-								'type' => 'number', // Définit le champ comme un champ numérique
-								'name' => 'cout',
-								'value' => set_value('cout', ''),
-								'placeholder' => 'Entrez le coût ici...',
-								'required' => 'required',
-								'min' => '0', // Limite minimale (peut être ajustée selon vos besoins)
-								'step' => '1', // Incrément ou décrément par pas de 1
-							]
-						); ?>
-					</td>
-				</tr>
-				<tr>
-					<td class="">
-						<!-- Bouton d'enregistrement -->
-						<?php echo form_submit('submit', 'Enregistrer', "class='bouton'"); ?>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		<p class=""><?= validation_show_error('texte_option') ?></p>
-        option
-		<?php echo form_close(); ?>
 
 		<!-- Grille des options -->
 		<h3 class="text-center text-3xl font-bold mb-4">Liste des options</h3>

@@ -11,7 +11,7 @@
 			<tr>
 				<td colspan=2 class="mt-5 p-0">
 					<h3 class="text-center text-3xl font-bold mb-6">
-						<?php echo form_label('Ajoutez un bouton : ', 'bouton'); ?>
+						<?php echo form_label('Ajoutez un bouton ', 'bouton'); ?>
 					</h3>
 				</td>
 			</tr>
@@ -51,6 +51,7 @@
 					); ?>
 				</td>
 			</tr>
+			<tr><td><br></td></tr>
 			<tr class="flex flex-col md:flex-row md:items-center">
                 <td> <label class="text-lg font-medium mb-2 md:mb-0 md:mr-4" for="nom">Couleur du bouton : * </label> </td>
 				<td class="">
@@ -65,6 +66,7 @@
 					); ?>
 				</td>
 			</tr>
+			<tr><td><br></td></tr>
 			<tr class="flex flex-col md:flex-row md:items-center">
                 <td> <label class="text-lg font-medium mb-2 md:mb-0 md:mr-4" for="nom">Bouton lumineux : </label> </td>
 				<td class="">
@@ -78,6 +80,7 @@
 					); ?>
 				</td>
 			</tr>
+			<tr><td><br></td></tr>
 			<tr >
 				<td class="flex justify-start md:justify-center">
 					<!-- Bouton d'enregistrement -->
@@ -110,7 +113,7 @@
 		<?php if (!empty($boutons)) : ?>
 			<?php foreach($boutons as $bouton) : ?>
                 <div class="flex items-center border-b border-gray-700 py-3 bg-[#161c2d]">
-					<div class="text-lg font-medium text-white font-bold w-1/3 min-w-[150px] truncate">
+					<div class="text-lg font-medium text-white font-bold w-1/3 min-w-[170px] truncate">
 						<?= $bouton->modele ?>
 					</div>
 
