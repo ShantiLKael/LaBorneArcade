@@ -115,23 +115,39 @@
 
 		<!-- Grille des options -->
 		<h3 class="text-center text-3xl font-bold mb-4">Liste des options</h3>
-		<div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto">
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-7xl mx-auto">
 		<!-- option -->
 			<?php if (!empty($options)) : ?>
 				<?php foreach($options as $option) : ?>
-					<?php // var_dump($option)  ?>
-					<div class="border-b-2 border-white/50 p-4 bg-[#161c2d]1" id="div-option-<?= $option->id ?>">
-						<div class="w-[15vw] h-[30px] flex items-center justify-start"> <h3 class="text-lg font-bold pr-4"><?= $option->nom ?></h3> </div>
-						<div class="w-[25vw] h-[30px] flex items-center justify-start"> <h4 class="text-lg pr-4"><?= $option->description  ?></h4> </div>
-						<div class="w-[35vw] h-[30px] flex items-center justify-start"> <h4 class="text-lg font-bold pr-4"><?= $option->cout  ?> €</h4> </div>
-						<div class="w-[45vw] h-[30px] flex items-center justify-start">
-							<!-- Formulaire pour supprimer la option -->
-							<?php echo form_open('/admin/option/delete', ['onsubmit' => 'return confirm("Êtes-vous sûr de vouloir supprimer cette option ?")']); ?>
-								<?php echo form_hidden('id', $option->id); ?>
-								<?php echo form_submit('delete', 'Supprimer', "class='text-red-600 hover:text-red-800 font-bold'"); ?>
-							<?php echo form_close(); ?>
+					<div class="border-b border-gray-700 bg-[#161c2d] p-4">
+						<!-- Première ligne : Nom, coût, bouton -->
+						<div class="flex items-center">
+							<!-- Nom de l'option -->
+							<div class="text-lg font-medium text-white font-bold w-1/3 min-w-[200px] truncate">
+								<?= $option->nom ?>
+							</div>
+
+							<!-- Coût de l'option -->
+							<div class="text-lg font-medium text-white w-1/3 truncate">
+								<?= $option->cout ?>
+							</div>
+
+							<!-- Bouton Supprimer -->
+							<div class="ml-auto">
+								<?php echo form_open("/admin/option/delete/$option->id", ['onsubmit' => "return confirm(\"Êtes-vous sûr de vouloir supprimer cette option ?\")"]); ?>
+									<?php echo form_hidden('id', $option->id); ?>		
+									<?php echo form_submit('delete', 'Supprimer', "class='bg-red-500 hover:bg-red-700 text-white font-medium py-1 px-4 rounded'"); ?>
+								<?php echo form_close(); ?>
+							</div>
+						</div>
+
+						<!-- Deuxième ligne : Description -->
+						<div class="mt-2 text-sm text-gray-300">
+							<?= $option->description ?>
 						</div>
 					</div>
+
+					
 				<?php endforeach; ?>
 			<?php else : ?>
 				<p class="p-4">Aucune option disponible pour le moment.</p>

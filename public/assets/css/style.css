@@ -912,10 +912,6 @@ video {
   width: 25vw;
 }
 
-.w-\[25w\] {
-  width: 25w;
-}
-
 .w-\[35vw\] {
   width: 35vw;
 }
@@ -938,6 +934,10 @@ video {
 
 .min-w-\[150px\] {
   min-width: 150px;
+}
+
+.min-w-\[170px\] {
+  min-width: 170px;
 }
 
 .max-w-3xl {
@@ -1915,10 +1915,6 @@ video {
 
   .md\:grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .md\:grid-cols-4 {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .md\:flex-row {
