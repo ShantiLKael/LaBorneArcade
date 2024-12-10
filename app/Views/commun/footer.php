@@ -1,5 +1,5 @@
 <a href="/panier" class="fixed bottom-3 right-3 md:bottom-10 md:right-10">
-	<?php if (session()->has('panier')) : ?>
+	<?php if (!session()->has('user') && session()->has('panier')) : ?>
 		<p class="flex h-2 w-2 font-bold items-center justify-center mt-4 rounded-full bg-red-500 p-3 text-xs text-white"><?= count(session()->get('panier')) ?></p>
 	<?php endif; ?>
 	<div class="p-4 lg:p-5 rounded-full bg-green-600 hover:bg-green-500 shadow-lg shadow-green-900 focus:outline-none focus:ring-1 focus:ring-green-400 focus:ring-offset-2">
