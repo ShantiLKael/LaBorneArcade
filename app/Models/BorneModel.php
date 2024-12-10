@@ -91,7 +91,7 @@ class BorneModel extends Model
 		$builder = $this->builder()->select("b.*, (SELECT i.id_image FROM imageborne i WHERE i.id_borne = b.id_borne LIMIT 1) AS image");
 		$builder = $builder->from('Borne b', true);
 		if (count($themes) > 0)
-			$builder = $builder->whereIn('id_theme', $themes);
+			$builder = $builder->whereIn('id_theme', array_map("intval", $themes));
 		$query = $builder->getCompiledSelect();
 		if (count($themes) === 0 && count($types) !== 0)
 			$query .= " WHERE";

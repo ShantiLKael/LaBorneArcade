@@ -100,7 +100,9 @@ view('commun/header', ['titre' => $titre]) ?>
 		<?php foreach($joysticks as $joystick) : ?>
 		<div class="relative w-52 h-52 md:w-72 md:h-72 bg-gray-800 rounded-lg overflow-hidden border-2 border-gray-700 hover:border-green-700 shadow-md shadow-gray-900 ease-in-out flex-shrink-0">
 			<!-- Checkbox -->
-			<input type="checkbox" id="joystick-<?= $joystick->id ?>" data-model="<?= $joystick->modele ?>" name="joysticks[]" value="<?= $joystick->id ?>" class="absolute top-3 right-3 w-5 h-5 cursor-pointer rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
+			<label>
+				<input type="checkbox" id="joystick-<?= $joystick->id ?>" data-model="<?= $joystick->modele ?>" name="joysticks[]" value="<?= $joystick->id ?>" class="absolute top-3 right-3 w-5 h-5 cursor-pointer rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
+			</label>
 			
 			<!-- Image -->
 			<img loading="lazy" src="" alt="Joystick <?= htmlspecialchars($joystick->modele) ?>" class="w-full h-4/6 md:h-5/6 object-cover">
@@ -260,8 +262,8 @@ view('commun/header', ['titre' => $titre]) ?>
 	const boutons   = <?php echo json_encode($boutons); ?>;
 	const joysticks = <?php echo json_encode($joysticks); ?>;
 </script>
-<script src="./assets/js/canva-boutons.js"></script>
-<script src="./assets/js/filtre-bouton-joystick.js"></script>
-<script src="./assets/js/check-option-animation.js"></script>
+<script src="/assets/js/canva-boutons.js"></script>
+<script src="/assets/js/filtre-bouton-joystick.js"></script>
+<script src="/assets/js/check-option-animation.js"></script>
 <?= view('commun/footer') ?>
 

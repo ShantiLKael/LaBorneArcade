@@ -82,7 +82,7 @@ class ControleurBorne extends BaseController {
 		
 		$pageGet = $this->request->getGet('page');
 		
-		if ($pageGet !== null && !preg_match("#\d#", $pageGet)) {
+		if (($pageGet !== null && !preg_match("#\d#", $pageGet)) || $pageGet == "0") {
 			return redirect()->to('/bornes');
 		}
 		
@@ -95,7 +95,7 @@ class ControleurBorne extends BaseController {
 			return redirect()->to("/bornes");
 		}
 		
-		if (count($bornes) === 0) {
+		if (count($bornes) === 0 && $total > 0) {
 			$derniere_page = ceil($total / $perPage);
 			return redirect()->to("/bornes?page=$derniere_page");
 		}
