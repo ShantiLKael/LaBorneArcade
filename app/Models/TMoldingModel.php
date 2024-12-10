@@ -13,12 +13,12 @@ class TMoldingModel extends Model
 
 	// Règles de validation
 	protected $validationRules = [
-		'nom'   => 'required|min_length[5]|max_length[50]|regex_match[/^[^<>;{}]*$/]|is_unique[bouton.nom,couleur]',
+		'nom'   => 'required|min_length[5]|max_length[50]|regex_match[/^[^<>;{}]*$/]|is_unique[tmolding.nom,couleur]',
 		'couleur'  => 'required|exact_length[7]',
 	];
 
 	protected $validationMessages = [
-		'libelle' => [
+		'nom' => [
 			'required'    => 'Champ requis.',
 			'max_length'  => 'Le nom du t-molding est trop long (max. 50 caractères).',
 			'min_length'  => 'Le nom du t-molding est trop court (min. 5 caractères).',

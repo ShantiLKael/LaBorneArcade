@@ -13,7 +13,7 @@ class MatiereModel extends Model
 
 	// Règles de validation
 	protected $validationRules = [
-		'nom'     => 'required|min_length[5]|max_length[50]|regex_match[/^[^<>;{}]*$/]|is_unique[bouton.nom,couleur]',
+		'nom'     => 'required|min_length[5]|max_length[50]|regex_match[/^[^<>;{}]*$/]|is_unique[matiere.nom,couleur]',
 		'couleur' => 'required|exact_length[7]',
 	];
 

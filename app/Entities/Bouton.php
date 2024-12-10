@@ -2,6 +2,7 @@
 namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
+use Doctrine\DBAL\Types\BooleanType;
 
 class Bouton extends Entity
 {
@@ -29,14 +30,14 @@ class Bouton extends Entity
 		return $this;
 	}
 	
-	public function setCouleur(int $couleur): Bouton
+	public function setCouleur(string $couleur): Bouton
 	{
 		$this->attributes['couleur'] = $couleur;
 
 		return $this;
 	}
 	
-	public function setEclairage(int $bool): Bouton
+	public function setEclairage( bool $bool=false): Bouton
 	{
 		$this->attributes['eclairage'] = $bool;
 

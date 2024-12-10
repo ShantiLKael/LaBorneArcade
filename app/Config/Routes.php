@@ -43,6 +43,22 @@ $routes->setAutoRoute(false);
 //});
 
 //$routes->group('', ['filter' => 'admin'], function($routes) {
+	$routes->match(['get', 'post', 'delete'], 	'/admin/bornes'					, 'AdminController::adminBorne');
+	$routes->match(['get', 'post', 'delete'], 	'/admin/contact'				, 'AdminController::adminContact');
+	$routes->match(['get', 'post', 'delete'], 	'/admin/articles'				, 'AdminController::adminArticle');
+	$routes->match(['get', 'post', 'delete'], 	'/admin/faqs'					, 'AdminController::adminFaq');
+	$routes->match(['get', 'post', 'delete'],	'/admin/theme'					, 'AdminController::adminTheme');
+	$routes->post(								'/admin/theme/delete/(:num)'	, 'AdminController::suppTheme/$1');
+	$routes->match(['get', 'post', 'delete'],	'/admin/matiere'				, 'AdminController::adminMatiere');
+	$routes->post(								'/admin/matiere/delete/(:num)'	, 'AdminController::suppMatiere/$1');
+	$routes->match(['get', 'post', 'delete'],	'/admin/option'					, 'AdminController::adminOption');
+	$routes->post(								'/admin/option/delete/(:num)'	, 'AdminController::suppOption/$1');
+	$routes->match(['get', 'post', 'delete'],	'/admin/joystick'				, 'AdminController::adminJoystick');
+	$routes->post(								'/admin/joystick/delete/(:num)'	, 'AdminController::suppJoystick/$1');
+	$routes->match(['get', 'post', 'delete'],	'/admin/TMolding'				, 'AdminController::adminTMolding');
+	$routes->post(								'/admin/TMolding/delete/(:num)'	, 'AdminController::suppTMolding/$1');
+	$routes->match(['get', 'post', 'delete'],	'/admin/bouton'					, 'AdminController::adminBouton');
+	$routes->post(								'/admin/bouton/delete/(:num)'	, 'AdminController::suppBouton/$1');
 	$routes->match(['get', 'post'], 	'/admin/bornes'		, 'AdminController::adminBorne');
 	$routes->match(['get', 'post'], 	'/admin/contact'	, 'AdminController::adminContact');
 	$routes->match(['get', 'post'], 	'/admin/articles'	, 'AdminController::adminArticle');
