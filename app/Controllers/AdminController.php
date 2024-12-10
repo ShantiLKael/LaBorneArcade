@@ -186,7 +186,7 @@ class AdminController extends BaseController
 				}
 
 				// Renommer le fichier avec un nom unique
-				$imageName = uniqid() . '.' . $imageExtension;
+				$imageName = $data['nom'] . '.' . $imageExtension;
 
 				// Déplacer le fichier vers le dossier public/assets/option/
 				$imagePath = 'public/assets/images/option/' . $imageName;
@@ -434,19 +434,27 @@ class AdminController extends BaseController
 	/* ---------------- option ---------------- */
 	/* ---------------------------------------- */
 
-	public function suppOption( int $id_option ): RedirectResponse
+	public function suppOption(int $id_option): RedirectResponse
 	{
-		$id_option = $this->request->getPost('id');
+		// Récupérer l'option depuis la base de données
+		$option = $this->optionModel->find($id_option);
 
-
-		// Suppression du thème
-		if ($this->optionModel->delete($id_option)) {
-			return redirect()->back()->with('success', 'Option supprimé avec succès.');
+		if ($option) {
+			$imagePath = realpath("..")."/".$this->imageModel->find($option->id_image)->chemin; 
+			if (file_exists($imagePath)) {
+				unlink($imagePath);
+			} 
+			$nom = $option->nom;
+			if ($this->optionModel->delete($id_option)) {
+				$this->imageModel->where('chemin', $imagePath)->delete();
+				return redirect()->back()->with('success', "$nom et image supprimées avec succès.");
+			}
 		}
 
-		// En cas d'erreur
-		return redirect()->back()->with('errors', ['Erreur lors de la suppression de l\'option.']);
+		// En cas d'erreur (si l'option n'existe pas ou si la suppression échoue)
+		return redirect()->back()->with('errors', ['Erreur lors de la suppression de l\'option et de l\'image.']);
 	}
+
 
 
 	/* ---------------------------------------- */
