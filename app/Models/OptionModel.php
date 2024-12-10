@@ -17,7 +17,6 @@ class OptionModel extends Model
 		'nom'        => 'required|min_length[5]|max_length[50]|is_unique[option.nom]|regex_match[/^[^<>;{}]*$/]',
 		'description'=> 'required|max_length[500]|regex_match[/^[^<>;{}]*$/]',
 		'cout'       => 'required|greater_than_equal_to[0]',
-		'id_image'   => 'required',
 	];
 
 	protected $validationMessages = [
@@ -39,8 +38,6 @@ class OptionModel extends Model
 			'required'              => 'cout requis.',
 			'greater_than_equal_to' => 'Entrer un cout supérieur à zéro.',
         ],
-
-		'id_image' => [ 'required' => 'id_image requis.' ],
 	];
 
 	

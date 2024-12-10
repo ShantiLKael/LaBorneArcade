@@ -11,6 +11,7 @@ use App\Entities\Option;
 use App\Entities\Joystick;
 use App\Entities\TMolding;
 use App\Entities\Bouton;
+use App\Entities\Image;
 
 use App\Models\ArticleBlogModel;
 use App\Models\FaqModel;
@@ -20,6 +21,7 @@ use App\Models\OptionModel;
 use App\Models\JoystickModel;
 use App\Models\TMoldingModel;
 use App\Models\BoutonModel;
+use App\Models\ImageModel;
 
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Validation\ValidationInterface;
@@ -35,23 +37,26 @@ class AdminController extends BaseController
 	/** @var FaqModel $faqModel */
 	private FaqModel $faqModel;
 
-    /** @var ThemeModel $themeModel */
-    private ThemeModel $themeModel;
+	/** @var ThemeModel $themeModel */
+	private ThemeModel $themeModel;
 
 	/** @var MatiereModel $matiereModel */
-    private MatiereModel $matiereModel;
+	private MatiereModel $matiereModel;
 
 	/** @var OptionModel $optionModel */
-    private OptionModel $optionModel;
+	private OptionModel $optionModel;
 
 	/** @var JoystickModel $joystickModel */
-    private JoystickModel $joystickModel;
+	private JoystickModel $joystickModel;
 
 	/** @var TMoldingModel $tMoldingModel */
-    private TMoldingModel $tMoldingModel;
+	private TMoldingModel $tMoldingModel;
 
 	/** @var BoutonModel $boutonModel */
-    private BoutonModel $boutonModel;
+	private BoutonModel $boutonModel;
+
+	/** @var ImageModel $imageModel */
+	private ImageModel $imageModel;
 	
 	/** @var ValidationInterface $validation */
 	private ValidationInterface $validation;
@@ -59,19 +64,20 @@ class AdminController extends BaseController
 	public function __construct() {
 		$this->articleBlogModel	= new ArticleBlogModel();
 		$this->faqModel			= new FaqModel();
-        $this->themeModel	 	= new ThemeModel();
-        $this->matiereModel 	= new MatiereModel();
-        $this->optionModel 		= new OptionModel();
-        $this->joystickModel 	= new JoystickModel();
-        $this->tMoldingModel 	= new TMoldingModel();
-        $this->boutonModel 		= new BoutonModel();
+		$this->themeModel	 	= new ThemeModel();
+		$this->matiereModel 	= new MatiereModel();
+		$this->optionModel 		= new OptionModel();
+		$this->joystickModel 	= new JoystickModel();
+		$this->tMoldingModel 	= new TMoldingModel();
+		$this->boutonModel 		= new BoutonModel();
+		$this->imageModel 		= new ImageModel();
 		
 		$this->validation = Services::validation();
 		//Chargement du helper Form
 		helper(['form']);
 	}
 	
-    /* ---------------------------------------- */
+	/* ---------------------------------------- */
 	/* ------- Redirection page simple -------- */
 	/* ---------------------------------------- */
 	
@@ -158,23 +164,74 @@ class AdminController extends BaseController
 
 	public function adminOption()
 	{
-		if ($this->request->getPost() ) {
-			if ( ! $this->validate( $this->optionModel->getValidationRules(), $this->optionModel->getValidationMessages() ) ) {
+		if ($this->request->getPost()) {
+			// Valider les données envoyées pour l'option
+			if (!$this->validate($this->optionModel->getValidationRules(), $this->optionModel->getValidationMessages())) {
 				return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
 			}
-			else {
-				$data = $this->request->getPost();
+
+			// Récupérer les données du formulaire
+			$data = $this->request->getPost();
+
+			// Gestion de l'image
+			$imageFile = $this->request->getFile('id_image'); // Le champ input file doit avoir le name="id_image"
+			if ($imageFile && $imageFile->isValid() && !$imageFile->hasMoved()) {
+				// Valider l'extension de l'image
+				$allowedExtensions = ['png', 'jpg', 'jpeg', 'gif'];
+				$imageExtension = $imageFile->getClientExtension();
+				if (!in_array($imageExtension, $allowedExtensions)) {
+					return redirect()->back()->withInput()->with('errors', [
+						'id_image' => 'Format d\'image non pris en charge. Formats acceptés : png, jpg, jpeg, gif.',
+					]);
+				}
+
+				// Renommer le fichier avec un nom unique
+				$imageName = uniqid() . '.' . $imageExtension;
+
+				// Déplacer le fichier vers le dossier public/assets/option/
+				$imagePath = 'public/assets/images/option/' . $imageName;
+				$imageFile->move(FCPATH . 'assets/images/option/', $imageName);
+
+				// Ajouter une entrée dans la table image
+				$imageData = ['chemin' => $imagePath];
+				$this->imageModel->insert($imageData);
+
+				// Récupérer l'ID de l'image insérée
+				$imageId = $this->imageModel->insertID();
+				if (!$imageId) {
+					return redirect()->back()->withInput()->with('errors', [
+						'id_image' => 'Échec de l\'enregistrement de l\'image.',
+					]);
+				}
+
+				// Ajouter l'ID de l'image dans les données de l'option
+				$data['id_image'] = $imageId;
+
+				// Créer une nouvelle instance de l'option
 				$option = new Option();
 				$option->fill($data);
+
+				// Insérer l'option dans la base de données
 				$this->optionModel->insert($option);
 
-				return redirect()->back()->with('success', "$option->nom, $option->cout ajouté avec succès.");
+				return redirect()->back()->with('success', "$option->nom ajouté avec succès.");
+			} else {
+				// Erreur lors du téléchargement de l'image
+				return redirect()->back()->withInput()->with('errors', [
+					'id_image' => 'Erreur lors du téléchargement de l\'image.',
+				]);
 			}
-		} 
+		}
+
+		// Récupérer les options pour les afficher dans la vue
 		$options = $this->optionModel->findAll();
-		$options = array_reverse($options);
-		return view('admin/config_option', ['titre' => 'configuration des options', 'options' => $options]);
+		$options = array_reverse($options); // Afficher les options les plus récentes en haut
+		return view('admin/config_option', [
+			'titre' => 'Configuration des options',
+			'options' => $options,
+		]);
 	}
+
 
 	public function adminJoystick()
 	{
@@ -240,7 +297,7 @@ class AdminController extends BaseController
 		return view('admin/config_bouton', ['titre' => 'configuration des boutons', 'boutons' => $boutons]);
 	}
 
-    /* ---------------------------------------- */
+	/* ---------------------------------------- */
 	/* ------------- article/Blog ------------- */
 	/* ---------------------------------------- */
 
@@ -303,7 +360,7 @@ class AdminController extends BaseController
 		return redirect()->back()->with('succes', "L'article à été mis à jour.");
 	}
 
-    /* ---------------------------------------- */
+	/* ---------------------------------------- */
 	/* ------------------ FAQ ----------------- */
 	/* ---------------------------------------- */
 	
@@ -337,7 +394,7 @@ class AdminController extends BaseController
 		return redirect()->back();
 	}
 
-    /* ---------------------------------------- */
+	/* ---------------------------------------- */
 	/* ----------------- theme ---------------- */
 	/* ---------------------------------------- */
 
@@ -355,7 +412,7 @@ class AdminController extends BaseController
 	}
 
 
-    /* ---------------------------------------- */
+	/* ---------------------------------------- */
 	/* ---------------- Matiere --------------- */
 	/* ---------------------------------------- */
 
@@ -372,8 +429,8 @@ class AdminController extends BaseController
 		return redirect()->back()->with('errors', ['Erreur lors de la suppression de la matiere.']);
 	}
 
-    
-    /* ---------------------------------------- */
+	
+	/* ---------------------------------------- */
 	/* ---------------- option ---------------- */
 	/* ---------------------------------------- */
 
@@ -392,7 +449,7 @@ class AdminController extends BaseController
 	}
 
 
-    /* ---------------------------------------- */
+	/* ---------------------------------------- */
 	/* --------------- joystick --------------- */
 	/* ---------------------------------------- */
 
@@ -410,7 +467,7 @@ class AdminController extends BaseController
 	}
 
 
-    /* ---------------------------------------- */
+	/* ---------------------------------------- */
 	/* --------------- Tmolding --------------- */
 	/* ---------------------------------------- */
 
@@ -428,7 +485,7 @@ class AdminController extends BaseController
 	}
 
 
-    /* ---------------------------------------- */
+	/* ---------------------------------------- */
 	/* ---------------- bouton ---------------- */
 	/* ---------------------------------------- */
 
@@ -446,7 +503,7 @@ class AdminController extends BaseController
 	}
 
 
-    /* ---------------------------------------- */
+	/* ---------------------------------------- */
 	/* ----------------- Borne ---------------- */
 	/* ---------------------------------------- */
 

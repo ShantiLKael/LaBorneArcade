@@ -19,21 +19,21 @@ class Option extends Entity
         'idImage' => 'id_image'
     ];
 
-    public function setCout(int $cout)
+    public function setCout(string $cout)
     {
         $this->attributes['cout'] = $cout;
         
         return $this;
     }
 
-    public function setNom(int $nom)
+    public function setNom(string $nom)
     {
         $this->attributes['nom'] = $nom;
         
         return $this;
     }
 
-    public function setDescription(int $desc)
+    public function setDescription(string $desc)
     {
         $this->attributes['description'] = $desc;
         

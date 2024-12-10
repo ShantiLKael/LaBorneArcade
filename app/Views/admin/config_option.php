@@ -6,7 +6,7 @@
 
 		<!-- Formulaire pour ajouter une option -->
 
-        <?php echo form_open('/admin/option'); ?>
+        <?php echo form_open('/admin/option', ['enctype' => 'multipart/form-data']); ?>
 			<table class="max-w-3xl mx-auto">
 				<tbody>
 					<tr>
@@ -78,7 +78,7 @@
 							<?php echo form_input(
 								[
 									'type' => 'file',
-									'name' => 'image',
+									'name' => 'id_image',
 									'id' => 'image',
 									'class' => 'border border-gray-300 rounded-lg p-2 w-full md:w-auto bg-gray-100 text-black',
 									'accept' => 'image/*', // Permet uniquement les fichiers image
