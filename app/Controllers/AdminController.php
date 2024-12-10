@@ -189,7 +189,7 @@ class AdminController extends BaseController
 				$imageName = $data['nom'] . '.' . $imageExtension;
 
 				// Déplacer le fichier vers le dossier public/assets/option/
-				$imagePath = 'public/assets/images/option/' . $imageName;
+				$imagePath = 'assets/images/option/' . $imageName;
 				$imageFile->move(FCPATH . 'assets/images/option/', $imageName);
 
 				// Ajouter une entrée dans la table image
@@ -223,8 +223,10 @@ class AdminController extends BaseController
 			}
 		}
 
+		$options = $this->optionModel->getOptionsWithImages();
+
 		// Récupérer les options pour les afficher dans la vue
-		$options = $this->optionModel->findAll();
+		//$options = $this->optionModel->findAll();
 		$options = array_reverse($options); // Afficher les options les plus récentes en haut
 		return view('admin/config_option', [
 			'titre' => 'Configuration des options',
@@ -440,7 +442,7 @@ class AdminController extends BaseController
 		$option = $this->optionModel->find($id_option);
 
 		if ($option) {
-			$imagePath = realpath("..")."/".$this->imageModel->find($option->id_image)->chemin; 
+			$imagePath = realpath("..")."/public/".$this->imageModel->find($option->id_image)->chemin; 
 			if (file_exists($imagePath)) {
 				unlink($imagePath);
 			} 

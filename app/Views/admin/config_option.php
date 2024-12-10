@@ -134,8 +134,8 @@
 
 							<!-- Bouton Supprimer -->
 							<div class="ml-auto">
-								<?php echo form_open("/admin/option/delete/$option->id", ['onsubmit' => "return confirm(\"Êtes-vous sûr de vouloir supprimer cette option ?\")"]); ?>
-									<?php echo form_hidden('id', $option->id); ?>		
+								<?php echo form_open("/admin/option/delete/$option->id_option", ['onsubmit' => "return confirm(\"Êtes-vous sûr de vouloir supprimer cette option ?\")"]); ?>
+									<?php echo form_hidden('id', $option->id_option); ?>		
 									<?php echo form_submit('delete', 'Supprimer', "class='bg-red-500 hover:bg-red-700 text-white font-medium py-1 px-4 rounded'"); ?>
 								<?php echo form_close(); ?>
 							</div>
@@ -145,9 +145,15 @@
 						<div class="mt-2 text-sm text-gray-300">
 							<?= $option->description ?>
 						</div>
+						<!-- Image associée -->
+						<div class="mt-2">
+							<?php if (!empty($option->image_chemin)) :// dd(realpath("..")."/".$option->image_chemin); ?>
+								<img src="<?= "/".$option->image_chemin ?>" alt="Image de l'option" class="w-32 h-32 items-center object-cover">
+							<?php else : ?>
+								<p class="text-gray-500">Aucune image disponible.</p>
+							<?php endif; ?>
+						</div>
 					</div>
-
-					
 				<?php endforeach; ?>
 			<?php else : ?>
 				<p class="p-4">Aucune option disponible pour le moment.</p>

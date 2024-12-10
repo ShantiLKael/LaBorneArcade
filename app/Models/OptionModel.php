@@ -51,4 +51,13 @@ class OptionModel extends Model
 		$imageModel = new ImageModel();
 		return $imageModel->find($idImage);
 	}
+
+    public function getOptionsWithImages()
+	{
+		return $this->db->table('option')
+			->select('option.*, image.chemin as image_chemin') // Sélectionner les colonnes nécessaires
+			->join('image', 'image.id_image = option.id_image', 'left') // Jointure avec la table images
+			->get()
+			->getResult();
+	}
 }
