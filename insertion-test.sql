@@ -44,14 +44,29 @@ VALUES
 -- Insertion des données dans la table ArticleBlog
 INSERT INTO ArticleBlog (titre, texte, id_Utilisateur)
 VALUES
-('L’histoire des bornes', 'Un texte sur les bornes...', 1),
+('L''histoire des bornes', 'Un texte sur les bornes...', 1),
 ('Les meilleures bornes', 'Comparaison des bornes...', 2);
 
 -- Insertion des données dans la table Borne
 INSERT INTO Borne (nom, description, prix, id_TMolding, id_Matiere, id_Theme)
 VALUES
 ('Borne1', 'Description de la Borne 1', 1500.00, 1, 1, 1),
-('Borne2', 'Description de la Borne 2', 2000.00, 2, 2, 2);
+('Borne2', 'Description de la Borne 2', 2000.00, 2, 2, 2),
+('Borne3', 'Description de la Borne 2', 2000.00, 2, 2, 2),
+('Borne4', 'Description de la Borne 2', 2000.00, 2, 2, 2),
+('Borne5', 'Description de la Borne 2', 2000.00, 2, 2, 2),
+('Borne6', 'Description de la Borne 2', 2000.00, 2, 2, 2),
+('Borne7', 'Description de la Borne 2', 2000.00, 2, 2, 2),
+('Borne8', 'Description de la Borne 2', 2000.00, 2, 2, 2),
+('Borne9', 'Description de la Borne 2', 2000.00, 2, 2, 2),
+('Borne10', 'Description de la Borne 2', 2000.00, 2, 2, 2),
+('Borne11', 'Description de la Borne 2', 2000.00, 2, 2, 2),
+('Borne12', 'Description de la Borne 2', 2000.00, 2, 2, 2),
+('Borne13', 'Description de la Borne 2', 2000.00, 2, 2, 2),
+('Borne14', 'Description de la Borne 2', 2000.00, 2, 2, 2),
+('Borne51', 'Description de la Borne 2', 2000.00, 2, 2, 2),
+('Borne16', 'Description de la Borne 2', 2000.00, 2, 2, 2),
+('Borne17', 'Description de la Borne 2', 2000.00, 2, 2, 2);
 
 -- Insertion des données dans la table BornePerso
 INSERT INTO BornePerso (prix, id_Borne, id_TMolding, id_Matiere, date_creation, date_modif)
@@ -62,8 +77,8 @@ VALUES
 -- Insertion des données dans la table Option
 INSERT INTO Option (nom, description, cout, id_Image)
 VALUES
-('Option1', 'Description de l’option 1', 50, 1),
-('Option2', 'Description de l’option 2', 100, 2);
+('Option1', 'Description de l''option 1', 50, 1),
+('Option2', 'Description de l''option 2', 100, 2);
 
 -- Insertion des données dans la table Bouton
 INSERT INTO Bouton (modele, forme, couleur, eclairage)

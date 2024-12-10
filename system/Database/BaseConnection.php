@@ -48,7 +48,7 @@ use Throwable;
  * @property-read string     $swapPre
  * @property-read int        $transDepth
  * @property-read bool       $transFailure
- * @property-read bool       $transStatus
+ * @property      bool       $transStatus
  * @property-read string     $username
  *
  * @template TConnection

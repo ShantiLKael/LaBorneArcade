@@ -3,7 +3,7 @@
 namespace App\Database\Seeds;
 
 use CodeIgniter\Database\Seeder;
-use Laminas\Escaper\Exception\InvalidArgumentException;
+use InvalidArgumentException;
 
 class SeederPrincipal extends Seeder {
 	
@@ -29,6 +29,7 @@ class SeederPrincipal extends Seeder {
 			'OptionsBornes',
 			'Paniers',
 		];
+		
 		foreach ($seeders as $seeder) {
 			try {
 				$this->call("Seeder$seeder");

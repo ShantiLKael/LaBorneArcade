@@ -218,17 +218,18 @@ for (i = 1; i <= nbJoueur; i++)
     container.appendChild(input);
 }
 
+// Sélection de la forme et couleur
+const formeSelect = document.getElementById("select-forme-bouton");
+const coulSelect  = document.getElementById("select-couleur-bouton");
+let   coulSelectJoystick = document.getElementById('select-modele-joystick');
+
+
 // Forme par défault des éléments
 let formeOption = "rond";
 
 // Couleur par défault des éléments
 let coulDefaut = coulOption = "#c0c0c0";
 let idBoutonOption = 0;
-
-// Sélection de la forme et couleur
-const formeSelect = document.getElementById("select-forme-bouton");
-const coulSelect  = document.getElementById("select-couleur-bouton");
-let   coulSelectJoystick = document.getElementById('select-modele-joystick');
 
 // TODO Bouton pour changer la configure
 // const boutonValider = document.getElementById("btn-valid-configure");
@@ -535,11 +536,11 @@ function initElements(nbJoueur, nbBoutonParJoueur)
     [
         new Figure(longueurEcran * 0.2 + distBouton * boutonJeuCanva.length - rayonCercle * 4,
                 rayonCercle * 1.2,
-                rayonCercle, formeOption, coulOption, 1),
+                rayonCercle, formeOption, coulDefaut, 1),
 
         new Figure(longueurEcran * 0.2 + distBouton * boutonJeuCanva.length - rayonCercle,
                 rayonCercle * 1.2,
-                rayonCercle, formeOption, coulOption, 2)
+                rayonCercle, formeOption, coulDefaut, 2)
     ];
 
     // Dessin du rectangle du Joystick
@@ -568,7 +569,7 @@ function initElements(nbJoueur, nbBoutonParJoueur)
                 xBouton + distBouton * (j +1),
                 yBouton - (distBouton * 0.2 * decalage) + distBouton * i,
                 rayonCercle,
-                formeOption, coulOption, (i * nbCol + j +3)
+                formeOption, coulDefaut, (i * nbCol + j +3)
             );
 
             boutonJeuCanva.push(btn);

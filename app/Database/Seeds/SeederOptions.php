@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection SqlResolve */
+
 namespace App\Database\Seeds;
 
 use CodeIgniter\Database\Query;
@@ -11,7 +13,7 @@ class SeederOptions extends Seeder {
 		$this->db->table('option')->delete('1 = 1');
 		
 		$prepared = $this->db->prepare(static function($db) {
-			$sql = "INSERT INTO option VALUES (?, ?, ?, ?, ?);";
+			$sql = "INSERT INTO \"option\" VALUES (?, ?, ?, ?, ?);";
 			return (new Query($db))->setQuery($sql);
 		});
 		
