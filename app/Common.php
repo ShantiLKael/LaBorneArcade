@@ -14,8 +14,6 @@
  * @see: https://codeigniter.com/user_guide/extending/common.html
  */
 
-use App\ThirdParty\CronJob;
-
 /**
  * @param string|bool|int $value
  * @return int
@@ -27,4 +25,13 @@ function parse_bool_to_postgres(string|bool|int $value): int {
 	if ($value === "false" || $value === 0 || $value === false)
 		return 0;
 	throw new Exception("Unsupported boolean value for Postgres: '$value'");
+}
+
+function query_par_type(array $params, string $type): string {
+	if (isset($params["type"]) && $params["type"] === $type)
+		unset($params["type"]);
+	else
+		$params["type"] = $type;
+	$query = http_build_query($params);
+	return ($query ? "?" : "") . $query;
 }

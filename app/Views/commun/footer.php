@@ -13,7 +13,7 @@
 		</svg>
 	</div>
 </a>
-<!-- Ils nous font confiance -->
+<!-- Ils nous font confiance. -->
 <section class="max-w-xl mx-auto mt-10 mb-10">
 	<div class="bg-gradient-to-r from-dark-teal to-medium-blue text-center pt-4">
 		<h3 class="text-lg text-white font-semibold mb-4">Ils nous font confiance</h3>
@@ -94,5 +94,4 @@
 	</div>
 </footer>
 </body>
-
 </html>
