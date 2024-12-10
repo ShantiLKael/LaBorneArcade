@@ -106,6 +106,7 @@ class ControleurBorne extends BaseController {
 			'selectionTheme'=>$theme,
 			'selectionType' =>$type,
 			'bornes'        =>$bornes,
+			'matieres'      =>$this->matiereModel->findAll(),
 			'pager_links'   =>$pager->makeLinks($page, $perPage, $total),
 		]);
 	}

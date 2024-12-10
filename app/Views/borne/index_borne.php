@@ -1,4 +1,5 @@
 <?= view('commun/header', ['titre' => $titre]) ?>
+<form action="/bornes" method="get">
 <section class="mx-auto">
 	<!-- Section de sélection -->
 	<div class="bg-gradient-to-r from-dark-teal max-w-100 to-medium-blue text-center py-10 mb-8">
@@ -19,6 +20,7 @@
 	<div class="flex flex-col md:flex-row md:space-x-8 mb-8 py-3 px-10">
 		<!-- Conteneur des filtres -->
 		<div class="md:w-1/4 md:h-auto bg-medium-blue p-6 my-5 md:my-0 rounded-lg border border-gray-700">
+			
 			<h3 class="text-lg font-bold mb-6 text-gray-300">Filtrer par :</h3>
 
 			<!-- Champ de recherche -->
@@ -49,18 +51,14 @@
 			<div class="mb-6">
 				<h4 class="text-md font-semibold text-gray-300 mb-4">Matières</h4>
 				<div class="space-y-2">
-					<label class="block text-gray-400">
-						<input type="checkbox" name="matiere[]" value="bois" class="mr-2 rounded text-green-500 focus:ring focus:ring-green-400">
-						Bois
-					</label>
-					<label class="block text-gray-400">
-						<input type="checkbox" name="matiere[]" value="métal" class="mr-2 rounded text-green-500 focus:ring focus:ring-green-400">
-						Métal
-					</label>
-					<label class="block text-gray-400">
-						<input type="checkbox" name="matiere[]" value="plastique" class="mr-2 rounded text-green-500 focus:ring focus:ring-green-400">
-						Plastique
-					</label>
+					<?php foreach ($matieres as $matiere): ?>
+						<?= form_label(
+							'<input type="checkbox" name="matiere[]" value="'.$matiere->id.'" class="mr-2 rounded text-green-500 focus:ring focus:ring-green-400">'
+							.$matiere->nom,
+							'',
+							['class' => 'block text-gray-400']
+						) ?>
+					<?php endforeach; ?>
 				</div>
 			</div>
 
@@ -84,12 +82,7 @@
 
 			<!-- Bouton de soumission -->
 			<div>
-				<button
-					type="submit"
-					class="w-full bg-green-600 hover:bg-green-500 text-white py-2 px-4 rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-green-500"
-				>
-					Appliquer les filtres
-				</button>
+				<?= form_submit('submit', 'Appliquer les filtres', "class='w-full bg-green-600 hover:bg-green-500 text-white py-2 px-4 rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-green-500'"); ?>
 			</div>
 		</div>
 
@@ -117,4 +110,5 @@
 	</div>
 	<?= $pager_links ?>
 </section>
+</form>
 <?= view('commun/footer') ?>
