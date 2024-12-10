@@ -820,6 +820,10 @@ video {
   height: 5rem;
 }
 
+.h-32 {
+  height: 8rem;
+}
+
 .h-4 {
   height: 1rem;
 }
@@ -876,6 +880,10 @@ video {
   width: 5rem;
 }
 
+.w-32 {
+  width: 8rem;
+}
+
 .w-4 {
   width: 1rem;
 }
@@ -900,10 +908,6 @@ video {
   width: 2.25rem;
 }
 
-.w-\[15vw\] {
-  width: 15vw;
-}
-
 .w-\[18px\] {
   width: 18px;
 }
@@ -914,10 +918,6 @@ video {
 
 .w-\[35vw\] {
   width: 35vw;
-}
-
-.w-\[45vw\] {
-  width: 45vw;
 }
 
 .w-auto {
@@ -938,6 +938,10 @@ video {
 
 .min-w-\[170px\] {
   min-width: 170px;
+}
+
+.min-w-\[200px\] {
+  min-width: 200px;
 }
 
 .max-w-3xl {
@@ -1575,11 +1579,6 @@ video {
   color: rgb(239 68 68 / var(--tw-text-opacity, 1));
 }
 
-.text-red-600 {
-  --tw-text-opacity: 1;
-  color: rgb(220 38 38 / var(--tw-text-opacity, 1));
-}
-
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
@@ -1745,11 +1744,6 @@ video {
 .hover\:text-light-teal:hover {
   --tw-text-opacity: 1;
   color: rgb(24 204 163 / var(--tw-text-opacity, 1));
-}
-
-.hover\:text-red-800:hover {
-  --tw-text-opacity: 1;
-  color: rgb(153 27 27 / var(--tw-text-opacity, 1));
 }
 
 .hover\:underline:hover {
