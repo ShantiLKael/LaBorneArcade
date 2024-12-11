@@ -2,7 +2,7 @@
 	<?php // var_dump($options)  ?>
 	<div id="main-content" class=" p-8 w-full">
 		<!-- Titre principal -->
-		<h2 class="text-center text-3xl font-bold mb-4">configuration des options </h2>
+		<h2 class="text-center text-3xl font-bold mb-4">Configuration des options </h2>
 
 		<!-- Formulaire pour ajouter une option -->
 
@@ -160,6 +160,4 @@
 			<?php endif; ?>
 		</div><br>
 	</div>
-	<script src="./assets/js/btn-faq.js">
-	</script>
 	<?= view('commun/footerAdmin') ?>

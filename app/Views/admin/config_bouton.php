@@ -112,7 +112,7 @@
 	<!-- bouton -->
 		<?php if (!empty($boutons)) : ?>
 			<?php foreach($boutons as $bouton) : ?>
-                <div class="flex justify-between items-center border-b border-gray-200 py-2 bg-FVertClair">
+                <div class="p-4 flex justify-between items-center border-b border-gray-200 py-2 bg-FVertClair">
 					<div class="text-lg font-medium font-bold w-1/3 min-w-[170px] truncate">
 						<?= $bouton->modele ?>
 					</div>
@@ -159,6 +159,4 @@
 		<?php endif; ?>
 	</div><br>
 </div>
-<script src="./assets/js/btn-faq.js">
-</script>
 <?= view('commun/footerAdmin') ?>

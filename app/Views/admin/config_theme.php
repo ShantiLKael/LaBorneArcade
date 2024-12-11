@@ -2,7 +2,7 @@
 <?php // var_dump($themes)  ?>
 <div id="main-content" class=" p-8 w-full">
 	<!-- Titre principal -->
-	<h2 class="text-center text-3xl font-bold mb-4">Configuration des theme</h2>
+	<h2 class="text-center text-3xl font-bold mb-4">Configuration des themes</h2>
 	
 	<!-- Formulaire pour ajouter un theme -->
 	<?php echo form_open('/admin/theme'); ?>
@@ -59,7 +59,7 @@
 		<?php if (!empty($themes)) : ?>
 			<?php foreach($themes as $theme) : ?>
 				<?php // var_dump($theme)  ?>
-				<div class="flex justify-between items-center border-b border-gray-200 py-2 bg-FVertClair">
+				<div class="p-4 flex justify-between items-center border-b border-gray-200 py-2 bg-FVertClair">
 					<!-- Nom du thème -->
 					<div class="text-lg font-medium text-dark-blue font-bold">
 						<?= $theme->nom ?>
@@ -79,6 +79,4 @@
 		<?php endif; ?>
 	</div><br>
 </div>
-<script src="./assets/js/btn-faq.js">
-</script>
 <?= view('commun/footerAdmin') ?>

@@ -99,28 +99,55 @@ class AdminController extends BaseController
 		return view('/admin/contact');
 	}
 
-	/**
-	 * Page admin des articles.
-	 *
-	 * @return string admin/articles
-	 */
-	public function adminArticle(): string
-	{
-		return view('/admin/articles');
-	}
-
-	/**
-	 * Page admin faq
-	 * @return string
-	 */
-	public function adminFaq(): string
-	{
-		return view('/admin/faqs');
-	}
-
 	/* ---------------------------------------- */
 	/* ------ Redirection page et ajout ------- */
 	/* ---------------------------------------- */
+
+    /**
+	 * Page admin des articles
+	 */
+	public function adminArticle()
+	{
+        if ($this->request->getPost() ) {
+			if ( ! $this->validate( $this->articleBlogModel->getValidationRules(), $this->articleBlogModel->getValidationMessages() ) ) {
+				return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
+			}
+			else {
+				$data = $this->request->getPost();
+				$article = new ArticleBlog();
+				$article->fill($data);
+				$this->articleBlogModel->insert($article);
+
+				return redirect()->back()->with('success', "$article->titre ajouté avec succès.");
+			}
+		} 
+		$articles = $this->articleBlogModel->findAll();
+		$articles = array_reverse($articles);
+		return view('admin/config_article', ['titre' => 'configuration des articles', 'articles' => $articles]);
+	}
+
+    /**
+	 * Page admin faq
+	 */
+	public function adminFaq()
+	{
+        if ($this->request->getPost() ) {
+			if ( ! $this->validate( $this->faqModel->getValidationRules(), $this->faqModel->getValidationMessages() ) ) {
+				return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
+			}
+			else {
+				$data = $this->request->getPost();
+				$faq = new Faq();
+				$faq->fill($data);
+				$this->faqModel->insert($faq);
+
+				return redirect()->back()->with('success', "$faq->question ajouté avec succès.");
+			}
+		} 
+		$faqs = $this->faqModel->findAll();
+		$faqs = array_reverse($faqs);
+		return view('admin/config_faq', ['titre' => 'configuration des FAQs', 'faqs' => $faqs]);
+	}
 
 	public function adminTheme()
 	{
@@ -304,85 +331,25 @@ class AdminController extends BaseController
 	/* ---------------------------------------- */
 
 	/**
-	 * Traitement d'ajout de nouveau article du blog.
-	 *
-	 * @return RedirectResponse
-	 * @throws ReflectionException
-	 */
-	public function traitement_creation_article(): RedirectResponse
-	{
-		if (!$this->validate($this->articleBlogModel->getValidationRules(), $this->articleBlogModel->getValidationMessages())) {
-			return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
-		}
-		
-		/// Verifier la
-		$data = $this->request->getPost();
-		$this->articleBlogModel->insert(new ArticleBlog($data));
-		return redirect()->back();
-	}
-
-	/**
 	 * Traitement de suppression de l'article en paramètre.
 	 *
 	 * @param int $id_article
 	 * @return RedirectResponse
 	 */
-	public function traitement_delete_article(int $id_article): RedirectResponse
+	public function suppArticle(int $id_article): RedirectResponse
 	{
-		$this->articleBlogModel->delete($id_article);
-		return redirect()->back();
-	}
-	
-	/**
-	 * Traitement de modification de l'article en paramètre.
-	 *
-	 * @param int $id_article
-	 * @return RedirectResponse
-	 * @throws ReflectionException
-	 */
-	public function traitement_modifier_article(int $id_article): RedirectResponse
-	{
-		$data = $this->request->getPost();
-		if (!$this->validate($this->articleBlogModel->getValidationRules(), $this->articleBlogModel->getValidationMessages()))
-		{
-			return redirect()->back()->withInput()->with('erreurs', $this->validation->getErrors());
-		}
+		$id_article = $this->request->getPost('id');
 
-		$article = $this->articleBlogModel->find($id_article);
-
-		// Mise à jour des propriétés
-		$article->setTitre      ($data['titre']			?? $article->getTitre()       );
-		$article->setPriorite   ($data['texte']		?? $article->getTexte()    );
-		$article->setEcheance   ($data['idUtilisateur']		?? $article->getIdUtilisateur()    );
-		$article->setModiffArticleBlog();
-
-		// Enregistrer les modifications
-		$this->articleBlogModel->save($article);
-		
-		return redirect()->back()->with('succes', "L'article à été mis à jour.");
+		// Suppression du thème
+		if ($this->articleBlogModel->delete($id_article)) { return redirect()->back()->with('success', 'Faq supprimé avec succès.'); }
+		// En cas d'erreur
+		return redirect()->back()->with('errors', ['Erreur lors de la suppression de la faq.']);
 	}
 
 	/* ---------------------------------------- */
 	/* ------------------ FAQ ----------------- */
 	/* ---------------------------------------- */
-	
-	/**
-	 * Traitement d'ajout d'une nouvelle question de la faq.
-	 *
-	 * @return RedirectResponse
-	 * @throws ReflectionException
-	 */
-	public function traitement_creation_faq(): RedirectResponse
-	{
-		if (!$this->validate($this->faqModel->getValidationRules(), $this->faqModel->getValidationMessages())) {
-			return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
-		}
-		
-		/// Verifier la
-		$data = $this->request->getPost();
-		$this->faqModel->insert(new Faq($data));
-		return redirect()->back();
-	}
+
 
 	/**
 	 * Traitement de suppression de la question faq en paramètre.
@@ -390,10 +357,14 @@ class AdminController extends BaseController
 	 * @param int $id_faq
 	 * @return RedirectResponse
 	 */
-	public function traitement_delete_faq(int $id_faq): RedirectResponse
+	public function suppFaq(int $id_faq): RedirectResponse
 	{
-		$this->faqModel->delete($id_faq);
-		return redirect()->back();
+        $id_faq = $this->request->getPost('id');
+
+		// Suppression du thème
+		if ($this->faqModel->delete($id_faq)) { return redirect()->back()->with('success', 'Faq supprimé avec succès.'); }
+		// En cas d'erreur
+		return redirect()->back()->with('errors', ['Erreur lors de la suppression de la faq.']);
 	}
 
 	/* ---------------------------------------- */
@@ -413,7 +384,6 @@ class AdminController extends BaseController
 		return redirect()->back()->with('errors', ['Erreur lors de la suppression du thème.']);
 	}
 
-
 	/* ---------------------------------------- */
 	/* ---------------- Matiere --------------- */
 	/* ---------------------------------------- */
@@ -430,7 +400,6 @@ class AdminController extends BaseController
 		// En cas d'erreur
 		return redirect()->back()->with('errors', ['Erreur lors de la suppression de la matiere.']);
 	}
-
 	
 	/* ---------------------------------------- */
 	/* ---------------- option ---------------- */
@@ -457,8 +426,6 @@ class AdminController extends BaseController
 		return redirect()->back()->with('errors', ['Erreur lors de la suppression de l\'option et de l\'image.']);
 	}
 
-
-
 	/* ---------------------------------------- */
 	/* --------------- joystick --------------- */
 	/* ---------------------------------------- */
@@ -475,7 +442,6 @@ class AdminController extends BaseController
 		// En cas d'erreur
 		return redirect()->back()->with('errors', ['Erreur lors de la suppression de la joystick.']);
 	}
-
 
 	/* ---------------------------------------- */
 	/* --------------- Tmolding --------------- */
@@ -494,7 +460,6 @@ class AdminController extends BaseController
 		return redirect()->back()->with('errors', ['Erreur lors de la suppression du Tmolding.']);
 	}
 
-
 	/* ---------------------------------------- */
 	/* ---------------- bouton ---------------- */
 	/* ---------------------------------------- */
@@ -511,7 +476,6 @@ class AdminController extends BaseController
 		// En cas d'erreur
 		return redirect()->back()->with('errors', ['Erreur lors de la suppression de la bouton.']);
 	}
-
 
 	/* ---------------------------------------- */
 	/* ----------------- Borne ---------------- */

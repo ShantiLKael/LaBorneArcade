@@ -154,3 +154,16 @@ INSERT INTO TMolding (nom, couleur) VALUES
 ('Green Neon', '#00FF00'),
 ('Woodgrain', '#A0522D');
 
+INSERT INTO Faq (question, reponse, id_Utilisateur)
+VALUES 
+    ('Comment commander une borne ?', 'Vous pouvez commander en ligne via notre site ou nous contacter.', 1),
+    ('Quels sont les délais de livraison ?', 'Les délais varient entre 2 et 4 semaines selon le produit.', 1),
+    ('Puis-je personnaliser ma borne ?', 'Oui, nous proposons des options de personnalisation.', 1),
+    ('Quels sont les moyens de paiement acceptés ?', 'Nous acceptons les paiements par carte bancaire et PayPal.', 1),
+    ('Comment suivre ma commande ?', 'Un numéro de suivi sera envoyé par email après l’expédition.', 1),
+    ('Offrez-vous une garantie ?', 'Oui, toutes nos bornes sont garanties 2 ans.', 1),
+    ('Puis-je visiter votre showroom ?', 'Oui, notre showroom est ouvert du lundi au vendredi.', 1),
+    ('Proposez-vous une assistance technique ?', 'Oui, une assistance technique est disponible pour tous nos clients.', 1),
+    ('Quels jeux sont inclus dans les bornes ?', 'Nos bornes incluent plus de 1000 jeux rétro populaires.', 1),
+    ('Faites-vous des remises pour les commandes en gros ?', 'Oui, contactez-nous pour les commandes de plus de 5 bornes.', 1),
+    ('Comment annuler ma commande ?', 'Veuillez nous contacter sous 24h après avoir passé commande.', 1);

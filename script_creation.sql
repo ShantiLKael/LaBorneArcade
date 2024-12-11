@@ -68,7 +68,7 @@ CREATE TABLE Image(
 
 CREATE TABLE Faq(
 	id_Faq         SERIAL PRIMARY KEY,
-	question       VARCHAR(50 ) NOT NULL,
+	question       VARCHAR(250 ) NOT NULL,
 	reponse        VARCHAR(255) NOT NULL,
 	id_Utilisateur INT REFERENCES Utilisateur(id_Utilisateur) NOT NULL
 );
