@@ -34,10 +34,17 @@
 <script>
     function boutonHam() {
         const navbar = document.getElementById("navbar");
-        if (navbar.style.width === "250px") {
-            navbar.style.width = "0";
+        const mainContent = document.getElementById("main-content");
+
+        // Vérifier si le menu est déjà ouvert
+        if (navbar.style.transform === "translateX(0px)") {
+            // Si ouvert, le fermer
+            navbar.style.transform = "translateX(-100%)";
+            mainContent.style.marginLeft = "0"; // Revenir à la mise en page d'origine
         } else {
-            navbar.style.width = "250px";
+            // Sinon, l'ouvrir
+            navbar.style.transform = "translateX(0px)";
+            mainContent.style.marginLeft = "250px"; // Ajouter de l'espace pour le menu
         }
     }
 </script>

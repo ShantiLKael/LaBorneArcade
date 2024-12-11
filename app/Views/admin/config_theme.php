@@ -1,6 +1,6 @@
 <?= view('commun/headerAdmin', ['titre' => $titre]) ?>
 <?php // var_dump($themes)  ?>
-<div class="ml-[250px] p-8 w-full">
+<div id="main-content" class=" p-8 w-full">
 	<!-- Titre principal -->
 	<h2 class="text-center text-3xl font-bold mb-4">Configuration des theme</h2>
 	
