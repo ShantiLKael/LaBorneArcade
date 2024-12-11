@@ -59,7 +59,7 @@
 		<?php if (!empty($themes)) : ?>
 			<?php foreach($themes as $theme) : ?>
 				<?php // var_dump($theme)  ?>
-				<div class="flex justify-between items-center border-b border-gray-200 py-2 bg-[#f4f8f3]">
+				<div class="flex justify-between items-center border-b border-gray-200 py-2 bg-FVertClair">
 					<!-- Nom du thème -->
 					<div class="text-lg font-medium text-dark-blue font-bold">
 						<?= $theme->nom ?>

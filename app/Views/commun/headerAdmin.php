@@ -5,7 +5,7 @@
     <link href="/assets/css/style.css" rel="stylesheet" type="text/css">
     <title><?= $titre ?></title>
 </head>
-<body class="bg-[#ebf0ea] text-dark-blue grid grid-cols-[250px_1fr] w-full">
+<body class="bg-FVert text-dark-blue grid grid-cols-[250px_1fr] w-full">
 <header class="flex">
     <!-- Navbar -->
     <nav id="navbar" class="bg-black text-white fixed top-0 left-0 h-screen w-[250px] z-50 flex flex-col px-6 py-4 shadow-lg shadow-gray-700/20 transition-all">
