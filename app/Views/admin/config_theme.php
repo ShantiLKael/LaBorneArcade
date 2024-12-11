@@ -1,6 +1,6 @@
 <?= view('commun/headerAdmin', ['titre' => $titre]) ?>
 <?php // var_dump($themes)  ?>
-<div class="text-dark-blue py-12 px-6 flex-1 md:ml-[20%] text-dark-blue p-8">
+<div class="ml-[250px] p-8 w-full text-dark-blue py-12 px-6 flex-1 text-dark-blue p-8">
 	<!-- Titre principal -->
 	<h2 class="text-center text-3xl font-bold mb-4">Configuration des theme</h2>
 	
@@ -59,7 +59,7 @@
 		<?php if (!empty($themes)) : ?>
 			<?php foreach($themes as $theme) : ?>
 				<?php // var_dump($theme)  ?>
-				<div class="flex justify-between items-center border-b border-gray-200 py-2 bg-white">
+				<div class="flex justify-between items-center border-b border-gray-200 py-2 bg-[#f4f8f3]">
 					<!-- Nom du thème -->
 					<div class="text-lg font-medium text-dark-blue font-bold">
 						<?= $theme->nom ?>
@@ -81,4 +81,4 @@
 </div>
 <script src="./assets/js/btn-faq.js">
 </script>
-<?= view('commun/footer') ?>
+<?= view('commun/footerAdmin') ?>
