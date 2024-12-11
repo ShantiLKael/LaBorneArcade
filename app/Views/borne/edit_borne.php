@@ -1,8 +1,20 @@
 <?= view('commun/header', ['titre' => $titre]) ?>
 <!-- Formulaire des options choisies -->
 <?= form_open('/borne-perso') ?>
-<!-- Section de sélection -->
+<div class="bg-gradient-to-r from-dark-teal max-w-100 to-medium-blue text-center py-10 mb-8">
+    <div class="flex items-center px-10 py-10">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-gray-300 invisible md:visible mr-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+        <!-- Texte principal -->
+        <div>
+            <h2 class="text-xl md:text-2xl font-bold">Créez vos propres bornes d'arcade, avec l'assistance de notre graphiste !</h2>
+            <p class="text-gray-300 text-sm md:text-base">Personnalisez avec vos logos, idées, couleurs, images. Customisez chaque partie.</p>
+        </div>
+    </div>
+</div>
 
+<!-- Section de sélection -->
 <section id="section"  class="container px-5 py-16 mx-auto bg-medium-blue rounded-xl ">
 
 	<div class="px-0 md:px-20 mb-16">
@@ -90,6 +102,16 @@
 			<div style="background-color: #<?= $matiere->couleur ?>;" class="h-1/4"></div>
 		</div>
 	<?php endforeach; ?>
+
+		<!-- Contact Matière -->
+		<div class="relative flex items-center justify-center w-52 h-52 md:w-72 md:h-72 bg-gray-800 rounded-lg overflow-hidden shadow-md border-dotted border-2 border-gray-500">
+			<div class="absolute flex flex-col items-center justify-center text-center px-4">
+				<p class="p-6 text-gray-300 text-sm md:text-base font-medium">
+					Vous voulez une matière ou une couleur particulier ? <br>
+					<a href="/contact?message=<?= urlencode('Bonjour, je vous contacte pour la personnalisation de la matière de la borne...') ?>" class="text-green-600 hover:text-green-500 underline">Contactez-nous !</a>
+				</p>
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -104,6 +126,16 @@
 			<div style="background-color: #<?= $tmolding->couleur ?>;" class="h-1/4"></div>
 		</div>
 	<?php endforeach; ?>
+
+		<!-- Contact Joystick -->
+		<div class="relative flex items-center justify-center w-52 h-52 md:w-72 md:h-72 bg-gray-800 rounded-lg overflow-hidden shadow-md border-dotted border-2 border-gray-500">
+			<div class="absolute flex flex-col items-center justify-center text-center px-4">
+				<p class="p-6 text-gray-300 text-sm md:text-base font-medium">
+					Vous voulez une couleur en particulier ? <br>
+					<a href="/contact?message=<?= urlencode('Bonjour, je vous contacte pour la personnalisation du t-molding...') ?>" class="text-green-600 hover:text-green-500 underline">Contactez-nous !</a>
+				</p>
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -148,6 +180,16 @@
 			</div>
 		</div>
 		<?php endforeach; ?>
+
+		<!-- Contact Joystick -->
+		<div class="relative flex items-center justify-center w-52 h-52 md:w-72 md:h-72 bg-gray-800 rounded-lg overflow-hidden shadow-md border-dotted border-2 border-gray-500">
+			<div class="absolute flex flex-col items-center justify-center text-center px-4">
+				<p class="p-6 text-gray-300 text-sm md:text-base font-medium">
+					Vous voulez un modèle ou une couleur particulier ? <br>
+					<a href="/contact?message=<?= urlencode('Bonjour, je vous contacte pour la personnalisation des joysticks...') ?>" class="text-green-600 hover:text-green-500 underline">Contactez-nous !</a>
+				</p>
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -176,6 +218,17 @@
 			<div style="background-color: #<?= $bouton->couleur ?>;" class="h-1/4"></div>
 		</div>
 	<?php endforeach; ?>
+	
+	<!-- Contact Bouton -->
+	<div class="relative flex items-center justify-center w-52 h-52 md:w-72 md:h-72 bg-gray-800 rounded-lg overflow-hidden shadow-md border-dotted border-2 border-gray-500">
+		<div class="absolute flex flex-col items-center justify-center text-center px-4">
+			<p class="p-6 text-gray-300 text-sm md:text-base font-medium">
+				Vous voulez un modèle ou une couleur en particulier ? <br>
+				<a href="/contact?message=<?= urlencode('Bonjour, je vous contacte pour la personnalisation des boutons...') ?>" class="text-green-600 hover:text-green-500 underline">Contactez-nous !</a>
+			</p>
+		</div>
+	</div>
+
 	</div>
 </div>
 <?= form_close() ?>

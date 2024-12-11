@@ -85,8 +85,6 @@
 						'id'            => 'phone-number',
 						'class'         => 'w-full bg-gray-700 text-gray-300 text-xs rounded-lg border px-4 py-2 mb-2 focus:outline-none focus:ring-2 '.$focusRIng,
 						'value'         => set_value('phone'),
-						'aria-required' => 'true',
-						'required'
 					]); ?>
 					
 					<span class="items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
@@ -94,7 +92,7 @@
 					</span>
 				</div>
 				<div>
-					<?= form_label('Email', 'email', ['class' => 'block text-gray-300 text-sm text-gray-300  font-medium mb-1 ml-1']); ?>
+					<?= form_label('Email <span class="text-green-500/30">(*)</span>', 'email', ['class' => 'block text-gray-300 text-sm text-gray-300  font-medium mb-1 ml-1']); ?>
 					
 					<?php
 					$focusRIng = (validation_show_error('email')) ? 'border-red-600 focus:ring-red-500' : 'border-gray-600 focus:ring-green-500';
@@ -102,7 +100,7 @@
 						'name'          => 'email',
 						'id'            => 'email',
 						'class'         => 'w-full bg-gray-700 text-gray-300 text-xs rounded-lg border px-4 py-2 mb-2 focus:outline-none focus:ring-2 '.$focusRIng,
-						'value'         => set_value('email'),
+						'value'         => set_value('email', session()->has('user') ? session()->get('user')['id'] : ''),
 						'aria-required' => 'true',
 						'required'
 					]); ?>
@@ -113,7 +111,7 @@
 				</div>
 			</div>
 			<div>
-					<?= form_label('Message', 'message', ['class' => 'block text-gray-300 text-sm text-gray-300  font-medium mb-1 ml-1']); ?>
+					<?= form_label('Message <span class="text-green-500/30">(*)</span>', 'message', ['class' => 'block text-gray-300 text-sm text-gray-300  font-medium mb-1 ml-1']); ?>
 					
 					<?php
 					$focusRIng = (validation_show_error('message')) ? 'border-red-600 focus:ring-red-500' : 'border-gray-600 focus:ring-green-500';
@@ -122,7 +120,7 @@
 						'id'            => 'message',
 						'rows'          => '5',
 						'class'         => 'w-full bg-gray-700 text-gray-300 text-xs rounded-lg border px-4 py-2 mb-2 focus:outline-none focus:ring-2 '.$focusRIng,
-						'value'         => set_value('message'),
+						'value'         => set_value('message', $message),
 						'aria-required' => 'true',
 						'required'
 					]); ?>
