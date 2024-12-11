@@ -1,6 +1,6 @@
 <?= view('commun/headerAdmin', ['titre' => $titre]) ?>
 <?php // var_dump($themes)  ?>
-<div class="text-dark-blue py-12 px-6">
+<div class="text-dark-blue py-12 px-6 flex-1 md:ml-[20%] text-dark-blue p-8">
 	<!-- Titre principal -->
 	<h2 class="text-center text-3xl font-bold mb-4">Configuration des theme</h2>
 	

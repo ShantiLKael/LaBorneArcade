@@ -1,20 +1,21 @@
+
 <html lang="fr">
 <head>
-	<link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.0/dist/tailwind.min.css" rel="stylesheet">
-	<!-- <link href="/assets/css/style.css" rel="stylesheet" type="text/css"> -->
+	<!-- Import Tailwind CSS -->
+	<link href="/assets/css/style.css" rel="stylesheet" type="text/css">
 	<title><?= $titre ?></title>
 </head>
 <body class="bg-[#ebf0ea] text-dark-blue">
 <header class="flex h-screen">
 	<!-- Navbar -->
-	<nav id="navbar" class="bg-black text-white fixed top-0 left-0 h-full w-0 md:w-1/5 transition-all duration-300 md:static md:h-auto flex flex-col px-6 py-4 shadow-lg shadow-gray-700/20 z-50">
+	<nav id="navbar" class="bg-black text-white fixed top-0 left-0 h-full w-0 md:w-1/5 transition-all duration-300 z-50 flex flex-col px-6 py-4 shadow-lg shadow-gray-700/20">
 		<!-- Logo -->
 		<div class="flex items-center mb-6">
 			<img loading="lazy" src="chemin-vers-logo.png" alt="Logo La Borne Arcade" class="h-10 w-auto">
 		</div>
 
 		<!-- Liens -->
-		<ul id="nav-links" class="hidden md:flex flex-col space-y-4 text-white font-medium">
+		<ul id="nav-links" class="flex flex-col space-y-8 text-white font-bold">
 			<li><a href="/admin/bornes" class="link-underline link-underline-black">Ajouter une borne</a></li>
 			<li><a href="/admin/theme" class="link-underline link-underline-black">Thème</a></li>
 			<li><a href="/admin/matiere" class="link-underline link-underline-black">Matière</a></li>
@@ -36,11 +37,11 @@
 	</div>
 
 	<!-- Contenu principal -->
-	<div class="flex-1 md:ml-[20%] bg-[#d8dfd7] text-dark-blue p-8">
+	<div class="flex-1 md:ml-[20%] bg-[#ebf0ea] p-8">
 		<main>
-			<!-- Votre contenu ici -->
-			<h1>Bienvenue sur la page admin</h1>
-			<p>Cliquez sur le bouton pour voir la navigation mobile.</p>
+			<!-- Contenu ici -->
+			<h1 class="text-center text-3xl font-bold">Bienvenue sur la page admin</h1>
+			<p class="text-center mt-4">Cliquez sur le bouton pour voir la navigation mobile.</p>
 		</main>
 	</div>
 </header>
@@ -49,14 +50,8 @@
 	const menuBtn = document.getElementById('menu-btn');
 	const navbar = document.getElementById('navbar');
 
-	// Toggle la navbar en mode mobile
+	// Gestion de l'ouverture et fermeture de la navbar
 	menuBtn.addEventListener('click', () => {
-		if (navbar.classList.contains('w-0')) {
-			navbar.style.width = '70%';
-			navbar.classList.remove('w-0');
-		} else {
-			navbar.style.width = '0';
-			navbar.classList.add('w-0');
-		}
+		navbar.style.width = navbar.style.width === '0px' || navbar.style.width === '' ? '70%' : '0';
 	});
 </script>
