@@ -50,3 +50,8 @@ textarea {
 .bg-light-teal\/10 {
   background-color: rgb(24 204 163 / 0.1);
 }
+
+.border-green-600 {
+  --tw-border-opacity: 1;
+  border-color: rgb(22 163 74 / var(--tw-border-opacity, 1));
+}
