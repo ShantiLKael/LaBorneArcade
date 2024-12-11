@@ -344,13 +344,13 @@ class BorneModel extends Model
 	 *
 	 * @param int $idBorne L'identifiant de la borne.
 	 * @param int $idOption L'identifiant de l'option.
-	 * @return bool <code>Vrai</code> si l'insertion a réussi, sinon <code>faux</code>.
+	 * @return bool <b>Vrai</b> si l'insertion a réussi, sinon <b>faux</b>.
 	 */
 	public function insererOptionBorne(int $idBorne, int $idOption): bool
 	{
 		$db = Database::connect();
 		$builder = $db->table('optionborne');
-
+		
 		$data = [
 			'id_borne'  => $idBorne,
 			'id_option' => $idOption,
@@ -360,10 +360,10 @@ class BorneModel extends Model
 	}
 
 	/**
-	 * Suppression d'une borne et de ses composants
+	 * Suppression d'une borne et de ses composants.
 	 * (Panier, Option, Joystick, Bouton, Image et Commande)
 	 *
-	 * @param int $idBorne identifiant de la borne
+	 * @param int $idBorne L'identifiant de la borne.
 	 * @return void
 	 */
 	public function deleteCascade(int $idBorne): void
