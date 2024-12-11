@@ -115,7 +115,9 @@ class LoginController extends BaseController
                         
                         // Si la session possède des bornes dans son panier, on les enregistre en base
                         if ($session->has('panier')) {
-                            $options = $session->get('options');
+                            $options   = $session->get('options');
+                            $joysticks = $session->get('joysticks');
+                            $boutons   = $session->get('boutons');
                             $i = 0;
 
                             // Parcours des bornes enregistrées dans le panier session
@@ -124,9 +126,27 @@ class LoginController extends BaseController
                                 $this->utilisateurModel->insererPanier($user->id, $idBorne);
 
                                 // Parcours des options de la borne
-                                if ($options[$i]) {
+                                if (isset($options[$i])) {
                                     foreach ($options[$i] as $option)
                                         $this->bornePersoModel->insererOptionBorne($idBorne, $option->id);
+                                }
+
+                                // Parcours des options de la borne
+								$j = 1;
+                                if (isset($boutons[$i])) {
+                                    foreach ($boutons[$i] as $idBouton) {
+                                        $this->bornePersoModel->insererBoutonBorne($idBorne, $idBouton, $j);
+										$j++;
+									}
+                                }
+
+                                // Parcours des options de la borne
+								$j = 1;
+                                if (isset($joysticks[$i])) {
+                                    foreach ($joysticks[$i] as $idJoystick) {
+                                        $this->bornePersoModel->insererJoystickBorne($idBorne, $idJoystick, $j);
+										$j++;
+									}
                                 }
 
                                 $i++;
@@ -136,6 +156,8 @@ class LoginController extends BaseController
                         // Suppression du panier utilisateur non connécté
                         $session->remove('panier');
                         $session->remove('options');
+                        $session->remove('joysticks');
+                        $session->remove('boutons');
 
 						// Rediriger vers la page d'accueil ou le tableau de bord
 						return redirect()->to('/');

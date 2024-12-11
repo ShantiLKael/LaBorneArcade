@@ -25,11 +25,14 @@
 
 			<!-- Champ de recherche -->
 			<div class="relative mb-6">
-				<input
-					type="text"
-					placeholder="Rechercher..."
-					class="w-full bg-gray-700 border border-gray-500 text-gray-300 placeholder:text-gray-400 text-sm rounded-md py-2 pl-3 pr-4 focus:outline-none focus:ring-2 focus:ring-green-500"
-				/>
+				<?= form_input([
+					'name'          => 'recherche',
+					'id'            => 'recherche',
+					'type'          => 'text',
+					'class'         => 'w-full bg-gray-700 border border-gray-500 text-gray-300 placeholder:text-gray-400 text-sm rounded-md py-2 pl-3 pr-4 focus:outline-none focus:ring-2 focus:ring-green-500',
+					'value'         => set_value('prix_min'),
+					'placeholder'   => 'Rechercher...',
+				]); ?>
 			</div>
 
 			<!-- Filtres des thèmes -->
@@ -65,19 +68,25 @@
 			<!-- Filtre par prix -->
 			<div class="mb-6">
 				<h4 class="text-md font-semibold text-gray-300 mb-4">Prix</h4>
-				<input
-					type="number"
-					name="prix_min"
-					placeholder="Min"
-					class="md:w-1/2 bg-gray-700 border border-gray-500 text-gray-300 placeholder:text-gray-400 text-sm rounded-md py-2 pl-3 focus:outline-none focus:ring-2 focus:ring-green-500"
-				/>
+				<?= form_input([
+						'name'          => 'prix_min',
+						'id'            => 'prix_min',
+						'type'          => 'number',
+						'min'           => 0,
+						'class'         => 'md:w-1/2 bg-gray-700 border border-gray-500 text-gray-300 placeholder:text-gray-400 text-sm rounded-md py-2 pl-3 focus:outline-none focus:ring-2 focus:ring-green-500',
+						'value'         => set_value('prix_min'),
+						'placeholder'   => 'Min',
+					]); ?>
 				<h4 class="text-md text-gray-300 pl-2 mb-2 mt-2">à</h4>
-				<input
-					type="number"
-					name="prix_max"
-					placeholder="Max"
-					class="md:w-1/2 bg-gray-700 border border-gray-500 text-gray-300 placeholder:text-gray-400 text-sm rounded-md py-2 pl-3 focus:outline-none focus:ring-2 focus:ring-green-500"
-				/>
+				<?= form_input([
+						'name'          => 'prix_max',
+						'id'            => 'prix_max',
+						'type'          => 'number',
+						'min'           => 0,
+						'class'         => 'md:w-1/2 bg-gray-700 border border-gray-500 text-gray-300 placeholder:text-gray-400 text-sm rounded-md py-2 pl-3 focus:outline-none focus:ring-2 focus:ring-green-500',
+						'value'         => set_value('prix_max'),
+						'placeholder'   => 'Max',
+					]); ?>
 			</div>
 
 			<!-- Bouton de soumission -->

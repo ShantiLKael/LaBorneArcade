@@ -10,7 +10,7 @@
     </div>
 
     <div class="flex flex-col gap-2 md:gap-4 border-b border-gray-400 py-6 sm:flex-row">
-        <?= form_label('Email', 'email', ['class' => 'shrink-0 w-32 font-medium pl-2']); ?>
+        <?= form_label('Email <span class="text-green-500/30">(*)</span>', 'email', ['class' => 'shrink-0 w-32 font-medium pl-2']); ?>
 
         <?php
         $focusRIng = isset($erreurs['email']) ? 'border-red-600 focus:ring-red-500' : 'border-gray-600 focus:ring-2 focus:ring-green-600';
