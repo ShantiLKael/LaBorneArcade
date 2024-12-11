@@ -1,6 +1,6 @@
-<?= view('commun/header', ['titre' => $titre]) ?>
+<?= view('commun/headerAdmin', ['titre' => $titre]) ?>
 <?php // var_dump($matieres)  ?>
-<div class="text-white py-12 px-6">
+<div id="main-content" class=" p-8 w-full">
 	<!-- Titre principal -->
 	<h2 class="text-center text-3xl font-bold mb-4">configuration des matiere</h2>
 
@@ -50,7 +50,7 @@
 			<tr>
 				<td class="flex justify-start md:justify-center">
 					<!-- Bouton d'enregistrement -->
-					<?php echo form_submit('submit', 'Enregistrer', "class='bg-[#00bf63] hover:bg-green-700 text-white font-medium py-2 px-4 rounded-full'"); ?>
+					<?php echo form_submit('submit', 'Enregistrer', "class='bg-vert-pastel hover:bg-vert-pastelF font-medium py-2 px-4 rounded-full'"); ?>
 				</td>
 			</tr>
 		</tbody>
@@ -78,9 +78,9 @@
 	<!-- matiere -->
 		<?php if (!empty($matieres)) : ?>
 			<?php foreach($matieres as $matiere) : ?>
-                <div class="flex items-center border-b border-gray-700 py-3 bg-[#161c2d]">
+                <div class="flex justify-between items-center border-b border-gray-200 py-2 bg-FVertClair">
 					<!-- Nom de la matiere avec une largeur fixe -->
-					<div class="text-lg font-medium text-white font-bold w-1/3 min-w-[150px] truncate">
+					<div class="text-lg font-medium  font-bold w-1/3 min-w-[150px] truncate">
 						<?= $matiere->nom ?>
 					</div>
 
@@ -95,7 +95,7 @@
 					<div class="ml-auto">
 						<?php echo form_open("/admin/matiere/delete/$matiere->id", ['onsubmit' => 'return confirm("Êtes-vous sûr de vouloir supprimer ce thème ?")']); ?>
                             <?php echo form_hidden('id', $matiere->id); ?>	
-                            <?php echo form_submit('delete', 'Supprimer', "class='bg-red-500 hover:bg-red-700 text-white font-medium py-1 px-4 rounded'"); ?>
+                            <?php echo form_submit('delete', 'Supprimer', "class='bg-rouge-pastel hover:bg-rouge-pastelF font-medium py-1 px-4 rounded'"); ?>
 						<?php echo form_close(); ?>
 					</div>
 				</div>
@@ -107,4 +107,4 @@
 </div>
 <script src="./assets/js/btn-faq.js">
 </script>
-<?= view('commun/footer') ?>
+<?= view('commun/footerAdmin') ?>

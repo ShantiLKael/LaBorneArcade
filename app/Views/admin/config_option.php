@@ -1,6 +1,6 @@
-	<?= view('commun/header', ['titre' => $titre]) ?>
+	<?= view('commun/headerAdmin', ['titre' => $titre]) ?>
 	<?php // var_dump($options)  ?>
-	<div class="text-white py-12 px-6">
+	<div id="main-content" class=" p-8 w-full">
 		<!-- Titre principal -->
 		<h2 class="text-center text-3xl font-bold mb-4">configuration des options </h2>
 
@@ -35,7 +35,7 @@
 					</tr>
 					<tr><td><br></td></tr>
 					<tr class="flex flex-col md:flex-row md:items-center">
-						<td> <label class="text-lg font-medium mb-2 md:mb-0 md:mr-4" for="nom">Desciptioon de l'option : * </label> </td>
+						<td> <label class="text-lg font-medium mb-2 md:mb-0 md:mr-4" for="nom">Desciption de l'option : * </label> </td>
 						<td class="">
 							<!-- Champ pour la couleur -->
 							<?php echo form_input(
@@ -91,7 +91,7 @@
 					<tr>
 						<td class="flex justify-start md:justify-center">
 							<!-- Bouton d'enregistrement -->
-							<?php echo form_submit('submit', 'Enregistrer', "class='bg-[#00bf63] hover:bg-green-700 text-white font-medium py-2 px-4 rounded-full'"); ?>
+							<?php echo form_submit('submit', 'Enregistrer', "class='bg-vert-pastel hover:bg-vert-pastelF font-medium py-2 px-4 rounded-full'"); ?>
 						</td>
 					</tr>
 				</tbody>
@@ -119,16 +119,16 @@
 		<!-- option -->
 			<?php if (!empty($options)) : ?>
 				<?php foreach($options as $option) : ?>
-					<div class="border-b border-gray-700 bg-[#161c2d] p-4">
+					<div class="p-4 border-b border-gray-200 py-2 bg-FVertClair">
 						<!-- Première ligne : Nom, coût, bouton -->
 						<div class="flex items-center">
 							<!-- Nom de l'option -->
-							<div class="text-lg font-medium text-white font-bold w-1/3 min-w-[200px] truncate">
+							<div class="text-lg font-medium font-bold w-1/3 min-w-[200px] truncate">
 								<?= $option->nom ?>
 							</div>
 
 							<!-- Coût de l'option -->
-							<div class="text-lg font-medium text-white w-1/3 truncate">
+							<div class="text-lg font-medium w-1/3 truncate">
 								<?= $option->cout ?>
 							</div>
 
@@ -136,13 +136,13 @@
 							<div class="ml-auto">
 								<?php echo form_open("/admin/option/delete/$option->id_option", ['onsubmit' => "return confirm(\"Êtes-vous sûr de vouloir supprimer cette option ?\")"]); ?>
 									<?php echo form_hidden('id', $option->id_option); ?>		
-									<?php echo form_submit('delete', 'Supprimer', "class='bg-red-500 hover:bg-red-700 text-white font-medium py-1 px-4 rounded'"); ?>
+									<?php echo form_submit('delete', 'Supprimer', "class='bg-rouge-pastel hover:bg-rouge-pastelF font-medium py-1 px-4 rounded'"); ?>
 								<?php echo form_close(); ?>
 							</div>
 						</div>
 
 						<!-- Deuxième ligne : Description -->
-						<div class="mt-2 text-sm text-gray-300">
+						<div class="mt-2 text-sm text-gray-700">
 							<?= $option->description ?>
 						</div>
 						<!-- Image associée -->
@@ -162,4 +162,4 @@
 	</div>
 	<script src="./assets/js/btn-faq.js">
 	</script>
-	<?= view('commun/footer') ?>
+	<?= view('commun/footerAdmin') ?>
