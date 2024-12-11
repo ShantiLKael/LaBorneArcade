@@ -1,15 +1,15 @@
 <?= view('commun/header', ['titre' => $titre]) ?>
 <!-- Section "Qui sommes-nous ?" -->
 <section class="container mx-auto px-4 py-8 mb-10">
-	<div class="flex flex-col md:flex-row items-center bg-medium-blue rounded-sm p-5 md:p-12 shadow shadow-black/55 mb-10">
+	<div class="flex flex-col lg:flex-row items-center bg-medium-blue rounded-sm p-5 lg:p-12 shadow shadow-black/55 mb-10">
 		<!-- Image -->
-		<div class="md:w-1/2 mb-6 md:mb-0 mx-8">
+		<div class="lg:w-1/2 mb-6 lg:mb-0 mx-8">
 			<img src="https://via.placeholder.com/400" alt="Photo Johann Lefebvre" class="rounded-lg shadow-lg">
 		</div>
 
 		<!-- Texte -->
-		<div class="md:w-1/2 md:pl-4 px-2 mt-6 md:mt-0">
-			<h2 class="text-2xl font-bold mb-4 text-center md:text-left">Qui sommes-nous ?</h2>
+		<div class="lg:w-1/2 lg:pl-4 px-2 mt-6 lg:mt-0">
+			<h2 class="text-2xl font-bold mb-4 text-center lg:text-left">Qui sommes-nous ?</h2>
 			<p class="text-gray-300 text-md mb-4">
 				Après une carrière en tant qu'animateur (Level One sur Game One, Gameology sur Gong, Morning Star sur CStar), Johann Lefebvre décide de créer un projet qui lui tient à cœur : La Borne Arcade.
 			</p>
