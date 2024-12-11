@@ -24,27 +24,5 @@
 			<li class="m-5"> <a href="/admin/faqs" 		class="block px-4 py-2 rounded hover:bg-gray-700 transition">FAQs</a></li>
 		</ul>
 	</nav>
-
-    <!-- Bouton hamburger -->
-    <div class="md:hidden fixed top-4 left-4 z-50">
-        <button id="menu-btn" class="text-white bg-black px-4 py-2 rounded focus:outline-none" onclick="boutonHam()">☰</button>
-    </div>
 </header>
 
-<script>
-    function boutonHam() {
-        const navbar = document.getElementById("navbar");
-        const mainContent = document.getElementById("main-content");
-
-        // Vérifier si le menu est déjà ouvert
-        if (navbar.style.transform === "translateX(0px)") {
-            // Si ouvert, le fermer
-            navbar.style.transform = "translateX(-100%)";
-            mainContent.style.marginLeft = "0"; // Revenir à la mise en page d'origine
-        } else {
-            // Sinon, l'ouvrir
-            navbar.style.transform = "translateX(0px)";
-            mainContent.style.marginLeft = "250px"; // Ajouter de l'espace pour le menu
-        }
-    }
-</script>
