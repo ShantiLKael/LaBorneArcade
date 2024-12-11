@@ -7,33 +7,6 @@ $carrousel3 = glob('./assets/images/accueil/carrousel3/*.png');
 use App\Controllers\HomeController;
 ?>
 
-<head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
-    <style>
-        body {
-            margin: 0;
-        }
-
-        .slick-carousel img {
-            max-height: 400px;
-        }
-
-        #carousel3 h2 {
-            font-size: 2.5rem;
-        }
-
-        .section-padding {
-            padding-left: 3rem;
-            padding-right: 3rem;
-        }
-
-        .carousel-container {
-            margin-left: 2rem;
-            margin-right: 2rem;
-        }
-    </style>
-</head>
 
 <body class="bg-gray-900 text-white">
 
@@ -64,37 +37,38 @@ use App\Controllers\HomeController;
     </section>
 
     <!-- SECTION 2 : CARROUSEL-->
-    <section class="flex items-center justify-center p-20 bg-gray-900 text-white px-8">
+    <section class="grid grid-cols-2 justify-items-center justify-center items-center p-20 bg-gray-900 text-white px-8">
         <!-- Carrousel -->
-        <div class="max-w  mx-auto relative">
-            <div id="customCarousel" class="overflow-hidden relative rounded-lg shadow-lg">
-                <!-- Left Button -->
-                <button id="prevBtn"
-                    class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-green-500 text-white w-12 h-12 flex items-center justify-center rounded-full shadow-lg hover:bg-green-400 z-10">
-                    ‹
-                </button>
 
-                <!-- Carousel Items -->
-                <div class="carousel-track flex transition-transform duration-500 p-2"
-                    style="transform: translateX(0);">
-                    <?php foreach ($carrousel1 as $image): ?>
-                        <div class="carousel-item flex-shrink-0 w-full">
-                            <img src="<?= $image ?>" alt="Image" class="w-full h-full object-cover">
-                        </div>
-                    <?php endforeach; ?>
-                </div>
+        <div id="customCarousel"
+            class="overflow-hidden w-3/4  mx-auto relative relative max-h-[500px] max-w-[500px] shadow-lg">
+            <!-- Left Button -->
+            <button id="prevBtn-1"
+                class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-green-500 text-white w-12 h-12 flex items-center justify-center rounded-full shadow-lg hover:bg-green-400 z-10">
+                ‹
+            </button>
 
-                <!-- Right Button -->
-                <button id="nextBtn"
-                    class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-green-500 text-white w-12 h-12 flex items-center justify-center rounded-full shadow-lg hover:bg-green-400 z-10">
-                    ›
-                </button>
+            <!-- Carousel Items -->
+            <div class="carousel-track-1 flex transition-transform duration-500 max-h-[500px] max-w-[500px]"
+                style="transform: translateX(0);">
+                <?php foreach ($carrousel1 as $image): ?>
+                    <div class="carousel-item-1 flex-shrink-0 w-full max-h-[500px]">
+                        <img src="<?= $image ?>" alt="Image" class="w-full h-full object-contain max-h-[500px] max-w-[500px]">
+                    </div>
+                <?php endforeach; ?>
             </div>
+
+            <!-- Right Button -->
+            <button id="nextBtn-1"
+                class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-green-500 text-white w-12 h-12 flex items-center justify-center rounded-full shadow-lg hover:bg-green-400 z-10">
+                ›
+            </button>
+
         </div>
 
 
         <!-- Texte -->
-        <div class="w-2/5 pl-16">
+        <div class="w-3/4">
 
             <h2 class="text-4xl font-bold text-green-400 mb-4">Choisis ta borne parmi les modèles que nous proposons
             </h2>
@@ -105,85 +79,41 @@ use App\Controllers\HomeController;
                 plus</a>
         </div>
 
-        
+
     </section>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const track = document.querySelector('.carousel-track');
-            const items = document.querySelectorAll('.carousel-item');
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
 
-            let currentIndex = 0;
-
-            const updateCarousel = () => {
-                const itemWidth = items[0].getBoundingClientRect().width;
-                track.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
-            };
-
-            prevBtn.addEventListener('click', () => {
-                currentIndex = (currentIndex > 0) ? currentIndex - 1 : items.length - 1;
-                updateCarousel();
-            });
-
-            nextBtn.addEventListener('click', () => {
-                currentIndex = (currentIndex < items.length - 1) ? currentIndex + 1 : 0;
-                updateCarousel();
-            });
-
-            // Réinitialise le carrousel au redimensionnement
-            window.addEventListener('resize', updateCarousel);
-        });
-    </script>
-
-
-    <style>
-        .carousel-container {
-            position: relative;
-            margin-left: 2rem;
-            margin-right: 2rem;
-        }
-
-        .carousel-track {
-            display: flex;
-        }
-
-        .carousel-item {
-            flex-shrink: 0;
-            width: 100%;
-        }
-    </style>
 
 
     <!-- Section 3 : DEUXIÈME CARROUSEL (texte à gauche) -->
-    <section class="flex items-center justify-between py-20 bg-gray-900 text-white section-padding">
-        <div class="w-1/2 pr-10">
+    <section class="grid grid-cols-2 justify-items-center justify-center items-center p-20 bg-gray-900 text-white px-8">
+        <div class="w-3/4 pr-10">
             <h2 class="text-4xl font-bold text-green-400 mb-4">Découvrez notre collection unique</h2>
             <p class="text-lg text-gray-300 mb-6">Voici une description de la section avec des détails supplémentaires
                 sur nos produits et services exceptionnels.</p>
         </div>
         <!-- Carrousel -->
-        <div class="max-w  mx-auto relative">
-            <div id="customCarousel" class="overflow-hidden relative rounded-lg shadow-lg">
+        <div class="w-3/4  mx-auto relative">
+            <div id="customCarousel" class="overflow-hidden relative  shadow-lg max-h-[500px] max-w-[500px]">
                 <!-- Left Button -->
-                <button id="prevBtn"
+                <button id="prevBtn-2"
                     class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-green-500 text-white w-12 h-12 flex items-center justify-center rounded-full shadow-lg hover:bg-green-400 z-10">
                     ‹
                 </button>
 
                 <!-- Carousel Items -->
-                <div class="carousel-track flex transition-transform duration-500 p-2"
+                <div class="carousel-track-2 flex transition-transform duration-500 p-2 max-h-[500px] max-w-[500px]"
                     style="transform: translateX(0);">
                     <?php foreach ($carrousel2 as $image2): ?>
-                        <div class="carousel-item flex-shrink-0 w-full">
-                            <img src="<?= $image2 ?>" alt="Image" class="w-full h-full object-cover">
+                        <div class="carousel-item-2 flex-shrink-0 w-full max-h-[500px]">
+                            <img src="<?= $image2 ?>" alt="Image"
+                                class="w-full h-full object-contain max-h-[500px] max-w-[500px] ">
                         </div>
                     <?php endforeach; ?>
                 </div>
 
                 <!-- Right Button -->
-                <button id="nextBtn"
+                <button id="nextBtn-2"
                     class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-green-500 text-white w-12 h-12 flex items-center justify-center rounded-full shadow-lg hover:bg-green-400 z-10">
                     ›
                 </button>
@@ -205,25 +135,22 @@ use App\Controllers\HomeController;
                     collaborons pour offrir les meilleures expériences de jeu.</p>
             </div>
             <div class="w-1/2 grid grid-cols-1 gap-6">
-                <div class="flex bg-gray-700 p-6 rounded-lg shadow-lg">
-                    <img src="./assets/images/accueil/image1.png" alt="Image 1"
-                        class="w-32 h-32 object-cover rounded-lg mr-6">
+                <div class="flex bg-gray-700 p-6  shadow-lg">
+                    <img src="./assets/images/accueil/logos/Seimitsu.png" alt="Seimitsu" class="w-32 h-32 object-contain object-cover  mr-6">
                     <div>
                         <h3 class="text-xl font-semibold text-white mb-2">Seimitsu</h3>
                         <p class="text-gray-300">Description de Seimitsu.</p>
                     </div>
                 </div>
-                <div class="flex bg-gray-700 p-6 rounded-lg shadow-lg">
-                    <img src="./assets/images/accueil/image2.png" alt="Image 2"
-                        class="w-32 h-32 object-cover rounded-lg mr-6">
+                <div class="flex bg-gray-700 p-6  shadow-lg">
+                    <img src="./assets/images/accueil/logos/Sanwa.png" alt="Sanwa" class="w-32 h-32 object-cover  mr-6">
                     <div>
                         <h3 class="text-xl font-semibold text-white mb-2">Sanwa</h3>
                         <p class="text-gray-300">Description de Sanwa.</p>
                     </div>
                 </div>
-                <div class="flex bg-gray-700 p-6 rounded-lg shadow-lg">
-                    <img src="./assets/images/accueil/image3.png" alt="Image 3"
-                        class="w-32 h-32 object-cover rounded-lg mr-6">
+                <div class="flex bg-gray-700 p-6  shadow-lg">
+                    <img src="./assets/images/accueil/logos/Dell.png" alt="Dell" class="w-32 h-32 object-cover  mr-6">
                     <div>
                         <h3 class="text-xl font-semibold text-white mb-2">Dell</h3>
                         <p class="text-gray-300">Description de Dell.</p>
@@ -234,14 +161,35 @@ use App\Controllers\HomeController;
     </section>
 
     <!-- Section 6 : TROISIÈME CARROUSEL (titre au-dessus) -->
-    <section class="py-20 bg-gray-900 text-white section-padding">
-        <div class="w-full max-w-screen-lg mx-auto text-center mb-8">
-            <h2 class="text-4xl font-bold text-green-400">Notre Galerie</h2>
-        </div>
-        <div id="carousel3" class="slick-carousel carousel-container">
-            <?php foreach ($carrousel3 as $image) {
-                echo '<div><img src="' . $image . '" class="w-full h-auto object-cover" alt="Image"></div>';
-            } ?>
+    <section class="flex justify-items-center justify-center items-center p-20 bg-gray-900 text-white px-8">
+    </div>
+        <!-- Carrousel -->
+        <div class="grid grid-rows-[10%_90%] w-3/4">
+        <h2 class="text-4xl mx-auto font-bold text-green-400 mb-4">Nos bornes préférées</h2>
+            <div id="customCarousel" class="overflow-hidden relative mx-auto  shadow-lg max-h-[600px] max-w-[600px]">
+                <!-- Left Button -->
+                <button id="prevBtn-3"
+                    class="absolute left-3 top-1/2 transform -translate-y-1/2 bg-green-500 text-white w-12 h-12 flex items-center justify-center rounded-full shadow-lg hover:bg-green-400 z-10">
+                    ‹
+                </button>
+
+                <!-- Carousel Items -->
+                <div class="carousel-track-3 flex transition-transform duration-500 p-2 max-h-[600px] max-w-[600px]"
+                    style="transform: translateX(0);">
+                    <?php foreach ($carrousel3 as $image3): ?>
+                        <div class="carousel-item-3 flex-shrink-0 w-full max-w-[600px] max-h-[600px]">
+                            <img src="<?= $image3 ?>" alt="Image"
+                                class="w-full h-full  max-h-[600px] max-w-[600px]  object-contain">
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+
+                <!-- Right Button -->
+                <button id="nextBtn-3"
+                    class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-green-500 text-white w-12 h-12 flex items-center justify-center rounded-full shadow-lg hover:bg-green-400 z-10">
+                    ›
+                </button>
+            </div>
         </div>
     </section>
 
@@ -249,24 +197,54 @@ use App\Controllers\HomeController;
     <?php $hc = new HomeController();
     echo ($hc->faq(true)); ?>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
     <script>
-        $(document).ready(function () {
-            // Initialisation des carrousels
-            $('#carousel1, #carousel2, #carousel3').slick({
-                autoplay: true,
-                autoplaySpeed: 3000,
-                dots: true,
-                arrows: true,
-                infinite: true,
-                speed: 500,
-                fade: false,
-                cssEase: 'linear',
+        document.addEventListener('DOMContentLoaded', () => {
+            const carousels = [
+                {
+                    track: document.querySelector('.carousel-track-1'),
+                    items: document.querySelectorAll('.carousel-item-1'),
+                    prevBtn: document.getElementById('prevBtn-1'),
+                    nextBtn: document.getElementById('nextBtn-1'),
+                    currentIndex: 0
+                },
+                {
+                    track: document.querySelector('.carousel-track-2'),
+                    items: document.querySelectorAll('.carousel-item-2'),
+                    prevBtn: document.getElementById('prevBtn-2'),
+                    nextBtn: document.getElementById('nextBtn-2'),
+                    currentIndex: 0
+                },
+                {
+                    track: document.querySelector('.carousel-track-3'),
+                    items: document.querySelectorAll('.carousel-item-3'),
+                    prevBtn: document.getElementById('prevBtn-3'),
+                    nextBtn: document.getElementById('nextBtn-3'),
+                    currentIndex: 0
+                }
+            ];
+
+            carousels.forEach(carousel => {
+                const updateCarousel = () => {
+                    const itemWidth = carousel.items[0].getBoundingClientRect().width;
+                    carousel.track.style.transform = `translateX(-${carousel.currentIndex * itemWidth}px)`;
+                };
+
+                carousel.prevBtn.addEventListener('click', () => {
+                    carousel.currentIndex = (carousel.currentIndex > 0) ? carousel.currentIndex - 1 : carousel.items.length - 1;
+                    updateCarousel();
+                });
+
+                carousel.nextBtn.addEventListener('click', () => {
+                    carousel.currentIndex = (carousel.currentIndex < carousel.items.length - 1) ? carousel.currentIndex + 1 : 0;
+                    updateCarousel();
+                });
+
+                window.addEventListener('resize', updateCarousel);
             });
         });
     </script>
+
 </body>
 
 <?= view('commun/footer') ?>
