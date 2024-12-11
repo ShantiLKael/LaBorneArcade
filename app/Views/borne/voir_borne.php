@@ -99,20 +99,26 @@ echo view('commun/header', ['titre' => $titre])
 		<div class="mt-10">
 			<canvas class="border rounded-md border-deep-blue shadow-lg" id="persoBorne" tabindex="0"></canvas>
 		</div>
-		<?php if (isset($suggestion_bornes)) : ?>
+		<?php if (count($suggestion_bornes)) : ?>
 			<div class="px-0 md:px-20">
-				<h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-2xl md:text-3xl text-gray-300">Options</h2>
+				<h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-2xl md:text-3xl text-gray-300">Bornes récemment vues</h2>
 				<div class="flex overflow-x-scroll p-5 hide-scroll-bar space-x-6 rounded-xl bg-light-teal/10">
 					<?php foreach($suggestion_bornes as $borne) : ?>
-						<div class="relative min-w-[300px] sm:min-w-[350px] md:min-w-[400px] bg-gray-800 rounded-lg overflow-hidden border-2 border-green-600 hover:border-green-700  shadow-gray-900 shadow-md hover:shadow-lg ease-in-out flex-shrink-0">
-							<label>
-								<input type="checkbox" id="option-<?= $option->id ?>" name="idOptions[]" value="<?= $option->id ?>" class="absolute top-3 right-3 w-6 h-6 cursor-pointer rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
-							</label>
-							<img loading="lazy" src="" alt="Option <?= $option->nom ?>" class="w-full h-64 object-cover">
-							<div class="p-4">
-								<p class="text-green-400 text-xl font-bold mb-2"><?= $option->cout ?> €</p>
-								<h3 class="font-bold text-xl text-left mb-2"><?= $option->nom ?></h3>
-								<p class="text-left text-sm text-gray-400"><?= $option->description ?>.</p>
+						<div class="bg-gray-800 p-4 rounded">
+							<a href="/bornes/<?=$borne->id?>">
+								<img loading="lazy" src="<?=$borne->image?>" alt="Image de <?=$borne->nom?>" class="w-full mb-8 max-w-sm
+								mx-auto h-auto
+						relative z-0 transition duration-200 ease-in-out hover:scale-110" onerror="this.src = 'https://via.placeholder.com/150';">
+								<h3 class="text-xl font-bold mb-2"><?=$borne->nom?></h3>
+								<p class="text-green-600 font-bold mb-4"><?=sprintf("%.02F €", $borne->prix)?></p>
+							</a>
+							<div class="grid grid-cols-1 md:grid-cols-2 mx-4">
+								<a href="#" class="md:mr-2 bg-green-700 hover:bg-green-600 p-2 text-white text-center rounded-3xl">
+									Ajouter au panier
+								</a>
+								<a href="/borne-perso/<?=$borne->id?>" class="md:ml-2 bg-blue-800 hover:bg-blue-700 p-2 text-white text-center rounded-3xl">
+									Personnaliser
+								</a>
 							</div>
 						</div>
 					<?php endforeach; ?>
@@ -123,8 +129,8 @@ echo view('commun/header', ['titre' => $titre])
 </section>
 <?= form_close() ?>
 <script>
-	const boutonsBorne   = <?= isset($borne) ? json_encode($borne->boutons) : json_encode(null); ?>;
-	const joysticksBorne = <?= isset($borne) ? json_encode($borne->joysticks) : json_encode(null); ?>;
+	const boutonsBorne   = <?= json_encode(isset($borne) ? $borne->boutons : null); ?>;
+	const joysticksBorne = <?= json_encode(isset($borne) ? $borne->joysticks : null); ?>;
 	const affichageUniquement = true;
 	
 	let nbJoueur = <?= count($borne->joysticks) ?>;

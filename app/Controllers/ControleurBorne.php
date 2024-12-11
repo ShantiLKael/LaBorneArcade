@@ -167,7 +167,11 @@ class ControleurBorne extends BaseController {
 		foreach ($bornes_recentes as $index) {
 			if ($index == $id_borne)
 				continue;
-			$bornes_suggerees[] = $this->borneModel->getBorneParId($index);
+			/** @var Borne $borne */
+			$borne = $this->borneModel->getBorneParId($index);
+			$images = $this->borneModel->getImages($index);
+			$borne->image = count($images) ? $images[0]->chemin : "";
+			$bornes_suggerees[] = $borne;
 		}
 
 		// Methode POST
