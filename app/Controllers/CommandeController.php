@@ -2,10 +2,12 @@
 
 namespace App\Controllers;
 
+use App\Entities\Commande;
 use App\Models\UtilisateurModel;
 use App\Models\CommandeModel;
 use App\Models\BornePersoModel;
 use CodeIgniter\Config\Services;
+use CodeIgniter\I18n\Time;
 use CodeIgniter\HTTP\RedirectResponse;
 
 /**
@@ -35,9 +37,9 @@ class CommandeController extends BaseController {
 	/**
 	 * Méthode qui affiche le panier.
 	 *
-	 * @return string La vue qui liste les bornes du panier.
+	 * @return string|RedirectResponse La vue qui liste les bornes du panier.
 	 */
-	public function panier() : string {
+	public function panier() : string|RedirectResponse {
         $session = session();
 		if (!$session->has('panier') && !$session->has('user')) {
 			$session->set('panier' , []);
@@ -48,6 +50,21 @@ class CommandeController extends BaseController {
         $bornes = ($session->get('user')) ? 
                    $this->utilisateurModel->getPanier($session->get('user')['id']) : // Client authentifié
                    $session->get('panier'); // Client visiteur
+
+		$data = $this->request->getPost();
+		if ($data) {
+			$idUtilisateur = $session->get('user')['id'];
+			$commande = new Commande();
+			$commande->dateCreation  = Time::now('Europe/Paris', 'fr_FR');
+			$commande->dateModif     = Time::now('Europe/Paris', 'fr_FR');
+			$commande->etat          = "En attente d'accéptation";
+			$commande->idBorne       = $data['selected_borne'];
+			$commande->idUtilisateur = $idUtilisateur;
+			$this->utilisateurModel->suppressionBorne($idUtilisateur, intval($data['selected_borne']));
+			$this->commandeModel->insert($commande);
+
+			return redirect()->to('/commandes')->with('msg', 'Vous avez passé votre commande');
+		}
 
 		return view('commande/panier_commande', [
 			'titre'   => 'Panier',

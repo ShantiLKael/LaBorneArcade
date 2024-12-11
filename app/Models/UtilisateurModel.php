@@ -93,6 +93,22 @@ class UtilisateurModel extends Model
 	}
 
 	/**
+	 * Suppression d'une borne dans le panier de l'utilisateur
+	 * @param int $idUtilisateur
+	 * @param int $idBorne
+	 * @return bool
+	 */
+	public function suppressionBorne(int $idUtilisateur, int $idBorne): bool
+	{
+		$db = \Config\Database::connect();
+		$builder = $db->table('panier');
+		
+		return $builder->where('id_utilisateur', $idUtilisateur)
+				->where('id_borneperso', $idBorne)
+				->delete();
+	}
+
+	/**
 	 * Récupère un tableau de Faq d'un utilisateur admin
 	 * @param int $idUtilisateur
 	 * @return array<\App\Entities\Faq>

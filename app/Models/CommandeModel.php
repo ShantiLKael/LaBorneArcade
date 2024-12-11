@@ -2,25 +2,25 @@
 namespace App\Models;
 
 use App\Entities\Utilisateur;
-use App\Entities\Borne;
+use App\Entities\BornePerso;
 use CodeIgniter\Model;
 
 class CommandeModel extends Model
 {
     protected $table = 'commande';
     protected $primaryKey = 'id_commande';
-    protected $allowedFields = ['date_creation', 'date_modif', 'etat', 'id_borne', 'id_utilisateur'];
+    protected $allowedFields = ['date_creation', 'date_modif', 'etat', 'id_borneperso', 'id_utilisateur'];
 	protected $returnType = 'App\Entities\Commande';
 
 	/**
 	 * Récupère la Borne de la commande.
 	 * @param int $idBorne
-	 * @return \App\Entities\Borne
+	 * @return BornePerso
 	 */
-	public function getBorne(int $idBorne): Borne
+	public function getBorne(int $idBorne): BornePerso
 	{
-		$borneModele = new BorneModel();
-		return $borneModele->find($idBorne);
+		$bornePersoModele = new BornePersoModel();
+		return $bornePersoModele->find($idBorne);
 	}
 
 	/**
