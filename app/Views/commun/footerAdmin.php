@@ -1,5 +1,5 @@
 <!-- Footer -->
-<footer class="py-5 text-gray-100">
+<footer class="ml-[250px] p-8 w-full text-gray-100">
 	<div class="max-w-6xl mx-auto">
 		<div class="text-center md:text-right md:px-3 text-sm pb-6">
 			<a href="<?php echo base_url('/qui-sommes-nous') ?>" class="hover:text-light-teal">À propos</a>
