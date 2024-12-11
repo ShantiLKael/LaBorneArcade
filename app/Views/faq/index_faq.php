@@ -1,4 +1,6 @@
-<?= view('commun/header', ['titre' => $titre]) ?>
+
+<?php if (!$accueil) { view('commun/header', ['titre' => $titre]) ;}?>
+
 <section class="text-white py-12 px-6">
 	
 	<h2 class="text-center text-3xl font-bold mb-4">Questions fréquemment posées</h2>
@@ -34,8 +36,8 @@
 		<div class="md:col-span-2 text-center mx-auto mt-15">
 			<p>Vous avez d'autres questions ? <a href="/contact" class="text-green-600 hover:text-green-500 font-bold hover:underline">Contactez-nous !</a></p>
 		</div>
-	</div>
+	<
 </section>
 <script src="./assets/js/btn-faq.js">
 </script>
-<?= view('commun/footer') ?>
+<?php if (!$accueil) {view('commun/footer') ;}?>
