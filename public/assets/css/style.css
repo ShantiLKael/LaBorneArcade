@@ -210,7 +210,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-size: 1.6rem;
+  font-size: inherit;
   font-weight: inherit;
 }
 
@@ -461,9 +461,8 @@ ol,
 ul,
 menu {
   list-style: none;
-  margin: 5px;
-  padding: 10px;
-  margin-top: 20px;
+  margin: 0;
+  padding: 0;
 }
 
 /*
@@ -1717,7 +1716,7 @@ video {
 }
 
 .text-lg {
-  font-size: 1.3rem;
+  font-size: 1.125rem;
   line-height: 1.75rem;
 }
 
