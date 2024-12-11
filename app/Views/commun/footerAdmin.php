@@ -1,5 +1,5 @@
 <!-- Footer -->
-<footer class="ml-[250px] p-8 w-full text-gray-100">
+<footer class="ml-[250px]  w-full text-gray-100">
 	<div class="max-w-6xl mx-auto">
 		<!-- Copyright -->
 		<div class="text-center text-sm mt-4 text-black">

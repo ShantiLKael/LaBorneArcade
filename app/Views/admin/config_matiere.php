@@ -78,7 +78,7 @@
 	<!-- matiere -->
 		<?php if (!empty($matieres)) : ?>
 			<?php foreach($matieres as $matiere) : ?>
-                <div class="flex items-center border-b border-gray-700 py-3 bg-bg-FVertClair">
+                <div class="flex justify-between items-center border-b border-gray-200 py-2 bg-FVertClair">
 					<!-- Nom de la matiere avec une largeur fixe -->
 					<div class="text-lg font-medium  font-bold w-1/3 min-w-[150px] truncate">
 						<?= $matiere->nom ?>
@@ -107,4 +107,4 @@
 </div>
 <script src="./assets/js/btn-faq.js">
 </script>
-<?= view('commun/footer') ?>
+<?= view('commun/footerAdmin') ?>

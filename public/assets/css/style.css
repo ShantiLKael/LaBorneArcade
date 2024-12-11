@@ -1378,6 +1378,16 @@ video {
   border-color: rgb(255 255 255 / 0.5);
 }
 
+.bg-FVert {
+  --tw-bg-opacity: 1;
+  background-color: rgb(235 240 234 / var(--tw-bg-opacity, 1));
+}
+
+.bg-FVertClair {
+  --tw-bg-opacity: 1;
+  background-color: rgb(244 248 243 / var(--tw-bg-opacity, 1));
+}
+
 .bg-\[\#00bf63\] {
   --tw-bg-opacity: 1;
   background-color: rgb(0 191 99 / var(--tw-bg-opacity, 1));
@@ -1391,16 +1401,6 @@ video {
 .bg-\[\#32a64f\] {
   --tw-bg-opacity: 1;
   background-color: rgb(50 166 79 / var(--tw-bg-opacity, 1));
-}
-
-.bg-\[\#ebf0ea\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(235 240 234 / var(--tw-bg-opacity, 1));
-}
-
-.bg-\[\#f4f8f3\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(244 248 243 / var(--tw-bg-opacity, 1));
 }
 
 .bg-black {
