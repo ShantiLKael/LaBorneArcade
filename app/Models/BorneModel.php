@@ -15,6 +15,7 @@ use App\Entities\TMolding;
 use App\Entities\Borne;
 use CodeIgniter\Pager\Pager;
 use Config\Database;
+use JetBrains\PhpStorm\ArrayShape;
 
 class BorneModel extends Model
 {
@@ -84,40 +85,66 @@ class BorneModel extends Model
 	 * Recupération de toutes les bornes selon des critères.
 	 *
 	 * @param int $max_par_page
-	 * @param array $themes
-	 * @param array $types
+	 * @param array $parametres
 	 * @return Borne[] tableau de bornes
 	 */
-	public function getBornes(int $max_par_page, array $themes = [], array $types = []): array {
-		$builder = $this->builder()->select("b.*, (SELECT i.id_image FROM imageborne i WHERE i.id_borne = b.id_borne LIMIT 1) AS image");
-		$builder = $builder->from('Borne b', true);
-		if (count($themes) > 0)
-			$builder = $builder->whereIn('id_theme', $themes);
-		$query = $builder->getCompiledSelect();
-		if (count($themes) === 0 && count($types) !== 0)
-			$query .= " WHERE";
-		$types = array_map(fn($type) => match($type) {
-			"sticker"=>1,
-			"wood"=>2,
-			"gravure"=>3,
-			default=>-1,
-		}, $types);
-		$typeStr = array_map(fn($t) => " $t IN (SELECT id_option FROM OptionBorne ob WHERE ob.id_borne = b.id_borne)", $types);
-		$typeStr = implode(" OR", $typeStr);
-		if (count($themes) > 0)
-			$query .= " OR" . $typeStr;
-		else {
-			$query .= $typeStr;
+	public function getBornes(int $max_par_page, array $parametres): array {
+		extract($parametres);
+		$sql = "SELECT b.*, (SELECT i.id_image FROM imageborne i WHERE i.id_borne = b.id_borne LIMIT 1) AS image\n";
+		$sql .= "FROM Borne b\n";
+		$sql .= "WHERE b.nom ILIKE '%$recherche%' ESCAPE '!'";
+		if (count($themes) || count($matieres) || $type || $prix_min || $prix_max) {
+			$sql .= " AND (";
+			$close = "";
+			if (count($themes))
+				$close .= "b.id_theme IN (".implode(",", $themes).")";
+			if (count($matieres)) {
+				if ($close)
+					$close .= " OR ";
+				$close .= "b.id_matiere IN (".implode(",", $matieres).")";
+			}
+			if ($type) {
+				$type = match($type) {
+					"sticker"=>1,
+					"wood"=>2,
+					"gravure"=>3,
+					default=>-1,
+				};
+				if ($type !== -1) {
+					if ($close)
+						$close .= " OR ";
+					$close .= "$type IN (SELECT ob.id_option FROM OptionBorne ob WHERE ob.id_borne = b.id_borne)";
+				}
+			}
+			if ($prix_min > $prix_max)
+				$prix_max = null;
+			if ($prix_min && $prix_max) {
+				if ($close)
+					$close .= " OR ";
+				$close .= "b.prix BETWEEN $prix_min AND $prix_max";
+			} else {
+				if ($prix_min) {
+					if ($close)
+						$close .= " OR ";
+					$close .= "b.prix >= $prix_min";
+				}
+				if ($prix_max) {
+					if ($close)
+						$close .= " OR ";
+					$close .= "b.prix <= $prix_min";
+				}
+			}
+			$sql .= $close;
+			$sql .= ")\n";
 		}
-		$query .= " GROUP BY id_borne, nom, description, prix, id_tmolding, id_matiere, id_theme";
+		$sql .= " GROUP BY id_borne, nom, description, prix, id_tmolding, id_matiere, id_theme";
 		/*  Pager  */
 		/** @var Pager $pager */
 		$pager = service('pager');
 		$offset      = ($pager->getCurrentPage() - 1) * $max_par_page;
 		/*  Pager fin  */
-		$query .= " LIMIT $max_par_page OFFSET $offset";
-		$query = str_replace('"', "", $query);
-		return $this->db->prepare(fn($db) => (new Query($db))->setQuery($query))->execute()->getCustomResultObject($this->returnType);
+		$sql .= " LIMIT $max_par_page OFFSET $offset";
+		return $this->db->prepare(fn($db) => (new Query($db))->setQuery($sql))->execute()->getCustomResultObject($this->returnType);
 	}
 	
 	public function getBorneParId(int $id): Borne|array {
@@ -125,7 +152,7 @@ class BorneModel extends Model
 	}
 	
 	public function getNombreBornes(): int {
-		$sql = $this->builder->from("Borne", true)->selectCount("*", "count")->getCompiledSelect();
+		$sql = $this->builder()->from("Borne", true)->selectCount("*", "count")->getCompiledSelect();
 		$sql = str_replace('"', "", $sql);
 		/** @var IntegerCast[] $result */
 		$result = $this->db->prepare(fn($db) => (new Query($db))->setQuery($sql))->execute()->getResult(IntegerCast::class);

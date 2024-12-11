@@ -17,6 +17,7 @@ use App\ThirdParty\CronJob;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Pager\Pager;
+use Config\Services;
 
 /**
  * @author Gabriel Roche
@@ -76,39 +77,67 @@ class ControleurBorne extends BaseController {
 	 * @return RedirectResponse|string La vue qui liste les bornes prédéfinies.
 	 */
 	public function indexBorne() : RedirectResponse|string {
-		$theme = $this->request->getGet('theme') ?: [];
-		$type = $this->request->getGet('type') ?: [];
+		/*  Paramètres de recherche  */
+		$theme     = $this->request->getGet('theme') ?: [];
+		$matiere   = $this->request->getGet('matiere') ?: [];
+		$type      = $this->request->getGet('type') ?: "";
+		$recherche = $this->request->getGet('search') ?: "";
+		$prix_min  = $this->request->getGet('prix_min') ?: null;
+		$prix_max  = $this->request->getGet('prix_max') ?: null;
+		
 		/** @var Pager $pager */
 		$pager = service('pager');
 		
 		$pageGet = $this->request->getGet('page');
 		
-		if ($pageGet !== null && !preg_match("#\d#", $pageGet)) {
-			return redirect()->to('/bornes');
+		if (($pageGet !== null && !preg_match("#\d#", $pageGet))) {
+			$_GET['page'] = 1;
+			$query = http_build_query($_GET);
+			return redirect()->to('/bornes'. ($query ? "?" : "") . $query);
 		}
+		
+		if ($prix_min && $prix_max && $prix_min > $prix_max) {
+			unset($_GET['prix_max']);
+			$query = http_build_query($_GET);
+			return redirect()->to('/bornes'. ($query ? "?" : "") . $query);
+		}
+		
+		$data = [
+			'themes'=>$theme,
+			'matieres'=>$matiere,
+			'type'=>$type,
+			'recherche'=>$recherche,
+			'prix_min'=>$prix_min,
+			'prix_max'=>$prix_max,
+		];
 		
 		$page    = intval($pageGet) ?: 1;
 		$perPage = 9;
-		$bornes  = $this->borneModel->getBornes($perPage, $theme, $type);
+		$bornes  = $this->borneModel->getBornes($perPage, $data);
 		$total   = $this->borneModel->getNombreBornes();
 		
 		if ($page < 1) {
-			return redirect()->to("/bornes");
+			$_GET['page'] = 1;
+			$query = http_build_query($_GET);
+			return redirect()->to('/bornes'. ($query ? "?" : "") . $query);
 		}
 		
-		if (count($bornes) === 0) {
-			$derniere_page = ceil($total / $perPage);
-			return redirect()->to("/bornes?page=$derniere_page");
+		if (count($bornes) === 0 && $total > 0) {
+			$_GET['page'] = ceil($total / $perPage);
+			$query = http_build_query($_GET);
+			return redirect()->to('/bornes'. ($query ? "?" : "") . $query);
 		}
 		
 		return view('borne/index_borne', [
-			'titre'         =>"Liste des bornes prédéfines",
-			'themes'        =>$this->themeModel->findAll(),
-			'selectionTheme'=>$theme,
-			'selectionType' =>$type,
-			'bornes'        =>$bornes,
-			'matieres'      =>$this->matiereModel->findAll(),
-			'pager_links'   =>$pager->makeLinks($page, $perPage, $total),
+			'titre'           =>"Liste des bornes prédéfines",
+			'themes'          =>$this->themeModel->findAll(),
+			'selectionTheme'  =>$theme,
+			'selectionType'   =>$type,
+			'selectionMatiere'=>$matiere,
+			'bornes'          =>$bornes,
+			'page'            =>$page,
+			'matieres'        =>$this->matiereModel->findAll(),
+			'pager_links'     =>$pager->makeLinks($page, $perPage, count($bornes)),
 		]);
 	}
 	

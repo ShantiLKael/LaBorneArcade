@@ -4,8 +4,9 @@ namespace App\Controllers;
 use App\Models\FaqModel;
 use CodeIgniter\Session\Session;
 use CodeIgniter\Validation\Validation;
+use Config\Services;
 
-class HomeController extends BaseController 
+class HomeController extends BaseController
 {
 	/** @var Session $session */
 	private Session $session;
@@ -18,9 +19,9 @@ class HomeController extends BaseController
 
 	public function __construct() {
 		$this->session = session();
-		$this->validation = \Config\Services::validation();
+		$this->validation = Services::validation();
 		$this->faqModel = new FaqModel();
-		helper(['form']);		
+		helper(['form']);
 	}
 
 	public function index():string {
@@ -28,7 +29,7 @@ class HomeController extends BaseController
 	}
 
 	/**
-	 * Méthode qui affiche une interface de contact 
+	 * Méthode qui affiche une interface de contact
 	 * pour joindre les administrateurs.
 	 *
 	 * @return string La vue de contact.
@@ -61,20 +62,26 @@ class HomeController extends BaseController
 
 		// Methode POST
 		if ($data)
-			if (!$this->validate($regleValidation, $messageValidation)) {
+			if ( !$this->validate($regleValidation, $messageValidation )) {
 				return view('contact/index_contact', [
 					'titre' => 'Me Contacter | LBA',
 					'erreurs' => $this->validation->getErrors(),
 				]);
 			} else {
-				// TODO : Envoie de mail
+				//envoi du mail
+				LoginController::envoyer_mail(
+					'mailingtestIUT@gmail.com',
+					'LaBorneArcade - Formulaire de contact',
+					$data,
+					'Formulaire de contact envoyer par $data[\'email\']',
+				);
 			}
 
 		return view('contact/index_contact', ['titre' => 'Me Contacter | LBA']);
 	}
 
 	/**
-	 * Méthode qui affiche une interface de contact 
+	 * Méthode qui affiche une interface de contact
 	 * pour joindre les administrateurs.
 	 *
 	 * @return string La vue de contact.
@@ -84,7 +91,7 @@ class HomeController extends BaseController
 	}
 
 	/**
-	 * Méthode qui affiche les conditions générales de vente 
+	 * Méthode qui affiche les conditions générales de vente
 	 *
 	 * @return string La vue des conditions de vente.
 	 */
