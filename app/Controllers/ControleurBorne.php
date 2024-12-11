@@ -16,6 +16,7 @@ use App\Models\UtilisateurModel;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Pager\Pager;
+use Exception;
 use ReflectionException;
 
 /**
@@ -78,9 +79,11 @@ class ControleurBorne extends BaseController {
 	public function indexBorne() : RedirectResponse|string {
 		/*  Paramètres de recherche  */
 		$theme     = $this->request->getGet('theme') ?: [];
+		$theme     = array_filter($theme, fn($o) => !empty($o));
 		$matiere   = $this->request->getGet('matiere') ?: [];
+		$matiere   = array_filter($matiere, fn($o) => !empty($o));
 		$type      = $this->request->getGet('type') ?: "";
-		$recherche = $this->request->getGet('search') ?: "";
+		$recherche = $this->request->getGet('recherche') ?: "";
 		$prix_min  = $this->request->getGet('prix_min') ?: null;
 		$prix_max  = $this->request->getGet('prix_max') ?: null;
 		
@@ -121,7 +124,7 @@ class ControleurBorne extends BaseController {
 			return redirect()->to('/bornes'. ($query ? "?" : "") . $query);
 		}
 		
-		if (count($bornes) === 0 && $total > 0) {
+		if (count($bornes) === 0 && $total > 0 && $page > 1) {
 			$_GET['page'] = ceil($total / $perPage);
 			$query = http_build_query($_GET);
 			return redirect()->to('/bornes'. ($query ? "?" : "") . $query);
@@ -146,6 +149,7 @@ class ControleurBorne extends BaseController {
 	 * @param int $id_borne L'identifiant de la borne à afficher.
 	 * @return string|RedirectResponse La vue d'une borne.
 	 * @throws ReflectionException
+	 * @throws Exception
 	 */
 	public function voirBorne(int $id_borne) : string|RedirectResponse {
 
@@ -153,9 +157,18 @@ class ControleurBorne extends BaseController {
 		$data = $this->request->getPost();
 		
 		$bornes_recentes = json_decode(get_cookie("bornes_recentes") ?: "[]", true);
-		if (!in_array($id_borne, $bornes_recentes))
-			$bornes_recentes[] = $id_borne;
+		if (($key = array_search($id_borne, $bornes_recentes)) !== false)
+			unset($bornes_recentes[$key]);
+		$bornes_recentes[time()] = $id_borne;
+		uksort($bornes_recentes, fn($o1, $o2) => $o2 > $o1);
 		set_cookie("bornes_recentes", json_encode($bornes_recentes), 172800 + 3600);
+		
+		$bornes_suggerees = [];
+		foreach ($bornes_recentes as $index) {
+			if ($index == $id_borne)
+				continue;
+			$bornes_suggerees[] = $this->borneModel->getBorneParId($index);
+		}
 
 		// Methode POST
 		if ($data) {
@@ -237,6 +250,7 @@ class ControleurBorne extends BaseController {
 		return view('borne/voir_borne', [
 			'titre'=>"Voir la borne",
 			'borne'=>$this->borneModel->getBorneParId($id_borne),
+			'suggestion_bornes'=>$bornes_suggerees,
 		]);
 	}
 	
@@ -245,6 +259,7 @@ class ControleurBorne extends BaseController {
 	 *
 	 * @param int|null $id_borne L'identifiant de la borne à modifier, ou <code>null</code> si borne personnalisée.
 	 * @return string La vue qui affiche la page de création/modification de borne prédéfinie.
+	 * @throws Exception
 	 */
 	public function editBorne(int $id_borne = null) : string {
 		$session = session();
@@ -292,7 +307,7 @@ class ControleurBorne extends BaseController {
 				$bornePerso->prix = 1499;
 				$bornePerso->dateCreation = Time::now('Europe/Paris', 'fr_FR');
 				$bornePerso->dateModif    = Time::now('Europe/Paris', 'fr_FR');
-				$idBorne = $this->bornePersoModel->insert($bornePerso, true);
+				$idBorne = $this->bornePersoModel->insert($bornePerso);
 
 				if ($session->has('user')) { // Utilisateur connécté
 					
