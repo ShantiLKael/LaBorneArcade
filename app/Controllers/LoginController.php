@@ -6,8 +6,8 @@ use App\Models\UtilisateurModel;
 use App\Models\BornePersoModel;
 use App\Entities\Utilisateur;
 use CodeIgniter\HTTP\RedirectResponse;
-use CodeIgniter\Validation\Validation;
 use Config\Services;
+use Exception;
 use ReflectionException;
 
 class LoginController extends BaseController
@@ -18,16 +18,11 @@ class LoginController extends BaseController
 	/** @var BornePersoModel $bornePersoModel */
 	private BornePersoModel $bornePersoModel;
 
-	/** @var Validation $validation */
-	private Validation $validation;
-
-
 	public function __construct()
 	{
 		helper(['form']);
 		$this->utilisateurModel = new UtilisateurModel();
 		$this->bornePersoModel = new BornePersoModel();
-		$this->validation = Services::validation();
 	}
 	
 	/**
@@ -55,7 +50,7 @@ class LoginController extends BaseController
 			$data = $this->request->getPost();
 			$utilisateur = new Utilisateur();
 			$utilisateur->fill($data);
-			$utilisateur->setRole($this->utilisateurModel::$ROLE_UTILISATEUR);
+			$utilisateur->setRole(UtilisateurModel::ROLE_UTILISATEUR);
 
 			$this->utilisateurModel->insert($utilisateur);
 
@@ -68,11 +63,12 @@ class LoginController extends BaseController
 			]);
 		}
 	}
-
+	
+	/**
+	 * @throws ReflectionException
+	 */
 	public function connexion(): string|RedirectResponse
 	{
-		$this->utilisateurModel = new UtilisateurModel();
-
 		if ($this->request->getMethod() === 'POST') {
 			// Règles de validation pour l'email et le mot de passe
 			$rules = [
@@ -110,6 +106,7 @@ class LoginController extends BaseController
                         $session = session();
 						$session->set('user', [
 							'id'    => $user->id,
+							'role'  => $user->role,
 							'email' => $user->email,
 						]);
                         
@@ -122,7 +119,7 @@ class LoginController extends BaseController
 
                             // Parcours des bornes enregistrées dans le panier session
                             foreach ($session->get('panier') as $bornePerso) {
-                                $idBorne = $this->bornePersoModel->insert($bornePerso, true);
+                                $idBorne = $this->bornePersoModel->insert($bornePerso);
                                 $this->utilisateurModel->insererPanier($user->id, $idBorne);
 
                                 // Parcours des options de la borne
@@ -153,7 +150,7 @@ class LoginController extends BaseController
                             }
                         }
                         
-                        // Suppression du panier utilisateur non connécté
+                        // Suppression du panier utilisateur non connecté
                         $session->remove('panier');
                         $session->remove('options');
                         $session->remove('joysticks');
@@ -190,7 +187,7 @@ class LoginController extends BaseController
 	
 	/**
 	 * @return string
-	 * @noinspection PhpUnhandledExceptionInspection
+	 * @throws Exception
 	 */
 	public function oubliMdp(): string
 	{
@@ -239,7 +236,7 @@ class LoginController extends BaseController
 	}
 	
 	/**
-	 * @param $token
+	 * @param string $token
 	 * @return string
 	 * @throws ReflectionException
 	 */
@@ -282,8 +279,11 @@ class LoginController extends BaseController
 		}
 
 	}
+	
+	/**
+	 * @throws ReflectionException
+	 */
 	public function profile(): string|RedirectResponse {
-        $session = session();
         $data = $this->request->getPost();
 
         if ($data) {
@@ -395,7 +395,6 @@ class LoginController extends BaseController
                 width: 100%;
             }
             h1 {
-				text-color : #ffffff;
 				color : #ffffff;
                 font-size: 24px;
                 margin-bottom: 10px;

@@ -37,12 +37,12 @@ $routes->setAutoRoute(false);
 	$routes->get('/panier/delete-borne/(:num)', 'CommandeController::suppressionBorne/$1');
 //});
 
-//$routes->group('', ['filter' => 'auth'], function($routes) {
+$routes->group('', ['filter' => "utilisateur"], function($routes) {
 	$routes->get  ('/commandes', 'CommandeController::index');
 	$routes->match(['get', 'post'], '/profile', 'LoginController::profile');
-//});
+});
 
-//$routes->group('', ['filter' => 'admin'], function($routes) {
+$routes->group('', ['filter' => "admin"], function($routes) {
 	$routes->match(['get', 'post', 'delete'], 	'/admin/bornes'					, 'AdminController::adminBorne');
 	$routes->match(['get', 'post', 'delete'], 	'/admin/contact'				, 'AdminController::adminContact');
 	$routes->match(['get', 'post', 'delete'], 	'/admin/articles'				, 'AdminController::adminArticle');
@@ -64,7 +64,7 @@ $routes->setAutoRoute(false);
 	$routes->match(['get', 'post'], 	'/admin/articles'	, 'AdminController::adminArticle');
 	$routes->match(['get', 'post'], 	'/admin/faqs'		, 'AdminController::adminFaq');
 	$routes->match(['get', 'post'],	'/admin/theme'		, 'AdminController::adminTheme');
-//});
+});
 
 /** Route pour le cronjob */
 $routes->cli('/cronjob', 'ControleurCronJob::index');
