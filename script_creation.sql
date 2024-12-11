@@ -147,25 +147,29 @@ CREATE TABLE OptionBorne(
 CREATE TABLE JoystickBornePerso(
 	id_BornePerso INT REFERENCES BornePerso (id_BornePerso) NOT NULL,
 	id_Joystick   INT REFERENCES Joystick   (id_Joystick  ) NOT NULL,
+	ordre         INT NOT NULL,
 	PRIMARY KEY(id_BornePerso, id_Joystick)
 );
 
 CREATE TABLE JoystickBorne(
 	id_Borne    INT REFERENCES Borne   (id_Borne   ) NOT NULL,
 	id_Joystick INT REFERENCES Joystick(id_Joystick) NOT NULL,
+	ordre       INT NOT NULL,
 	PRIMARY KEY(id_Borne, id_Joystick)
 );
 
 CREATE TABLE BoutonBornePerso(
 	id_BornePerso INT REFERENCES BornePerso(id_BornePerso) NOT NULL,
 	id_Bouton     INT REFERENCES Bouton    (id_Bouton    ) NOT NULL,
-	PRIMARY KEY(id_BornePerso, id_Bouton)
+	ordre         INT NOT NULL,
+	PRIMARY KEY(id_BornePerso, id_Bouton, ordre)
 );
 
 CREATE TABLE BoutonBorne(
 	id_Borne  INT REFERENCES Borne (id_Borne ) NOT NULL,
 	id_Bouton INT REFERENCES Bouton(id_Bouton) NOT NULL,
-	PRIMARY KEY(id_Borne, id_Bouton)
+	ordre     INT NOT NULL,
+	PRIMARY KEY(id_Borne, id_Bouton, ordre)
 );
 
 CREATE TABLE ImageArticleBlog(

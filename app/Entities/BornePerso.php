@@ -11,6 +11,7 @@ class BornePerso extends Entity
     protected $casts = [
         'id'          => 'integer',
         'prix'        => 'float',
+        'ordre'       => 'integer',
         'idBorne'     => 'integer',
         'idTMolding'  => 'integer',
         'idMatiere'   => 'integer',
@@ -51,15 +52,21 @@ class BornePerso extends Entity
         return $this;
     }
 
-    public function setIdTMolding(int $idTMolding)
+    public function setOrdre(int $ordre)
     {
-        $this->attributes['id_tmolding'] = $idTMolding;
+        $this->attributes['ordre'] = $ordre;
         return $this;
     }
 
-    public function setIdMatiere(int $idMatiere)
+    public function setIdTMolding(string $idTMolding)
     {
-        $this->attributes['id_matiere'] = $idMatiere;
+        $this->attributes['id_tmolding'] = intval($idTMolding);
+        return $this;
+    }
+
+    public function setIdMatiere(string $idMatiere)
+    {
+        $this->attributes['id_matiere'] = intval($idMatiere);
         return $this;
     }
 
@@ -75,10 +82,10 @@ class BornePerso extends Entity
         return $bornePersoModel->getTMolding($this->idTMolding);
     }
 
-    public function getBorne(): Borne
+    public function getBorne(): ?Borne
     {
         $bornePersoModel = new BornePersoModel();
-        return $bornePersoModel->getBorne($this->idBorne);
+        return ($this->idBorne) ? $bornePersoModel->getBorne($this->idBorne) : null;
     }
 
     public function getOptions(): array

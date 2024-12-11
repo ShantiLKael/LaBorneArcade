@@ -111,28 +111,28 @@ VALUES
 (2, 2);
 
 -- Insertion des données dans la table JoystickBornePerso
-INSERT INTO JoystickBornePerso (id_BornePerso, id_Joystick)
+INSERT INTO JoystickBornePerso (id_BornePerso, id_Joystick, ordre)
 VALUES
-(1, 1),
-(2, 2);
+(1, 1, 1),
+(2, 2, 1);
 
 -- Insertion des données dans la table JoystickBorne
-INSERT INTO JoystickBorne (id_Borne, id_Joystick)
+INSERT INTO JoystickBorne (id_Borne, id_Joystick, ordre)
 VALUES
-(1, 1),
-(2, 2);
+(1, 1, 1),
+(2, 2, 1);
 
 -- Insertion des données dans la table BoutonBornePerso
-INSERT INTO BoutonBornePerso (id_BornePerso, id_Bouton)
+INSERT INTO BoutonBornePerso (id_BornePerso, id_Bouton, ordre)
 VALUES
-(1, 1),
-(2, 2);
+(1, 1, 1),
+(2, 2, 1);
 
 -- Insertion des données dans la table BoutonBorne
-INSERT INTO BoutonBorne (id_Borne, id_Bouton)
+INSERT INTO BoutonBorne (id_Borne, id_Bouton, ordre)
 VALUES
-(1, 1),
-(2, 2);
+(1, 1, 1),
+(2, 2, 1);
 
 -- Insertion des données dans la table ImageArticleBlog
 INSERT INTO ImageArticleBlog (id_ArticleBlog, id_Image)

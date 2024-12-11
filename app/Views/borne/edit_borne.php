@@ -1,9 +1,23 @@
-<?= /** @noinspection PhpUndefinedVariableInspection */
-/** @noinspection  */
-view('commun/header', ['titre' => $titre]) ?>
-<form action="/bornes/<?= isset($borne) ? $borne->id : '' ?>" method="post"> <!-- Formulaire des options choisies -->
+<?= view('commun/header', ['titre' => $titre]) ?>
+<!-- Formulaire des options choisies -->
+<?= form_open('/borne-perso') ?>
+<div class="bg-gradient-to-r from-dark-teal max-w-100 to-medium-blue text-center py-10 mb-8">
+    <div class="flex items-center px-10 py-10">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-gray-300 invisible md:visible mr-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+        <!-- Texte principal -->
+        <div>
+            <h2 class="text-xl md:text-2xl font-bold">Créez vos propres bornes d'arcade, avec l'assistance de notre graphiste !</h2>
+            <p class="text-gray-300 text-sm md:text-base">Personnalisez avec vos logos, idées, couleurs, images. Customisez chaque partie.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Section de sélection -->
 <section id="section"  class="container px-5 py-16 mx-auto bg-medium-blue rounded-xl ">
-<div class="px-0 md:px-20 mb-16">
+
+	<div class="px-0 md:px-20 mb-16">
 	<!-- Séléction du produit principal -->
 	<div class="flex flex-col md:flex-row gap-8 items-start">
 
@@ -14,8 +28,8 @@ view('commun/header', ['titre' => $titre]) ?>
 
 		<!-- Informations produit -->
 		<div class="flex-1">
-			<h1 class="text-3xl md:text-4xl font-bold mb-2">Borne Personnalisée <span class="text-xl text-gray-500"><?= isset($borne) ? '<br> de '.$borne->nom : '' ?></span></h1>
-			<p  class="text-green-400 text-2xl md:text-3xl font-bold mb-4">1490,00€</p>
+			<h1 class="text-3xl md:text-4xl font-bold mb-2 text-gray-100">Borne Personnalisée <span class="text-xl text-gray-500"><?= isset($borne) ? '<br> de '.$borne->nom : '' ?></span></h1>
+			<p  class="text-green-400 text-xl md:text-2xl font-bold mb-4">1490,00€</p>
 
 			<!-- Contenu de la borne -->
 			<div class="bg-gradient-to-r from-dark-blue max-w-100 to-dark-teal p-4 rounded md:mb-2 mb-10">
@@ -33,7 +47,7 @@ view('commun/header', ['titre' => $titre]) ?>
 
 			<!-- Boutons -->
 			<div class="text-center md:flex md:items-center gap-4">
-				<a href="" class="bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-6 my-5 rounded-3xl cursor-pointer">Ajouter dans panier</a>
+				<?= form_submit('submit', 'Ajouter au panier', "class='bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-6 my-5 mb-8 rounded-3xl cursor-pointer'"); ?>
 			</div>
 
 			<!-- Infos supplémentaires -->
@@ -61,19 +75,67 @@ view('commun/header', ['titre' => $titre]) ?>
 
 <!-- Séléction des options -->
 <div class="px-0 md:px-20">
-	<h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-2xl md:text-3xl text-gray-300">Options</h2>
+	<h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-lg md:text-2xl text-gray-300">Options</h2>
 	<div class="flex overflow-x-scroll p-5 hide-scroll-bar space-x-6 rounded-xl bg-light-teal/10">
 		<?php foreach($options as $option) : ?>
 			<div class="relative min-w-[300px] sm:min-w-[350px] md:min-w-[400px] bg-gray-800 rounded-lg overflow-hidden border-2 border-gray-700 hover:border-green-700 shadow-gray-900 shadow-md hover:shadow-lg ease-in-out flex-shrink-0">
-				<input type="checkbox" id="option-<?= $option->id ?>" name="options[]" value="<?= $option->id ?>" class="absolute top-3 right-3 w-6 h-6 cursor-pointer rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
+				<input type="checkbox" id="option-<?= $option->id ?>" name="idOptions[]" value="<?= $option->id ?>" class="absolute top-3 right-3 w-6 h-6 cursor-pointer rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
 				<img loading="lazy" src="" alt="Option <?= $option->nom ?>" class="w-full h-64 object-cover">
 				<div class="p-4">
-					<p class="text-green-400 text-xl font-bold mb-2"><?= $option->cout ?> €</p>
-					<h3 class="font-bold text-xl text-left mb-2"><?= $option->nom ?></h3>
-					<p class="text-left text-sm text-gray-400"><?= $option->description ?>.</p>
+					<p class="text-green-400 text-lg font-bold mb-2"><?= $option->cout ?> €</p>
+					<h3 class="font-bold text-lg text-left mb-2"><?= $option->nom ?></h3>
+					<p class="text-left text-sm text-gray-300"><?= $option->description ?>.</p>
 				</div>
 			</div>
 		<?php endforeach; ?>
+	</div>
+</div>
+
+<!-- Séléction Matière -->
+<div class="px-0 md:px-20">
+	<h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-lg md:text-2xl text-gray-300">Matière <span class="text-green-500/30">(*)</span></h2>
+	<div class="flex overflow-x-scroll p-5 hide-scroll-bar space-x-6 rounded-xl <?= $bgColor = isset($erreurs['id_matiere']) ? "bg-red-700/30" : "bg-light-teal/10" ?>">
+	<?php foreach($matieres as $matiere) : ?>
+		<div class="relative w-52 h-52 md:w-72 md:h-72 bg-gray-800 rounded-lg overflow-hidden border-2 border-gray-700 <?= $hoverColor = isset($erreurs['id_matiere']) ? "hover:border-red-800" : "hover:border-green-700" ?> shadow-md shadow-gray-900 ease-in-out">
+			<input type="checkbox" id="matiere-<?= $matiere->id ?>" name="id_matiere" value="<?= $matiere->id ?>" class="absolute top-3 right-3 w-5 h-5 rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
+			<img src="" alt="Matière <?= $matiere->nom ?>" class="w-full h-5/6 object-cover" />
+			<div style="background-color: #<?= $matiere->couleur ?>;" class="h-1/4"></div>
+		</div>
+	<?php endforeach; ?>
+
+		<!-- Contact Matière -->
+		<div class="relative flex items-center justify-center w-52 h-52 md:w-72 md:h-72 bg-gray-800 rounded-lg overflow-hidden shadow-md border-dotted border-2 border-gray-500">
+			<div class="absolute flex flex-col items-center justify-center text-center px-4">
+				<p class="p-6 text-gray-300 text-sm md:text-base font-medium">
+					Vous voulez une matière ou une couleur particulier ? <br>
+					<a href="/contact?message=<?= urlencode('Bonjour, je vous contacte pour la personnalisation de la matière de la borne...') ?>" class="text-green-600 hover:text-green-500 underline">Contactez-nous !</a>
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Séléction T-Molding -->
+<div class="px-0 md:px-20">
+	<h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-lg md:text-2xl text-gray-300">T-Molding <span class="text-green-500/30">(*)</span></h2>
+	<div class="flex overflow-x-scroll p-5 hide-scroll-bar space-x-6 rounded-xl <?= $bgColor = isset($erreurs['id_tmolding']) ? "bg-red-700/30" : "bg-light-teal/10" ?>">
+	<?php foreach($tmoldings as $tmolding) : ?>
+		<div class="relative w-52 h-52 md:w-72 md:h-72 bg-gray-800 rounded-lg overflow-hidden border-2 border-gray-700 <?= $hoverColor = isset($erreurs['id_tmolding']) ? "hover:border-red-800" : "hover:border-green-700" ?> shadow-md shadow-gray-900 ease-in-out">
+			<input type="checkbox" id="tmodling-<?= $tmolding->id ?>" name="id_tmolding" value="<?= $tmolding->id ?>" class="absolute top-3 right-3 w-5 h-5 rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
+			<img src="" alt="T-Molding <?= $tmolding->nom ?>" class="w-full h-5/6 object-cover" />
+			<div style="background-color: #<?= $tmolding->couleur ?>;" class="h-1/4"></div>
+		</div>
+	<?php endforeach; ?>
+
+		<!-- Contact Joystick -->
+		<div class="relative flex items-center justify-center w-52 h-52 md:w-72 md:h-72 bg-gray-800 rounded-lg overflow-hidden shadow-md border-dotted border-2 border-gray-500">
+			<div class="absolute flex flex-col items-center justify-center text-center px-4">
+				<p class="p-6 text-gray-300 text-sm md:text-base font-medium">
+					Vous voulez une couleur en particulier ? <br>
+					<a href="/contact?message=<?= urlencode('Bonjour, je vous contacte pour la personnalisation du t-molding...') ?>" class="text-green-600 hover:text-green-500 underline">Contactez-nous !</a>
+				</p>
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -81,7 +143,7 @@ view('commun/header', ['titre' => $titre]) ?>
 <div class="px-0 md:px-20">
 	<div class="flex items-center justify-between">
 	<!-- Nom du modèle -->
-	<h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-2xl md:text-3xl text-gray-400">Joystick</h2>
+	<h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-lg md:text-2xl text-gray-300">Joystick <span class="text-green-500/30">(*)</span></h2>
 	<!-- Sélecteur du modèle -->
 	<div class="w-full max-w-sm min-w-[200px]">
 		<div class="relative">
@@ -96,13 +158,11 @@ view('commun/header', ['titre' => $titre]) ?>
 	</div>
 
 	<!-- Liste des joysticks -->
-	<div id="liste-joysticks" class="flex overflow-x-scroll p-5 hide-scroll-bar space-x-6 rounded-xl bg-light-teal/10">
+	<div id="liste-joysticks" class="flex overflow-x-scroll p-5 hide-scroll-bar space-x-6 rounded-xl <?= $bgColor = isset($erreurs['joystick']) ? "bg-red-700/30" : "bg-light-teal/10" ?>">
 		<?php foreach($joysticks as $joystick) : ?>
-		<div class="relative w-52 h-52 md:w-72 md:h-72 bg-gray-800 rounded-lg overflow-hidden border-2 border-gray-700 hover:border-green-700 shadow-md shadow-gray-900 ease-in-out flex-shrink-0">
+		<div class="relative w-52 h-52 md:w-72 md:h-72 bg-gray-800 rounded-lg overflow-hidden border-2 border-gray-700 <?= $hoverColor = isset($erreurs['joystick']) ? "hover:border-red-800" : "hover:border-green-700" ?> shadow-md shadow-gray-900 ease-in-out flex-shrink-0">
 			<!-- Checkbox -->
-			<label>
-				<input type="checkbox" id="joystick-<?= $joystick->id ?>" data-model="<?= $joystick->modele ?>" name="joysticks[]" value="<?= $joystick->id ?>" class="absolute top-3 right-3 w-5 h-5 cursor-pointer rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
-			</label>
+			<input type="checkbox" id="joystick-<?= $joystick->id ?>" data-model="<?= $joystick->modele ?>" data-color="#<?= $joystick->couleur ?>" name="joystick" value="<?= $joystick->id ?>" class="absolute top-3 right-3 w-5 h-5 cursor-pointer rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
 			
 			<!-- Image -->
 			<img loading="lazy" src="" alt="Joystick <?= htmlspecialchars($joystick->modele) ?>" class="w-full h-4/6 md:h-5/6 object-cover">
@@ -120,6 +180,16 @@ view('commun/header', ['titre' => $titre]) ?>
 			</div>
 		</div>
 		<?php endforeach; ?>
+
+		<!-- Contact Joystick -->
+		<div class="relative flex items-center justify-center w-52 h-52 md:w-72 md:h-72 bg-gray-800 rounded-lg overflow-hidden shadow-md border-dotted border-2 border-gray-500">
+			<div class="absolute flex flex-col items-center justify-center text-center px-4">
+				<p class="p-6 text-gray-300 text-sm md:text-base font-medium">
+					Vous voulez un modèle ou une couleur particulier ? <br>
+					<a href="/contact?message=<?= urlencode('Bonjour, je vous contacte pour la personnalisation des joysticks...') ?>" class="text-green-600 hover:text-green-500 underline">Contactez-nous !</a>
+				</p>
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -127,7 +197,7 @@ view('commun/header', ['titre' => $titre]) ?>
 <div class="px-0 md:px-20">
 	<div class="flex items-center justify-between">
 		<!-- Nom du modèle -->
-		<h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-2xl md:text-3xl text-gray-400">Bouton</h2>
+		<h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-lg md:text-2xl text-gray-300">Bouton <span class="text-green-500/30">(*)</span></h2>
 		<!-- Sélecteur du modèle -->
 		<div class="w-full max-w-sm min-w-[200px]">
 			<div class="relative">
@@ -140,127 +210,101 @@ view('commun/header', ['titre' => $titre]) ?>
 			</div>
 		</div>
 	</div>
-	<div id="liste-boutons" class="flex overflow-x-scroll p-5 hide-scroll-bar space-x-6 rounded-xl bg-light-teal/10">
+	<div id="liste-boutons" class="flex overflow-x-scroll p-5 hide-scroll-bar space-x-6 rounded-xl <?= $bgColor = isset($erreurs['bouton']) ? "bg-red-700/30" : "bg-light-teal/10" ?>">
 	<?php foreach($boutons as $bouton) : ?>
-		<div class="relative w-52 h-52 md:w-72 md:h-72 bg-gray-800 rounded-lg overflow-hidden border-2 border-gray-700 hover:border-green-700 shadow-md shadow-gray-900 ease-in-out">
-			<input type="checkbox" id="bouton-<?= $bouton->id ?>" data-model="<?= $bouton->modele ?>" name="boutons[]" value="<?= $bouton->id ?>" class="absolute top-3 right-3 w-5 h-5 rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
+		<div class="relative w-52 h-52 md:w-72 md:h-72 bg-gray-800 rounded-lg overflow-hidden border-2 border-gray-700 <?= $hoverColor = isset($erreurs['bouton']) ? "hover:border-red-800" : "hover:border-green-700" ?> shadow-md shadow-gray-900 ease-in-out">
+			<input type="checkbox" id="bouton-<?= $bouton->id ?>" data-forme="<?= $bouton->forme ?>" data-model="<?= $bouton->modele ?>" data-color="#<?= $bouton->couleur ?>" name="bouton" value="<?= $bouton->id ?>" class="absolute top-3 right-3 w-5 h-5 rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
 			<img src="" alt="Boutons <?= $bouton->modele ?>" class="w-full h-5/6 object-cover" />
 			<div style="background-color: #<?= $bouton->couleur ?>;" class="h-1/4"></div>
 		</div>
 	<?php endforeach; ?>
-	</div>
-</div>
-
-<!-- Séléction T-Molding -->
-<div class="px-0 md:px-20">
-	<h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-2xl md:text-3xl text-gray-400">T-Molding</h2>
-	<div class="flex overflow-x-scroll p-5 hide-scroll-bar space-x-6 rounded-xl bg-light-teal/10">
-	<?php foreach($tmoldings as $tmolding) : ?>
-		<div class="relative w-52 h-52 md:w-72 md:h-72 bg-gray-800 rounded-lg overflow-hidden border-2 border-gray-700 hover:border-green-700 shadow-md shadow-gray-900 ease-in-out">
-			<input type="checkbox" id="tmodling-<?= $tmolding->id ?>" name="tmoldings[]" value="<?= $tmolding->id ?>" class="absolute top-3 right-3 w-5 h-5 rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
-			<img src="" alt="T-Molding <?= $tmolding->nom ?>" class="w-full h-5/6 object-cover" />
-			<div style="background-color: #<?= $tmolding->couleur ?>;" class="h-1/4"></div>
-		</div>
-	<?php endforeach; ?>
 	
-		<!-- "Ajouter t-molding" -->
-		<div class="relative flex items-center justify-center w-52 h-52 md:w-72 md:h-72 bg-gray-800 rounded-lg overflow-hidden shadow-md border-dotted border-2 border-gray-500">
-			<div class="flex items-center justify-center w-24 h-24 bg-gray-600 hover:bg-green-600 text-white text-5xl font-bold rounded-full shadow-md transition duration-300 ease-in-out cursor-pointer">
-				<svg class="w-24 h-24 text-gray-400 hover:text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-					<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-				</svg>
-			</div>
+	<!-- Contact Bouton -->
+	<div class="relative flex items-center justify-center w-52 h-52 md:w-72 md:h-72 bg-gray-800 rounded-lg overflow-hidden shadow-md border-dotted border-2 border-gray-500">
+		<div class="absolute flex flex-col items-center justify-center text-center px-4">
+			<p class="p-6 text-gray-300 text-sm md:text-base font-medium">
+				Vous voulez un modèle ou une couleur en particulier ? <br>
+				<a href="/contact?message=<?= urlencode('Bonjour, je vous contacte pour la personnalisation des boutons...') ?>" class="text-green-600 hover:text-green-500 underline">Contactez-nous !</a>
+			</p>
 		</div>
 	</div>
-</div>
 
-<!-- Séléction Matière -->
-<div class="px-0 md:px-20">
-	<h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-2xl md:text-3xl text-gray-400">Matière</h2>
-	<div class="flex overflow-x-scroll p-5 hide-scroll-bar space-x-6 rounded-xl bg-light-teal/10">
-	<?php foreach($matieres as $matiere) : ?>
-		<div class="relative w-52 h-52 md:w-72 md:h-72 bg-gray-800 rounded-lg overflow-hidden border-2 border-gray-700 hover:border-green-700 shadow-md shadow-gray-900 ease-in-out">
-			<input type="checkbox" id="matiere-<?= $matiere->id ?>" name="matieres[]" value="<?= $matiere->id ?>" class="absolute top-3 right-3 w-5 h-5 rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
-			<img src="" alt="Matière <?= $matiere->nom ?>" class="w-full h-5/6 object-cover" />
-			<div style="background-color: #<?= $matiere->couleur ?>;" class="h-1/4"></div>
-		</div>
-	<?php endforeach; ?>
 	</div>
 </div>
-
+<?= form_close() ?>
 <div class="px-0 md:px-20 mx-auto my-16">
-	<div type="hidden" id="bouton-borneperso">
-	</div>
-	<h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-2xl md:text-3xl text-gray-400">Aperçu des boutons</h2>
-	<div class="grid grid-cols-1 gap-6 md:grid-cols-3 my-5 md:gap-8">
-		<div>
-			<h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-xl md:text-2xl text-gray-400">Boutons</h2>
-		</div>
-		
-		<!-- Sélecteur de couleurs des boutons -->
-		<div>
-			<label for="select-couleur-bouton" class="block text-lg font-medium text-slate-600 mb-2">Couleurs</label>
-			<select
-				class="w-full bg-transparent placeholder:text-slate-400 text-slate-500 text-sm border-b border-slate-400 pl-3 py-2 transition duration-300 ease-in-out focus:border-slate-500 hover:border-slate-200 shadow-sm focus:shadow-md md:max-w-md"
-				name="couleurs"
-				id="select-couleur-bouton"
-			>
-			</select>
-		</div>
+    <div type="hidden" id="bouton-borneperso"></div>
 
-		<!-- Sélecteur de formes des boutons -->
-		<div>
-			<label for="select-forme-bouton" class="block text-lg font-medium text-slate-600 mb-2">Formes</label>
-			<select
-				class="w-full bg-transparent placeholder:text-slate-400 text-slate-500 text-sm border-b border-slate-400 pl-3 py-2 transition duration-300 ease-in-out focus:border-slate-500 hover:border-slate-200 shadow-sm focus:shadow-md md:max-w-md"
-				name="formes"
-				id="select-forme-bouton"
-			>
-				<option class="bg-deep-blue" value="rond">Rond</option>
-				<option class="bg-deep-blue" value="triangle">Triangle</option>
-				<option class="bg-deep-blue" value="carre">Carré</option>
-			</select>
-		</div>
-		
-		<div>
-			<h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-xl md:text-2xl text-gray-400">Joysticks</h2>
-		</div>
-		
-		<!-- Sélecteur de couleurs de joysticks -->
-		<div>
-			<label for="select-couleur-joystick" class="block text-lg font-medium text-slate-600 mb-2">Couleurs</label>
-			<select
-				class="w-full bg-transparent placeholder:text-slate-400 text-slate-500 text-sm border-b border-slate-400 pl-3 py-2 transition duration-300 ease-in-out focus:border-slate-500 hover:border-slate-200 shadow-sm focus:shadow-md md:max-w-md"
-				name="couleurs"
-				id="select-couleur-joystick"
-			>
-			</select>
-		</div>
+    <!-- Ligne contenant "Aperçu des touches" et le formulaire -->
+    <div class="flex flex-wrap md:flex-nowrap items-center justify-between">
+        <!-- Titre -->
+        <div class="flex items-center">
+            <h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-2xl md:text-3xl text-gray-200">Aperçu des touches</h2>
+        </div>
 
-		<!-- Sélecteur de modèles de joysticks -->
-		<div>
-			<label for="select-modele-joystick" class="block text-lg font-medium text-slate-600 mb-2">Modèles</label>
-			<select
-				class="w-full bg-transparent placeholder:text-slate-400 text-slate-500 text-sm border-b border-slate-400 pl-3 py-2 transition duration-300 ease-in-out focus:border-slate-500 hover:border-slate-200 shadow-sm focus:shadow-md md:max-w-md"
-				name="formes"
-				id="select-modele-joystick"
-			>
-				<option class="bg-deep-blue" value="Tous" selected>Tous les joysticks</option>
-			</select>
-		</div>
+        <!-- Formulaire -->
+        <?= form_open('/borne-perso/', ['class' => 'flex flex-col md:flex-row md:items-center md:space-x-4 w-full md:w-auto']) ?>
+            <!-- Input pour le nombre de joueurs -->
+            <div class="flex flex-col items-start w-full md:w-auto mb-4 md:mb-0">
+                <?= form_label('Nombre de joueurs', 'nbJoueurs', ['class' => 'pl-2 md:pl-0 text-sm mb-2 font-medium text-gray-300']); ?>
+                <?= form_input([
+                    'name'        => 'nbJoueurs',
+                    'id'          => 'nbJoueurs',
+                    'type'        => 'number',
+                    'min'         => 1,
+                    'max'         => 2,
+                    'class'       => 'text-slate-400 w-full md:w-24 px-3 py-2 border border-gray-600 rounded-md text-gray-200 bg-gray-800 focus:outline-none focus:ring-2 focus:ring-green-400',
+                    'value'       => set_value('nbJoueurs', '2'), // Valeur par défaut
+                    'placeholder' => '1 - 2',
+                    'required'
+                ]); ?>
+            </div>
+
+            <!-- Input pour le nombre de boutons -->
+            <div class="flex flex-col items-start w-full md:w-auto mb-4 md:mb-0">
+                <?= form_label('Nombre de boutons', 'nbBoutons', ['class' => 'pl-2 md:pl-0 text-sm mb-2 font-medium text-gray-300']); ?>
+                <?= form_input([
+                    'name'        => 'nbBoutons',
+                    'id'          => 'nbBoutons',
+                    'type'        => 'number',
+                    'min'         => 0,
+                    'max'         => 9,
+                    'class'       => 'text-slate-400 w-full md:w-24 px-3 py-2 border border-gray-600 rounded-md text-gray-200 bg-gray-800 focus:outline-none focus:ring-2 focus:ring-green-400',
+                    'value'       => set_value('nbBoutons', '6'), // Valeur par défaut
+                    'placeholder' => '0 - 9',
+                    'required'
+                ]); ?>
+            </div>
+
+            <!-- Bouton Configurer -->
+            <div class="w-full md:w-auto">
+                <?= form_submit('submit', 'Configurer la disposition', "class='bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-3xl cursor-pointer w-full md:w-auto'"); ?>
+            </div>
+    </div>
+	<?= form_close() ?>
+
+	<div class="text-lg text-gray-300 flex items-center">
+		<p>
+			La dispositions et couleurs des joysticks et boutons seront la même pour les tous les joueurs.
+			Pour nos bornes d'arcades à 2 joueurs, nous vous ajoutons 2 boutons en plus pour choisir le mode ! (1J - 2J) 
+		</p>
 	</div>
 
-
-	<canvas class="border rounded-md border-deep-blue shadow-lg" id="persoBorne" tabindex="0"></canvas>
-	<button class="bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-6 my-5 rounded-3xl cursor-pointer" onclick="convertirEnImage()">
-		Télécharger l'image
-	</button>
+    <!-- Espacement entre le haut et le canvas -->
+    <div class="mt-10">
+        <canvas class="border rounded-md border-deep-blue shadow-lg" id="persoBorne" tabindex="0"></canvas>
+    </div>
 </div>
 </section>
-</form>
 <script>
-	const boutons   = <?php echo json_encode($boutons); ?>;
-	const joysticks = <?php echo json_encode($joysticks); ?>;
+	const boutons   = <?= json_encode($boutons); ?>;
+	const joysticks = <?= json_encode($joysticks); ?>;
+	const boutonsBorne   = <?= isset($borne) ? json_encode($borne->boutons) : json_encode(null); ?>;
+	const joysticksBorne = <?= isset($borne) ? json_encode($borne->joysticks) : json_encode(null); ?>;
+	const affichageUniquement = false;
+
+	let nbJoueur = <?= $nbJoueurs ?>;
+	let nbBoutonParJoueur = <?= $nbBoutons ?>;
 </script>
 <script src="/assets/js/canva-boutons.js"></script>
 <script src="/assets/js/filtre-bouton-joystick.js"></script>

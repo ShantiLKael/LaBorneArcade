@@ -115,7 +115,9 @@ class LoginController extends BaseController
                         
                         // Si la session possède des bornes dans son panier, on les enregistre en base
                         if ($session->has('panier')) {
-                            $options = $session->get('options');
+                            $options   = $session->get('options');
+                            $joysticks = $session->get('joysticks');
+                            $boutons   = $session->get('boutons');
                             $i = 0;
 
                             // Parcours des bornes enregistrées dans le panier session
@@ -124,9 +126,27 @@ class LoginController extends BaseController
                                 $this->utilisateurModel->insererPanier($user->id, $idBorne);
 
                                 // Parcours des options de la borne
-                                if ($options[$i]) {
+                                if (isset($options[$i])) {
                                     foreach ($options[$i] as $option)
                                         $this->bornePersoModel->insererOptionBorne($idBorne, $option->id);
+                                }
+
+                                // Parcours des options de la borne
+								$j = 1;
+                                if (isset($boutons[$i])) {
+                                    foreach ($boutons[$i] as $idBouton) {
+                                        $this->bornePersoModel->insererBoutonBorne($idBorne, $idBouton, $j);
+										$j++;
+									}
+                                }
+
+                                // Parcours des options de la borne
+								$j = 1;
+                                if (isset($joysticks[$i])) {
+                                    foreach ($joysticks[$i] as $idJoystick) {
+                                        $this->bornePersoModel->insererJoystickBorne($idBorne, $idJoystick, $j);
+										$j++;
+									}
                                 }
 
                                 $i++;
@@ -136,6 +156,8 @@ class LoginController extends BaseController
                         // Suppression du panier utilisateur non connécté
                         $session->remove('panier');
                         $session->remove('options');
+                        $session->remove('joysticks');
+                        $session->remove('boutons');
 
 						// Rediriger vers la page d'accueil ou le tableau de bord
 						return redirect()->to('/');
@@ -267,7 +289,7 @@ class LoginController extends BaseController
         if ($data) {
             // Prépare les règles de validation conditionnelles
             $regleValidation = [
-                'email' => 'required|valid_email|is_unique[utilisateur.email]',
+                'email' => 'required|valid_email',
             ];
 
             // Ajoutez les règles pour le mot de passe si rempli
@@ -278,9 +300,8 @@ class LoginController extends BaseController
 
             $messagesValidation = [
                 'email' => [
-                    'required'    => 'Veuillez saisir votre émail.',
+                    'required'    => 'Veuillez saisir un émail.',
                     'valid_email' => 'Entrez un email valide.',
-                    'is_unique'   => 'Cet émail est déjà utilisé.',
                 ],
                 'mdp' => [
                     'min_length' => 'Votre mot de passe est trop court (min. 8 caractères).',
@@ -300,12 +321,29 @@ class LoginController extends BaseController
 
             // Récupération des données utilisateur et sauvegarde
             $session = session();
+
+			$utilisateur = $this->utilisateurModel->where('email', $data['email'])->first();
+			if ($utilisateur)
+				if (strcmp($utilisateur->email, $session->get('user')['email']) != 0) {
+					return view('login/profile', [
+						'titre' => 'Mon profil',
+						'erreurs' => ['email' => 'Cette email est déjà utilisé.'],
+					]);
+				} else {
+					if (empty($data['mdp']))
+						return view('login/profile', [
+							'titre' => 'Mon profil',
+							'erreurs' => ['email' => 'Vous avez entré le même émail.'],
+						]);
+				}
+				
+
             $idUtilisateur = $session->get('user')['id'];
             $utilisateur = $this->utilisateurModel->find($idUtilisateur);
 
             $utilisateur->email = $data['email'];
             if (!empty($data['mdp'])) {
-                $utilisateur->mdp = $data['mdp']; // Hachage du mot de passe
+                $utilisateur->mdp = $data['mdp'];
             }
 
             $this->utilisateurModel->save($utilisateur);

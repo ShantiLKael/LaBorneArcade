@@ -28,8 +28,8 @@ $routes->setAutoRoute(false);
 
 	// Bornes
 	$routes->get('/bornes'       , 'ControleurBorne::indexBorne');
+	$routes->get('/borne-perso/(:num)', 'ControleurBorne::editBorne/$1');
 	$routes->match(['get', 'post'], '/bornes/(:num)', 'ControleurBorne::voirBorne/$1');
-	$routes->match(['get', 'post'], '/borne-perso/(:num)', 'ControleurBorne::editBorne/$1');
 	$routes->match(['get', 'post'], '/borne-perso/', 'ControleurBorne::editBorne');
 
 	// Panier

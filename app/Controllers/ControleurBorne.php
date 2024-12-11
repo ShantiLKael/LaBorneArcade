@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Entities\BornePerso;
+use App\Entities\Borne;
 use App\Models\BorneModel;
 use App\Models\BornePersoModel;
 use App\Models\BoutonModel;
@@ -156,37 +157,74 @@ class ControleurBorne extends BaseController {
 			if (!$session->has('panier') && !$session->has('user')) {
 				$session->set('panier' , []);
 				$session->set('options', []);
+				$session->set('boutons', []);
+				$session->set('joysticks', []);
 			}
 
+			/**
+			 * @var Borne
+			 */
 			$borne = $this->borneModel->find($id_borne);
-
 			$bornePerso = new BornePerso();
-			$bornePerso->idTMolding = intval  ($borne->idTMolding);
-			$bornePerso->idMatiere  = intval  ($borne->idMatiere);
-			$bornePerso->prix       = floatval($borne->prix);
-			$bornePerso->idBorne    = intval  ($id_borne);
+			$bornePerso->idTMolding = $borne->idTMolding;
+			$bornePerso->idMatiere  = $borne->idMatiere;
+			$bornePerso->prix       = $borne->prix;
+			$bornePerso->idBorne    = $id_borne;
 			$bornePerso->dateCreation = Time::now('Europe/Paris', 'fr_FR');
 			$bornePerso->dateModif    = Time::now('Europe/Paris', 'fr_FR');
 
 			if ($session->has('user')) { // Utilisateur connécté
 				$idBornePerso = $this->bornePersoModel->insert($bornePerso);
 
-				if (isset($data['options']))
-					foreach($data['options'] as $idOption)
+				if (isset($data['idOptions']))
+					foreach($data['idOptions'] as $idOption)
 						$this->bornePersoModel->insererOptionBorne($idBornePerso, $idOption);
+
+				$i = 1;
+				if (isset($borne->boutons))
+					foreach($borne->boutons as $bouton) {
+						$this->bornePersoModel->insererBoutonBorne($idBornePerso, $bouton->id, $i);
+						$i++;
+					}
+		
+				$i = 1;
+				if (isset($borne->joysticks))
+					foreach($borne->joysticks as $joystick) {
+						$this->bornePersoModel->insererJoystickBorne($idBornePerso, $joystick->id, $i);
+						$i++;
+					}
 				
 				$this->utilisateurModel->insererPanier(session()->get('user')['id'], $idBornePerso);
 
 			} else { // Utilisateur non connécté
-				
-				if (isset($data['options'])) {
+				if (isset($data['idOptions'])) {
 					$options = [];
-					foreach ($data['options'] as $idOption)
+					foreach ($data['idOptions'] as $idOption)
 						$options[] = $this->optionModel->find($idOption);
 
 					$session->push('options', [$options]);
 				} else {
 					$session->push('options', [null]);
+				}
+
+				if (isset($borne->boutons)) {
+					$boutons = [];
+					foreach ($borne->boutons as $bouton)
+						$boutons[] = $bouton->id;
+
+					$session->push('boutons', [$boutons]);
+				} else {
+					$session->push('boutons', [null]);
+				}
+
+				if (isset($borne->joysticks)) {
+					$joysticks = [];
+					foreach ($borne->joysticks as $joystick)
+						$joysticks[] = $joystick->id;
+
+					$session->push('joysticks', [$joysticks]);
+				} else {
+					$session->push('joysticks', [null]);
 				}
 
 				$session->push('panier', [$bornePerso]);
@@ -206,7 +244,131 @@ class ControleurBorne extends BaseController {
 	 * @return string La vue qui affiche la page de création/modification de borne prédéfinie.
 	 */
 	public function editBorne(int $id_borne = null) : string {
+		$session = session();
+		$data = $this->request->getPost();
+		$nbBoutons = isset($id_borne) ? count($this->borneModel->getBoutons  ($id_borne)) : 6;
+		$nbJoueurs = isset($id_borne) ? count($this->borneModel->getJoysticks($id_borne)) : 1;
+
+		if ($data) { // Configuration de l'aperçu de la borne
+			if (!$session->has('panier') && !$session->has('user')) {
+				$session->set('panier' , []);
+				$session->set('joysticks' , []);
+				$session->set('boutons' , []);
+				$session->set('options', []);
+			}
+
+			if (isset($data['nbBoutons']) || isset($data['nbJoueurs'])) {
+				$nbBoutons = intval($data['nbBoutons']);
+				$nbJoueurs = intval($data['nbJoueurs']);
+	
+				return view('borne/edit_borne', [
+					'nbJoueurs' => $nbJoueurs,
+					'nbBoutons' => $nbBoutons,
+					'titre'     => "Personnaliser une borne",
+					'options'   => $this->optionModel->findAll(),
+					'tmoldings' => $this->tmoldingModel->findAll(),
+					'matieres'  => $this->matiereModel->findAll(),
+					'joysticks' => $this->joystickModel->findAll(),
+					'boutons'   => $this->boutonModel->findAll(),
+					'borne'     => $id_borne ? $this->borneModel->getBorneParId($id_borne) : null,
+				]);
+			}
+
+			$reglesValidation = $this->bornePersoModel->getValidationRules();
+			$reglesValidation['joystick'] = 'required';
+			$reglesValidation['bouton'] = 'required';
+
+			$regleMessagesValidation = $this->bornePersoModel->getValidationMessages();
+			$regleMessagesValidation['joystick'] = ['required' => 'Champs requis.'];
+			$regleMessagesValidation['bouton'  ] = ['required' => 'Champs requis.'];
+				
+			if ($this->validate($reglesValidation, $regleMessagesValidation)) {
+
+				$bornePerso = new BornePerso();
+				$bornePerso->fill($data);
+				$bornePerso->prix = 1499;
+				$bornePerso->dateCreation = Time::now('Europe/Paris', 'fr_FR');
+				$bornePerso->dateModif    = Time::now('Europe/Paris', 'fr_FR');
+				$idBorne = $this->bornePersoModel->insert($bornePerso, true);
+
+				if ($session->has('user')) { // Utilisateur connécté
+					
+
+					if (isset($data['idOptions']))
+						foreach($data['idOptions'] as $option)
+							$this->bornePersoModel->insererOptionBorne($idBorne, $option);
+	
+					$i = 1;
+					if (isset($data['idBoutons']))
+						foreach($data['idBoutons'] as $bouton) {
+							$this->bornePersoModel->insererBoutonBorne($idBorne, $bouton, $i);
+							$i++;
+						}
+	
+					$i = 1;
+					if (isset($data['idJoysticks']))
+						foreach($data['idJoysticks'] as $joystick) {
+							$this->bornePersoModel->insererJoystickBorne($idBorne, $joystick, $i);
+							$i++;
+						}
+
+					$this->utilisateurModel->insererPanier($session->get('user')['id'], $idBorne);
+					
+				} else { // Utilisateur non connécté
+
+					if (isset($data['idOptions'])) {
+						$options = [];
+						foreach ($data['idOptions'] as $idOption)
+							$options[] = $this->optionModel->find($idOption);
+	
+						$session->push('options', [$options]);
+					} else {
+						$session->push('options', [null]);
+					}
+					
+					if (isset($data['idBoutons'])) {
+						$boutons = [];
+						foreach ($data['idBoutons'] as $idBouton)
+							$boutons[] = $idBouton;
+
+						$session->push('boutons', [$boutons]);
+					} else {
+						$session->push('boutons', [null]);
+					}
+
+					if (isset($data['idJoysticks'])) {
+						$joysticks = [];
+						foreach ($data['idJoysticks'] as $idJoystick)
+							$joysticks[] = $idJoystick;
+
+						$session->push('joysticks', [$joysticks]);
+					} else {
+						$session->push('joysticks', [null]);
+					}
+
+					$session->push('panier', [$bornePerso]);
+				}
+
+			} else {
+				return view('borne/edit_borne', [
+					'erreurs'   => $this->validator->getErrors(),
+					'nbJoueurs' => $nbJoueurs,
+					'nbBoutons' => $nbBoutons,
+					'titre'     => "Personnaliser ma borne",
+					'options'   => $this->optionModel->findAll(),
+					'tmoldings' => $this->tmoldingModel->findAll(),
+					'matieres'  => $this->matiereModel->findAll(),
+					'joysticks' => $this->joystickModel->findAll(),
+					'boutons'   => $this->boutonModel->findAll(),
+					'borne'     => $id_borne ? $this->borneModel->getBorneParId($id_borne) : null,
+				]);
+			}
+
+		}
+
 		return view('borne/edit_borne', [
+			'nbJoueurs' => $nbJoueurs,
+			'nbBoutons' => $nbBoutons,
 			'titre'     => "Personnaliser une borne",
 			'options'   => $this->optionModel->findAll(),
 			'tmoldings' => $this->tmoldingModel->findAll(),
