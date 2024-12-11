@@ -4,8 +4,8 @@
 	<title><?= $titre ?></title>
 </head>
 <body class="bg-[#d8dfd7] text-dark-blue">
-<header class="border-b-4 border-deep-blue mb-10">
-    <nav class="bg-black/55 py-4 rounded-full mx-auto max-w-7xl px-6 flex items-center justify-between shadow-lg shadow-gray-700/20">
+<header class="border-b-4 border-deep-blue flex h-scree">
+    <nav id="navbar" class="bg-black text-white fixed top-0 left-0 h-full w-0 md:w-1/5 transition-all duration-300 md:static md:h-auto md:w-1/5 flex flex-col md:flex md:items-start px-6 py-4 shadow-lg shadow-gray-700/20 z-50">
         <!-- Logo -->
         <div class="flex items-center">
             <img loading="lazy" src="chemin-vers-logo.png" alt="Logo La Borne Arcade" class="h-10 w-auto">
@@ -45,3 +45,13 @@
         </ul>
     </nav>
 </header>
+
+<script>
+    const menuBtn = document.getElementById('menu-btn');
+    const navbar = document.getElementById('navbar');
+
+    // Affiche ou cache la navbar en mode mobile
+    menuBtn.addEventListener('click', () => {
+        navbar.style.width = navbar.style.width === '0px' || navbar.style.width === '' ? '70%' : '0';
+    });
+</script>
