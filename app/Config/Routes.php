@@ -59,11 +59,6 @@ $routes->setAutoRoute(false);
 	$routes->post(								'/admin/TMolding/delete/(:num)'	, 'AdminController::suppTMolding/$1');
 	$routes->match(['get', 'post', 'delete'],	'/admin/bouton'					, 'AdminController::adminBouton');
 	$routes->post(								'/admin/bouton/delete/(:num)'	, 'AdminController::suppBouton/$1');
-	$routes->match(['get', 'post'], 	'/admin/bornes'		, 'AdminController::adminBorne');
-	$routes->match(['get', 'post'], 	'/admin/contact'	, 'AdminController::adminContact');
-	$routes->match(['get', 'post'], 	'/admin/articles'	, 'AdminController::adminArticle');
-	$routes->match(['get', 'post'], 	'/admin/faqs'		, 'AdminController::adminFaq');
-	$routes->match(['get', 'post'],	'/admin/theme'		, 'AdminController::adminTheme');
 //});
 
 /** Route pour le cronjob */
