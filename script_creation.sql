@@ -38,21 +38,21 @@ CREATE TABLE Utilisateur(
 CREATE TABLE Joystick(
 	id_Joystick SERIAL PRIMARY KEY,
 	modele      VARCHAR(50) NOT NULL,
-	couleur     CHAR   (6 ) NOT NULL,
+	couleur     CHAR   (7 ) NOT NULL,
 	UNIQUE     (modele,couleur)
 );
 
 CREATE TABLE TMolding(
 	id_TMolding SERIAL PRIMARY KEY,
 	nom         VARCHAR(50) NOT NULL,
-	couleur     CHAR   (6 ) NOT NULL,
+	couleur     CHAR   (7 ) NOT NULL,
 	UNIQUE      (nom,couleur)
 );
 
 CREATE TABLE Matiere(
 	id_Matiere SERIAL PRIMARY KEY,
 	nom    VARCHAR(50) NOT NULL,
-	couleur    CHAR   (6 ) NOT NULL,
+	couleur    CHAR   (7 ) NOT NULL,
 	UNIQUE(nom,couleur)
 );
 
@@ -112,9 +112,9 @@ CREATE TABLE Bouton(
 	id_Bouton SERIAL PRIMARY KEY,
 	modele    VARCHAR(50) NOT NULL,
 	forme     VARCHAR(50) NOT NULL, /* TODO Group in */
-	couleur   CHAR(6) NOT NULL,
+	couleur   CHAR(7) NOT NULL,
 	eclairage BOOLEAN NOT NULL,
-	UNIQUE  (modele,couleur,eclairage)
+	UNIQUE  (modele,couleur,forme)
 );
 
 CREATE TABLE Commande(
@@ -147,25 +147,29 @@ CREATE TABLE OptionBorne(
 CREATE TABLE JoystickBornePerso(
 	id_BornePerso INT REFERENCES BornePerso (id_BornePerso) NOT NULL,
 	id_Joystick   INT REFERENCES Joystick   (id_Joystick  ) NOT NULL,
+	ordre         INT NOT NULL,
 	PRIMARY KEY(id_BornePerso, id_Joystick)
 );
 
 CREATE TABLE JoystickBorne(
 	id_Borne    INT REFERENCES Borne   (id_Borne   ) NOT NULL,
 	id_Joystick INT REFERENCES Joystick(id_Joystick) NOT NULL,
+	ordre       INT NOT NULL,
 	PRIMARY KEY(id_Borne, id_Joystick)
 );
 
 CREATE TABLE BoutonBornePerso(
 	id_BornePerso INT REFERENCES BornePerso(id_BornePerso) NOT NULL,
 	id_Bouton     INT REFERENCES Bouton    (id_Bouton    ) NOT NULL,
-	PRIMARY KEY(id_BornePerso, id_Bouton)
+	ordre         INT NOT NULL,
+	PRIMARY KEY(id_BornePerso, id_Bouton, ordre)
 );
 
 CREATE TABLE BoutonBorne(
 	id_Borne  INT REFERENCES Borne (id_Borne ) NOT NULL,
 	id_Bouton INT REFERENCES Bouton(id_Bouton) NOT NULL,
-	PRIMARY KEY(id_Borne, id_Bouton)
+	ordre     INT NOT NULL,
+	PRIMARY KEY(id_Borne, id_Bouton, ordre)
 );
 
 CREATE TABLE ImageArticleBlog(

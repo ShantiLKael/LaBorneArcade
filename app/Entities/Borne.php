@@ -15,6 +15,7 @@ class Borne extends Entity
         'nom'         => 'string',
         'description' => 'string',
         'prix'        => 'float',
+        'ordre'       => 'integer',
         'idTMolding'  => 'integer',
         'idMatiere'   => 'integer',
         'idTheme'     => 'integer',
@@ -50,22 +51,38 @@ class Borne extends Entity
         return $this;
     }
 
-    public function setIdTMolding(?int $idTMolding)
+    public function setOrdre(int $ordre)
+    {
+        $this->attributes['ordre'] = $ordre;
+        return $this;
+    }
+
+    public function setIdTMolding(int $idTMolding)
     {
         $this->attributes['id_tmolding'] = $idTMolding;
         return $this;
     }
 
-    public function setIdMatiere(?int $idMatiere)
+    public function setIdMatiere(int $idMatiere)
     {
         $this->attributes['id_matiere'] = $idMatiere;
         return $this;
     }
 
-    public function setIdTheme(?int $idTheme)
+    public function setIdTheme(int $idTheme)
     {
         $this->attributes['id_theme'] = $idTheme;
         return $this;
+    }
+
+    public function getPrix(): float
+    {
+        return $this->attributes['prix'];
+    }
+
+    public function getOrdre(): int
+    {
+        return $this->attributes['ordre'];
     }
 
     public function getTheme(): Theme
@@ -89,6 +106,18 @@ class Borne extends Entity
     {
         $borneModel = new BorneModel();
         return $borneModel->getOptions($this->id);
+    }
+
+    public function getBoutons(): array
+    {
+        $borneModel = new BorneModel();
+        return $borneModel->getBoutons($this->id);
+    }
+
+    public function getJoysticks(): array
+    {
+        $borneModel = new BorneModel();
+        return $borneModel->getJoysticks($this->id);
     }
 
     public function getImages(): array

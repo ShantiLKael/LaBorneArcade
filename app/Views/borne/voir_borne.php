@@ -1,14 +1,13 @@
 <?= view('commun/header', ['titre' => $titre]) ?>
-<section class="container px-5 py-16 mx-auto bg-medium-blue rounded-xl ">
+<!-- Formulaire des options choisies -->
+<?= form_open('/bornes/'.$borne->id) ?>
+<section id="section" class="container px-5 py-16 mx-auto bg-medium-blue rounded-xl ">
 <div class="px-0 md:px-20 mb-16">
-<form action="/bornes/<?= $borne->id ?>" method="post" id="optionsForm"> <!-- Formulaire des options choisies -->
-	<input type="hidden" id="id_borne" name="id_borne" value=<?= $borne->id?> />
-	
 	<!-- Section du produit principal -->
 	<div class="flex flex-col md:flex-row gap-8 items-start">
 		<!-- Images du produit -->
 		<div class="w-full md:w-1/2 lg:w-7/12">
-			<img loading="lazy" src="image_principale.jpg" alt="Borne Arcade" class="w-full h-auto rounded-lg">
+			<img loading="lazy" src="" alt="Borne Arcade" class="w-full h-auto rounded-lg">
 		</div>
 
 		<!-- Informations produit -->
@@ -35,7 +34,7 @@
 				<a href="/borne-perso/<?= $borne->id ?>" class="bg-blue-800 hover:bg-blue-700   text-white font-bold py-2 px-6 my-5 mb-8 rounded-3xl cursor-pointer">
 					Personnaliser
 				</a>
-				<input type="submit" value="Ajouter au panier" class="bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-6 my-5 mb-8 rounded-3xl cursor-pointer">
+				<?= form_submit('submit', 'Ajouter au panier', "class='bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-6 my-5 mb-8 rounded-3xl cursor-pointer'"); ?>
 			</div>
 
 			<!-- Infos supplémentaires -->
@@ -61,14 +60,14 @@
 	</div>
 </div>
 
-<?php if ($borne->options) : ?>
+<?php if (isset($borne->options)) : ?>
 <!-- Séléction des options -->
 <div class="px-0 md:px-20">
 	<h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-2xl md:text-3xl text-gray-300">Options</h2>
 	<div class="flex overflow-x-scroll p-5 hide-scroll-bar space-x-6 rounded-xl bg-light-teal/10">
 		<?php foreach($borne->options as $option) : ?>
-			<div class="relative min-w-[300px] sm:min-w-[350px] md:min-w-[400px] bg-gray-800 rounded-lg overflow-hidden border-2 border-gray-700 hover:border-green-700 shadow-gray-900 shadow-md hover:shadow-lg ease-in-out flex-shrink-0">
-				<input type="checkbox" id="option-<?= $option->id ?>" name="options[]" value="<?= $option->id ?>" class="absolute top-3 right-3 w-6 h-6 cursor-pointer rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
+			<div class="relative min-w-[300px] sm:min-w-[350px] md:min-w-[400px] bg-gray-800 rounded-lg overflow-hidden border-2 border-green-600 hover:border-green-700  shadow-gray-900 shadow-md hover:shadow-lg ease-in-out flex-shrink-0">
+				<input type="checkbox" id="option-<?= $option->id ?>" name="idOptions[]" value="<?= $option->id ?>" class="absolute top-3 right-3 w-6 h-6 cursor-pointer rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
 				<img loading="lazy" src="" alt="Option <?= $option->nom ?>" class="w-full h-64 object-cover">
 				<div class="p-4">
 					<p class="text-green-400 text-xl font-bold mb-2"><?= $option->cout ?> €</p>
@@ -80,6 +79,34 @@
 	</div>
 </div>
 <?php endif; ?>
+
+<div class="px-0 md:px-20 mx-auto my-16">
+
+	<h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-2xl md:text-3xl text-gray-200">Aperçu des touches</h2>
+
+	<div class="text-lg text-gray-300 flex items-center">
+		<p>
+			La dispositions et couleurs des joysticks et boutons seront la même pour les tous les joueurs.
+			Pour nos bornes d'arcades à 2 joueurs, nous vous ajoutons 2 boutons en plus pour choisir le mode ! (1J - 2J) 
+		</p>
+	</div>
+	<!-- Espacement entre le haut et le canvas -->
+    <div class="mt-10">
+        <canvas class="border rounded-md border-deep-blue shadow-lg" id="persoBorne" tabindex="0"></canvas>
+    </div>
+</div>
 </section>
+<?= form_close() ?>
+<script>
+	const boutonsBorne   = <?= isset($borne) ? json_encode($borne->boutons) : json_encode(null); ?>;
+	const joysticksBorne = <?= isset($borne) ? json_encode($borne->joysticks) : json_encode(null); ?>;
+	const affichageUniquement = true;
+	
+	let nbJoueur = <?= count($borne->joysticks) ?>;
+	let nbBoutonParJoueur = <?= (count($borne->boutons) > 1) ? 
+								 count($borne->boutons) / count($borne->joysticks) :
+								 count($borne->boutons) ?>;
+</script>
+<script src="/assets/js/canva-boutons.js"></script>
 <script src="/assets/js/check-option-animation.js"></script>
 <?= view('commun/footer') ?>

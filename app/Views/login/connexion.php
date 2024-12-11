@@ -10,7 +10,7 @@
 			</div>
 
 			<div class="mb-5">
-				<?= form_label('Email', 'email', ['class' => 'text-sm block font-medium mb-1 ml-1']); ?>
+				<?= form_label('Email <span class="text-green-500/30">(*)</span>', 'email', ['class' => 'text-sm block font-medium mb-1 ml-1']); ?>
 				<div class="relative flex items-center">
 					<?php
 					$focusRIng = isset($erreurs['email']) ? 'border-red-600 focus:ring-red-500' : 'border-gray-600 focus:ring-2 focus:ring-green-600';
@@ -36,7 +36,7 @@
 				</span>
 			</div>
 			<div class="mb-5">
-				<?= form_label('Mot de passe', 'mdp', ['class' => 'text-sm block font-medium mb-1 ml-1']); ?>
+				<?= form_label('Mot de passe <span class="text-green-500/30">(*)</span>', 'mdp', ['class' => 'text-sm block font-medium mb-1 ml-1']); ?>
 				<div class="relative flex items-center">
 					<?php
 					$focusRIng = isset($erreurs['mdp']) ? 'border-red-600 focus:ring-red-500' : 'border-gray-600 focus:ring-2 focus:ring-green-600';
@@ -60,18 +60,6 @@
 			</div>
 
 			<div class="flex flex-wrap items-center justify-between gap-4">
-				<div class="flex items-center">
-					<?= 
-					form_input([
-						'name'   => 'remember_me',
-						'id'     => 'remember_me',
-						'class'  => 'h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded',
-						'value'  => set_value('remember_me'),
-						'type'   => 'checkbox',
-					]); ?>
-					<?= form_label('Se souvenir de moi', 'remember_me', ['class' => 'ml-3 block text-sm text-gray-400']); ?>
-				</div>
-
 				<div class="text-sm">
 				<a href="/connexion/oubli-mdp" class="text-green-600 hover:text-green-500 hover:underline font-semibold">
 					Mot de passe oublié ?

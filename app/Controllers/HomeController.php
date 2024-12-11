@@ -62,13 +62,19 @@ class HomeController extends BaseController
 
 		// Methode POST
 		if ($data)
-			if (!$this->validate($regleValidation, $messageValidation)) {
+			if ( !$this->validate($regleValidation, $messageValidation )) {
 				return view('contact/index_contact', [
 					'titre' => 'Me Contacter | LBA',
 					'erreurs' => $this->validation->getErrors(),
 				]);
 			} else {
-				// TODO : Envoie de mail
+				//envoi du mail
+				LoginController::envoyer_mail(
+					'mailingtestIUT@gmail.com',
+					'LaBorneArcade - Formulaire de contact',
+					$data,
+					'Formulaire de contact envoyer par $data[\'email\']',
+				);
 			}
 
 		return view('contact/index_contact', ['titre' => 'Me Contacter | LBA']);

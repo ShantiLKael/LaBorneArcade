@@ -12,15 +12,15 @@ class JoystickModel extends Model
 
 	// Règles de validation
 	protected $validationRules = [
-		'modele'   => 'required|min_length[5]|max_length[50]|is_unique[bouton.modele,couleur]|regex_match[/^[^<>;{}]*$/]',
+		'modele'   => 'required|min_length[5]|max_length[50]|is_unique[joystick.modele,couleur]|regex_match[/^[^<>;{}]*$/]',
 		'couleur'  => 'required|exact_length[7]',
 	];
 
 	protected $validationMessages = [
 		'modele' => [
 			'required'    => 'Champ requis.',
-			'max_length'  => 'Le nom de modèle est trop long (max. 50 caractères).',
-			'min_length'  => 'Le nom de modèle est trop court (min. 5 caractères).',
+			'max_length'  => 'Le modele de modèle est trop long (max. 50 caractères).',
+			'min_length'  => 'Le modele de modèle est trop court (min. 5 caractères).',
 			'is_unique'   => 'Ce joystick existe déjà.',
 			'regex_match' => 'Les caractères < > ; { } sont interdits.',
         ],

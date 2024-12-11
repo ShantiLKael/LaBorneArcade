@@ -87,12 +87,20 @@ class CommandeController extends BaseController {
 		if ($session->has('user')) {
 			$this->bornePersoModel->deleteCascade($id);
 		} else {
-			$panier = $session->get('panier');
-			$options = $session->get('options');
-			unset($panier[$id]);
-			unset($options[$id]);
-			$session->set('panier', $panier);
-			$session->set('options', $options);
+			$panier    = $session->get('panier');
+			$options   = $session->get('options');
+			$joysticks = $session->get('joysticks');
+			$boutons   = $session->get('boutons');
+
+			unset($panier   [$id]);
+			unset($options  [$id]);
+			unset($boutons  [$id]);
+			unset($joysticks[$id]);
+			
+			$session->set('panier'   , $panier);
+			$session->set('joysticks', $joysticks);
+			$session->set('boutons'  , $boutons);
+			$session->set('options'  , $options);
 		}
 
 		return redirect()->to('/panier');

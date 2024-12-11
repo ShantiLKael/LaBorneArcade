@@ -40,6 +40,7 @@ class BorneModel extends Model
         'nom',
         'description',
         'prix',
+        'ordre',
         'id_tmolding',
         'id_matiere',
 		'id_image',
@@ -157,18 +158,6 @@ class BorneModel extends Model
 		$result = $this->db->prepare(fn($db) => (new Query($db))->setQuery($sql))->execute()->getResult(IntegerCast::class);
 		return intval($result[0]->{'count'}) ?: 0;
 	}
-	
-	/**
-	 * @deprecated À supprimer si aucune utilitée dans l'avenir proche.
-	 * @return array
-	 */
-	private function getBornePersoIds(): array {
-		$builder = $this->builder("BornePerso")->select('id_borne');
-		$results = $builder->get()->getResult();
-		return array_map(function ($r) {
-			return $r->id_borne;
-		}, $results);
-	}
 
 	/**
 	 * Récupère la Matière de la borne.
@@ -210,12 +199,13 @@ class BorneModel extends Model
 	 */
 	public function getJoysticks(int $idBorne): array
 	{
-		$builder = $this->builder();
-		$builder->select('joystick.*')->from('joystickborne')
-				->join('joystick', 'joystick.id_joystick = joystickborne.id_joystick')
+		$builder = $this->db->table('joystick');
+		$builder->select('joystick.*')
+				->join('joystickborne', 'joystick.id_joystick = joystickborne.id_joystick')
 				->where('joystickborne.id_borne', $idBorne);
-			
-		return $builder->get(BorneModel::$MAX_JOYSTICK)->getResult('App\Entities\Joystick');
+		
+		$joysticks = $builder->get(BorneModel::$MAX_JOYSTICK)->getResult('App\Entities\Joystick');
+		return $joysticks ?: [];
 	}
 
 	/**
@@ -224,7 +214,7 @@ class BorneModel extends Model
 	 * @param int $idJoystick
 	 * @return bool
 	 */
-	public function insererJoystickBorne(int $idBorne, int $idJoystick): bool
+	public function insererJoystickBorne(int $idBorne, int $idJoystick, int $ordre): bool
 	{
 		$db = Database::connect();
 		$builder = $db->table('joystickborne');
@@ -232,6 +222,7 @@ class BorneModel extends Model
 		$data = [
 			'id_borne'    => $idBorne,
 			'id_joystick' => $idJoystick,
+			'ordre' => $ordre,
 		];
 
 		return $builder->insert($data);
@@ -244,12 +235,13 @@ class BorneModel extends Model
 	 */
 	public function getBoutons(int $idBorne): array
 	{
-		$builder = $this->builder();
-		$builder->select('bouton.*')->from('boutonborne')
-				->join('bouton', 'bouton.id_bouton = boutonborne.id_bouton')
-				->where('boutonborne.id_borne', $idBorne);
-			
-		return $builder->get(BorneModel::$MAX_BOUTON)->getResult('App\Entities\Bouton');
+		$builder = $this->db->table('bouton');
+		$builder->select('bouton.*')
+        	->join('boutonborne', 'bouton.id_bouton = boutonborne.id_bouton')
+        	->where('boutonborne.id_borne', $idBorne);
+		
+		$boutons = $builder->get(BorneModel::$MAX_BOUTON)->getResult('App\Entities\Bouton');
+		return $boutons ?: [];
 	}
 
 	/**
@@ -258,7 +250,7 @@ class BorneModel extends Model
 	 * @param int $idBouton
 	 * @return bool
 	 */
-	public function insererBoutonBorne(int $idBorne, int $idBouton): bool
+	public function insererBoutonBorne(int $idBorne, int $idBouton, int $ordre): bool
 	{
 		$db = Database::connect();
 		$builder = $db->table('boutonborne');
@@ -266,6 +258,7 @@ class BorneModel extends Model
 		$data = [
 			'id_borne'  => $idBorne,
 			'id_bouton' => $idBouton,
+			'ordre'     => $ordre,
 		];
 		
 		return $builder->insert($data);
@@ -278,9 +271,9 @@ class BorneModel extends Model
 	 */
 	public function getImages(int $idBorne): array
 	{
-		$builder = $this->builder();
-		$builder->select('image.*')->from('image')
-				->join('image', 'image.id_image = imageborne.id_image')
+		$builder = $this->db->table('image');
+		$builder->select('image.*')
+				->join('imageborne', 'image.id_image = imageborne.id_image')
 				->where('imageborne.id_borne', $idBorne);
 			
 		$images = $builder->get()->getResult('App\Entities\Image');
@@ -313,9 +306,9 @@ class BorneModel extends Model
 	 */
 	public function getOptions(int $idBorne): array
 	{
-		$builder = $this->builder();
-		$builder->select('option.*')->distinct()->from('optionborne')
-				->join('option', 'option.id_option = optionborne.id_option')
+		$builder = $this->db->table('option');
+		$builder->select('option.*')
+				->join('optionborne', 'option.id_option = optionborne.id_option')
 				->where('optionborne.id_borne', $idBorne);
 			
 		$options = $builder->get()->getResult('App\Entities\Option');
@@ -409,8 +402,8 @@ class BorneModel extends Model
 		foreach ($boutons as $bouton) {
 			$idBouton = $bouton->id;
 			$boutonBorneModel->where('id_borne', $idBorne)
-								->where('id_bouton', $idBouton)
-								->delete();
+							 ->where('id_bouton', $idBouton)
+							 ->delete();
 
 			// Vérifier si le bouton est utilisé ailleurs
 			if ($boutonBorneModel->where('id_bouton', $idBouton)->countAllResults() == 0) {

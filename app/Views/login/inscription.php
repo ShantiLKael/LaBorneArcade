@@ -9,7 +9,7 @@
 			</div>
 
 			<div class="mb-5">
-				<?= form_label('Email', 'email', ['class' => 'text-sm block font-medium mb-1 ml-1']); ?>
+				<?= form_label('Email <span class="text-green-500/30">(*)</span>', 'email', ['class' => 'text-sm block font-medium mb-1 ml-1']); ?>
 				<div class="relative flex items-center">
 					<?php
 					$focusRIng = isset($erreurs['email']) ? 'border-red-600 focus:ring-red-500' : 'border-gray-600 focus:ring-2 focus:ring-green-600';
@@ -36,7 +36,7 @@
 			</div>
 
 			<div class="mb-5">
-				<?= form_label('Mot de passe', 'mdp', ['class' => 'text-sm block font-medium mb-1 ml-1']); ?>
+				<?= form_label('Mot de passe <span class="text-green-500/30">(*)</span>', 'mdp', ['class' => 'text-sm block font-medium mb-1 ml-1']); ?>
 				<div class="relative flex items-center">
 					<?php
 					$focusRIng = isset($erreurs['mdp']) ? 'border-red-600 focus:ring-red-500' : 'border-gray-600 focus:ring-2 focus:ring-green-600';
@@ -60,7 +60,7 @@
 			</div>
 
 			<div class="mb-5">
-				<?= form_label('Confirmation du mot de passe', 'mdpConf', ['class' => 'text-sm block font-medium mb-1 ml-1']); ?>
+				<?= form_label('Confirmation du mot de passe <span class="text-green-500/30">(*)</span>', 'mdpConf', ['class' => 'text-sm block font-medium mb-1 ml-1']); ?>
 				<div class="relative flex items-center">
 					<?php
 					$focusRIng = isset($erreurs['mdpConf']) ? 'border-red-600 focus:ring-red-500' : 'border-gray-600 focus:ring-2 focus:ring-green-600';
