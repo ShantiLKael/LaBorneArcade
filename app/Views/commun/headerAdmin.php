@@ -9,9 +9,9 @@
 <header class="flex">
     <!-- Navbar -->
     <nav id="navbar" class="bg-black text-white fixed top-0 left-0 h-screen w-[250px] z-50 flex flex-col px-6 py-4 shadow-lg shadow-gray-700/20 transition-all">
-		<br><h1 class="font-bold text-6xl">Administrateur</h1>
+		<br><h1 class="font-bold text-3xl">Administrateur</h1>
 		<!-- Liens -->
-		<ul id="nav-links" class="flex flex-col space-y-4 text-white font-bold text-3xl">
+		<ul id="nav-links" class="m-10 flex flex-col space-y-4 text-white font-bold text-2xl">
 			<li class="m-5">
 				<a href="/admin/bornes" class="block px-4 py-2 rounded hover:bg-gray-700 transition">Ajouter une borne</a>
 			</li>
