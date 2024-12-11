@@ -28,7 +28,7 @@
 
 			<!-- Bouton Enregistrer -->
 			<div class="flex justify-start md:justify-center">
-				<?php echo form_submit('submit', 'Enregistrer', "class='bg-[#00bf63] hover:bg-green-700 text-dark-blue font-medium py-2 px-4 rounded-full'"); ?>
+				<?php echo form_submit('submit', 'Enregistrer', "class='bg-vert-pastel hover:bg-vert-pastelF text-dark-blue font-medium py-2 px-4 rounded-full'"); ?>
 			</div>
 		</div>
 
@@ -69,7 +69,7 @@
 					<div>
 						<?php echo form_open("/admin/theme/delete/$theme->id", ['onsubmit' => 'return confirm("Êtes-vous sûr de vouloir supprimer ce thème ?")']); ?>
                             <?php echo form_hidden('id', $theme->id); ?>	
-                            <?php echo form_submit('delete', 'Supprimer', "class='bg-red-500 hover:bg-red-700 text-dark-blue font-medium py-1 px-4 rounded'"); ?>
+                            <?php echo form_submit('delete', 'Supprimer', "class='bg-rouge-pastel hover:bg-rouge-pastelF text-dark-blue font-medium py-1 px-4 rounded'"); ?>
 						<?php echo form_close(); ?>
 					</div>
 				</div>
