@@ -1,5 +1,5 @@
 function interrupteurReponse(id) {
-    const reponse = document.getElementById(`reponse-${id}`);
+    const reponse = document.getElementById(`detail-${id}`);
     const fleche = document.getElementById(`fleche-${id}`);
 
     if (reponse.classList.contains('hidden')) {

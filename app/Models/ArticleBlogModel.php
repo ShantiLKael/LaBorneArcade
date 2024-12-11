@@ -2,6 +2,7 @@
 namespace App\Models;
 
 use App\Entities\Image;
+use App\Entities\Utilisateur;
 use CodeIgniter\Model;
 use Config\Database;
 
@@ -45,13 +46,28 @@ class ArticleBlogModel extends Model
 	 */
 	public function getImages(int $idArticleBlog): array
 	{
-		$builder = $this->builder();
-		$builder->select('image.*')->from('image')
-				->join('image', 'image.id_image = imagearticleblog.id_image')
+		$builder = $this->db->table('image');
+		$builder->select('image.*')
+				->join('imagearticleblog', 'image.id_image = imagearticleblog.id_image')
 				->where('imagearticleblog.id_articleblog', $idArticleBlog);
 			
 		$images = $builder->get()->getResult('App\Entities\Image');
 		return $images ?: [];
+	}
+
+	/**
+	 * Récupère l'utilisateur créateur de l'article.
+	 * @param int $idUtilisateur
+	 * @return Utilisateur
+	 */
+	public function getUtilisateur(int $idUtilisateur): Utilisateur
+	{
+		$builder = $this->db->table('utilisateur');
+		$builder->select('utilisateur.*')
+				->where('id_utilisateur', $idUtilisateur);
+			
+		$utilisateur = $builder->get()->getFirstRow('App\Entities\Utilisateur');
+		return $utilisateur;
 	}
 
 	/**

@@ -13,47 +13,59 @@
         <?= form_label('Email <span class="text-green-500/30">(*)</span>', 'email', ['class' => 'shrink-0 w-32 font-medium pl-2']); ?>
 
         <?php
-        $focusRIng = isset($erreurs['email']) ? 'border-red-600 focus:ring-red-500' : 'border-gray-600 focus:ring-2 focus:ring-green-600';
+        $focusRIng = isset($erreurs['email']) ? 'border-red-600 focus:ring-2 focus:ring-red-500' : 'border-gray-600 focus:ring-2 focus:ring-green-600';
         echo form_input([
             'name'        => 'email',
             'id'          => 'email',
-            'class'       => 'w-full rounded-md text-sm bg-gray-700 px-2 py-2 outline-green-600 focus:ring-2 '.$focusRIng,
-            'value'       => set_value('email'),
+            'class'       => 'w-full rounded-md text-sm bg-gray-700 px-2 py-2 border focus:outline-none '.$focusRIng,
+            'value'       => set_value('email', session()->get('user')['email']),
             'placeholder' => 'Email@domaine.fr',
 		]); ?>
-        <span class="items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
-            <?= validation_show_error('email') ?>
-        </span>
-    </div>
 
+        <!-- Affichage du message d'erreur -->
+        <?php if (isset($erreurs['email'])) : ?>
+            <span class="font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                <?= $erreurs['email'] ?>
+            </span>
+        <?php endif; ?>
+    </div>
+    
     <div class="flex flex-col gap-2 md:gap-4 pt-7 pb-2 sm:flex-row">
         <?= form_label('Mot de passe', 'mdp', ['class' => 'shrink-0 w-32 font-medium pl-2']); ?>
 
         <?php
-		$focusRIng = (validation_show_error('mdp')) ? 'border-red-600 focus:ring-red-500' : 'border border-gray-500 focus:ring-green-500';
-        $focusRIng = isset($erreurs['mdp']) ? 'border-red-600 focus:ring-red-500' : 'border-gray-600 focus:ring-2 focus:ring-green-600';
+        // Vérifie s'il y a une erreur sur le champ 'mdp'
+        $focusRIng = validation_show_error('mdp') ? 'border-red-600 focus:ring-2 focus:ring-red-500' : 'border-gray-600 focus:ring-2 focus:ring-green-600';
+
+        // Affiche le champ input avec la classe dynamique
         echo form_input([
             'name'        => 'mdp',
             'id'          => 'mdp',
-            'class'       => 'w-full rounded-md text-sm bg-gray-700 px-2 py-2 outline-green-600 focus:ring-2 '.$focusRIng,
+            'class'       => 'w-full rounded-md text-sm bg-gray-700 px-2 py-2 border focus:outline-none ' . $focusRIng,
             'value'       => set_value('mdp'),
             'placeholder' => 'Nouveau mot de passe',
-		]); ?>
-        <span class="items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
-            <?= validation_show_error('mdp') ?>
-        </span>
+        ]);
+        ?>
+
+        <!-- Affichage du message d'erreur -->
+        <?php if (validation_show_error('mdp')) : ?>
+            <span class="font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                <?= validation_show_error('mdp') ?>
+            </span>
+        <?php endif; ?>
     </div>
+
 
     <div class="flex flex-col gap-2 md:gap-4 py-2 sm:flex-row">
         <?= form_label('Confirmation', 'mdpConf', ['class' => 'shrink-0 w-32 font-medium pl-2']); ?>
 
         <?php
-        $focusRIng = isset($erreurs['mdpConf']) ? 'border-red-600 focus:ring-red-500' : 'border-gray-600 focus:ring-2 focus:ring-green-600';
+        $focusRIng = isset($erreurs['mdpConf']) ? 'border-red-600 focus:ring-2 focus:ring-red-500' : 'border-gray-600 focus:ring-2 focus:ring-green-600';
         echo form_input([
             'name'        => 'mdpConf',
             'id'          => 'mdpConf',
             'type'        => 'password',
-            'class'       => 'w-full rounded-md text-sm bg-gray-700 px-2 py-2 outline-green-600 focus:ring-2 '.$focusRIng,
+            'class'       => 'w-full rounded-md text-sm bg-gray-700 px-2 py-2 border focus:outline-none '.$focusRIng,
             'value'       => set_value('mdpConf'),
             'placeholder' => 'Confirmation du mot de passe',
 		]); ?>

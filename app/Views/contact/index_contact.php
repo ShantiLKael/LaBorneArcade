@@ -2,12 +2,12 @@
 <!-- Section Contactez Nous -->
 <section class="text-gray-300 text-xs py-12">
 <div class="max-w-5xl mx-auto px-5 sm:px-0">
-	<h2 class="text-center text-2xl font-bold text-gray-300 mb-10 ml-10">Contactez nous</h2>
+	<h2 class="text-center text-3xl font-extrabold text-gray-300 mb-10 ml-10">Contactez nous</h2>
 	<div class="grid grid-cols-1 lg:grid-cols-2">
 		
 	<!-- Rectangle de gauche -->
 	<div class="bg-medium-blue p-6">
-		<h3 class="uppercase text-lg font-semibold mb-8">Une question, un devis ?<br>Appelez nous !</h3>
+		<h3 class="uppercase text-xl font-semibold mb-8">Une question, un devis ?<br>Appelez nous !</h3>
 		<div class="space-y-4">
 			<div class="flex items-center space-x-4">
 				<a target="_blank" id="whatsapp-button" class="bg-green-700 hover:bg-green-600 p-2">
@@ -17,8 +17,8 @@
 					</svg>
 				</a>
 				<div>
-					<p class="font-bold text-gray-300 text-lg">Whatsapp</p>
-					<p class="text-sm text-gray-300 ">07 68 53 46 26</p>
+					<p class="font-bold text-gray-300 text-xl">Whatsapp</p>
+					<p class="text-lg text-gray-300 ">07 68 53 46 26</p>
 				</div>
 			</div>
 			<div class="flex items-center space-x-4">
@@ -28,8 +28,8 @@
 					</svg>
 				</a>
 				<div>
-					<p class="font-bold text-gray-300 text-lg">E-mail</p>
-					<p class="text-sm text-gray-300 ">Contact@LaBorneArcade.com</p>
+					<p class="font-bold text-gray-300 text-xl">E-mail</p>
+					<p class="text-lg text-gray-300 ">Contact@LaBorneArcade.com</p>
 				</div>
 			</div>
 			<div class="flex items-center space-x-4">
@@ -39,8 +39,8 @@
 					</svg>
 				</a>
 				<div>
-					<p class="font-bold text-gray-300 text-lg">Telephone</p>
-					<p class="text-sm text-gray-300 ">07 68 53 46 26</p>
+					<p class="font-bold text-gray-300 text-xl">Telephone</p>
+					<p class="text-lg text-gray-300 ">07 68 53 46 26</p>
 				</div>
 			</div>
 		</div>
@@ -48,11 +48,11 @@
 	
 	<!-- Rectangle de droite -->
 	<div class="bg-gray-800 p-6">
-		<h3 class="uppercase mb-8 text-lg font-semibold">Envoyer nous votre message</h3>
+		<h3 class="uppercase mb-8 text-xl font-semibold">Envoyer nous votre message</h3>
 		<?= form_open('/contact',['class' => 'space-y-4']); ?>
 			<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 				<div>
-					<?= form_label('Nom', 'nom', ['class' => 'block text-gray-300 text-sm text-gray-300  font-medium mb-1 ml-1']); ?>
+					<?= form_label('Nom', 'nom', ['class' => 'block text-gray-300 text-lg text-gray-300  font-medium mb-1 ml-1']); ?>
 					
 					<?= form_input([
 						'name'          => 'nom',
@@ -63,7 +63,7 @@
 					]); ?>
 				</div>
 				<div>
-					<?= form_label('Entreprise', 'entreprise', ['class' => 'block text-gray-300 text-sm text-gray-300  font-medium mb-1 ml-1']); ?>
+					<?= form_label('Entreprise', 'entreprise', ['class' => 'block text-gray-300 text-lg text-gray-300  font-medium mb-1 ml-1']); ?>
 					
 					<?= form_input([
 						'name'          => 'entreprise',
@@ -76,7 +76,7 @@
 			</div>
 			<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 				<div>
-					<?= form_label('Téléphone', 'phone', ['class' => 'block text-gray-300 text-sm text-gray-300  font-medium mb-1 ml-1']); ?>
+					<?= form_label('Téléphone', 'phone', ['class' => 'block text-gray-300 text-lg text-gray-300  font-medium mb-1 ml-1']); ?>
 					
 					<?php
 					$focusRIng = (validation_show_error('phone')) ? 'border-red-600 focus:ring-red-500' : 'border-gray-600 focus:ring-green-500';
@@ -85,8 +85,6 @@
 						'id'            => 'phone-number',
 						'class'         => 'w-full bg-gray-700 text-gray-300 text-xs rounded-lg border px-4 py-2 mb-2 focus:outline-none focus:ring-2 '.$focusRIng,
 						'value'         => set_value('phone'),
-						'aria-required' => 'true',
-						'required'
 					]); ?>
 					
 					<span class="items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
@@ -94,7 +92,7 @@
 					</span>
 				</div>
 				<div>
-					<?= form_label('Email', 'email', ['class' => 'block text-gray-300 text-sm text-gray-300  font-medium mb-1 ml-1']); ?>
+					<?= form_label('Email <span class="text-green-500/30">(*)</span>', 'email', ['class' => 'block text-gray-300 text-lg text-gray-300  font-medium mb-1 ml-1']); ?>
 					
 					<?php
 					$focusRIng = (validation_show_error('email')) ? 'border-red-600 focus:ring-red-500' : 'border-gray-600 focus:ring-green-500';
@@ -102,7 +100,7 @@
 						'name'          => 'email',
 						'id'            => 'email',
 						'class'         => 'w-full bg-gray-700 text-gray-300 text-xs rounded-lg border px-4 py-2 mb-2 focus:outline-none focus:ring-2 '.$focusRIng,
-						'value'         => set_value('email'),
+						'value'         => set_value('email', session()->has('user') ? session()->get('user')['email'] : ''),
 						'aria-required' => 'true',
 						'required'
 					]); ?>
@@ -113,7 +111,7 @@
 				</div>
 			</div>
 			<div>
-					<?= form_label('Message', 'message', ['class' => 'block text-gray-300 text-sm text-gray-300  font-medium mb-1 ml-1']); ?>
+					<?= form_label('Message <span class="text-green-500/30">(*)</span>', 'message', ['class' => 'block text-gray-300 text-lg text-gray-300  font-medium mb-1 ml-1']); ?>
 					
 					<?php
 					$focusRIng = (validation_show_error('message')) ? 'border-red-600 focus:ring-red-500' : 'border-gray-600 focus:ring-green-500';
@@ -122,7 +120,7 @@
 						'id'            => 'message',
 						'rows'          => '5',
 						'class'         => 'w-full bg-gray-700 text-gray-300 text-xs rounded-lg border px-4 py-2 mb-2 focus:outline-none focus:ring-2 '.$focusRIng,
-						'value'         => set_value('message'),
+						'value'         => set_value('message', $message),
 						'aria-required' => 'true',
 						'required'
 					]); ?>

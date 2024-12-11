@@ -16,8 +16,10 @@
 			<?php foreach($bornes as $bornePerso) : ?>
 				<div class="flex items-center justify-between p-4 border border-gray-700 rounded-lg hover:shadow-md transition">
 				<div class="flex">
-					<img loading="lazy" src="https://via.placeholder.com/100" alt="Image Borne <?= $bornePerso->nom ?>" class="w-25 h-25 rounded-md mr-4">
-					<div class="space-y-2">
+					<?php if ($bornePerso->borne) : ?>
+						<img loading="lazy" src="<?= /* $bornePerso->borne->image->chemin */ ''?>" alt="Image Borne <?= $bornePerso->nom ?>" class="w-25 h-25 rounded-md mr-4">
+					<?php endif; ?>
+					<div class="<?= $bornePerso->borne != null ? 'space-y-4' : 'space-y-2' ?>">
 						<h3 class="text-lg font-semibold"><?= $bornePerso->nom ?></h3>
 						<p class="text-md text-gray-400">Thème : <span class="font-medium text-blue-500"><?= empty($bornePerso->borne) ? 'Personnalisée' : $bornePerso->borne->theme->nom ?></span></p>
 						<p class="text-md text-gray-400">Prix total  : 
@@ -48,15 +50,19 @@
 				<div class="flex">
 					<ul class="text-sm text-gray-400">
 					<?php if (isset($options[$idPanierSession])) : ?>
+
 						<li>Prix de base <span class="text-green-700"><?= $bornePerso->prix ?> €</span></li>
 						<?php foreach($options[$idPanierSession] as $option) : ?>
 							<li><?= $option->nom ?> <span class="text-green-600">+<?= $option->cout ?> €</span></li>
 						<?php endforeach; ?>
+
 					<?php else : ?>
+
 						<li>Prix de base <span class="text-green-600"><?= $bornePerso->prix ?> €</span></li>
 						<?php foreach($bornePerso->options as $option) : ?>
 							<li><?= $option->nom ?> <span class="text-green-600">+<?= $option->cout ?> €</span></li>
 						<?php endforeach; ?>
+						
 					<?php endif; ?>
 					</ul>
 				</div>

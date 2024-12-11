@@ -289,7 +289,7 @@ class LoginController extends BaseController
         if ($data) {
             // Prépare les règles de validation conditionnelles
             $regleValidation = [
-                'email' => 'required|valid_email|is_unique[utilisateur.email]',
+                'email' => 'required|valid_email',
             ];
 
             // Ajoutez les règles pour le mot de passe si rempli
@@ -300,9 +300,8 @@ class LoginController extends BaseController
 
             $messagesValidation = [
                 'email' => [
-                    'required'    => 'Veuillez saisir votre émail.',
+                    'required'    => 'Veuillez saisir un émail.',
                     'valid_email' => 'Entrez un email valide.',
-                    'is_unique'   => 'Cet émail est déjà utilisé.',
                 ],
                 'mdp' => [
                     'min_length' => 'Votre mot de passe est trop court (min. 8 caractères).',
@@ -322,12 +321,29 @@ class LoginController extends BaseController
 
             // Récupération des données utilisateur et sauvegarde
             $session = session();
+
+			$utilisateur = $this->utilisateurModel->where('email', $data['email'])->first();
+			if ($utilisateur)
+				if (strcmp($utilisateur->email, $session->get('user')['email']) != 0) {
+					return view('login/profile', [
+						'titre' => 'Mon profil',
+						'erreurs' => ['email' => 'Cette email est déjà utilisé.'],
+					]);
+				} else {
+					if (empty($data['mdp']))
+						return view('login/profile', [
+							'titre' => 'Mon profil',
+							'erreurs' => ['email' => 'Vous avez entré le même émail.'],
+						]);
+				}
+				
+
             $idUtilisateur = $session->get('user')['id'];
             $utilisateur = $this->utilisateurModel->find($idUtilisateur);
 
             $utilisateur->email = $data['email'];
             if (!empty($data['mdp'])) {
-                $utilisateur->mdp = $data['mdp']; // Hachage du mot de passe
+                $utilisateur->mdp = $data['mdp'];
             }
 
             $this->utilisateurModel->save($utilisateur);

@@ -25,31 +25,30 @@ class Database extends Config
      * @var array<string, mixed>
      */
     public array $default = [
-        'DSN'          => 'pgsql:host=127.0.0.1;port=5432;dbname=test;user=sebastien;password=saucisse',
-        'hostname'     => '', // Pas nécessaire avec un DSN
-        'username'     => '', // Pas nécessaire avec un DSN
-        'password'     => '', // Pas nécessaire avec un DSN
-        'database'     => '', // Pas nécessaire avec un DSN
-        'DBDriver'     => 'Postgre', // Driver pour PostgreSQL
-        'DBPrefix'     => '', // Pas de préfixe dans les noms de tables
-        'pConnect'     => false, // Connexion persistante désactivée
-        'DBDebug'      => true, // Activer le débogage pour voir les erreurs SQL
-        'charset'      => 'utf8', // Jeu de caractères
-        'DBCollat'     => 'utf8_general_ci', // Collation
-        'swapPre'      => '', // Pas de remplacement de préfixe
-        'encrypt'      => false, // Connexion non sécurisée (chiffrement désactivé)
-        'compress'     => false, // Compression désactivée
-        'strictOn'     => false, // Désactiver le mode strict
-        'failover'     => [], // Pas de serveur de secours
-        'port'         => 5432, // Port PostgreSQL par défaut
-        'numberNative' => false, // Désactiver le traitement natif des nombres
+        'DSN'          => 'Postgre://cs212535:saucisse@woody.iut.univ-lehavre.fr:5432',
+        'hostname'     => 'woody.iut.univ-lehavre.fr',
+        'username'     => 'cs212535',
+        'password'     => 'saucisse',
+        'database'     => 'cs212535',
+        'DBDriver'     => 'Postgre',
+        'DBPrefix'     => '',
+        'pConnect'     => false,
+        'DBDebug'      => true,
+        'charset'      => 'utf8',
+        'DBCollat'     => 'utf8_general_ci',
+        'swapPre'      => '',
+        'encrypt'      => false,
+        'compress'     => false,
+        'strictOn'     => false,
+        'failover'     => [],
+        'port'         => 3306,
+        'numberNative' => false,
         'dateFormat'   => [
             'date'     => 'Y-m-d',
             'datetime' => 'Y-m-d H:i:s',
             'time'     => 'H:i:s',
         ],
     ];
-    
 
     //    /**
     //     * Sample database connection for SQLite3.

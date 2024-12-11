@@ -39,14 +39,13 @@ class HomeController extends BaseController
 		$data = $this->request->getPost();
 		
 		$regleValidation = [
-			'phone'   => 'required|regex_match[/^[0-9]{10}$/]',
+			'phone'   => 'regex_match[/^$|^[0-9]{10}$/]',
 			'email'   => 'required|valid_email',
 			'message' => 'required',
 		];
 
 		$messageValidation = [
 			'phone' => [
-				'required'    => 'Champ requis.',
 				'regex_match' => 'Entrer un numéro valide.'
 			],
 
@@ -77,7 +76,10 @@ class HomeController extends BaseController
 				);
 			}
 
-		return view('contact/index_contact', ['titre' => 'Me Contacter | LBA']);
+		return view('contact/index_contact', [
+			'titre'   => 'Me Contacter | LBA',
+			'message' => $this->request->getGet('message'),
+		]);
 	}
 
 	/**

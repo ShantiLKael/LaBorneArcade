@@ -15,7 +15,7 @@
 					<path id="fleche-<?= $faq->id ?>" stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
 				</svg>
 			</div>
-				<p id="reponse-<?= $faq->id ?>" class="mt-4 hidden"><?= $faq->reponse ?></p>
+				<p id="detail-<?= $faq->id ?>" class="mt-4 hidden"><?= $faq->reponse ?></p>
 			</div>
 		<?php endforeach; ?>
 
@@ -36,6 +36,6 @@
 		</div>
 	</div>
 </section>
-<script src="./assets/js/btn-faq.js">
+<script src="./assets/js/btn-deroule.js">
 </script>
 <?= view('commun/footer') ?>
