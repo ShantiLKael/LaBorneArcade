@@ -30,13 +30,26 @@ class BornePersoModel extends Model
 	protected $returnType = 'App\Entities\BornePerso';
 
 	protected $allowedFields = [
-        'prix',
         'id_borne',
+        'ordre',
+        'prix',
         'id_tmolding',
         'id_matiere',
 		'date_creation',
 		'date_modif',
     ];
+	
+	// Règles de validation
+	protected $validationRules = [
+		'id_tmolding' => 'required',
+		'id_matiere'  => 'required',
+	];
+
+	protected $validationMessages = [
+		'id_tmolding' => [ 'required' => 'Champ requis.'],
+		'id_matiere'  => [ 'required' => 'Champ requis.'],
+	];
+	
 
 	/**
 	 * Récupère la Matière de borne personnalisée.
@@ -52,9 +65,9 @@ class BornePersoModel extends Model
 	/**
 	 * Récupère la borne originale de la borne personnalisée.
 	 * @param int $idTheme
-	 * @return Borne
+	 * @return Borne|null
 	 */
-	public function getBorne(int $idBorne): Borne
+	public function getBorne(int $idBorne): ?Borne
 	{
 		$borneModel = new BorneModel();
 		return $borneModel->find($idBorne);
@@ -78,9 +91,9 @@ class BornePersoModel extends Model
 	 */
 	public function getJoysticks(int $idBorne): array
 	{
-		$builder = $this->builder();
-		$builder->select('joystick.*')->from('joystickborneperso')
-				->join('joystick', 'joystick.id_joystick = joystickborneperso.id_joystick')
+		$builder = $this->db->table('joystick');
+		$builder->select('joystick.*')
+				->join('joystickborneperso', 'joystick.id_joystick = joystickborneperso.id_joystick')
 				->where('joystickborneperso.id_borneperso', $idBorne);
 			
 		return $builder->get(BornePersoModel::$MAX_JOYSTICK)->getResult('App\Entities\Joystick');
@@ -92,7 +105,7 @@ class BornePersoModel extends Model
 	 * @param int $idJoystick
 	 * @return bool
 	 */
-	public function insererJoystickBorne(int $idBorne, int $idJoystick): bool
+	public function insererJoystickBorne(int $idBorne, int $idJoystick, int $ordre): bool
 	{
 		$db = Database::connect();
 		$builder = $db->table('joystickborneperso');
@@ -100,6 +113,7 @@ class BornePersoModel extends Model
 		$data = [
 			'id_borneperso'    => $idBorne,
 			'id_joystick' => $idJoystick,
+			'ordre' => $ordre,
 		];
 
 		return $builder->insert($data);
@@ -112,9 +126,9 @@ class BornePersoModel extends Model
 	 */
 	public function getBoutons(int $idBorne): array
 	{
-		$builder = $this->builder();
-		$builder->select('bouton.*')->from('boutonborneperso')
-				->join('bouton', 'bouton.id_bouton = boutonborneperso.id_bouton')
+		$builder = $this->db->table('bouton');
+		$builder->select('bouton.*')
+				->join('boutonborneperso', 'bouton.id_bouton = boutonborneperso.id_bouton')
 				->where('boutonborneperso.id_borneperso', $idBorne);
 			
 		return $builder->get(BornePersoModel::$MAX_BOUTON)->getResult('App\Entities\Bouton');
@@ -126,14 +140,15 @@ class BornePersoModel extends Model
 	 * @param int $idBouton
 	 * @return bool
 	 */
-	public function insererBoutonBorne(int $idBorne, int $idBouton): bool
+	public function insererBoutonBorne(int $idBorne, int $idBouton, int $ordre): bool
 	{
 		$db = Database::connect();
 		$builder = $db->table('boutonborneperso');
 
 		$data = [
-			'id_borneperso'  => $idBorne,
-			'id_bouton' => $idBouton,
+			'id_borneperso' => $idBorne,
+			'id_bouton'     => $idBouton,
+			'ordre'         => $ordre,
 		];
 		
 		return $builder->insert($data);
@@ -146,9 +161,9 @@ class BornePersoModel extends Model
 	 */
 	public function getOptions(int $idBorne): array
 	{
-		$builder = $this->builder();
-		$builder->select('option.*')->distinct()->from('optionborneperso')
-				->join('option', 'option.id_option = optionborneperso.id_option')
+		$builder = $this->db->table('option');
+		$builder->select('option.*')
+				->join('optionborneperso', cond: 'option.id_option = optionborneperso.id_option')
 				->where('optionborneperso.id_borneperso', $idBorne);
 			
 		$options = $builder->get()->getResult('App\Entities\Option');

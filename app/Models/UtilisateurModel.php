@@ -63,10 +63,11 @@ class UtilisateurModel extends Model
 	 */
 	public function getPanier(int $idUtilisateur): array
 	{
-		$builder = $this->builder();
-		$builder->select('borneperso.*')->distinct()->from('panier')
-				->join('borneperso', 'borneperso.id_borneperso = panier.id_borneperso')
-				->where('panier.id_utilisateur', $idUtilisateur);
+		$builder = $this->db->table('borneperso');
+		$builder->select('borneperso.*')
+				->join('panier', 'borneperso.id_borneperso = panier.id_borneperso')
+				->where('panier.id_utilisateur', $idUtilisateur)
+				->orderBy('date_modif', 'desc');
 			
 		$bornes = $builder->get()->getResult('App\Entities\BornePerso');
 		return $bornes ? $bornes : [];
