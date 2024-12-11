@@ -194,7 +194,7 @@ let decalage = 1;
 let container = document.getElementById('bouton-borneperso');
 if (!affichageUniquement) {
     if (nbJoueur > 2)
-        for (i = 1; i <= 2; i++)
+        for (i = 1; i <= nbJoueur; i++)
         {
             // Creation input
             const input = document.createElement('input');

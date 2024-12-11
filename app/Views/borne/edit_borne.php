@@ -3,12 +3,12 @@
 <?= form_open('/borne-perso') ?>
 <div class="bg-gradient-to-r from-dark-teal max-w-100 to-medium-blue text-center py-10 mb-8">
     <div class="flex items-center px-10 py-10">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-gray-300 invisible md:visible mr-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-gray-300 invisible md:visible md:mr-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
         </svg>
         <!-- Texte principal -->
         <div>
-            <h2 class="text-xl md:text-2xl font-bold">Créez vos propres bornes d'arcade, avec l'assistance de notre graphiste !</h2>
+            <h2 class="text-xl md:text-2xl font-bold lg:mb-0 mb-5">Créez vos propres bornes d'arcade, avec l'assistance de notre graphiste !</h2>
             <p class="text-gray-300 text-sm md:text-base">Personnalisez avec vos logos, idées, couleurs, images. Customisez chaque partie.</p>
         </div>
     </div>
