@@ -1,65 +1,46 @@
+
 <html lang="fr">
 <head>
 	<!-- Import Tailwind CSS -->
-	<link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.0/dist/tailwind.min.css" rel="stylesheet">
 	<link href="/assets/css/style.css" rel="stylesheet" type="text/css">
 	<title><?= $titre ?></title>
 </head>
 <body class="bg-[#ebf0ea] text-dark-blue">
-<header class="flex flex-col md:flex-row h-screen">
+<header class="flex h-screen">
 	<!-- Navbar -->
-	<nav id="navbar" class="bg-black text-white fixed top-0 left-0 h-screen w-3/4 md:w-1/5 transition-all duration-300 z-50 flex flex-col px-6 py-4 shadow-lg shadow-gray-700/20">
+	<nav id="navbar" class="bg-black text-white fixed top-0 left-0 h-full w-[250px] z-50 flex flex-col px-6 py-4 shadow-lg shadow-gray-700/20 transition-all">
 		<!-- Logo -->
 		<div class="flex items-center mb-6">
-			<img loading="lazy" src="chemin-vers-logo.png" alt="Logo La Borne Arcade" class="h-10">
+			<img loading="lazy" src="chemin-vers-logo.png" alt="Logo La Borne Arcade" class="h-10 ">
 		</div>
-		<h1 class="font-bold text-lg md:text-xl">Administrateur</h1>
-		<br>
+		<h1 class="font-bold" >Administrateur</h1><br>
 		<!-- Liens -->
-		<ul id="nav-links" class="flex flex-col space-y-4">
-			<li>
-				<a href="/admin/bornes" class="block px-4 py-2 rounded bg-gray-800 hover:bg-gray-700 transition duration-200">
-					Ajouter une borne
-				</a>
-			</li>
-			<li>
-				<a href="/admin/theme" class="block px-4 py-2 rounded bg-gray-800 hover:bg-gray-700 transition duration-200">
-					Thème
-				</a>
-			</li>
-			<li>
-				<a href="/admin/matiere" class="block px-4 py-2 rounded bg-gray-800 hover:bg-gray-700 transition duration-200">
-					Matière
-				</a>
-			</li>
-			<!-- Ajoutez d'autres liens ici -->
-		</ul>
+		<ul id="nav-links" class="flex flex-col space-y-4 text-white font-bold text-lg">
+            <li><a href="/admin/bornes" class="px-4 py-2 rounded hover:bg-gray-700 transition">Ajouter une borne</a></li>
+            <li><a href="/admin/theme" class="px-4 py-2 rounded hover:bg-gray-700 transition">Thème</a></li>
+            <li><a href="/admin/matiere" class="px-4 py-2 rounded hover:bg-gray-700 transition">Matière</a></li>
+            <li><a href="/admin/option" class="px-4 py-2 rounded hover:bg-gray-700 transition">Option</a></li>
+            <li><a href="/admin/joystick" class="px-4 py-2 rounded hover:bg-gray-700 transition">Joystick</a></li>
+            <li><a href="/admin/TMolding" class="px-4 py-2 rounded hover:bg-gray-700 transition">TMolding</a></li>
+            <li><a href="/admin/bouton" class="px-4 py-2 rounded hover:bg-gray-700 transition">Bouton</a></li>
+            <li><a href="/admin/contact" class="px-4 py-2 rounded hover:bg-gray-700 transition">Contact</a></li>
+            <li><a href="/admin/articles" class="px-4 py-2 rounded hover:bg-gray-700 transition">Articles</a></li>
+            <li><a href="/admin/faqs" class="px-4 py-2 rounded hover:bg-gray-700 transition">FAQs</a></li>
+        </ul>
 	</nav>
 
 	<!-- Bouton hamburger -->
 	<div class="md:hidden fixed top-4 left-4 z-50">
-		<button id="menu-btn" class="text-white bg-black px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-gray-300">
-			☰
-		</button>
-	</div>
-
-	<!-- Contenu principal -->
-	<main class="flex-1 md:ml-[20%] p-8">
-		<?= $this->renderSection('content') ?>
-	</main>
+        <button id="menu-btn" class="text-white bg-black px-4 py-2 rounded focus:outline-none" onclick="boutonHam()">☰</button>
+    </div>
 </header>
-
 <script>
-	const menuBtn = document.getElementById('menu-btn');
-	const navbar = document.getElementById('navbar');
-
-	menuBtn.addEventListener('click', () => {
-		if (navbar.classList.contains('hidden')) {
-			navbar.classList.remove('hidden');
-			navbar.style.width = '70%';
-		} else {
-			navbar.classList.add('hidden');
-			navbar.style.width = '0';
-		}
-	});
+    function boutonHam() {
+        const navbar = document.getElementById("navbar");
+        if (navbar.style.width === "250px") {
+            navbar.style.width = "0";
+        } else {
+            navbar.style.width = "250px";
+        }
+    }
 </script>
