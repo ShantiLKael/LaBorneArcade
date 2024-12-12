@@ -1,15 +1,13 @@
 <?php
 
 namespace App\Controllers;
+
 use App\Models\FaqModel;
-use CodeIgniter\Session\Session;
 use CodeIgniter\Validation\Validation;
 use Config\Services;
 
 class HomeController extends BaseController
 {
-	/** @var Session $session */
-	private Session $session;
 	
 	/** @var Validation $validation */
 	private Validation $validation;
@@ -18,7 +16,6 @@ class HomeController extends BaseController
 	private FaqModel $faqModel;
 
 	public function __construct() {
-		$this->session = session();
 		$this->validation = Services::validation();
 		$this->faqModel = new FaqModel();
 		helper(['form']);

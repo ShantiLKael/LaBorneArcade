@@ -19,31 +19,27 @@ class Option extends Entity
         'idImage' => 'id_image'
     ];
 
-    public function setCout(string $cout)
+    public function setCout(string $cout): static
     {
         $this->attributes['cout'] = $cout;
-        
         return $this;
     }
 
-    public function setNom(string $nom)
+    public function setNom(string $nom): static
     {
         $this->attributes['nom'] = $nom;
-        
         return $this;
     }
 
-    public function setDescription(string $desc)
+    public function setDescription(string $desc): static
     {
         $this->attributes['description'] = $desc;
-        
         return $this;
     }
 
-    public function setIdImage(int $idImage)
+    public function setIdImage(int $idImage): static
     {
         $this->attributes['id_image'] = $idImage;
-        
         return $this;
     }
 
@@ -52,4 +48,5 @@ class Option extends Entity
         $optionModel = new OptionModel();
         return $optionModel->getImage($this->idImage);
     }
+	
 }

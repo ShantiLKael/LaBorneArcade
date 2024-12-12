@@ -8,6 +8,7 @@ use Config\Database;
 
 class ArticleBlogModel extends Model
 {
+	
 	protected $table = 'articleblog';
 	protected $primaryKey = 'id_articleblog';
 	protected $allowedFields = ['titre', 'texte', 'id_utilisateur'];
@@ -40,9 +41,10 @@ class ArticleBlogModel extends Model
 	/* ---------------------------------------- */
 
 	/**
-	 * Récupère un tableau d'Image de l'article.
-	 * @param int $idArticleBlog
-	 * @return array<Image>
+	 * Retourne les images de l'article.
+	 *
+	 * @param int $idArticleBlog L'identifiant de l'article.
+	 * @return Image[] Le tableau d'images.
 	 */
 	public function getImages(int $idArticleBlog): array
 	{
@@ -56,26 +58,25 @@ class ArticleBlogModel extends Model
 	}
 
 	/**
-	 * Récupère l'utilisateur créateur de l'article.
-	 * @param int $idUtilisateur
-	 * @return Utilisateur
+	 * Retourne l'utilisateur ayant créé l'article.
+	 *
+	 * @param int $idUtilisateur L'identifiant de l'utilisateur.
+	 * @return Utilisateur|array|null
 	 */
-	public function getUtilisateur(int $idUtilisateur): Utilisateur
-	{
+	public function getUtilisateur(int $idUtilisateur): Utilisateur|array|null {
 		$builder = $this->db->table('utilisateur');
 		$builder->select('utilisateur.*')
 				->where('id_utilisateur', $idUtilisateur);
-			
-		$utilisateur = $builder->get()->getFirstRow('App\Entities\Utilisateur');
-		return $utilisateur;
+		
+		return $builder->get()->getFirstRow('App\Entities\Utilisateur');
 	}
 
 	/**
-	 * Insertion d'une Image de l'article.
+	 * Insertion d'une image de l'article.
 	 *
-	 * @param int $idArticleBlog
-	 * @param int $idImage
-	 * @return bool
+	 * @param int $idArticleBlog L'identifiant de l'article.
+	 * @param int $idImage L'identifiant de l'image
+	 * @return bool <i>Vrai</i> si l'insertion a réussi, sinon <i>faux</i>.
 	 */
 	public function insererImageArticle(int $idArticleBlog, int $idImage): bool
 	{

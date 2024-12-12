@@ -7,7 +7,7 @@ use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 
-class UtilisateurFilter implements FilterInterface {
+class FiltreUtilisateur implements FilterInterface {
 	
 	/**
 	 * @inheritDoc

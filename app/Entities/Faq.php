@@ -12,24 +12,24 @@ class Faq extends Entity
 		'idUtilisateur' => 'integer',
     ];
 
-    protected $datamap = [ 
+    protected $datamap = [
 		'id'            => 'id_faq',
 		'idUtilisateur' => 'id_utilisateur',
 	];
 
-	public function setQuestion(string $question)
+	public function setQuestion(string $question): static
 	{
 		$this->attributes['question'] = $question;
 		return $this;
 	}
 
-	public function setReponse(string $reponse)
+	public function setReponse(string $reponse): static
 	{
 		$this->attributes['reponse'] = $reponse;
 		return $this;
 	}
 
-	public function setIdUtilisateur(int $idUtilisateur)
+	public function setIdUtilisateur(int $idUtilisateur): static
 	{
 		$this->attributes['id_utilisateur'] = $idUtilisateur;
 		return $this;

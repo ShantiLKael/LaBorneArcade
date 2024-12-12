@@ -3,6 +3,9 @@ namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
 
+/**
+ * @property string chemin
+ */
 class Image extends Entity
 {
     protected $casts = [
@@ -12,7 +15,7 @@ class Image extends Entity
 
     protected $datamap = [ 'id' => 'id_image' ];
 
-	public function setChemin(string $chemin)
+	public function setChemin(string $chemin): static
 	{
 		$this->attributes['chemin'] = $chemin;
 		return $this;

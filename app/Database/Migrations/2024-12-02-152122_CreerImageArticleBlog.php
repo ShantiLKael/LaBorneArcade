@@ -4,6 +4,9 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
+/**
+ * @deprecated Utilisez <code>script_creation.sql</code> à la place.
+ */
 class CreerImageArticleBlog extends Migration {
 	
 	/**

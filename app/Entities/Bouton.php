@@ -2,7 +2,6 @@
 namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
-use Doctrine\DBAL\Types\BooleanType;
 
 class Bouton extends Entity
 {
