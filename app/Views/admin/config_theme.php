@@ -61,9 +61,7 @@
 				<?php // var_dump($theme)  ?>
 				<div class="p-4 flex justify-between items-center border-b border-gray-200 py-2 bg-FVertClair">
 					<!-- Nom du thème -->
-					<div class="text-lg font-medium text-dark-blue font-bold">
-						<?= $theme->nom ?>
-					</div>
+					<div class="text-lg font-medium text-dark-blue font-bold"> <?= $theme->nom ?> </div>
 					
 					<!-- Bouton Supprimer -->
 					<div>
