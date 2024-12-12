@@ -47,37 +47,39 @@
 				</td>
 			</tr>
             <tr><td><br></td></tr>
-			<tr class="flex flex-col md:flex-row md:items-center">
-				<td> <label class="text-lg font-medium mb-2 md:mb-0 md:mr-4" for="nom">Image de l'article 1 : </label> </td>
-				<td class="">
-					<!-- Champ pour le modèle -->
-					<?php echo form_input(
-						[
+            <tr class="flex flex-col md:flex-row md:items-center mb-4">
+                <td> <label class="text-lg font-medium mb-2 md:mb-0 md:mr-4" for="image1"> Image de l'article 1 : * </label></td>
+                <td>
+                    <!-- Champ pour télécharger une image -->
+                    <?php echo form_input([
+                        'type' => 'file',
+                        'name' => 'images[]', // Utilisation d'un tableau pour permettre plusieurs fichiers
+                        'id' => 'image1',
+                        'class' => 'border border-gray-300 rounded-lg p-2 w-full md:w-auto bg-gray-100 text-black',
+                        'accept' => 'image/*', // Permet uniquement les fichiers image
+						'required' => 'required',
+                    ]); ?>
+                </td>
+            </tr>
+			<?php for ($i = 2; $i <= 6; $i++): ?>
+				<tr class="flex flex-col md:flex-row md:items-center mb-4">
+					<td>
+						<label class="text-lg font-medium mb-2 md:mb-0 md:mr-4" for="image<?= $i; ?>">
+							Image de l'article <?= $i; ?> :
+						</label>
+					</td>
+					<td>
+						<!-- Champ pour télécharger une image -->
+						<?php echo form_input([
 							'type' => 'file',
-							'name' => 'image1',
-							'id' => 'image',
+							'name' => 'images[]', // Utilisation d'un tableau pour permettre plusieurs fichiers
+							'id' => 'image' . $i,
 							'class' => 'border border-gray-300 rounded-lg p-2 w-full md:w-auto bg-gray-100 text-black',
 							'accept' => 'image/*', // Permet uniquement les fichiers image
-						]
-					); ?>
-				</td>
-			</tr>
-			<tr><td><br></td></tr>
-			<tr class="flex flex-col md:flex-row md:items-center">
-				<td> <label class="text-lg font-medium mb-2 md:mb-0 md:mr-4" for="nom">Image de l'article 2 : </label> </td>
-				<td class="">
-					<!-- Champ pour le modèle -->
-					<?php echo form_input(
-						[
-							'type' => 'file',
-							'name' => 'image2',
-							'id' => 'image',
-							'class' => 'border border-gray-300 rounded-lg p-2 w-full md:w-auto bg-gray-100 text-black',
-							'accept' => 'image/*', // Permet uniquement les fichiers image
-						]
-					); ?>
-				</td>
-			</tr>
+						]); ?>
+					</td>
+				</tr>
+            <?php endfor; ?>
             <tr><td><br></td></tr>
 			<tr>
 				<td class="flex justify-start md:justify-center">

@@ -109,102 +109,109 @@ class AdminController extends BaseController
 	public function adminArticle()
 	{
 		if ($this->request->getPost()) {
-			// Valider les données envoyées pour l'option
-			if (!$this->validate($this->optionModel->getValidationRules(), $this->optionModel->getValidationMessages())) {
+			if (!$this->validate($this->articleBlogModel->getValidationRules(), $this->articleBlogModel->getValidationMessages())) {
 				return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
 			}
+			$validationRules = [
+				'titre' => 'required',
+				'texte' => 'required',
+				'images.0' => [
+					'rules' => 'uploaded[images.0]|is_image[images.0]|ext_in[images.0,png,jpg,jpeg,gif]',
+					'errors' => [
+						'uploaded' => 'L\'image 1 est obligatoire.',
+						'is_image' => 'L\'image 1 doit être une image valide.',
+						'ext_in' => 'L\'image 1 doit avoir une extension valide (png, jpg, jpeg, gif).',
+					],
+				],
+				// Pas de validation stricte pour les autres images
+			];
+		
+			if (!$this->validate($validationRules)) {
+				return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+			}
+
 
 			// Récupérer les données du formulaire
 			$data = $this->request->getPost();
 
-			// Gestion de l'image
-			$imageFile = $this->request->getFile('image1'); // Le champ input file doit avoir le name="id_image"
-			if ($imageFile && $imageFile->isValid() && !$imageFile->hasMoved()) {
-				// Valider l'extension de l'image
-				$allowedExtensions = ['png', 'jpg', 'jpeg', 'gif'];
-				$imageExtension = $imageFile->getClientExtension();
-				if (!in_array($imageExtension, $allowedExtensions)) {
-					return redirect()->back()->withInput()->with('errors', [
-						'id_image' => 'Format d\'image non pris en charge. Formats acceptés : png, jpg, jpeg, gif.',
-					]);
-				}
-
-				// Renommer le fichier avec un nom unique
-				$imageName = $data['nom'] . '.' . $imageExtension;
-
-				// Déplacer le fichier vers le dossier public/assets/option/
-				$imagePath = 'assets/images/option/' . $imageName;
-				$imageFile->move(FCPATH . 'assets/images/blog/', $imageName);
-
-				// Ajouter une entrée dans la table image
-				$imageData = ['chemin' => $imagePath];
-				$this->imageModel->insert($imageData);
-
-				// Récupérer l'ID de l'image insérée
-				$imageId = $this->imageModel->insertID();
-				if (!$imageId) {
-					return redirect()->back()->withInput()->with('errors', [
-						'id_image' => 'Échec de l\'enregistrement de l\'image.',
-					]);
-				}
-
-				// Ajouter l'ID de l'image dans les données de l'option
-				$dataIma['id_image'] = $imageId;
-				$article = new ArticleBlog();
-				$article->fill($data);
-
-
-				// Créer une nouvelle instance de l'option
-				$article = new ArticleBlog();
-				$article->fill($data);
-				$article->setIdUtilisateur(session()->get('user.id'));
-				$this->articleBlogModel->insert($article);
-
-				// Insérer l'article dans la base de données
-				$this->articleBlogModel->insert($article);
-
-				return redirect()->back()->with('success', "$article->titre ajouté avec succès.");
-			} else {
-				// Erreur lors du téléchargement de l'image
-				return redirect()->back()->withInput()->with('errors', [
-					'id_image' => 'Erreur lors du téléchargement de l\'image.',
-				]);
+			$idUtilisateur = session()->get('user.id'); // Supposons que l'ID utilisateur est stocké dans la session
+			if (!$idUtilisateur) {
+				return redirect()->back()->with('error', 'Utilisateur non authentifié.');
 			}
+
+			// Créer une instance d'article
+			$article = new ArticleBlog();
+			$article->fill($data);
+			$article->setIdUtilisateur($idUtilisateur);
+
+			// Enregistrer l'article et récupérer son ID
+			$this->articleBlogModel->insert($article);
+			$idArticle = $this->articleBlogModel->insertID();
+
+			if (!$idArticle) {
+				return redirect()->back()->with('error', 'Échec de l\'enregistrement de l\'article.');
+			}
+
+			$images = $this->request->getFiles('images'); // Supposons que le champ input multiple a le name="images"
+			if ($images) {
+				$imageIndex = 1; // Compteur pour les noms d'images
+				$uploadPath = FCPATH . "assets/images/blog/$idArticle/";
+
+				// Créer le répertoire pour l'article si non existant
+				if (!is_dir($uploadPath)) {
+					mkdir($uploadPath, 0777, true);
+				}
+
+				foreach ($images['images'] as $image) {
+					if ($image && $image->isValid() && !$image->hasMoved()) {
+						// Vérifier les extensions autorisées
+						$allowedExtensions = ['png', 'jpg', 'jpeg', 'gif'];
+						$imageExtension = $image->getClientExtension();
+						if (!in_array($imageExtension, $allowedExtensions)) {
+							return redirect()->back()->withInput()->with('errors', [
+								'images' => 'Une ou plusieurs images ont un format non pris en charge.',
+							]);
+						}
+
+						// Renommer l'image selon la convention "numAr{articleID}_{imageIndex}"
+						$imageName = "numAr{$idArticle}_{$imageIndex}.$imageExtension";
+
+						// Déplacer l'image vers le dossier
+						$image->move($uploadPath, $imageName);
+
+						// Ajouter l'image à la table Image
+						$imageData = ['chemin' => "assets/images/blog/$idArticle/$imageName"];
+						$this->imageModel->insert($imageData);
+						$idImage = $this->imageModel->insertID();
+
+						if ($idImage) {
+							// Ajouter l'association image-article dans la table ImageArticleBlog
+							$this->articleBlogModel->insererImageArticle($idArticle, $idImage);
+						} else {
+							return redirect()->back()->with('error', 'Échec de l\'enregistrement de l\'image.');
+						}
+
+						$imageIndex++; // Incrémenter l'indice pour le prochain fichier
+						if ($imageIndex > 6) {
+							break; // Limiter à 6 images maximum
+						}
+					}
+				}
+			}
+			return redirect()->back()->with('success', 'Article ajouté avec succès.');
 		}
 
-		$options = $this->optionModel->getOptionsWithImages();
+		//$options = $this->optionModel->getOptionsWithImages();
 
 		// Récupérer les options pour les afficher dans la vue
 		//$options = $this->optionModel->findAll();
-		$options = array_reverse($options); // Afficher les options les plus récentes en haut
+		//$options = array_reverse($options); // Afficher les options les plus récentes en haut
 	
 
 		$articles = $this->articleBlogModel->findAll();
 		$articles = array_reverse($articles);
 		return view('admin/config_article', ['titre' => 'configuration des articles', 'articles' => $articles]);
 	}
-	/*
-	public function adminArticle()
-	{
-		if ($this->request->getPost() ) {
-			if ( ! $this->validate( $this->articleBlogModel->getValidationRules(), $this->articleBlogModel->getValidationMessages() ) ) {
-				return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
-			}
-			else {
-				$data = $this->request->getPost();
-				$article = new ArticleBlog();
-				$article->fill($data);
-				$article->setIdUtilisateur(session()->get('user.id'));
-				$this->articleBlogModel->insert($article);
-
-				return redirect()->back()->with('success', "$article->titre ajouté avec succès.");
-			}
-		} 
-		$articles = $this->articleBlogModel->findAll();
-		$articles = array_reverse($articles);
-		return view('admin/config_article', ['titre' => 'configuration des articles', 'articles' => $articles]);
-	}
-	*/
 
 	/**
 	 * Page admin faq
@@ -420,18 +427,48 @@ class AdminController extends BaseController
 	 */
 	public function suppArticle(int $id_article): RedirectResponse
 	{
-		$id_article = $this->request->getPost('id');
+		// Récupérer l'article depuis la base de données
+		$article = $this->articleBlogModel->find($id_article);
 
-		// Suppression du thème
-		if ($this->articleBlogModel->delete($id_article)) { return redirect()->back()->with('success', 'article supprimé avec succès.'); }
-		// En cas d'erreur
-		return redirect()->back()->with('errors', ['Erreur lors de la suppression de l\'article.']);
+		if ($article) {
+			// Récupérer toutes les images associées à l'article
+			$images = $this->imageModel
+				->join('imagearticleblog', 'image.id_image = imagearticleblog.id_image')
+				->where('imagearticleblog.id_articleblog', $id_article)
+				->findAll();
+
+			// Définir le chemin du répertoire de l'article
+			$articleDir = FCPATH . "assets/images/blog/$id_article";
+
+			// Supprimer les fichiers d'images associés
+			foreach ($images as $image) {
+				// Assurez-vous d'accéder à la propriété de l'objet Image correctement
+				$imagePath = FCPATH . $image->chemin; // Utilisez -> au lieu de ['chemin']
+				if (file_exists($imagePath)) { unlink($imagePath); }
+			}
+
+			// Supprimer le répertoire de l'article s'il existe
+			if (is_dir($articleDir)) { rmdir($articleDir); }
+
+			// Supprimer les associations dans la table `imagearticleblog`
+			$this->articleBlogModel->suppImageArticle($id_article);
+
+			// Supprimer les images associées dans la table `image`
+			foreach ($images as $image) {
+				$this->imageModel->delete($image->id_image); // Utilisez ->id_image pour accéder à l'ID
+			}
+
+			// Supprimer l'article lui-même
+			$titre = $article->titre; // Conserver le titre pour la notification
+			if ($this->articleBlogModel->delete($id_article)) { return redirect()->back()->with('success', "L'article '$titre' et ses images ont été supprimés avec succès.");}
+		}
+		// En cas d'erreur (si l'article n'existe pas ou si la suppression échoue)
+		return redirect()->back()->with('errors', ['Erreur lors de la suppression de l\'article et de ses images.']);
 	}
 
 	/* ---------------------------------------- */
 	/* ------------------ FAQ ----------------- */
 	/* ---------------------------------------- */
-
 
 	/**
 	 * Traitement de suppression de la question faq en paramètre.
