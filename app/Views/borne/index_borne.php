@@ -113,14 +113,6 @@ view('commun/header', ['titre' => $titre]) ?>
 							<h3 class="text-xl font-bold mb-2"><?= $borne->nom ?></h3>
 							<p class="text-green-600 font-bold mb-4"><?= sprintf("%.02F €", $borne->prix) ?></p>
 						</a>
-						<div class="grid grid-cols-1 md:grid-cols-2 mx-4">
-							<a href="#" class="md:mr-2 bg-green-700 hover:bg-green-600 p-2 text-white text-center rounded-3xl">
-								Ajouter au panier
-							</a>
-							<a href="/borne-perso/1" class="md:ml-2 bg-blue-800 hover:bg-blue-700 p-2 text-white text-center rounded-3xl">
-								Personnaliser
-							</a>
-						</div>
 					</div>
 				<?php endforeach; ?>
 			<?php else: ?>

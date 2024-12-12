@@ -107,12 +107,12 @@ class HomeController extends BaseController
 	 *
 	 * @return string La vue FAQ.
 	 */
-	public function faq($accueil=false): string {
+	public function faq(bool $accueil = false): string {
 		$faqs = $this->faqModel->findAll();
 		return view('faq/index_faq', [
 			'titre' => 'FAQ | LBA',
 			'faqs'   => $faqs,
-			'accueil' => $accueil
+			'accueil' => $accueil,
 		]);
 	}
 }
