@@ -103,45 +103,46 @@ class LoginController extends BaseController
 					if (password_verify($password, $pass)) {
 						// Authentification réussie
 						// Stocker l'utilisateur dans la session
-                        $session = session();
+						$session = session();
 						$session->set('user', [
 							'id'    => $user->id,
 							'role'  => $user->role,
 							'email' => $user->email,
+							'role' => $user->role,
 						]);
-                        
-                        // Si la session possède des bornes dans son panier, on les enregistre en base
-                        if ($session->has('panier')) {
-                            $options   = $session->get('options');
-                            $joysticks = $session->get('joysticks');
-                            $boutons   = $session->get('boutons');
-                            $i = 0;
+						
+						// Si la session possède des bornes dans son panier, on les enregistre en base
+						if ($session->has('panier')) {
+							$options   = $session->get('options');
+							$joysticks = $session->get('joysticks');
+							$boutons   = $session->get('boutons');
+							$i = 0;
 
                             // Parcours des bornes enregistrées dans le panier session
                             foreach ($session->get('panier') as $bornePerso) {
-                                $idBorne = $this->bornePersoModel->insert($bornePerso);
+                                $idBorne = $this->bornePersoModel->insert($bornePerso, true);
                                 $this->utilisateurModel->insererPanier($user->id, $idBorne);
 
-                                // Parcours des options de la borne
-                                if (isset($options[$i])) {
-                                    foreach ($options[$i] as $option)
-                                        $this->bornePersoModel->insererOptionBorne($idBorne, $option->id);
-                                }
+								// Parcours des options de la borne
+								if (isset($options[$i])) {
+									foreach ($options[$i] as $option)
+										$this->bornePersoModel->insererOptionBorne($idBorne, $option->id);
+								}
 
-                                // Parcours des options de la borne
+								// Parcours des options de la borne
 								$j = 1;
-                                if (isset($boutons[$i])) {
-                                    foreach ($boutons[$i] as $idBouton) {
-                                        $this->bornePersoModel->insererBoutonBorne($idBorne, $idBouton, $j);
+								if (isset($boutons[$i])) {
+									foreach ($boutons[$i] as $idBouton) {
+										$this->bornePersoModel->insererBoutonBorne($idBorne, $idBouton, $j);
 										$j++;
 									}
-                                }
+								}
 
-                                // Parcours des options de la borne
+								// Parcours des options de la borne
 								$j = 1;
-                                if (isset($joysticks[$i])) {
-                                    foreach ($joysticks[$i] as $idJoystick) {
-                                        $this->bornePersoModel->insererJoystickBorne($idBorne, $idJoystick, $j);
+								if (isset($joysticks[$i])) {
+									foreach ($joysticks[$i] as $idJoystick) {
+										$this->bornePersoModel->insererJoystickBorne($idBorne, $idJoystick, $j);
 										$j++;
 									}
                                 }
@@ -150,13 +151,16 @@ class LoginController extends BaseController
                             }
                         }
                         
-                        // Suppression du panier utilisateur non connecté
+                        // Suppression du panier utilisateur non connécté
                         $session->remove('panier');
                         $session->remove('options');
                         $session->remove('joysticks');
                         $session->remove('boutons');
 
 						// Rediriger vers la page d'accueil ou le tableau de bord
+						if( $user->role == Utilisateur::$ROLE_ADMIN ) {
+							return redirect()->to('/admin/theme'); 
+						} 
 						return redirect()->to('/');
 					} else {
 						// Mot de passe incorrect
@@ -278,43 +282,44 @@ class LoginController extends BaseController
 	 * @throws ReflectionException
 	 */
 	public function profile(): string|RedirectResponse {
+        $session = session();
         $data = $this->request->getPost();
 
-        if ($data) {
-            // Prépare les règles de validation conditionnelles
-            $regleValidation = [
-                'email' => 'required|valid_email',
-            ];
+		if ($data) {
+			// Prépare les règles de validation conditionnelles
+			$regleValidation = [
+				'email' => 'required|valid_email',
+			];
 
-            // Ajoutez les règles pour le mot de passe si rempli
-            if (!empty($data['mdp'])) {
-                $regleValidation['mdp'] = 'min_length[8]';
-                $regleValidation['mdpConf'] = 'matches[mdp]';
-            }
+			// Ajoutez les règles pour le mot de passe si rempli
+			if (!empty($data['mdp'])) {
+				$regleValidation['mdp'] = 'min_length[8]';
+				$regleValidation['mdpConf'] = 'matches[mdp]';
+			}
 
-            $messagesValidation = [
-                'email' => [
-                    'required'    => 'Veuillez saisir un émail.',
-                    'valid_email' => 'Entrez un email valide.',
-                ],
-                'mdp' => [
-                    'min_length' => 'Votre mot de passe est trop court (min. 8 caractères).',
-                ],
-                'mdpConf' => [
-                    'matches' => 'Les mots de passe ne correspondent pas.',
-                ],
-            ];
+			$messagesValidation = [
+				'email' => [
+					'required'    => 'Veuillez saisir un émail.',
+					'valid_email' => 'Entrez un email valide.',
+				],
+				'mdp' => [
+					'min_length' => 'Votre mot de passe est trop court (min. 8 caractères).',
+				],
+				'mdpConf' => [
+					'matches' => 'Les mots de passe ne correspondent pas.',
+				],
+			];
 
-            // Validation des données
-            if (!$this->validate($regleValidation, $messagesValidation)) {
-                return view('login/profile', [
-                    'titre' => 'Mon profil',
-                    'erreurs' => $this->validator->getErrors(),
-                ]);
-            }
+			// Validation des données
+			if (!$this->validate($regleValidation, $messagesValidation)) {
+				return view('login/profile', [
+					'titre' => 'Mon profil',
+					'erreurs' => $this->validator->getErrors(),
+				]);
+			}
 
-            // Récupération des données utilisateur et sauvegarde
-            $session = session();
+			// Récupération des données utilisateur et sauvegarde
+			$session = session();
 
 			$utilisateur = $this->utilisateurModel->where('email', $data['email'])->first();
 			if ($utilisateur)
@@ -332,30 +337,30 @@ class LoginController extends BaseController
 				}
 				
 
-            $idUtilisateur = $session->get('user')['id'];
-            $utilisateur = $this->utilisateurModel->find($idUtilisateur);
+			$idUtilisateur = $session->get('user')['id'];
+			$utilisateur = $this->utilisateurModel->find($idUtilisateur);
 
-            $utilisateur->email = $data['email'];
-            if (!empty($data['mdp'])) {
-                $utilisateur->mdp = $data['mdp'];
-            }
+			$utilisateur->email = $data['email'];
+			if (!empty($data['mdp'])) {
+				$utilisateur->mdp = $data['mdp'];
+			}
 
-            $this->utilisateurModel->save($utilisateur);
+			$this->utilisateurModel->save($utilisateur);
 
-            // Màj session
-            $session->set('user', [
-                'id' => $idUtilisateur,
-                'email' => $utilisateur->email,
-            ]);
+			// Màj session
+			$session->set('user', [
+				'id' => $idUtilisateur,
+				'email' => $utilisateur->email,
+			]);
 
-            return redirect()->to('/profile')->with('msg', 'Profil mis à jour avec succès.');
-        }
-        
-        return view('login/profile', [ 'titre' => 'Mon profil' ]);
-    }
+			return redirect()->to('/profile')->with('msg', 'Profil mis à jour avec succès.');
+		}
+		
+		return view('login/profile', [ 'titre' => 'Mon profil' ]);
+	}
 
 	public function deconnexion(): RedirectResponse {
-        session()->destroy();
+		session()->destroy();
 		return redirect()->to('/connexion')->with('msg', 'Vous êtes déconnecté');
 	}
 	
@@ -374,25 +379,25 @@ class LoginController extends BaseController
 		$emailService->setSubject($sujet);
 		$emailService->setMessage(
 			"
-    <!DOCTYPE HTML>
-    <html lang='fr'>
-    <head>
-        <meta charset='UTF-8'>
-        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-        <title></title>
-        <style>
-            body {
-                margin: 0;
-                font-family: Arial, sans-serif;
-                background-color: #1f2937; /* Bleu-noir */
-                color: #ffffff; /* Texte blanc */
-                text-align: center;
-            }
-            .container {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                min-height: 10vh;
+	<!DOCTYPE HTML>
+	<html lang='fr'>
+	<head>
+		<meta charset='UTF-8'>
+		<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+		<title></title>
+		<style>
+			body {
+				margin: 0;
+				font-family: Arial, sans-serif;
+				background-color: #1f2937; /* Bleu-noir */
+				color: #ffffff; /* Texte blanc */
+				text-align: center;
+			}
+			.container {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				min-height: 10vh;
 				max-height: 100vh;
                 padding: 20px;
             }
@@ -405,53 +410,54 @@ class LoginController extends BaseController
                 width: 100%;
             }
             h1 {
+				text-color : #ffffff;
 				color : #ffffff;
-                font-size: 24px;
-                margin-bottom: 10px;
-            }
-            h2 {
-                font-size: 18px;
-                margin-bottom: 15px;
-                color: #a0aec0; /* Gris clair */
-            }
-            p {
-                font-size: 16px;
-                margin-bottom: 20px;
-                color: #cbd5e0; /* Gris clair */
-            }
-            a.button {
-                display: inline-block;
-                padding: 10px 20px;
-                background-color: #38a169; /* Vert */
-                color: #ffffff; /* Blanc */
-                text-decoration: none;
-                border-radius: 4px;
-                font-weight: bold;
-            }
-            a.button:hover {
-                background-color: #2f855a; /* Vert plus foncé */
-            }
-            .footer {
-                font-size: 12px;
-                margin-top: 15px;
-                color: #718096; /* Gris foncé */
-            }
-        </style>
-    </head>
-    <body>
-        <div class='container'>
-            <div class='card'>
-                <h1>$titre</h1>
-                <h2>$sous_titre</h2>
-                <p>$corps</p>
-                <a href='$lien_btn' class='button' target='_blank'>Cliquer ici</a>
-                <div class='footer'>
-                    &copy; " . date('Y') . " La Borne d'Arcade. Tous droits réservés.
-                </div>
-            </div>
-        </div>
-    </body>
-    </html>"
+				font-size: 24px;
+				margin-bottom: 10px;
+			}
+			h2 {
+				font-size: 18px;
+				margin-bottom: 15px;
+				color: #a0aec0; /* Gris clair */
+			}
+			p {
+				font-size: 16px;
+				margin-bottom: 20px;
+				color: #cbd5e0; /* Gris clair */
+			}
+			a.button {
+				display: inline-block;
+				padding: 10px 20px;
+				background-color: #38a169; /* Vert */
+				color: #ffffff; /* Blanc */
+				text-decoration: none;
+				border-radius: 4px;
+				font-weight: bold;
+			}
+			a.button:hover {
+				background-color: #2f855a; /* Vert plus foncé */
+			}
+			.footer {
+				font-size: 12px;
+				margin-top: 15px;
+				color: #718096; /* Gris foncé */
+			}
+		</style>
+	</head>
+	<body>
+		<div class='container'>
+			<div class='card'>
+				<h1>$titre</h1>
+				<h2>$sous_titre</h2>
+				<p>$corps</p>
+				<a href='$lien_btn' class='button' target='_blank'>Cliquer ici</a>
+				<div class='footer'>
+					&copy; " . date('Y') . " La Borne d'Arcade. Tous droits réservés.
+				</div>
+			</div>
+		</div>
+	</body>
+	</html>"
 		);
 
 		if ($emailService->send())

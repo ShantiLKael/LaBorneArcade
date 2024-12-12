@@ -33,9 +33,18 @@ class ArticleBlogController extends BaseController
 	 * @param int $id_article
 	 * @return string
 	 */
-	public function voirArticle(int $id_article): string
+    public function voirArticle(int $id_article): string
 	{
 		$article = $this->articleBlogModele->find($id_article);
-        return view('blog/voir_article', ['titre' => $article->titre .' | Blog LBA', 'article' => $article]);
+
+		if (!$article) { throw new \CodeIgniter\Exceptions\PageNotFoundException('Article introuvable.'); }
+
+		$images = $this->articleBlogModele->getImages($id_article);
+
+		return view('blog/voir_article', [
+			'titre' => $article->titre . ' | Blog LBA',
+			'article' => $article,
+			'images' => $images, // Passer les images
+		]);
 	}
 }
