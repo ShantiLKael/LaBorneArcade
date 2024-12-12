@@ -10,6 +10,7 @@ use App\Entities\Matiere;
 use App\Entities\Option;
 use App\Entities\Joystick;
 use App\Entities\TMolding;
+use App\Entities\Borne;
 use App\Entities\Bouton;
 
 use App\Models\ArticleBlogModel;
@@ -20,6 +21,7 @@ use App\Models\OptionModel;
 use App\Models\JoystickModel;
 use App\Models\TMoldingModel;
 use App\Models\BoutonModel;
+use App\Models\BorneModel;
 use App\Models\ImageModel;
 
 use CodeIgniter\HTTP\RedirectResponse;
@@ -54,6 +56,9 @@ class AdminController extends BaseController
 	/** @var BoutonModel $boutonModel */
 	private BoutonModel $boutonModel;
 
+	/** @var BorneModel $borneModel */
+	private BorneModel $borneModel;
+
 	/** @var ImageModel $imageModel */
 	private ImageModel $imageModel;
 	
@@ -69,6 +74,7 @@ class AdminController extends BaseController
 		$this->joystickModel 	= new JoystickModel();
 		$this->tMoldingModel 	= new TMoldingModel();
 		$this->boutonModel 		= new BoutonModel();
+		$this->borneModel 		= new BorneModel();
 		$this->imageModel 		= new ImageModel();
 		
 		$this->validation = Services::validation();
@@ -79,31 +85,49 @@ class AdminController extends BaseController
 	/* ---------------------------------------- */
 	/* ------- Redirection page simple -------- */
 	/* ---------------------------------------- */
-	
+
 	/**
-	 * Page d'admin borne
-	 * @return string admin/borne
+	 * Page contact version admin
+	 * @return string admin/contact
 	 */
-	public function adminBorne(): string
+	public function adminContact(): string
 	{
-		$data = $this->request->getPost();
-		if ($data) {
-			if (isset($data['nbBoutons']) || isset($data['nbJoueurs'])) { // Formulaire aperçu des touches
-				$nbBoutons = intval($data['nbBoutons']);
-				$nbJoueurs = intval($data['nbJoueurs']);
-	
-				return view('borne/edit_borne', [
-					'nbJoueurs' => $nbJoueurs,
-					'nbBoutons' => $nbBoutons,
-					'titre'     => "Personnaliser une borne",
-					'options'   => $this->optionModel->findAll(),
-					'tmoldings' => $this->tMoldingModel->findAll(),
-					'matieres'  => $this->matiereModel->findAll(),
-					'joysticks' => $this->joystickModel->findAll(),
-					'boutons'   => $this->boutonModel->findAll(),
-				]);
+		return view('/admin/contact');
+	}
+
+	/* ---------------------------------------- */
+	/* ------ Redirection page et ajout ------- */
+	/* ---------------------------------------- */
+
+    /**
+	 * Page d'admin borne
+	 */
+	public function adminBorne(){
+        if ($this->request->getPost() ) {
+			if ( ! $this->validate( $this->borneModel->getValidationRules(), $this->borneModel->getValidationMessages() ) ) {
+				return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
 			}
-		}
+			else {
+				$data = $this->request->getPost();
+				$borne = new Borne();
+				
+				$borne->fill($data);
+				$this->borneModel->insert($borne);
+
+				//return redirect()->back()->with('success', "Borne ajouté avec succès.");
+                return redirect('/admin/config_borne', [
+                    'titre'    => 'Création d\'une borne',
+                    'nbJoueurs'=> 1,
+                    'nbBoutons'=> 6,
+                    'matieres' => $this->matiereModel->findAll(),
+                    'options'  => $this->optionModel->findAll(),
+                    'themes'   => $this->themeModel->findAll(),
+                    'tmoldings'=> $this->tMoldingModel->findAll(),
+                    'joysticks'=> $this->joystickModel->findAll(),
+                    'boutons'  => $this->boutonModel->findAll(),
+                ])->with('success', "Borne ajouté avec succès.");
+			}
+		} 
 
 		return view('/admin/config_borne', [
 			'titre'    => 'Création d\'une borne',
@@ -117,19 +141,6 @@ class AdminController extends BaseController
 			'boutons'  => $this->boutonModel->findAll(),
 		]);
 	}
-
-	/**
-	 * Page contact version admin (pas compris le pourquoi de cette page)
-	 * @return string admin/contact
-	 */
-	public function adminContact(): string
-	{
-		return view('/admin/contact');
-	}
-
-	/* ---------------------------------------- */
-	/* ------ Redirection page et ajout ------- */
-	/* ---------------------------------------- */
 
 	/**
 	 * Page admin des articles

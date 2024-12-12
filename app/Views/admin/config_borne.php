@@ -1,9 +1,22 @@
 <?= view('commun/headerAdmin', ['titre' => $titre]) ?>
 <div id="main-content" class=" p-8 w-full ">
+	<?php if (session()->has('errors')): ?>
+		<div class="alert alert-danger">
+			<?php foreach (session('errors') as $error): ?>
+				<p><?= $error ?></p>
+			<?php endforeach; ?>
+		</div>
+	<?php endif; ?>
+
+	<?php if (session()->has('success')): ?>
+		<div class="alert alert-success">
+			<p><?= session('success') ?></p>
+		</div>
+	<?php endif; ?>
 
 	<!-- Section de sélection -->
 	<section id="section"  class="container px-5 py-16 mx-auto bg-medium-blue rounded-xl ">
-		<?php echo form_open('/admin/articles', ['enctype' => 'multipart/form-data']); ?>
+		<?php echo form_open('/admin/bornes', ['enctype' => 'multipart/form-data']); ?>
 		<div class="px-0 md:px-20">
 		<!-- Séléction du produit principal -->
 		<div class="flex flex-col md:flex-row gap-8 items-start">
@@ -121,6 +134,31 @@
 			</a>
 			</div>
 		</div>
+		</div>
+	</div>
+
+	<!-- Sélection thème -->
+	<div class="px-0 md:px-20">
+		<h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-lg md:text-2xl text-gray-300">Thème <span class="text-green-500/30">(*)</span></h2>
+		<div class="flex overflow-x-scroll p-5 hide-scroll-bar space-x-6 rounded-xl <?= $bgColor = isset($erreurs['id_matiere']) ? "bg-red-700/30" : "bg-light-teal/10" ?>">
+			<?php foreach($themes as $theme) : ?>
+				<div class="relative flex items-center justify-between w-52 h-24 bg-gray-800 rounded-lg overflow-hidden border-2 border-gray-700 <?= $hoverColor = isset($erreurs['id_matiere']) ? "hover:border-red-800" : "hover:border-green-700" ?> shadow-md shadow-gray-900 p-4 ease-in-out">
+					<div class="text-lg font-medium text-gray-300 font-bold text-center">
+						<?= $theme->nom ?>
+					</div>
+					<input type="checkbox" id="theme-<?= $theme->id ?>" name="id_theme[]" value="<?= $theme->id ?>" 
+						class="w-5 h-5 rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none ml-5">
+				</div>
+			<?php endforeach; ?>
+
+			<!-- Ajouter thème -->
+			<div class="relative flex items-center justify-center w-52 h-24 bg-gray-800 rounded-lg overflow-hidden shadow-md border-dotted border-2 border-gray-500">
+				<a href="/admin/theme" class="flex items-center justify-center w-12 h-12 bg-gray-600 hover:bg-green-600 text-white text-3xl font-bold rounded-full shadow-md transition duration-300 ease-in-out cursor-pointer">
+					<svg class="w-8 h-8 text-gray-300 hover:text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+						<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+					</svg>
+				</a>
+			</div>
 		</div>
 	</div>
 
