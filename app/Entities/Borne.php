@@ -23,11 +23,11 @@ class Borne extends Entity
         'id'          => 'integer',
         'nom'         => 'string',
         'description' => 'string',
-        'prix'        => 'float',
+        'prix'        => 'string',
         'ordre'       => 'integer',
-        'idTMolding'  => 'integer',
-        'idMatiere'   => 'integer',
-        'idTheme'     => 'integer',
+        'idTMolding'  => 'string',
+        'idMatiere'   => 'string',
+        'idTheme'     => 'string',
     ];
 
     protected $datamap = [
@@ -74,10 +74,10 @@ class Borne extends Entity
 	/**
 	 * Définit le prix de la borne.
 	 *
-	 * @param float $prix Le nouveau prix.
+	 * @param string $prix Le nouveau prix.
 	 * @return $this L'instance de Borne.
 	 */
-    public function setPrix(float $prix): static
+    public function setPrix(string $prix): static
     {
         $this->attributes['prix'] = $prix;
         return $this;
@@ -95,10 +95,10 @@ class Borne extends Entity
 	/**
 	 * Définit le T-Molding de la borne.
 	 *
-	 * @param int $idTMolding L'identifiant du T-Molding.
+	 * @param string $idTMolding L'identifiant du T-Molding.
 	 * @return $this L'instance de Borne.
 	 */
-    public function setIdTMolding(int $idTMolding): static
+    public function setIdTMolding(string $idTMolding): static
     {
         $this->attributes['id_tmolding'] = $idTMolding;
         return $this;
@@ -107,10 +107,10 @@ class Borne extends Entity
 	/**
 	 * Définit la matière de la borne.
 	 *
-	 * @param int $idMatiere L'identifiant de la matière.
+	 * @param string $idMatiere L'identifiant de la matière.
 	 * @return $this L'instance de Borne.
 	 */
-    public function setIdMatiere(int $idMatiere): static
+    public function setIdMatiere(string $idMatiere): static
     {
         $this->attributes['id_matiere'] = $idMatiere;
         return $this;
@@ -119,10 +119,10 @@ class Borne extends Entity
 	/**
 	 * Définit le thème de la borne.
 	 *
-	 * @param int $idTheme L'identifiant du thème.
+	 * @param string $idTheme L'identifiant du thème.
 	 * @return $this L'instance de Borne.
 	 */
-    public function setIdTheme(int $idTheme): static
+    public function setIdTheme(string $idTheme): static
     {
         $this->attributes['id_theme'] = $idTheme;
         return $this;
@@ -131,9 +131,9 @@ class Borne extends Entity
 	/**
 	 * Retourne le prix.
 	 *
-	 * @return float Le prix de la borne.
+	 * @return string Le prix de la borne.
 	 */
-    public function getPrix(): float
+    public function getPrix(): string
     {
         return $this->attributes['prix'];
     }

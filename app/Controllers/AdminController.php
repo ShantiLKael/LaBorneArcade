@@ -99,33 +99,83 @@ class AdminController extends BaseController
 	/* ------ Redirection page et ajout ------- */
 	/* ---------------------------------------- */
 
-    /**
+	/**
 	 * Page d'admin borne
 	 */
+	
 	public function adminBorne(){
-        if ($this->request->getPost() ) {
+		if ($this->request->getPost() ) {
 			if ( ! $this->validate( $this->borneModel->getValidationRules(), $this->borneModel->getValidationMessages() ) ) {
 				return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
 			}
 			else {
 				$data = $this->request->getPost();
-				$borne = new Borne();
-				
-				$borne->fill($data);
-				$this->borneModel->insert($borne);
+				$imageFile = $this->request->getFile('id_image'); // Le champ input file doit avoir le name="id_image"
+				if ($imageFile && $imageFile->isValid() && !$imageFile->hasMoved()) {
+					// Valider l'extension de l'image
+					$allowedExtensions = ['png', 'jpg', 'jpeg', 'gif'];
+					$imageExtension = $imageFile->getClientExtension();
+					if (!in_array($imageExtension, $allowedExtensions)) {
+						return redirect()->back()->withInput()->with('errors', [
+							'id_image' => 'Format d\'image non pris en charge. Formats acceptés : png, jpg, jpeg, gif.',
+						]);
+					}
 
-				//return redirect()->back()->with('success', "Borne ajouté avec succès.");
-                return redirect('/admin/config_borne', [
-                    'titre'    => 'Création d\'une borne',
-                    'nbJoueurs'=> 1,
-                    'nbBoutons'=> 6,
-                    'matieres' => $this->matiereModel->findAll(),
-                    'options'  => $this->optionModel->findAll(),
-                    'themes'   => $this->themeModel->findAll(),
-                    'tmoldings'=> $this->tMoldingModel->findAll(),
-                    'joysticks'=> $this->joystickModel->findAll(),
-                    'boutons'  => $this->boutonModel->findAll(),
-                ])->with('success', "Borne ajouté avec succès.");
+					// Renommer le fichier avec un nom unique
+					$imageName = $data['nom'] . '.' . $imageExtension;
+
+					// Déplacer le fichier vers le dossier public/assets/option/
+					$imagePath = 'assets/images/bornes/' . $imageName;
+					$imageFile->move(FCPATH . 'assets/images/bornes/', $imageName);
+
+					// Ajouter une entrée dans la table image
+					$imageData = ['chemin' => $imagePath];
+					$this->imageModel->insert($imageData);
+
+					// Récupérer l'ID de l'image insérée
+					$imageId = $this->imageModel->getInsertID();
+					if (!$imageId) {
+						return redirect()->back()->withInput()->with('errors', [ 'id_image' => 'Échec de l\'enregistrement de l\'image.', ]);
+					}
+
+					// Ajouter l'ID de l'image dans les données de l'option
+					$data['id_image'] = $imageId;
+
+
+					$borne = new Borne();
+
+					$borne->fill($data);
+					$this->borneModel->insert($borne);
+					$idBorne = $this->articleBlogModel->insertID();
+					$data['nbJoueurs'] = $data['nbJoueurs'] ?? 1;
+					$data['nbBoutons'] = $data['nbBoutons'] ?? 6;
+					
+					//$this->borneModel->insererJoystickBorne($idBorne, $data->joystick, $ordre);
+					for ($i = 0; $i < $data['nbJoueurs']; $i++) {
+						$this->borneModel->insererBoutonBorne($idBorne, $data['joystick'], $i);
+					}
+					for ($i = 0; $i < $data['nbBoutons']; $i++) {
+						$this->borneModel->insererBoutonBorne($idBorne, $data['bouton'], $i);
+					}
+
+					//return redirect()->back()->with('success', "Borne ajouté avec succès.");
+					return view('/admin/config_borne', [
+						'titre'    => 'Création d\'une borne',
+						'nbJoueurs'=> 1,
+						'nbBoutons'=> 6,
+						'matieres' => $this->matiereModel->findAll(),
+						'options'  => $this->optionModel->findAll(),
+						'themes'   => $this->themeModel->findAll(),
+						'tmoldings'=> $this->tMoldingModel->findAll(),
+						'joysticks'=> $this->joystickModel->findAll(),
+						'boutons'  => $this->boutonModel->findAll(),
+					]);
+				} else {
+					// Erreur lors du téléchargement de l'image
+					return redirect()->back()->withInput()->with('errors', [
+						'id_image' => 'Erreur lors du téléchargement de l\'image.',
+					]);
+				}
 			}
 		} 
 

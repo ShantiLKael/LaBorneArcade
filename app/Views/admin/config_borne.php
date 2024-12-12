@@ -25,7 +25,7 @@
 			<div class="w-full md:w-1/2 lg:w-7/12">
 				<?= form_input([
 						'type' => 'file',
-						'name' => 'images[]',
+						'name' => 'id_image',
 						'id'   => 'images',
 						'class'=> 'bg-gray-900 rounded-lg border px-2 py-2 mb-2 focus:outline-none focus:ring-2 text-lg font-bold text-gray-100',
 						'aria-required' => 'true',
@@ -71,13 +71,12 @@
 				<!-- Contenu de la borne -->
 				<div class="bg-gradient-to-r from-dark-blue max-w-100 to-dark-teal p-4 rounded md:mb-2 mb-10">
 						<?= form_label('Description <span class="text-green-500/30">(*)</span>', 'message', ['class' => 'block text-gray-300 text-lg text-gray-300  font-medium mb-1 ml-1']); ?>
-						
 						<?php
 						$focusRIng = (validation_show_error('description')) ? 'border-red-600 focus:ring-red-500' : 'border-gray-600 focus:ring-green-500';
 						echo form_textarea([
 							'name'          => 'description',
 							'id'            => 'description',
-							'rows'          => '5',
+							'rows'          => '4',
 							'class'         => 'w-full bg-gray-900 text-gray-300 text-xs rounded-lg border px-4 py-2 mb-2 focus:outline-none focus:ring-2 '.$focusRIng,
 							'value'         => set_value('description'),
 							'aria-required' => 'true',
@@ -116,24 +115,22 @@
 	<div class="px-0 md:px-20">
 		<h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-lg md:text-2xl text-gray-300">Matière <span class="text-green-500/30">(*)</span></h2>
 		<div class="flex overflow-x-scroll p-5 hide-scroll-bar space-x-6 rounded-xl <?= $bgColor = isset($erreurs['id_matiere']) ? "bg-red-700/30" : "bg-light-teal/10" ?>">
-		<?php foreach($matieres as $matiere) : ?>
-			<div class="relative w-52 h-52 md:w-72 md:h-72 bg-gray-800 rounded-lg overflow-hidden border-2 border-gray-700 <?= $hoverColor = isset($erreurs['id_matiere']) ? "hover:border-red-800" : "hover:border-green-700" ?> shadow-md shadow-gray-900 ease-in-out">
-				<input type="checkbox" id="matiere-<?= $matiere->id ?>" name="id_matiere" value="<?= $matiere->id ?>" class="absolute top-3 right-3 w-5 h-5 rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
-				<img src="" alt="Matière <?= $matiere->nom ?>" class="w-full h-5/6 object-cover" />
-				<div style="background-color: #<?= $matiere->couleur ?>;" class="h-1/4"></div>
+			<?php foreach($matieres as $matiere) : ?>
+				<div class="relative flex items-center justify-between w-52 h-24 bg-gray-800 rounded-lg overflow-hidden border-2 border-gray-700 <?= $hoverColor = isset($erreurs['id_matiere']) ? "hover:border-red-800" : "hover:border-green-700" ?> shadow-md shadow-gray-900 p-4 ease-in-out">
+					<input type="checkbox" id="matiere-<?= $matiere->id ?>" name="id_matiere" value="<?= $matiere->id ?>" class="absolute top-3 right-3 w-5 h-5 rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
+					<div class="text-lg font-medium text-gray-300 font-bold text-center"> <?= $matiere->nom ?> </div>
+					<div style="background-color: #<?= $matiere->couleur ?>;" class="h-1/4"></div>
+				</div>
+			<?php endforeach; ?>
+			
+			<!-- Ajouter Matière -->
+			<div class="relative flex items-center justify-center w-52 h-24 bg-gray-800 rounded-lg overflow-hidden shadow-md border-dotted border-2 border-gray-500">
+				<a href="/admin/matiere" class="flex items-center justify-center w-12 h-12 bg-gray-600 hover:bg-green-600 text-white text-3xl font-bold rounded-full shadow-md transition duration-300 ease-in-out cursor-pointer">
+					<svg class="w-8 h-8 text-gray-300 hover:text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+						<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+					</svg>
+				</a>
 			</div>
-		<?php endforeach; ?>
-		
-		<!-- Ajouter Matière -->
-		<div class="relative flex items-center justify-center w-52 h-52 md:w-72 md:h-72 bg-gray-800 rounded-lg overflow-hidden shadow-md border-dotted border-2 border-gray-500">
-			<div class="flex items-center justify-center w-24 h-24 bg-gray-600 hover:bg-green-600 text-white text-5xl font-bold rounded-full shadow-md transition duration-300 ease-in-out cursor-pointer">
-			<a href="/admin/matiere">
-				<svg class="w-24 h-24 text-gray-300 hover:text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-					<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-				</svg>
-			</a>
-			</div>
-		</div>
 		</div>
 	</div>
 
@@ -142,12 +139,9 @@
 		<h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-lg md:text-2xl text-gray-300">Thème <span class="text-green-500/30">(*)</span></h2>
 		<div class="flex overflow-x-scroll p-5 hide-scroll-bar space-x-6 rounded-xl <?= $bgColor = isset($erreurs['id_matiere']) ? "bg-red-700/30" : "bg-light-teal/10" ?>">
 			<?php foreach($themes as $theme) : ?>
-				<div class="relative flex items-center justify-between w-52 h-24 bg-gray-800 rounded-lg overflow-hidden border-2 border-gray-700 <?= $hoverColor = isset($erreurs['id_matiere']) ? "hover:border-red-800" : "hover:border-green-700" ?> shadow-md shadow-gray-900 p-4 ease-in-out">
-					<div class="text-lg font-medium text-gray-300 font-bold text-center">
-						<?= $theme->nom ?>
-					</div>
-					<input type="checkbox" id="theme-<?= $theme->id ?>" name="id_theme[]" value="<?= $theme->id ?>" 
-						class="w-5 h-5 rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none ml-5">
+				<div class="relative flex items-center justify-between w-52 h-24 bg-gray-800 rounded-lg overflow-hidden border-2 border-gray-700  shadow-md shadow-gray-900 p-4 ease-in-out">
+					<input type="radio" id="matiere-<?= $theme->id ?>" name="id_theme" value="<?= $theme->id ?>" class="absolute top-3 right-3 w-5 h-5 rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
+					<div class="text-lg font-medium text-gray-300 font-bold text-center"> <?= $theme->nom ?> </div>
 				</div>
 			<?php endforeach; ?>
 
@@ -170,6 +164,7 @@
 			<div class="relative w-52 h-52 md:w-72 md:h-72 bg-gray-800 rounded-lg overflow-hidden border-2 border-gray-700 <?= $hoverColor = isset($erreurs['id_tmolding']) ? "hover:border-red-800" : "hover:border-green-700" ?> shadow-md shadow-gray-900 ease-in-out">
 				<input type="checkbox" id="tmodling-<?= $tmolding->id ?>" name="id_tmolding" value="<?= $tmolding->id ?>" class="absolute top-3 right-3 w-5 h-5 rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
 				<img src="" alt="T-Molding <?= $tmolding->nom ?>" class="w-full h-5/6 object-cover" />
+				<div class="text-lg font-medium text-gray-300 font-bold text-center"> <?= $tmolding->nom ?> </div>
 				<div style="background-color: #<?= $tmolding->couleur ?>;" class="h-1/4"></div>
 			</div>
 		<?php endforeach; ?>
