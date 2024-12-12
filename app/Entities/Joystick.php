@@ -13,13 +13,13 @@ class Joystick extends Entity
 
     protected $datamap = [ 'id' => 'id_joystick' ];
 
-	public function setModele(string $modele)
+	public function setModele(string $modele): static
 	{
 		$this->attributes['modele'] = $modele;
 		return $this;
 	}
 
-	public function setCouleur(string $couleur)
+	public function setCouleur(string $couleur): static
 	{
 		$this->attributes['couleur'] = $couleur;
 		return $this;

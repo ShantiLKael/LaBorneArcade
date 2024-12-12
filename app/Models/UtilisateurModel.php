@@ -1,9 +1,10 @@
 <?php
 namespace App\Models;
 
+use App\Entities\Commande;
+use App\Entities\Faq;
 use CodeIgniter\Model;
 use App\Entities\BornePerso;
-use CodeIgniter\I18n\Time;
 
 class UtilisateurModel extends Model
 {
@@ -70,19 +71,20 @@ class UtilisateurModel extends Model
 				->orderBy('date_modif', 'desc');
 			
 		$bornes = $builder->get()->getResult('App\Entities\BornePerso');
-		return $bornes ? $bornes : [];
+		return $bornes ?: [];
 	}
 
 	/**
-	 * Insertion dans la table Panier
+	 * Insertion dans la table Panier.
+	 *
 	 * @param int $idUtilisateur
 	 * @param int $idBorne
 	 * @return bool
 	 */
 	public function insererPanier(int $idUtilisateur, int $idBorne): bool
 	{
-		$db = \Config\Database::connect();
-		$builder = $db->table('panier');
+//		$db = Database::connect();
+		$builder = $this->db->table('panier');
 
 		$data = [
 			'id_utilisateur'  => $idUtilisateur,
@@ -93,15 +95,16 @@ class UtilisateurModel extends Model
 	}
 
 	/**
-	 * Suppression d'une borne dans le panier de l'utilisateur
+	 * Suppression d'une borne dans le panier de l'utilisateur.
+	 *
 	 * @param int $idUtilisateur
 	 * @param int $idBorne
 	 * @return bool
 	 */
 	public function suppressionBorne(int $idUtilisateur, int $idBorne): bool
 	{
-		$db = \Config\Database::connect();
-		$builder = $db->table('panier');
+//		$db = Database::connect();
+		$builder = $this->db->table('panier');
 		
 		return $builder->where('id_utilisateur', $idUtilisateur)
 				->where('id_borneperso', $idBorne)
@@ -111,28 +114,29 @@ class UtilisateurModel extends Model
 	/**
 	 * Récupère un tableau de Faq d'un utilisateur admin
 	 * @param int $idUtilisateur
-	 * @return array<\App\Entities\Faq>
+	 * @return array<Faq>
 	 */
 	public function getFaqs(int $idUtilisateur): array
 	{
 		$faqModele = new FaqModel();
-		$faqModele->where('faq.id_utilisateur', $idUtilisateur);
-
-		$faqs = $faqModele->get()->getResult('App\Entities\Faq');
-		return $faqs ? $faqs : [];
+		$builder = $faqModele->builder()->where('faq.id_utilisateur', $idUtilisateur);
+		
+		$faqs = $builder->get()->getResult('App\Entities\Faq');
+		return $faqs ?: [];
 	}
 
 	/**
-	 * Récupère un tableau de Commande de l'utilisateur
+	 * Récupère un tableau de Commande de l'utilisateur.
+	 *
 	 * @param int $idUtilisateur
-	 * @return array<\App\Entities\Commande>
+	 * @return array<Commande>
 	 */
 	public function getCommandes(int $idUtilisateur): array
 	{
 		$commandeModel = new CommandeModel();
-		$commandeModel->where('commande.id_utilisateur', $idUtilisateur);
+		$builder = $commandeModel->builder()->where('commande.id_utilisateur', $idUtilisateur);
 		
-		$commandes = $commandeModel->get()->getResult('App\Entities\Commande');
-		return $commandes ? $commandes : [];
+		$commandes = $builder->get()->getResult('App\Entities\Commande');
+		return $commandes ?: [];
 	}
 }

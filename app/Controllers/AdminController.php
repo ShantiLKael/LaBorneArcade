@@ -11,7 +11,6 @@ use App\Entities\Option;
 use App\Entities\Joystick;
 use App\Entities\TMolding;
 use App\Entities\Bouton;
-use App\Entities\Image;
 
 use App\Models\ArticleBlogModel;
 use App\Models\FaqModel;
@@ -26,7 +25,6 @@ use App\Models\ImageModel;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Validation\ValidationInterface;
 use Config\Services;
-use JetBrains\PhpStorm\NoReturn;
 use ReflectionException;
 
 class AdminController extends BaseController
@@ -151,7 +149,10 @@ class AdminController extends BaseController
 	/* ---------------------------------------- */
 	/* ------ Redirection page et ajout ------- */
 	/* ---------------------------------------- */
-
+	
+	/**
+	 * @throws ReflectionException
+	 */
 	public function adminTheme()
 	{
 		if ($this->request->getPost() ) {
@@ -171,7 +172,10 @@ class AdminController extends BaseController
 		$themes = array_reverse($themes);
 		return view('admin/config_theme', ['titre' => 'configuration des theme', 'themes' => $themes]);
 	}
-
+	
+	/**
+	 * @throws ReflectionException
+	 */
 	public function adminMatiere()
 	{
 		if ($this->request->getPost() ) {
@@ -191,7 +195,10 @@ class AdminController extends BaseController
 		$matieres = array_reverse($matieres);
 		return view('admin/config_matiere', ['titre' => 'configuration des matiere', 'matieres' => $matieres]);
 	}
-
+	
+	/**
+	 * @throws ReflectionException
+	 */
 	public function adminOption()
 	{
 		if ($this->request->getPost()) {
@@ -227,7 +234,7 @@ class AdminController extends BaseController
 				$this->imageModel->insert($imageData);
 
 				// Récupérer l'ID de l'image insérée
-				$imageId = $this->imageModel->insertID();
+				$imageId = $this->imageModel->getInsertID();
 				if (!$imageId) {
 					return redirect()->back()->withInput()->with('errors', [
 						'id_image' => 'Échec de l\'enregistrement de l\'image.',
@@ -263,8 +270,11 @@ class AdminController extends BaseController
 			'options' => $options,
 		]);
 	}
-
-
+	
+	
+	/**
+	 * @throws ReflectionException
+	 */
 	public function adminJoystick()
 	{
 		if ($this->request->getPost() ) {
@@ -284,7 +294,10 @@ class AdminController extends BaseController
 		$joysticks = array_reverse($joysticks);
 		return view('admin/config_joystick', ['titre' => 'configuration des joystick', 'joysticks' => $joysticks]);
 	}
-
+	
+	/**
+	 * @throws ReflectionException
+	 */
 	public function adminTMolding()
 	{
 		if ($this->request->getPost() ) {
@@ -304,7 +317,10 @@ class AdminController extends BaseController
 		$tMoldings = array_reverse($tMoldings);
 		return view('admin/config_tMolding', ['titre' => 'configuration des TMolding', 'tMoldings' => $tMoldings]);
 	}
-
+	
+	/**
+	 * @throws ReflectionException
+	 */
 	public function adminBouton()
 	{
 		if ($this->request->getPost() ) {
@@ -430,7 +446,7 @@ class AdminController extends BaseController
 	/* ----------------- theme ---------------- */
 	/* ---------------------------------------- */
 
-	public function suppTheme( int $id_theme ): RedirectResponse
+	public function suppTheme(int $id_theme): RedirectResponse
 	{
 		$id_theme = $this->request->getPost('id');
 
@@ -448,7 +464,7 @@ class AdminController extends BaseController
 	/* ---------------- Matiere --------------- */
 	/* ---------------------------------------- */
 
-	public function suppMatiere( int $id_matiere ): RedirectResponse
+	public function suppMatiere(int $id_matiere): RedirectResponse
 	{
 		$id_matiere = $this->request->getPost('id');
 
@@ -483,8 +499,8 @@ class AdminController extends BaseController
 			}
 		}
 
-		// En cas d'erreur (si l'option n'existe pas ou si la suppression échoue)
-		return redirect()->back()->with('errors', ['Erreur lors de la suppression de l\'option et de l\'image.']);
+		// En cas d'erreur, si l'option n'existe pas ou si la suppression échoue.
+		return redirect()->back()->with('errors', ["Erreur lors de la suppression de l'option et de l'image."]);
 	}
 
 
@@ -493,7 +509,7 @@ class AdminController extends BaseController
 	/* --------------- joystick --------------- */
 	/* ---------------------------------------- */
 
-	public function suppJoystick( int $id_joystick ): RedirectResponse
+	public function suppJoystick(int $id_joystick): RedirectResponse
 	{
 		$id_joystick = $this->request->getPost('id');
 
@@ -511,7 +527,7 @@ class AdminController extends BaseController
 	/* --------------- Tmolding --------------- */
 	/* ---------------------------------------- */
 
-	public function suppTmolding( int $id_tmolding ): RedirectResponse
+	public function suppTmolding(int $id_tmolding): RedirectResponse
 	{
 		$id_tmolding = $this->request->getPost('id');
 
@@ -528,8 +544,15 @@ class AdminController extends BaseController
 	/* ---------------------------------------- */
 	/* ---------------- bouton ---------------- */
 	/* ---------------------------------------- */
-
-	public function suppBouton( int $id_bouton ): RedirectResponse
+	
+	/**
+	 *
+	 * TODO: Remove irrelevant parameter
+	 *
+	 * @param int $id_bouton
+	 * @return RedirectResponse
+	 */
+	public function suppBouton(int $id_bouton): RedirectResponse
 	{
 		$id_bouton = $this->request->getPost('id');
 

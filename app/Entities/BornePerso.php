@@ -5,6 +5,15 @@ use CodeIgniter\Entity\Entity;
 use App\Models\BornePersoModel;
 use CodeIgniter\I18n\Time;
 
+/**
+ *
+ * @property int idTMolding
+ * @property int idMatiere
+ * @property float prix
+ * @property int idBorne
+ * @property Time dateCreation
+ * @property Time dateModif
+ */
 class BornePerso extends Entity
 {
 
@@ -28,43 +37,46 @@ class BornePerso extends Entity
         'dateModif'   => 'date_modif',
     ];
 
-    public function setIdBorne(int $idBorne)
+    public function setIdBorne(int $idBorne): static
     {
         $this->attributes['id_borne'] = $idBorne;
         return $this;
     }
 
-    public function setDateCreation(Time $time)
+    public function setDateCreation(Time $time): static
     {
         $this->attributes['date_creation'] = $time;
         return $this;
     }
 
-    public function setDateModif(Time $time)
+    public function setDateModif(Time $time): static
     {
         $this->attributes['date_modif'] = $time;
         return $this;
     }
 
-    public function setPrix(float $prix)
+    public function setPrix(float $prix): static
     {
         $this->attributes['prix'] = $prix;
         return $this;
     }
-
-    public function setOrdre(int $ordre)
+	
+	/**
+	 * TODO: Chercher ce à quoi ça signifie.
+	 */
+    public function setOrdre(int $ordre): static
     {
         $this->attributes['ordre'] = $ordre;
         return $this;
     }
 
-    public function setIdTMolding(string $idTMolding)
+    public function setIdTMolding(string $idTMolding): static
     {
         $this->attributes['id_tmolding'] = intval($idTMolding);
         return $this;
     }
 
-    public function setIdMatiere(string $idMatiere)
+    public function setIdMatiere(string $idMatiere): static
     {
         $this->attributes['id_matiere'] = intval($idMatiere);
         return $this;

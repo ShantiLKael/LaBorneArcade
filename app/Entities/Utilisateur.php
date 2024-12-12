@@ -21,33 +21,34 @@ class Utilisateur extends Entity
         'tokenMdp'          => 'token_mdp',
     ];
 
-    public function setEmail(string $email)
+    public function setEmail(string $email): static
     {
         $this->attributes['email'] = $email;
         return $this;
     }
 
-    public function setMdp(string $mdp)
+    public function setMdp(string $mdp): static
     {
         $this->attributes['mdp'] = password_hash($mdp, PASSWORD_DEFAULT);
         return $this;
     }
 
-    public function setRole(string $role)
+    public function setRole(string $role): static
     {
         $this->attributes['role'] = $role;
         return $this;
     }
 
-    public function setTokenMdp(string $token)
+    public function setTokenMdp(string $token): static
     {
         $this->attributes['token_mdp'] = $token;
         return $this;
     }
 
-    public function setCreationTokenMdp(Time $time)
+    public function setCreationTokenMdp(Time $time): static
     {
         $this->attributes['date_creation_token'] = $time;
         return $this;
     }
+	
 }

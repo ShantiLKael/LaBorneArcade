@@ -3,8 +3,10 @@
 namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
-use CodeIgniter\Database\Query;
 
+/**
+ * @deprecated Utilisez <code>script_creation.sql</code> à la place.
+ */
 class CreerBornePerso extends Migration {
 	
 	/**

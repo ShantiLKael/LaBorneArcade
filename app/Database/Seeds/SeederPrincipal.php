@@ -5,6 +5,9 @@ namespace App\Database\Seeds;
 use CodeIgniter\Database\Seeder;
 use InvalidArgumentException;
 
+/**
+ * @deprecated Utilisez <code>script_insertion.sql</code> à la place.
+ */
 class SeederPrincipal extends Seeder {
 	
 	public function run(): void {

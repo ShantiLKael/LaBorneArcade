@@ -139,7 +139,7 @@ class BorneModel extends Model
 		return $this->db->prepare(fn($db) => (new Query($db))->setQuery($sql))->execute()->getCustomResultObject($this->returnType);
 	}
 	
-	public function getBorneParId(int $id): Borne|array {
+	public function getBorneParId(int $id): Borne|array|null {
 		return $this->find($id);
 	}
 	
@@ -263,7 +263,7 @@ class BorneModel extends Model
 	/**
 	 * Récupère un tableau d'Image de la borne.
 	 * @param int $idBorne
-	 * @return array<Image>
+	 * @return Image[]
 	 */
 	public function getImages(int $idBorne): array
 	{
