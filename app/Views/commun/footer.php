@@ -1,4 +1,5 @@
-<a href="/panier" class="fixed bottom-3 right-3 md:bottom-10 md:right-10">
+<?php if (isset($adminMode) && !$adminMode) : ?>
+	<a href="/panier" class="fixed bottom-3 right-3 md:bottom-10 md:right-10">
 	<?php if (!session()->has('user') && session()->has('panier')): ?>
 		<p class="flex h-2 w-2 font-bold items-center justify-center mt-4 rounded-full bg-red-500 p-3 text-xs text-white">
 			<?= count(session()->get('panier')) ?></p>
@@ -13,6 +14,9 @@
 		</svg>
 	</div>
 </a>
+<?php endif;?>
+
+<?php if (isset($confiance) && $confiance) : ?>
 <!-- Ils nous font confiance. -->
 <section class="max-w-xl mx-auto mt-10 mb-10">
 	<div class="bg-gradient-to-r from-dark-teal to-medium-blue text-center pt-4">
@@ -35,6 +39,7 @@
 		</div>
 	</div>
 </section>
+<?php endif; ?>
 
 <!-- Footer -->
 <footer class="py-5 text-gray-100">
