@@ -170,8 +170,10 @@ class ControleurBorne extends BaseController {
 			/** @var Borne $borne */
 			$borne = $this->borneModel->getBorneParId($index);
 			$images = $this->borneModel->getImages($index);
-			$borne->image = count($images) ? $images[0]->chemin : "";
-			$bornes_suggerees[] = $borne;
+			if ($borne) {
+				$borne->image = count($images) ? $images[0]->chemin : "";
+				$bornes_suggerees[] = $borne;
+			}
 		}
 
 		// Methode POST
@@ -186,14 +188,14 @@ class ControleurBorne extends BaseController {
 			/** @var Borne $borne */
 			$borne = $this->borneModel->find($id_borne);
 			$bornePerso = new BornePerso();
-			$bornePerso->idTMolding = $borne->idTMolding;
-			$bornePerso->idMatiere  = $borne->idMatiere;
-			$bornePerso->prix       = $borne->prix;
-			$bornePerso->idBorne    = $id_borne;
+			$bornePerso->idTMolding   = $borne->idTMolding;
+			$bornePerso->idMatiere    = $borne->idMatiere;
+			$bornePerso->prix         = $borne->prix;
+			$bornePerso->idBorne      = $id_borne;
 			$bornePerso->dateCreation = Time::now('Europe/Paris', 'fr_FR');
 			$bornePerso->dateModif    = Time::now('Europe/Paris', 'fr_FR');
 
-			if ($session->has('user')) { // Utilisateur connécté
+			if ($session->has('user')) { // Utilisateur connecté
 				$idBornePerso = $this->bornePersoModel->insert($bornePerso);
 
 				if (isset($data['idOptions']))
@@ -398,31 +400,6 @@ class ControleurBorne extends BaseController {
 			'joysticks' => $this->joystickModel->findAll(),
 			'boutons'   => $this->boutonModel->findAll(),
 			'borne'     => $id_borne ? $this->borneModel->getBorneParId($id_borne) : null,
-		]);
-	}
-	
-	/*=============================*/
-	/*  Méthodes des routes admin  */
-	/*=============================*/
-	
-	public function creerBorne() : string {
-		
-		return view('borne/admin_borne', [
-			'titre'=>"Modification des bornes"
-		]);
-	}
-	
-	public function modifierBorne(int $id_borne) : string {
-		
-		return view('borne/admin_borne', [
-			'titre'=>"Modification des bornes"
-		]);
-	}
-	
-	public function supprimerBorne(int $id_borne) : string {
-		
-		return view('borne/admin_borne', [
-			'titre'=>"Modification des bornes"
 		]);
 	}
 	

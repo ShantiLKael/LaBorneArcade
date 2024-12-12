@@ -5,6 +5,15 @@ use CodeIgniter\Entity\Entity;
 use App\Models\BornePersoModel;
 use CodeIgniter\I18n\Time;
 
+/**
+ *
+ * @property int idTMolding
+ * @property int idMatiere
+ * @property float prix
+ * @property int idBorne
+ * @property Time dateCreation
+ * @property Time dateModif
+ */
 class BornePerso extends Entity
 {
 
@@ -51,7 +60,10 @@ class BornePerso extends Entity
         $this->attributes['prix'] = $prix;
         return $this;
     }
-
+	
+	/**
+	 * TODO: Chercher ce à quoi ça signifie.
+	 */
     public function setOrdre(int $ordre): static
     {
         $this->attributes['ordre'] = $ordre;

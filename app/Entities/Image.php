@@ -3,6 +3,9 @@ namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
 
+/**
+ * @property string chemin
+ */
 class Image extends Entity
 {
     protected $casts = [
