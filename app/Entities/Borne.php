@@ -76,6 +76,9 @@ class Borne extends Entity
         return $this;
     }
 	
+	/**
+	 * TODO: Chercher ce à quoi ça signifie.
+	 */
     public function setOrdre(int $ordre): static
     {
         $this->attributes['ordre'] = $ordre;
@@ -95,68 +98,117 @@ class Borne extends Entity
     }
 	
 	/**
-	 * Définit 
+	 * Définit la matière de la borne.
 	 *
-	 * @param int $idMatiere
-	 * @return $this
+	 * @param int $idMatiere L'identifiant de la matière.
+	 * @return $this L'instance de Borne.
 	 */
     public function setIdMatiere(int $idMatiere): static
     {
         $this->attributes['id_matiere'] = $idMatiere;
         return $this;
     }
-
+	
+	/**
+	 * Définit le thème de la borne.
+	 *
+	 * @param int $idTheme L'identifiant du thème.
+	 * @return $this L'instance de Borne.
+	 */
     public function setIdTheme(int $idTheme): static
     {
         $this->attributes['id_theme'] = $idTheme;
         return $this;
     }
-
+	
+	/**
+	 * Retourne le prix.
+	 *
+	 * @return float Le prix de la borne.
+	 */
     public function getPrix(): float
     {
         return $this->attributes['prix'];
     }
-
+	
+	/**
+	 * TODO: Chercher ce à quoi ça signifie.
+	 */
     public function getOrdre(): int
     {
         return $this->attributes['ordre'];
     }
-
+	
+	/**
+	 * Retourne le thème.
+	 *
+	 * @return Theme Le thème de la borne.
+	 */
     public function getTheme(): Theme
     {
         return $this->borneModel->getTheme($this->idTheme);
     }
-
+	
+	/**
+	 * Retourne la matière.
+	 *
+	 * @return Matiere La matière de la borne.
+	 */
     public function getMatiere(): Matiere
     {
         $borneModel = new BorneModel();
         return $borneModel->getMatiere($this->idMatiere);
     }
-
+	
+	/**
+	 * Retourne le T-Molding.
+	 *
+	 * @return TMolding Le T-Molding de la borne.
+	 */
     public function getTMolding(): TMolding
     {
         $borneModel = new BorneModel();
         return $borneModel->getTMolding($this->idTMolding);
     }
-
+	
+	/**
+	 * Retourne les options.
+	 *
+	 * @return Option[] Les options de la borne.
+	 */
     public function getOptions(): array
     {
         $borneModel = new BorneModel();
         return $borneModel->getOptions($this->id);
     }
-
+	
+	/**
+	 * Retourne les boutons.
+	 *
+	 * @return Bouton[] Les boutons de la borne.
+	 */
     public function getBoutons(): array
     {
         $borneModel = new BorneModel();
         return $borneModel->getBoutons($this->id);
     }
-
+	
+	/**
+	 * Retourne les joysticks.
+	 *
+	 * @return Joystick[] Les joysticks de la borne.
+	 */
     public function getJoysticks(): array
     {
         $borneModel = new BorneModel();
         return $borneModel->getJoysticks($this->id);
     }
-
+	
+	/**
+	 * Retourne les images.
+	 *
+	 * @return Image[] Les images de la borne.
+	 */
     public function getImages(): array
     {
         $borneModel = new BorneModel();

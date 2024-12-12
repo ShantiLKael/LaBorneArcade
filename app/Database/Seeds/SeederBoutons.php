@@ -8,6 +8,9 @@ use CodeIgniter\Database\Query;
 use CodeIgniter\Database\Seeder;
 use Exception;
 
+/**
+ * @deprecated Utilisez <code>script_insertion.sql</code> à la place.
+ */
 class SeederBoutons extends Seeder {
 	
 	/**

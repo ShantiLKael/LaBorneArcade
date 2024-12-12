@@ -1,10 +1,13 @@
-<?php
+<?php /** @noinspection SqlResolve */
 
 namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 use CodeIgniter\Database\Query;
 
+/**
+ * @deprecated Utilisez <code>script_creation.sql</code> à la place.
+ */
 class CreerBouton extends Migration {
 	
 	/**
@@ -24,7 +27,7 @@ class CreerBouton extends Migration {
 				'unique'    =>false,
 			],
 			'forme'=>[
-				'type'      =>"VARCHAR", // TODO: Ajouter contrainte check
+				'type'      =>"VARCHAR",
 				'constraint'=>"50",
 				'null'      =>false,
 				'unique'    =>false,

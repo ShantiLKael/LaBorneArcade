@@ -7,6 +7,9 @@ namespace App\Database\Seeds;
 use CodeIgniter\Database\Query;
 use CodeIgniter\Database\Seeder;
 
+/**
+ * @deprecated Utilisez <code>script_insertion.sql</code> à la place.
+ */
 class SeederMatieres extends Seeder {
 	
 	public function run(): void {
