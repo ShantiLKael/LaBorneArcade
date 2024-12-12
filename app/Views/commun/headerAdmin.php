@@ -20,7 +20,7 @@
 			<li class="m-5"> <a href="/admin/joystick" 	class="block px-4 py-2 rounded hover:bg-gray-700 transition">Joystick</a></li>
 			<li class="m-5"> <a href="/admin/TMolding" 	class="block px-4 py-2 rounded hover:bg-gray-700 transition">TMolding</a></li>
 			<li class="m-5"> <a href="/admin/bouton" 	class="block px-4 py-2 rounded hover:bg-gray-700 transition">Bouton</a></li>
-			<li class="m-5"> <a href="/admin/contact" 	class="block px-4 py-2 rounded hover:bg-gray-700 transition">Contact</a></li>
+			<!--<li class="m-5"> <a href="/admin/contact" 	class="block px-4 py-2 rounded hover:bg-gray-700 transition">Contact</a></li>-->
 			<li class="m-5"> <a href="/admin/articles" 	class="block px-4 py-2 rounded hover:bg-gray-700 transition">Articles</a></li>
 			<li class="m-5"> <a href="/admin/faqs" 		class="block px-4 py-2 rounded hover:bg-gray-700 transition">FAQs</a></li>
 		</ul>
