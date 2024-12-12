@@ -193,7 +193,7 @@ class LoginController extends BaseController
 	 * @return string
 	 * @throws Exception
 	 */
-	public function oubliMdp(): string
+	public function oubliMdp(): RedirectResponse|string
 	{
 
 		if ($this->request->getMethod() === 'POST') {
@@ -201,13 +201,6 @@ class LoginController extends BaseController
 			$userModel = new UtilisateurModel();
 			$user = $userModel->where('email', $email)->first();
 
-			if ($user) {
-				echo 'Utilisateur trouvé :';
-			} else {
-				echo 'Utilisateur introuvable pour l\'e-mail : ' . $email;
-			}
-
-			echo 'Adresse e-mail soumise : ' . $email;
 
 			if ($user) {
 				// Générer un jeton de réinitialisation de MDP et enregistrez-le dans BD
@@ -229,22 +222,23 @@ class LoginController extends BaseController
 					$resetLink
 				);
 
+				return redirect()->to('/connexion');
 			} else {
 				echo 'Adresse e-mail non valide.';
 			}
 		} else {
-			return view('login/oubliMdp', ['titre' => "Profile"]);
+			return view('login/oubliMdp', ['titre' => "oubliMdp"]);
 		}
-		return view('login/oubliMdp', ['titre' => "Profile"]);
+		return view('login/oubliMdp', ['titre' => "oubliMdp"]);
 
 	}
-	
+
 	/**
 	 * @param string $token
 	 * @return string
 	 * @throws ReflectionException
 	 */
-	public function resetMdp(string $token): string
+	public function resetMdp(string $token): string|RedirectResponse
 	{
 		if ($this->request->getMethod() === 'POST') {
 
@@ -264,7 +258,7 @@ class LoginController extends BaseController
 					->set('token_mdp', null)
 					->set('date_creation_token', null)
 					->update($user->id_utilisateur);
-				return 'Mot de passe réinitialisé avec succès.';
+					return redirect()->to('/connexion');
 			} else {
 				return 'Erreur lors de la réinitialisation du mot de passe.';
 			}
@@ -276,7 +270,7 @@ class LoginController extends BaseController
 				->where('date_creation_token >', date('Y-m-d H:i:s'))
 				->first();
 			if ($user) {
-				return view('login/resetMdp', ['token' => $token, 'titre' => "Profile"]);
+				return view('login/resetMdp', ['token' => $token, 'titre' => "reset de mot de passe"]);
 			} else {
 				return 'Lien de réinitialisation non valide.';
 			}
