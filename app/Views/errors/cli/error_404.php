@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUndefinedVariableInspection */
 
 use CodeIgniter\CLI\CLI;
 

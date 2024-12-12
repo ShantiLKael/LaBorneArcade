@@ -224,7 +224,7 @@ class UserAgents extends BaseConfig
      * Robots
      * -------------------------------------------------------------------
      *
-     * There are hundred of bots but these are the most common.
+     * There are a hundred of bots but these are the most common.
      *
      * @var array<string, string>
      */

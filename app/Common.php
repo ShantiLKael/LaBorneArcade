@@ -13,3 +13,25 @@
  *
  * @see: https://codeigniter.com/user_guide/extending/common.html
  */
+
+/**
+ * @param string|bool|int $value
+ * @return int
+ * @throws Exception
+ */
+function parse_bool_to_postgres(string|bool|int $value): int {
+	if ($value === "true" || $value === 1 || $value === true)
+		return 1;
+	if ($value === "false" || $value === 0 || $value === false)
+		return 0;
+	throw new Exception("Unsupported boolean value for Postgres: '$value'");
+}
+
+function query_par_type(array $params, string $type): string {
+	if (isset($params["type"]) && $params["type"] === $type)
+		unset($params["type"]);
+	else
+		$params["type"] = $type;
+	$query = http_build_query($params);
+	return ($query ? "?" : "") . $query;
+}

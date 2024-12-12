@@ -27,14 +27,14 @@ class Cookie extends BaseConfig
      *
      * @var DateTimeInterface|int|string
      */
-    public $expires = 0;
+    public DateTimeInterface|string|int $expires = 0;
 
     /**
      * --------------------------------------------------------------------------
      * Cookie Path
      * --------------------------------------------------------------------------
      *
-     * Typically will be a forward slash.
+     * Typically, will be a forward slash.
      */
     public string $path = '/';
 

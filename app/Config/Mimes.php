@@ -8,7 +8,7 @@ namespace Config;
  * This file contains an array of mime types.  It is used by the
  * Upload class to help identify allowed file types.
  *
- * When more than one variation for an extension exist (like jpg, jpeg, etc)
+ * When more than one variation for an extension exist (like jpg, jpeg, etc.)
  * the most common one should be first in the array to aid the guess*
  * methods. The same applies when more than one mime-type exists for a
  * single extension.
@@ -490,7 +490,7 @@ class Mimes
      *
      * @return string|null The mime type found, or none if unable to determine.
      */
-    public static function guessTypeFromExtension(string $extension)
+    public static function guessTypeFromExtension(string $extension): string|null
     {
         $extension = trim(strtolower($extension), '. ');
 
@@ -508,7 +508,7 @@ class Mimes
      *
      * @return string|null The extension determined, or null if unable to match.
      */
-    public static function guessExtensionFromType(string $type, ?string $proposedExtension = null)
+    public static function guessExtensionFromType(string $type, ?string $proposedExtension = null): string|null
     {
         $type = trim(strtolower($type), '. ');
 

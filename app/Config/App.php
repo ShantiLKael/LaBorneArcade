@@ -40,7 +40,7 @@ class App extends BaseConfig
      * something else. If you have configured your web server to remove this file
      * from your site URIs, set this variable to an empty string.
      */
-    public string $indexPage = 'index.php';
+    public string $indexPage = '';
 
     /**
      * --------------------------------------------------------------------------
@@ -90,7 +90,7 @@ class App extends BaseConfig
      *
      * The Locale roughly represents the language and location that your visitor
      * is viewing the site from. It affects the language strings and other
-     * strings (like currency markers, numbers, etc), that your program
+     * strings (like currency markers, numbers, etc.), that your program
      * should run under for this request.
      */
     public string $defaultLocale = 'en';
