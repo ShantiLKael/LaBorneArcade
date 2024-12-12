@@ -1,5 +1,5 @@
 
-<?= view('commun/header', ['titre' => $titre]) ;?>
+<?php if (!$accueil) echo view('commun/header', ['titre' => $titre]);?>
 
 <section class="text-white py-12 px-6">
 	
