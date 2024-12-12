@@ -616,12 +616,12 @@ video {
   bottom: 0.75rem;
 }
 
-.left-2 {
-  left: 0.5rem;
+.left-0 {
+  left: 0px;
 }
 
-.left-3 {
-  left: 0.75rem;
+.left-2 {
+  left: 0.5rem;
 }
 
 .left-\[40\%\] {
@@ -662,6 +662,10 @@ video {
 
 .top-3 {
   top: 0.75rem;
+}
+
+.top-\[2\%\] {
+  top: 2%;
 }
 
 .z-0 {
@@ -842,6 +846,10 @@ video {
   margin-top: 2rem;
 }
 
+.mt-\[30\%\] {
+  margin-top: 30%;
+}
+
 .block {
   display: block;
 }
@@ -943,12 +951,24 @@ video {
   height: 2.25rem;
 }
 
+.h-\[150\%\] {
+  height: 150%;
+}
+
 .h-\[18px\] {
   height: 18px;
 }
 
 .h-\[30px\] {
   height: 30px;
+}
+
+.h-\[50\%\] {
+  height: 50%;
+}
+
+.h-\[80px\] {
+  height: 80px;
 }
 
 .h-auto {
@@ -1031,12 +1051,24 @@ video {
   width: 2.25rem;
 }
 
+.w-\[100\%\] {
+  width: 100%;
+}
+
 .w-\[18px\] {
   width: 18px;
 }
 
 .w-\[25vw\] {
   width: 25vw;
+}
+
+.w-\[60\%\] {
+  width: 60%;
+}
+
+.w-\[80\%\] {
+  width: 80%;
 }
 
 .w-auto {
@@ -1121,6 +1153,11 @@ video {
   border-spacing: var(--tw-border-spacing-x) var(--tw-border-spacing-y);
 }
 
+.-translate-x-0 {
+  --tw-translate-x: -0px;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
 .-translate-x-1\/2 {
   --tw-translate-x: -50%;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
@@ -1175,6 +1212,10 @@ video {
 
 .grid-cols-5 {
   grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.grid-rows-2 {
+  grid-template-rows: repeat(2, minmax(0, 1fr));
 }
 
 .grid-rows-\[10\%_90\%\] {
@@ -1279,6 +1320,12 @@ video {
   --tw-space-y-reverse: 0;
   margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
+}
+
+.space-y-8 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(2rem * var(--tw-space-y-reverse));
 }
 
 .overflow-hidden {
@@ -1502,6 +1549,10 @@ video {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
 }
 
+.bg-white\/50 {
+  background-color: rgb(255 255 255 / 0.5);
+}
+
 .bg-gradient-to-r {
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
 }
@@ -1582,6 +1633,10 @@ video {
   padding: 1.5rem;
 }
 
+.p-8 {
+  padding: 2rem;
+}
+
 .px-0 {
   padding-left: 0px;
   padding-right: 0px;
@@ -1590,6 +1645,11 @@ video {
 .px-10 {
   padding-left: 2.5rem;
   padding-right: 2.5rem;
+}
+
+.px-16 {
+  padding-left: 4rem;
+  padding-right: 4rem;
 }
 
 .px-2 {
@@ -1695,6 +1755,10 @@ video {
   padding-left: 0.75rem;
 }
 
+.pl-52 {
+  padding-left: 13rem;
+}
+
 .pl-6 {
   padding-left: 1.5rem;
 }
@@ -1705,6 +1769,10 @@ video {
 
 .pr-4 {
   padding-right: 1rem;
+}
+
+.pr-64 {
+  padding-right: 16rem;
 }
 
 .pt-4 {
@@ -1798,6 +1866,11 @@ video {
 
 .tracking-wide {
   letter-spacing: 0.025em;
+}
+
+.text-black {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity, 1));
 }
 
 .text-blue-500 {
@@ -2088,6 +2161,10 @@ video {
 
 .hover\:bg-white\/10:hover {
   background-color: rgb(255 255 255 / 0.1);
+}
+
+.hover\:bg-white\/70:hover {
+  background-color: rgb(255 255 255 / 0.7);
 }
 
 .hover\:fill-red-500:hover {
