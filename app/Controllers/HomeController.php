@@ -25,7 +25,7 @@ class HomeController extends BaseController
 	}
 
 	public function index():string {
-		return view('home');
+		return view('accueil',['titre'=> 'LaBorneArcade']);
 	}
 
 	/**
@@ -107,11 +107,12 @@ class HomeController extends BaseController
 	 *
 	 * @return string La vue FAQ.
 	 */
-	public function faq(): string {
+	public function faq($accueil=false): string {
 		$faqs = $this->faqModel->findAll();
 		return view('faq/index_faq', [
 			'titre' => 'FAQ | LBA',
 			'faqs'   => $faqs,
+			'accueil' => $accueil
 		]);
 	}
 }

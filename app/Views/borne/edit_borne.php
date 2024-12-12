@@ -1,4 +1,5 @@
-<?= view('commun/header', ['titre' => $titre]) ?>
+<?= /** @noinspection PhpUndefinedVariableInspection */
+view('commun/header', ['titre' => $titre]) ?>
 <!-- Formulaire des options choisies -->
 <?= form_open('/borne-perso') ?>
 <div class="bg-gradient-to-r from-dark-teal max-w-100 to-medium-blue text-center py-10 mb-8">
@@ -79,7 +80,9 @@
 	<div class="flex overflow-x-scroll p-5 hide-scroll-bar space-x-6 rounded-xl bg-light-teal/10">
 		<?php foreach($options as $option) : ?>
 			<div class="relative min-w-[300px] sm:min-w-[350px] md:min-w-[400px] bg-gray-800 rounded-lg overflow-hidden border-2 border-gray-700 hover:border-green-700 shadow-gray-900 shadow-md hover:shadow-lg ease-in-out flex-shrink-0">
-				<input type="checkbox" id="option-<?= $option->id ?>" name="idOptions[]" value="<?= $option->id ?>" class="absolute top-3 right-3 w-6 h-6 cursor-pointer rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
+				<label>
+					<input type="checkbox" id="option-<?= $option->id ?>" name="idOptions[]" value="<?= $option->id ?>" class="absolute top-3 right-3 w-6 h-6 cursor-pointer rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
+				</label>
 				<img loading="lazy" src="" alt="Option <?= $option->nom ?>" class="w-full h-64 object-cover">
 				<div class="p-4">
 					<p class="text-green-400 text-lg font-bold mb-2"><?= $option->cout ?> €</p>
@@ -97,7 +100,9 @@
 	<div class="flex overflow-x-scroll p-5 hide-scroll-bar space-x-6 rounded-xl <?= $bgColor = isset($erreurs['id_matiere']) ? "bg-red-700/30" : "bg-light-teal/10" ?>">
 	<?php foreach($matieres as $matiere) : ?>
 		<div class="relative w-52 h-52 md:w-72 md:h-72 bg-gray-800 rounded-lg overflow-hidden border-2 border-gray-700 <?= $hoverColor = isset($erreurs['id_matiere']) ? "hover:border-red-800" : "hover:border-green-700" ?> shadow-md shadow-gray-900 ease-in-out">
-			<input type="checkbox" id="matiere-<?= $matiere->id ?>" name="id_matiere" value="<?= $matiere->id ?>" class="absolute top-3 right-3 w-5 h-5 rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
+			<label>
+				<input type="checkbox" id="matiere-<?= $matiere->id ?>" name="id_matiere" value="<?= $matiere->id ?>" class="absolute top-3 right-3 w-5 h-5 rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
+			</label>
 			<img src="" alt="Matière <?= $matiere->nom ?>" class="w-full h-5/6 object-cover" />
 			<div style="background-color: #<?= $matiere->couleur ?>;" class="h-1/4"></div>
 		</div>
@@ -121,7 +126,9 @@
 	<div class="flex overflow-x-scroll p-5 hide-scroll-bar space-x-6 rounded-xl <?= $bgColor = isset($erreurs['id_tmolding']) ? "bg-red-700/30" : "bg-light-teal/10" ?>">
 	<?php foreach($tmoldings as $tmolding) : ?>
 		<div class="relative w-52 h-52 md:w-72 md:h-72 bg-gray-800 rounded-lg overflow-hidden border-2 border-gray-700 <?= $hoverColor = isset($erreurs['id_tmolding']) ? "hover:border-red-800" : "hover:border-green-700" ?> shadow-md shadow-gray-900 ease-in-out">
-			<input type="checkbox" id="tmodling-<?= $tmolding->id ?>" name="id_tmolding" value="<?= $tmolding->id ?>" class="absolute top-3 right-3 w-5 h-5 rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
+			<label>
+				<input type="checkbox" id="tmodling-<?= $tmolding->id ?>" name="id_tmolding" value="<?= $tmolding->id ?>" class="absolute top-3 right-3 w-5 h-5 rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
+			</label>
 			<img src="" alt="T-Molding <?= $tmolding->nom ?>" class="w-full h-5/6 object-cover" />
 			<div style="background-color: #<?= $tmolding->couleur ?>;" class="h-1/4"></div>
 		</div>
@@ -147,9 +154,11 @@
 	<!-- Sélecteur du modèle -->
 	<div class="w-full max-w-sm min-w-[200px]">
 		<div class="relative">
-			<select id="selection-joysticks" class="w-full bg-transparent placeholder:text-slate-400 text-slate-500 text-sm border-b border-slate-400 pl-3 py-2 transition duration-300 ease focus:border-b focus:border-slate-500 hover:border-slate-200 shadow-sm focus:shadow-md appearance-none cursor-pointer">
-				<option class="bg-deep-blue" value="Tous" selected>Tous les joysticks</option>
-			</select>
+			<label>
+				<select id="selection-joysticks" class="w-full bg-transparent placeholder:text-slate-400 text-slate-500 text-sm border-b border-slate-400 pl-3 py-2 transition duration-300 ease focus:border-b focus:border-slate-500 hover:border-slate-200 shadow-sm focus:shadow-md appearance-none cursor-pointer">
+					<option class="bg-deep-blue" value="Tous" selected>Tous les joysticks</option>
+				</select>
+			</label>
 			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.2" stroke="currentColor" class="h-5 w-5 ml-1 absolute top-2.5 right-2.5 text-slate-500">
 				<path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
 			</svg>
@@ -162,7 +171,9 @@
 		<?php foreach($joysticks as $joystick) : ?>
 		<div class="relative w-52 h-52 md:w-72 md:h-72 bg-gray-800 rounded-lg overflow-hidden border-2 border-gray-700 <?= $hoverColor = isset($erreurs['joystick']) ? "hover:border-red-800" : "hover:border-green-700" ?> shadow-md shadow-gray-900 ease-in-out flex-shrink-0">
 			<!-- Checkbox -->
-			<input type="checkbox" id="joystick-<?= $joystick->id ?>" data-model="<?= $joystick->modele ?>" data-color="#<?= $joystick->couleur ?>" name="joystick" value="<?= $joystick->id ?>" class="absolute top-3 right-3 w-5 h-5 cursor-pointer rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
+			<label>
+				<input type="checkbox" id="joystick-<?= $joystick->id ?>" data-model="<?= $joystick->modele ?>" data-color="#<?= $joystick->couleur ?>" name="joystick" value="<?= $joystick->id ?>" class="absolute top-3 right-3 w-5 h-5 cursor-pointer rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
+			</label>
 			
 			<!-- Image -->
 			<img loading="lazy" src="" alt="Joystick <?= htmlspecialchars($joystick->modele) ?>" class="w-full h-4/6 md:h-5/6 object-cover">
@@ -201,9 +212,11 @@
 		<!-- Sélecteur du modèle -->
 		<div class="w-full max-w-sm min-w-[200px]">
 			<div class="relative">
-				<select id="selection-boutons" class="w-full bg-transparent placeholder:text-slate-400 text-slate-500 text-sm border-b border-slate-400 pl-3 py-2 transition duration-300 ease focus:border-b focus:border-slate-500 hover:border-slate-200 shadow-sm focus:shadow-md appearance-none cursor-pointer">
-					<option class="bg-deep-blue" value="Tous" selected>Tous les boutons</option>
-				</select>
+				<label>
+					<select id="selection-boutons" class="w-full bg-transparent placeholder:text-slate-400 text-slate-500 text-sm border-b border-slate-400 pl-3 py-2 transition duration-300 ease focus:border-b focus:border-slate-500 hover:border-slate-200 shadow-sm focus:shadow-md appearance-none cursor-pointer">
+						<option class="bg-deep-blue" value="Tous" selected>Tous les boutons</option>
+					</select>
+				</label>
 				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.2" stroke="currentColor" class="h-5 w-5 ml-1 absolute top-2.5 right-2.5 text-slate-500">
 					<path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
 				</svg>
@@ -213,7 +226,9 @@
 	<div id="liste-boutons" class="flex overflow-x-scroll p-5 hide-scroll-bar space-x-6 rounded-xl <?= $bgColor = isset($erreurs['bouton']) ? "bg-red-700/30" : "bg-light-teal/10" ?>">
 	<?php foreach($boutons as $bouton) : ?>
 		<div class="relative w-52 h-52 md:w-72 md:h-72 bg-gray-800 rounded-lg overflow-hidden border-2 border-gray-700 <?= $hoverColor = isset($erreurs['bouton']) ? "hover:border-red-800" : "hover:border-green-700" ?> shadow-md shadow-gray-900 ease-in-out">
-			<input type="checkbox" id="bouton-<?= $bouton->id ?>" data-forme="<?= $bouton->forme ?>" data-model="<?= $bouton->modele ?>" data-color="#<?= $bouton->couleur ?>" name="bouton" value="<?= $bouton->id ?>" class="absolute top-3 right-3 w-5 h-5 rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
+			<label>
+				<input type="checkbox" id="bouton-<?= $bouton->id ?>" data-forme="<?= $bouton->forme ?>" data-model="<?= $bouton->modele ?>" data-color="#<?= $bouton->couleur ?>" name="bouton" value="<?= $bouton->id ?>" class="absolute top-3 right-3 w-5 h-5 rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
+			</label>
 			<img src="" alt="Boutons <?= $bouton->modele ?>" class="w-full h-5/6 object-cover" />
 			<div style="background-color: #<?= $bouton->couleur ?>;" class="h-1/4"></div>
 		</div>
@@ -285,8 +300,8 @@
 
 	<div class="text-lg text-gray-300 flex items-center">
 		<p>
-			La dispositions et couleurs des joysticks et boutons seront la même pour les tous les joueurs.
-			Pour nos bornes d'arcades à 2 joueurs, nous vous ajoutons 2 boutons en plus pour choisir le mode ! (1J - 2J) 
+			Les dispositions et couleurs des joysticks et boutons seront la même pour les tous les joueurs.
+			Pour nos bornes d'arcades à deux joueurs, nous vous ajoutons deux boutons pour choisir le mode ! (1J - 2J)
 		</p>
 	</div>
 
@@ -299,8 +314,8 @@
 <script>
 	const boutons   = <?= json_encode($boutons); ?>;
 	const joysticks = <?= json_encode($joysticks); ?>;
-	const boutonsBorne   = <?= isset($borne) ? json_encode($borne->boutons) : json_encode(null); ?>;
-	const joysticksBorne = <?= isset($borne) ? json_encode($borne->joysticks) : json_encode(null); ?>;
+	const boutonsBorne   = <?= json_encode(isset($borne) ? $borne->boutons : null); ?>;
+	const joysticksBorne = <?= json_encode(isset($borne) ? $borne->joysticks : null); ?>;
 	const affichageUniquement = false;
 
 	let nbJoueur = <?= $nbJoueurs ?>;
