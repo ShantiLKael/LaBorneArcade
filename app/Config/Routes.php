@@ -55,13 +55,15 @@ $routes->group('', ['filter' => "admin"], function($routes) {
 	$routes->match(['get', 'post'],	'/admin/TMolding', 'AdminController::adminTMolding');
 	$routes->match(['get', 'post'],	'/admin/bouton',   'AdminController::adminBouton');
 	
-	$routes->post('/admin/theme/delete/(:num)',    'AdminController::suppTheme/$1');
-	$routes->post('/admin/matiere/delete/(:num)',  'AdminController::suppMatiere/$1');
-	$routes->post('/admin/option/delete/(:num)',   'AdminController::suppOption/$1');
-	$routes->post('/admin/joystick/delete/(:num)', 'AdminController::suppJoystick/$1');
-	$routes->post('/admin/TMolding/delete/(:num)', 'AdminController::suppTMolding/$1');
-	$routes->post('/admin/bouton/delete/(:num)',   'AdminController::suppBouton/$1');
-});
+	$routes->post('/admin/articles/delete/(:num)',	'AdminController::suppArticle/$1');
+    $routes->post('/admin/faqs/delete/(:num)' , 	'AdminController::suppFaq/$1');
+	$routes->post('/admin/theme/delete/(:num)',		'AdminController::suppTheme/$1');
+	$routes->post('/admin/matiere/delete/(:num)',	'AdminController::suppMatiere/$1');
+	$routes->post('/admin/option/delete/(:num)',	'AdminController::suppOption/$1');
+	$routes->post('/admin/joystick/delete/(:num)',	'AdminController::suppJoystick/$1');
+	$routes->post('/admin/TMolding/delete/(:num)',	'AdminController::suppTMolding/$1');
+	$routes->post('/admin/bouton/delete/(:num)',	'AdminController::suppBouton/$1');
+//});
 
 /** Route pour le cronjob */
 $routes->cli('/cronjob', 'ControleurCronJob::index');

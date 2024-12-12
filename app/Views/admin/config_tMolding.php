@@ -79,7 +79,7 @@ view('commun/headerAdmin', ['titre' => $titre]) ?>
 	<!-- tMolding -->
 		<?php if (!empty($tMoldings)) : ?>
 		<?php foreach ($tMoldings as $tMolding) : ?>
-			<div class="flex justify-between items-center border-b border-gray-200 py-2 bg-FVertClair">
+			<div class="p-4 flex justify-between items-center border-b border-gray-200 py-2 bg-FVertClair">
 				<!-- Nom du tMolding avec une largeur fixe -->
 				<div class="text-lg font-medium font-bold w-1/3 min-w-[130px] truncate">
 					<?= $tMolding->nom ?>
@@ -106,6 +106,4 @@ view('commun/headerAdmin', ['titre' => $titre]) ?>
 	<?php endif; ?>
 	</div><br>
 </div>
-<script src="./assets/js/btn-faq.js">
-</script>
 <?= view('commun/footerAdmin') ?>

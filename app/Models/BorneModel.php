@@ -48,7 +48,7 @@ class BorneModel extends Model
 	// Règles de validation
 	protected $validationRules = [
         'nom'         => 'required|max_length[50]|min_length[5]|regex_match[/^[^<>;{}]*$/]',
-        'description' => 'required|max_length[500]|regex_match[/^[^<>;{}]*$/]',
+        'description' => 'required|max_length[500]|regex_match[/^[^;{}]*$/]',
         'prix'        => 'required|greater_than[0]',
 		'id_tmolding' => 'required',
 		'id_matiere'  => 'required',
@@ -57,26 +57,26 @@ class BorneModel extends Model
 
 	protected $validationMessages = [
 		'nom' => [
-            'required'    => 'Champ requis.',
+            'required'    => 'nom requis.',
 			'max_length'  => 'Le nom de la borne est trop long (max. 50 caractères).',
 			'min_length'  => 'Le nom de la borne est trop court (min. 5 caractères).',
-			'regex_match' => 'Les caractères < > ; { } sont interdits.',
+			'regex_match' => 'nom Les caractères < > ; { } sont interdits.',
 		],
 
 		'description' => [
-			'required'    => 'Champ requis.',
+			'required'    => 'description requis.',
 			'max_length'  => 'La description est trop longue (max. 500 caractères).',
-			'regex_match' => 'Les caractères < > ; { } sont interdits.',
+			'regex_match' => 'description Les caractères < > ; { } sont interdits.',
 		],
 
 		'prix' => [
-			'required'     => 'Champ requis.',
+			'required'     => 'prix requis.',
 			'greater_than' => 'Le prix doit être supérieur à zéro.',
 		],
 
-		'id_tmolding' => [ 'required' => 'Champ requis.'],
-		'id_matiere'  => [ 'required' => 'Champ requis.'],
-		'id_theme'    => [ 'required' => 'Champ requis.'],
+		'id_tmolding' => [ 'required' => 'id_tmolding requis.'],
+		'id_matiere'  => [ 'required' => 'id_matiere requis.'],
+		'id_theme'    => [ 'required' => 'id_theme requis.'],
 	];
 	
 	/**

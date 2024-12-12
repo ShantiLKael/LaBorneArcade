@@ -15,6 +15,9 @@ use DateTime;
  */
 class Utilisateur extends Entity
 {
+    static $ROLE_SUPER_ADMIN    = "super_admin";
+    static $ROLE_ADMIN          = "admin";
+    static $ROLE_UTILISATEUR    = "utilisateur";
     protected $casts = [
         'id'        => 'integer',
         'email'     => 'string',

@@ -10,6 +10,7 @@ use App\Entities\Matiere;
 use App\Entities\Option;
 use App\Entities\Joystick;
 use App\Entities\TMolding;
+use App\Entities\Borne;
 use App\Entities\Bouton;
 
 use App\Models\ArticleBlogModel;
@@ -20,6 +21,7 @@ use App\Models\OptionModel;
 use App\Models\JoystickModel;
 use App\Models\TMoldingModel;
 use App\Models\BoutonModel;
+use App\Models\BorneModel;
 use App\Models\ImageModel;
 
 use CodeIgniter\HTTP\RedirectResponse;
@@ -54,6 +56,9 @@ class AdminController extends BaseController
 	/** @var BoutonModel $boutonModel */
 	private BoutonModel $boutonModel;
 
+	/** @var BorneModel $borneModel */
+	private BorneModel $borneModel;
+
 	/** @var ImageModel $imageModel */
 	private ImageModel $imageModel;
 	
@@ -69,6 +74,7 @@ class AdminController extends BaseController
 		$this->joystickModel 	= new JoystickModel();
 		$this->tMoldingModel 	= new TMoldingModel();
 		$this->boutonModel 		= new BoutonModel();
+		$this->borneModel 		= new BorneModel();
 		$this->imageModel 		= new ImageModel();
 		
 		$this->validation = Services::validation();
@@ -79,31 +85,99 @@ class AdminController extends BaseController
 	/* ---------------------------------------- */
 	/* ------- Redirection page simple -------- */
 	/* ---------------------------------------- */
-	
+
+	/**
+	 * Page contact version admin
+	 * @return string admin/contact
+	 */
+	public function adminContact(): string
+	{
+		return view('/admin/contact');
+	}
+
+	/* ---------------------------------------- */
+	/* ------ Redirection page et ajout ------- */
+	/* ---------------------------------------- */
+
 	/**
 	 * Page d'admin borne
-	 * @return string admin/borne
 	 */
-	public function adminBorne(): string
-	{
-		$data = $this->request->getPost();
-		if ($data) {
-			if (isset($data['nbBoutons']) || isset($data['nbJoueurs'])) { // Formulaire aperçu des touches
-				$nbBoutons = intval($data['nbBoutons']);
-				$nbJoueurs = intval($data['nbJoueurs']);
 	
-				return view('borne/edit_borne', [
-					'nbJoueurs' => $nbJoueurs,
-					'nbBoutons' => $nbBoutons,
-					'titre'     => "Personnaliser une borne",
-					'options'   => $this->optionModel->findAll(),
-					'tmoldings' => $this->tMoldingModel->findAll(),
-					'matieres'  => $this->matiereModel->findAll(),
-					'joysticks' => $this->joystickModel->findAll(),
-					'boutons'   => $this->boutonModel->findAll(),
-				]);
+	public function adminBorne(){
+		if ($this->request->getPost() ) {
+			if ( ! $this->validate( $this->borneModel->getValidationRules(), $this->borneModel->getValidationMessages() ) ) {
+				return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
 			}
-		}
+			else {
+				$data = $this->request->getPost();
+				$imageFile = $this->request->getFile('id_image'); // Le champ input file doit avoir le name="id_image"
+				if ($imageFile && $imageFile->isValid() && !$imageFile->hasMoved()) {
+					// Valider l'extension de l'image
+					$allowedExtensions = ['png', 'jpg', 'jpeg', 'gif'];
+					$imageExtension = $imageFile->getClientExtension();
+					if (!in_array($imageExtension, $allowedExtensions)) {
+						return redirect()->back()->withInput()->with('errors', [
+							'id_image' => 'Format d\'image non pris en charge. Formats acceptés : png, jpg, jpeg, gif.',
+						]);
+					}
+
+					// Renommer le fichier avec un nom unique
+					$imageName = $data['nom'] . '.' . $imageExtension;
+
+					// Déplacer le fichier vers le dossier public/assets/option/
+					$imagePath = 'assets/images/bornes/' . $imageName;
+					$imageFile->move(FCPATH . 'assets/images/bornes/', $imageName);
+
+					// Ajouter une entrée dans la table image
+					$imageData = ['chemin' => $imagePath];
+					$this->imageModel->insert($imageData);
+
+					// Récupérer l'ID de l'image insérée
+					$imageId = $this->imageModel->getInsertID();
+					if (!$imageId) {
+						return redirect()->back()->withInput()->with('errors', [ 'id_image' => 'Échec de l\'enregistrement de l\'image.', ]);
+					}
+
+					// Ajouter l'ID de l'image dans les données de l'option
+					$data['id_image'] = $imageId;
+
+
+					$borne = new Borne();
+
+					$borne->fill($data);
+					$this->borneModel->insert($borne);
+					$idBorne = $this->articleBlogModel->insertID();
+					$data['nbJoueurs'] = $data['nbJoueurs'] ?? 1;
+					$data['nbBoutons'] = $data['nbBoutons'] ?? 6;
+					
+					//$this->borneModel->insererJoystickBorne($idBorne, $data->joystick, $ordre);
+					for ($i = 0; $i < $data['nbJoueurs']; $i++) {
+						$this->borneModel->insererBoutonBorne($idBorne, $data['joystick'], $i);
+					}
+					for ($i = 0; $i < $data['nbBoutons']; $i++) {
+						$this->borneModel->insererBoutonBorne($idBorne, $data['bouton'], $i);
+					}
+
+					//return redirect()->back()->with('success', "Borne ajouté avec succès.");
+					return view('/admin/config_borne', [
+						'titre'    => 'Création d\'une borne',
+						'nbJoueurs'=> 1,
+						'nbBoutons'=> 6,
+						'matieres' => $this->matiereModel->findAll(),
+						'options'  => $this->optionModel->findAll(),
+						'themes'   => $this->themeModel->findAll(),
+						'tmoldings'=> $this->tMoldingModel->findAll(),
+						'joysticks'=> $this->joystickModel->findAll(),
+						'boutons'  => $this->boutonModel->findAll(),
+					]);
+				} else {
+					// Erreur lors du téléchargement de l'image
+					return redirect()->back()->withInput()->with('errors', [
+						'id_image' => 'Erreur lors du téléchargement de l\'image.',
+					]);
+				}
+			}
+		} 
 
 		return view('/admin/config_borne', [
 			'titre'    => 'Création d\'une borne',
@@ -119,40 +193,140 @@ class AdminController extends BaseController
 	}
 
 	/**
-	 * Page contact version admin (pas compris le pourquoi de cette page)
-	 * @return string admin/contact
+	 * Page admin des articles
 	 */
-	public function adminContact(): string
+	public function adminArticle()
 	{
-		return view('/admin/contact');
-	}
+		if ($this->request->getPost()) {
+			if (!$this->validate($this->articleBlogModel->getValidationRules(), $this->articleBlogModel->getValidationMessages())) {
+				return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
+			}
+			$validationRules = [
+				'titre' => 'required',
+				'texte' => 'required',
+				'images.0' => [
+					'rules' => 'uploaded[images.0]|is_image[images.0]|ext_in[images.0,png,jpg,jpeg,gif]',
+					'errors' => [
+						'uploaded' => 'L\'image 1 est obligatoire.',
+						'is_image' => 'L\'image 1 doit être une image valide.',
+						'ext_in' => 'L\'image 1 doit avoir une extension valide (png, jpg, jpeg, gif).',
+					],
+				],
+				// Pas de validation stricte pour les autres images
+			];
+		
+			if (!$this->validate($validationRules)) {
+				return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+			}
 
-	/**
-	 * Page admin des articles.
-	 *
-	 * @return string admin/articles
-	 */
-	public function adminArticle(): string
-	{
-		return view('/admin/articles');
+
+			// Récupérer les données du formulaire
+			$data = $this->request->getPost();
+
+			$idUtilisateur = session()->get('user.id'); // Supposons que l'ID utilisateur est stocké dans la session
+			if (!$idUtilisateur) {
+				return redirect()->back()->with('error', 'Utilisateur non authentifié.');
+			}
+
+			// Créer une instance d'article
+			$article = new ArticleBlog();
+			$article->fill($data);
+			$article->setIdUtilisateur($idUtilisateur);
+
+			// Enregistrer l'article et récupérer son ID
+			$this->articleBlogModel->insert($article);
+			$idArticle = $this->articleBlogModel->insertID();
+
+			if (!$idArticle) {
+				return redirect()->back()->with('error', 'Échec de l\'enregistrement de l\'article.');
+			}
+
+			$images = $this->request->getFiles('images'); // Supposons que le champ input multiple a le name="images"
+			if ($images) {
+				$imageIndex = 1; // Compteur pour les noms d'images
+				$uploadPath = FCPATH . "assets/images/blog/$idArticle/";
+
+				// Créer le répertoire pour l'article si non existant
+				if (!is_dir($uploadPath)) {
+					mkdir($uploadPath, 0777, true);
+				}
+
+				foreach ($images['images'] as $image) {
+					if ($image && $image->isValid() && !$image->hasMoved()) {
+						// Vérifier les extensions autorisées
+						$allowedExtensions = ['png', 'jpg', 'jpeg', 'gif'];
+						$imageExtension = $image->getClientExtension();
+						if (!in_array($imageExtension, $allowedExtensions)) {
+							return redirect()->back()->withInput()->with('errors', [
+								'images' => 'Une ou plusieurs images ont un format non pris en charge.',
+							]);
+						}
+
+						// Renommer l'image selon la convention "numAr{articleID}_{imageIndex}"
+						$imageName = "numAr{$idArticle}_{$imageIndex}.$imageExtension";
+
+						// Déplacer l'image vers le dossier
+						$image->move($uploadPath, $imageName);
+
+						// Ajouter l'image à la table Image
+						$imageData = ['chemin' => "assets/images/blog/$idArticle/$imageName"];
+						$this->imageModel->insert($imageData);
+						$idImage = $this->imageModel->insertID();
+
+						if ($idImage) {
+							// Ajouter l'association image-article dans la table ImageArticleBlog
+							$this->articleBlogModel->insererImageArticle($idArticle, $idImage);
+						} else {
+							return redirect()->back()->with('error', 'Échec de l\'enregistrement de l\'image.');
+						}
+
+						$imageIndex++; // Incrémenter l'indice pour le prochain fichier
+						if ($imageIndex > 6) {
+							break; // Limiter à 6 images maximum
+						}
+					}
+				}
+			}
+			return redirect()->back()->with('success', 'Article ajouté avec succès.');
+		}
+
+		//$options = $this->optionModel->getOptionsWithImages();
+
+		// Récupérer les options pour les afficher dans la vue
+		//$options = $this->optionModel->findAll();
+		//$options = array_reverse($options); // Afficher les options les plus récentes en haut
+	
+
+		$articles = $this->articleBlogModel->findAll();
+		$articles = array_reverse($articles);
+		return view('admin/config_article', ['titre' => 'configuration des articles', 'articles' => $articles]);
 	}
 
 	/**
 	 * Page admin faq
-	 * @return string
 	 */
-	public function adminFaq(): string
+	public function adminFaq()
 	{
-		return view('/admin/faqs');
+		if ($this->request->getPost() ) {
+			if ( ! $this->validate( $this->faqModel->getValidationRules(), $this->faqModel->getValidationMessages() ) ) {
+				return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
+			}
+			else {
+				$data = $this->request->getPost();
+				$faq = new Faq();
+				
+				$faq->fill($data);
+				$faq->setIdUtilisateur(session()->get('user.id'));
+				$this->faqModel->insert($faq);
+
+				return redirect()->back()->with('success', "$faq->question ajouté avec succès.");
+			}
+		} 
+		$faqs = $this->faqModel->findAll();
+		$faqs = array_reverse($faqs);
+		return view('admin/config_faq', ['titre' => 'configuration des FAQs', 'faqs' => $faqs]);
 	}
 
-	/* ---------------------------------------- */
-	/* ------ Redirection page et ajout ------- */
-	/* ---------------------------------------- */
-	
-	/**
-	 * @throws ReflectionException
-	 */
 	public function adminTheme()
 	{
 		if ($this->request->getPost() ) {
@@ -350,85 +524,55 @@ class AdminController extends BaseController
 	/* ---------------------------------------- */
 
 	/**
-	 * Traitement d'ajout de nouveau article du blog.
-	 *
-	 * @return RedirectResponse
-	 * @throws ReflectionException
-	 */
-	public function traitement_creation_article(): RedirectResponse
-	{
-		if (!$this->validate($this->articleBlogModel->getValidationRules(), $this->articleBlogModel->getValidationMessages())) {
-			return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
-		}
-		
-		/// Verifier la
-		$data = $this->request->getPost();
-		$this->articleBlogModel->insert(new ArticleBlog($data));
-		return redirect()->back();
-	}
-
-	/**
 	 * Traitement de suppression de l'article en paramètre.
 	 *
 	 * @param int $id_article
 	 * @return RedirectResponse
 	 */
-	public function traitement_delete_article(int $id_article): RedirectResponse
+	public function suppArticle(int $id_article): RedirectResponse
 	{
-		$this->articleBlogModel->delete($id_article);
-		return redirect()->back();
-	}
-	
-	/**
-	 * Traitement de modification de l'article en paramètre.
-	 *
-	 * @param int $id_article
-	 * @return RedirectResponse
-	 * @throws ReflectionException
-	 */
-	public function traitement_modifier_article(int $id_article): RedirectResponse
-	{
-		$data = $this->request->getPost();
-		if (!$this->validate($this->articleBlogModel->getValidationRules(), $this->articleBlogModel->getValidationMessages()))
-		{
-			return redirect()->back()->withInput()->with('erreurs', $this->validation->getErrors());
-		}
-
+		// Récupérer l'article depuis la base de données
 		$article = $this->articleBlogModel->find($id_article);
 
-		// Mise à jour des propriétés
-		$article->setTitre      ($data['titre']			?? $article->getTitre()       );
-		$article->setPriorite   ($data['texte']		?? $article->getTexte()    );
-		$article->setEcheance   ($data['idUtilisateur']		?? $article->getIdUtilisateur()    );
-		$article->setModiffArticleBlog();
+		if ($article) {
+			// Récupérer toutes les images associées à l'article
+			$images = $this->imageModel
+				->join('imagearticleblog', 'image.id_image = imagearticleblog.id_image')
+				->where('imagearticleblog.id_articleblog', $id_article)
+				->findAll();
 
-		// Enregistrer les modifications
-		$this->articleBlogModel->save($article);
-		
-		return redirect()->back()->with('succes', "L'article à été mis à jour.");
+			// Définir le chemin du répertoire de l'article
+			$articleDir = FCPATH . "assets/images/blog/$id_article";
+
+			// Supprimer les fichiers d'images associés
+			foreach ($images as $image) {
+				// Assurez-vous d'accéder à la propriété de l'objet Image correctement
+				$imagePath = FCPATH . $image->chemin; // Utilisez -> au lieu de ['chemin']
+				if (file_exists($imagePath)) { unlink($imagePath); }
+			}
+
+			// Supprimer le répertoire de l'article s'il existe
+			if (is_dir($articleDir)) { rmdir($articleDir); }
+
+			// Supprimer les associations dans la table `imagearticleblog`
+			$this->articleBlogModel->suppImageArticle($id_article);
+
+			// Supprimer les images associées dans la table `image`
+			foreach ($images as $image) {
+				$this->imageModel->delete($image->id_image); // Utilisez ->id_image pour accéder à l'ID
+			}
+
+			// Supprimer l'article lui-même
+			$titre = $article->titre; // Conserver le titre pour la notification
+			if ($this->articleBlogModel->delete($id_article)) { return redirect()->back()->with('success', "L'article '$titre' et ses images ont été supprimés avec succès.");}
+		}
+		// En cas d'erreur (si l'article n'existe pas ou si la suppression échoue)
+		return redirect()->back()->with('errors', ['Erreur lors de la suppression de l\'article et de ses images.']);
 	}
 
 	/* ---------------------------------------- */
 	/* ------------------ FAQ ----------------- */
 	/* ---------------------------------------- */
-	
-	/**
-	 * Traitement d'ajout d'une nouvelle question de la faq.
-	 *
-	 * @return RedirectResponse
-	 * @throws ReflectionException
-	 */
-	public function traitement_creation_faq(): RedirectResponse
-	{
-		if (!$this->validate($this->faqModel->getValidationRules(), $this->faqModel->getValidationMessages())) {
-			return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
-		}
-		
-		/// Verifier la
-		$data = $this->request->getPost();
-		$this->faqModel->insert(new Faq($data));
-		return redirect()->back();
-	}
 
 	/**
 	 * Traitement de suppression de la question faq en paramètre.
@@ -436,10 +580,14 @@ class AdminController extends BaseController
 	 * @param int $id_faq
 	 * @return RedirectResponse
 	 */
-	public function traitement_delete_faq(int $id_faq): RedirectResponse
+	public function suppFaq(int $id_faq): RedirectResponse
 	{
-		$this->faqModel->delete($id_faq);
-		return redirect()->back();
+		$id_faq = $this->request->getPost('id');
+
+		// Suppression du thème
+		if ($this->faqModel->delete($id_faq)) { return redirect()->back()->with('success', 'Faq supprimé avec succès.'); }
+		// En cas d'erreur
+		return redirect()->back()->with('errors', ['Erreur lors de la suppression de la faq.']);
 	}
 
 	/* ---------------------------------------- */
@@ -459,7 +607,6 @@ class AdminController extends BaseController
 		return redirect()->back()->with('errors', ['Erreur lors de la suppression du thème.']);
 	}
 
-
 	/* ---------------------------------------- */
 	/* ---------------- Matiere --------------- */
 	/* ---------------------------------------- */
@@ -476,7 +623,6 @@ class AdminController extends BaseController
 		// En cas d'erreur
 		return redirect()->back()->with('errors', ['Erreur lors de la suppression de la matiere.']);
 	}
-
 	
 	/* ---------------------------------------- */
 	/* ---------------- option ---------------- */
@@ -489,12 +635,12 @@ class AdminController extends BaseController
 
 		if ($option) {
 			$imagePath = realpath("..")."/public/".$this->imageModel->find($option->id_image)->chemin;
-			if (file_exists($imagePath)) {
-				unlink($imagePath);
-			}
+			if (file_exists($imagePath)) { unlink($imagePath); }
 			$nom = $option->nom;
+			$id_im =$option->id_image;
 			if ($this->optionModel->delete($id_option)) {
 				$this->imageModel->where('chemin', $imagePath)->delete();
+				$this->imageModel->delete($id_im);
 				return redirect()->back()->with('success', "$nom et image supprimées avec succès.");
 			}
 		}
@@ -502,8 +648,6 @@ class AdminController extends BaseController
 		// En cas d'erreur, si l'option n'existe pas ou si la suppression échoue.
 		return redirect()->back()->with('errors', ["Erreur lors de la suppression de l'option et de l'image."]);
 	}
-
-
 
 	/* ---------------------------------------- */
 	/* --------------- joystick --------------- */
@@ -522,7 +666,6 @@ class AdminController extends BaseController
 		return redirect()->back()->with('errors', ['Erreur lors de la suppression de la joystick.']);
 	}
 
-
 	/* ---------------------------------------- */
 	/* --------------- Tmolding --------------- */
 	/* ---------------------------------------- */
@@ -539,7 +682,6 @@ class AdminController extends BaseController
 		// En cas d'erreur
 		return redirect()->back()->with('errors', ['Erreur lors de la suppression du Tmolding.']);
 	}
-
 
 	/* ---------------------------------------- */
 	/* ---------------- bouton ---------------- */
@@ -564,7 +706,6 @@ class AdminController extends BaseController
 		// En cas d'erreur
 		return redirect()->back()->with('errors', ['Erreur lors de la suppression de la bouton.']);
 	}
-
 
 	/* ---------------------------------------- */
 	/* ----------------- Borne ---------------- */

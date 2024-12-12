@@ -12,7 +12,7 @@ view('commun/headerAdmin', ['titre' => $titre]) ?>
 			<tr>
 				<td colspan=2 class="mt-5 p-0">
 					<h3 class="text-center text-3xl font-bold mb-6">
-						<?php echo form_label('Ajoutez un joystick ', 'matierjoysticke'); ?>
+						<?php echo form_label('Ajoutez un joystick ', 'joystick'); ?>
 					</h3>
 				</td>
 			</tr>
@@ -80,7 +80,7 @@ view('commun/headerAdmin', ['titre' => $titre]) ?>
 	<!-- joystick -->
 		<?php if (!empty($joysticks)) : ?>
 			<?php foreach($joysticks as $joystick) : ?>
-				<div class="flex justify-between items-center border-b border-gray-200 py-2 bg-FVertClair">
+				<div class="p-4 flex justify-between items-center border-b border-gray-200 py-2 bg-FVertClair">
 					<!-- Nom de la matiere avec une largeur fixe -->
 					<div class="text-lg font-medium font-bold w-1/3 min-w-[150px] truncate">
 						<?= $joystick->modele ?>
@@ -107,6 +107,4 @@ view('commun/headerAdmin', ['titre' => $titre]) ?>
 		<?php endif; ?>
 	</div><br>
 </div>
-<script src="./assets/js/btn-faq.js">
-</script>
 <?= view('commun/footerAdmin') ?>

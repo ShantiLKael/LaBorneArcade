@@ -2,7 +2,7 @@
 view('commun/headerAdmin', ['titre' => $titre]) ?>
 <div id="main-content" class=" p-8 w-full">
 	<!-- Titre principal -->
-	<h2 class="text-center text-3xl font-bold mb-4">Configuration des matiere</h2>
+	<h2 class="text-center text-3xl font-bold mb-4">Configuration des matières</h2>
 
 	<!-- Formulaire pour ajouter un commentaire -->
     <?php echo form_open('/admin/matiere'); ?>
@@ -78,7 +78,7 @@ view('commun/headerAdmin', ['titre' => $titre]) ?>
 	<!-- matiere -->
 		<?php if (!empty($matieres)) : ?>
 			<?php foreach($matieres as $matiere) : ?>
-                <div class="flex justify-between items-center border-b border-gray-200 py-2 bg-FVertClair">
+                <div class="p-4  flex justify-between items-center border-b border-gray-200 py-2 bg-FVertClair">
 					<!-- Nom de la matiere avec une largeur fixe -->
 					<div class="text-lg font-medium  font-bold w-1/3 min-w-[150px] truncate">
 						<?= $matiere->nom ?>
@@ -105,6 +105,4 @@ view('commun/headerAdmin', ['titre' => $titre]) ?>
 		<?php endif; ?>
 	</div><br>
 </div>
-<script src="./assets/js/btn-faq.js">
-</script>
 <?= view('commun/footerAdmin') ?>

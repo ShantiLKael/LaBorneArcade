@@ -160,6 +160,4 @@ view('commun/headerAdmin', ['titre' => $titre]) ?>
 			<?php endif; ?>
 		</div><br>
 	</div>
-	<script src="./assets/js/btn-faq.js">
-	</script>
 	<?= view('commun/footerAdmin') ?>

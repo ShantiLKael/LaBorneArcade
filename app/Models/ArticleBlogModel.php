@@ -90,4 +90,12 @@ class ArticleBlogModel extends Model
 
 		return $builder->insert($data);
 	}
+
+    public function suppImageArticle(int $idArticleBlog): bool
+	{
+		$db = Database::connect();
+		$builder = $db->table('imagearticleblog');
+
+		return $builder->where('id_articleblog', $idArticleBlog)->delete();
+	}
 }

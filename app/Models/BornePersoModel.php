@@ -1,10 +1,10 @@
 <?php
 namespace App\Models;
 
+use App\Entities\BornePerso;
 use App\Entities\Bouton;
 use App\Entities\Joystick;
 use App\Entities\Option;
-use App\Entities\Borne;
 use CodeIgniter\Model;
 use App\Entities\Matiere;
 use App\Entities\TMolding;
@@ -63,14 +63,14 @@ class BornePersoModel extends Model
 	}
 	
 	/**
-	 * Récupère la borne originale de la borne personnalisée.
+	 * Récupère la borne personnalisée.
 	 *
 	 * @param int $idBorne
-	 * @return Borne|array|null
+	 * @return BornePerso|array|null
 	 */
-	public function getBorne(int $idBorne): Borne|array|null
+	public function getBorne(int $idBorne): BornePerso|array|null
 	{
-		$borneModel = new BorneModel();
+		$borneModel = new BornePersoModel();
 		return $borneModel->find($idBorne);
 	}
 	
@@ -88,7 +88,7 @@ class BornePersoModel extends Model
 	/**
 	 * Récupère un tableau de Joystick de borne personnalisée.
 	 * @param int $idBorne
-	 * @return array<Joystick>
+	 * @return Joystick[]
 	 */
 	public function getJoysticks(int $idBorne): array
 	{
@@ -117,14 +117,14 @@ class BornePersoModel extends Model
 			'id_joystick' => $idJoystick,
 			'ordre' => $ordre,
 		];
-
+		
 		return $builder->insert($data);
 	}
 
 	/**
 	 * Récupère un tableau de Bouton de borne personnalisée.
 	 * @param int $idBorne
-	 * @return array<Bouton>
+	 * @return Bouton[]
 	 */
 	public function getBoutons(int $idBorne): array
 	{
