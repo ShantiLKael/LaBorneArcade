@@ -2,7 +2,7 @@
 <?php // var_dump($joysticks)  ?>
 <div id="main-content" class=" p-8 w-full">
 	<!-- Titre principal -->
-	<h2 class="text-center text-3xl font-bold mb-4">configuration des joysticks</h2>
+	<h2 class="text-center text-3xl font-bold mb-4">Configuration des joysticks</h2>
 	<!-- Formulaire pour ajouter un commentaire -->
 
     <?php echo form_open('/admin/joystick'); ?>
@@ -11,7 +11,7 @@
 			<tr>
 				<td colspan=2 class="mt-5 p-0">
 					<h3 class="text-center text-3xl font-bold mb-6">
-						<?php echo form_label('Ajoutez un joystick ', 'matierjoysticke'); ?>
+						<?php echo form_label('Ajoutez un joystick ', 'joystick'); ?>
 					</h3>
 				</td>
 			</tr>
@@ -79,7 +79,7 @@
 	<!-- joystick -->
 		<?php if (!empty($joysticks)) : ?>
 			<?php foreach($joysticks as $joystick) : ?>
-				<div class="flex justify-between items-center border-b border-gray-200 py-2 bg-FVertClair">
+				<div class="p-4 flex justify-between items-center border-b border-gray-200 py-2 bg-FVertClair">
 					<!-- Nom de la matiere avec une largeur fixe -->
 					<div class="text-lg font-medium font-bold w-1/3 min-w-[150px] truncate">
 						<?= $joystick->modele ?>
@@ -106,6 +106,4 @@
 		<?php endif; ?>
 	</div><br>
 </div>
-<script src="./assets/js/btn-faq.js">
-</script>
 <?= view('commun/footerAdmin') ?>
