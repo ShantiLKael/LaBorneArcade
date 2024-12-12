@@ -13,11 +13,11 @@ use App\Models\OptionModel;
 use App\Models\ThemeModel;
 use App\Models\TMoldingModel;
 use App\Models\UtilisateurModel;
-use App\ThirdParty\CronJob;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Pager\Pager;
-use Config\Services;
+use Exception;
+use ReflectionException;
 
 /**
  * @author Gabriel Roche
@@ -55,7 +55,7 @@ class ControleurBorne extends BaseController {
 	 * Constructeur du contrôleur Borne.
 	 */
 	public function __construct() {
-		helper(['form']);
+		helper(['form', 'cookie']);
 		$this->borneModel       = new BorneModel();
 		$this->boutonModel      = new BoutonModel();
 		$this->joystickModel    = new JoystickModel();
@@ -79,9 +79,11 @@ class ControleurBorne extends BaseController {
 	public function indexBorne() : RedirectResponse|string {
 		/*  Paramètres de recherche  */
 		$theme     = $this->request->getGet('theme') ?: [];
+		$theme     = array_filter($theme, fn($o) => !empty($o));
 		$matiere   = $this->request->getGet('matiere') ?: [];
+		$matiere   = array_filter($matiere, fn($o) => !empty($o));
 		$type      = $this->request->getGet('type') ?: "";
-		$recherche = $this->request->getGet('search') ?: "";
+		$recherche = $this->request->getGet('recherche') ?: "";
 		$prix_min  = $this->request->getGet('prix_min') ?: null;
 		$prix_max  = $this->request->getGet('prix_max') ?: null;
 		
@@ -122,7 +124,7 @@ class ControleurBorne extends BaseController {
 			return redirect()->to('/bornes'. ($query ? "?" : "") . $query);
 		}
 		
-		if (count($bornes) === 0 && $total > 0) {
+		if (count($bornes) === 0 && $total > 0 && $page > 1) {
 			$_GET['page'] = ceil($total / $perPage);
 			$query = http_build_query($_GET);
 			return redirect()->to('/bornes'. ($query ? "?" : "") . $query);
@@ -146,11 +148,31 @@ class ControleurBorne extends BaseController {
 	 *
 	 * @param int $id_borne L'identifiant de la borne à afficher.
 	 * @return string|RedirectResponse La vue d'une borne.
+	 * @throws ReflectionException
+	 * @throws Exception
 	 */
 	public function voirBorne(int $id_borne) : string|RedirectResponse {
 
 		$session = session();
 		$data = $this->request->getPost();
+		
+		$bornes_recentes = json_decode(get_cookie("bornes_recentes") ?: "[]", true);
+		if (($key = array_search($id_borne, $bornes_recentes)) !== false)
+			unset($bornes_recentes[$key]);
+		$bornes_recentes[time()] = $id_borne;
+		uksort($bornes_recentes, fn($o1, $o2) => $o2 > $o1);
+		set_cookie("bornes_recentes", json_encode($bornes_recentes), 172800 + 3600);
+		
+		$bornes_suggerees = [];
+		foreach ($bornes_recentes as $index) {
+			if ($index == $id_borne)
+				continue;
+			/** @var Borne $borne */
+			$borne = $this->borneModel->getBorneParId($index);
+			$images = $this->borneModel->getImages($index);
+			$borne->image = count($images) ? $images[0]->chemin : "";
+			$bornes_suggerees[] = $borne;
+		}
 
 		// Methode POST
 		if ($data) {
@@ -161,9 +183,7 @@ class ControleurBorne extends BaseController {
 				$session->set('joysticks', []);
 			}
 
-			/**
-			 * @var Borne
-			 */
+			/** @var Borne $borne */
 			$borne = $this->borneModel->find($id_borne);
 			$bornePerso = new BornePerso();
 			$bornePerso->idTMolding = $borne->idTMolding;
@@ -196,7 +216,7 @@ class ControleurBorne extends BaseController {
 				
 				$this->utilisateurModel->insererPanier(session()->get('user')['id'], $idBornePerso);
 
-			} else { // Utilisateur non connécté
+			} else { // Utilisateur non connecté
 				if (isset($data['idOptions'])) {
 					$options = [];
 					foreach ($data['idOptions'] as $idOption)
@@ -234,6 +254,7 @@ class ControleurBorne extends BaseController {
 		return view('borne/voir_borne', [
 			'titre'=>"Voir la borne",
 			'borne'=>$this->borneModel->getBorneParId($id_borne),
+			'suggestion_bornes'=>$bornes_suggerees,
 		]);
 	}
 	
@@ -242,6 +263,7 @@ class ControleurBorne extends BaseController {
 	 *
 	 * @param int|null $id_borne L'identifiant de la borne à modifier, ou <code>null</code> si borne personnalisée.
 	 * @return string La vue qui affiche la page de création/modification de borne prédéfinie.
+	 * @throws Exception
 	 */
 	public function editBorne(int $id_borne = null) : string {
 		$session = session();
@@ -281,15 +303,15 @@ class ControleurBorne extends BaseController {
 			$regleMessagesValidation = $this->bornePersoModel->getValidationMessages();
 			$regleMessagesValidation['joystick'] = ['required' => 'Champs requis.'];
 			$regleMessagesValidation['bouton'  ] = ['required' => 'Champs requis.'];
-				
+			
 			if ($this->validate($reglesValidation, $regleMessagesValidation)) {
 
 				$bornePerso = new BornePerso();
 				$bornePerso->fill($data);
-				$bornePerso->prix = 1499;
+				$bornePerso->prix = 1690;
 				$bornePerso->dateCreation = Time::now('Europe/Paris', 'fr_FR');
 				$bornePerso->dateModif    = Time::now('Europe/Paris', 'fr_FR');
-				$idBorne = $this->bornePersoModel->insert($bornePerso, true);
+				$idBorne = $this->bornePersoModel->insert($bornePerso);
 
 				if ($session->has('user')) { // Utilisateur connécté
 					

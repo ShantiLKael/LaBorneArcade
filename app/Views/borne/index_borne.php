@@ -32,7 +32,7 @@ view('commun/header', ['titre' => $titre]) ?>
 					'id'            => 'recherche',
 					'type'          => 'text',
 					'class'         => 'w-full bg-gray-700 border border-gray-500 text-gray-300 placeholder:text-gray-400 text-sm rounded-md py-2 pl-3 pr-4 focus:outline-none focus:ring-2 focus:ring-green-500',
-					'value'         => set_value('prix_min'),
+					'value'         => @$get['recherche'] ?: "",
 					'placeholder'   => 'Rechercher...',
 				]); ?>
 			</div>
@@ -81,16 +81,19 @@ view('commun/header', ['titre' => $titre]) ?>
 						'type'          => 'number',
 						'min'           => 0,
 						'class'         => 'md:w-1/2 bg-gray-700 border border-gray-500 text-gray-300 placeholder:text-gray-400 text-sm rounded-md py-2 pl-3 focus:outline-none focus:ring-2 focus:ring-green-500',
-						'value'         => set_value('prix_min'),
+						'value'         => @$get['prix_min'] ?: "",
 						'placeholder'   => 'Min',
 					]); ?>
 				<h4 class="text-md text-gray-300 pl-2 mb-2 mt-2">à</h4>
-				<input
-					type="number"
-					name="prix_max"
-					placeholder="Max"
-					class="md:w-1/2 bg-gray-700 border border-gray-500 text-gray-300 placeholder:text-gray-400 text-sm rounded-md py-2 pl-3 focus:outline-none focus:ring-2 focus:ring-green-500"
-				/>
+				<label>
+					<input
+						type="number"
+						name="prix_max"
+						placeholder="Max"
+						value="<?= @$get['prix_max'] ?: "" ?>"
+						class="md:w-1/2 bg-gray-700 border border-gray-500 text-gray-300 placeholder:text-gray-400 text-sm rounded-md py-2 pl-3
+						focus:outline-none focus:ring-2 focus:ring-green-500">
+				</label>
 			</div>
 
 			<!-- Bouton de soumission -->
@@ -101,24 +104,20 @@ view('commun/header', ['titre' => $titre]) ?>
 
 		<!-- Liste des bornes -->
 		<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 xl:w-3/4">
-			<?php foreach($bornes as $borne): ?>
-				<div class="bg-gray-800 p-4 rounded">
-					<a href="/bornes/<?= $borne->id ?>">
-						<img loading="lazy" src="<?= $borne->image ?>" alt="Image de <?= $borne->nom ?>" class="w-full mb-8 max-w-sm mx-auto h-auto
+			<?php if (count($bornes)): ?>
+				<?php foreach($bornes as $borne): ?>
+					<div class="bg-gray-800 p-4 rounded">
+						<a href="/bornes/<?= $borne->id ?>">
+							<img loading="lazy" src="<?= $borne->image ?>" alt="Image de <?= $borne->nom ?>" class="w-full mb-8 max-w-sm mx-auto h-auto
 						relative z-0 transition duration-200 ease-in-out hover:scale-110" onerror="this.src = 'https://via.placeholder.com/150';">
-						<h3 class="text-xl font-bold mb-2"><?= $borne->nom ?></h3>
-						<p class="text-green-600 font-bold mb-4"><?= sprintf("%.02F €", $borne->prix) ?></p>
-					</a>
-					<div class="grid grid-cols-1 md:grid-cols-2 mx-4">
-						<a href="#" class="md:mr-2 bg-green-700 hover:bg-green-600 p-2 text-white text-center rounded-3xl">
-							Ajouter au panier
-						</a>
-						<a href="/borne-perso/1" class="md:ml-2 bg-blue-800 hover:bg-blue-700 p-2 text-white text-center rounded-3xl">
-							Personnaliser
+							<h3 class="text-xl font-bold mb-2"><?= $borne->nom ?></h3>
+							<p class="text-green-600 font-bold mb-4"><?= sprintf("%.02F €", $borne->prix) ?></p>
 						</a>
 					</div>
-				</div>
-			<?php endforeach; ?>
+				<?php endforeach; ?>
+			<?php else: ?>
+				<span>Aucune borne à afficher</span>
+			<?php endif; ?>
 		</div>
 	</div>
 	<?= $pager_links ?>

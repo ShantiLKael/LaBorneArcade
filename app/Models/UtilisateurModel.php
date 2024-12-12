@@ -8,19 +8,19 @@ use CodeIgniter\I18n\Time;
 class UtilisateurModel extends Model
 {
 	/**
-	 * @property string $ROLE_SUPER_ADMIN Role super admnistrateur.
+	 * @property string ROLE_SUPER_ADMIN Role super admnistrateur.
 	 */
-	static string $ROLE_SUPER_ADMIN = 'super_admin';
+	const ROLE_SUPER_ADMIN = 'super_admin';
 
 	/**
-	 * @property int $ROLE_ADMIN Role adminiqtrateur.
+	 * @property string ROLE_ADMIN Role adminiqtrateur.
 	 */
-	static string $ROLE_ADMIN = 'admin';
+	const ROLE_ADMIN = 'admin';
 
 	/**
-	 * @property int $ROLE_UTILISATEUR Role utilisateur.
+	 * @property string ROLE_UTILISATEUR Role utilisateur.
 	 */
-	static string $ROLE_UTILISATEUR = 'utilisateur';
+	const ROLE_UTILISATEUR = 'utilisateur';
 
 	protected $table      = 'utilisateur';
 	protected $useAutoIncrement = true;
@@ -90,6 +90,22 @@ class UtilisateurModel extends Model
 		];
 
 		return $builder->insert($data);
+	}
+
+	/**
+	 * Suppression d'une borne dans le panier de l'utilisateur
+	 * @param int $idUtilisateur
+	 * @param int $idBorne
+	 * @return bool
+	 */
+	public function suppressionBorne(int $idUtilisateur, int $idBorne): bool
+	{
+		$db = \Config\Database::connect();
+		$builder = $db->table('panier');
+		
+		return $builder->where('id_utilisateur', $idUtilisateur)
+				->where('id_borneperso', $idBorne)
+				->delete();
 	}
 
 	/**

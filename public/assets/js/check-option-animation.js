@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
 
                         Figure.figures.forEach(figure => {
-                            if (figure.type !== 'joystick') {
+                            if (figure.type === 'boutonJeu') {
                                 figure.couleur = cb.getAttribute('data-color');
                                 figure.forme = cb.getAttribute('data-forme').toLocaleLowerCase();
                             }
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 Figure.figures.forEach(figure => {
-                    if (figure.type !== 'joystick') {
+                    if (figure.type === 'boutonJeu') {
                         figure.couleur = coulDefaut;
                         figure.forme   = formeDefault;
                     }
