@@ -21,7 +21,7 @@
             <!-- Liens -->
             <ul class="flex space-x-8 text-white font-medium items-center">
                 <li><a href="/bornes" class="link-underline link-underline-black">Trouver ma borne</a></li>
-                <li><a href="/borne-perso" class="link-underline link-underline-black">Personnalise ma borne</a></li>
+                <li><a href="/borne-perso" class="link-underline link-underline-black">Personnaliser ma borne</a></li>
                 <li><a href="/qui-sommes-nous" class="link-underline link-underline-black">À propos</a></li>
                 <li><a href="/faq" class="link-underline link-underline-black">FAQ</a></li>
                 <li><a href="/blog-articles" class="link-underline link-underline-black">Blog</a></li>
