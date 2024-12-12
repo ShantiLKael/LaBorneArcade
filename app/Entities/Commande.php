@@ -16,7 +16,7 @@ class Commande extends Entity
 		'idUtilisateur'=> 'integer',
     ];
 
-    protected $datamap = [ 
+    protected $datamap = [
 		'id'             => 'id_commande',
 		'idUtilisateur'  => 'id_utilisateur',
 		'dateCreation'   => 'date_creation',
@@ -26,26 +26,25 @@ class Commande extends Entity
 
 	protected $dates = ['date_creation', 'date_modif'];
 
-	public function setEtat(string $etat): Commande
+	public function setEtat(string $etat): static
 	{
 		$this->attributes['etat'] = $etat;
 		return $this;
 	}
 
-	public function setDateCreation(Time $time): Commande
+	public function setDateCreation(Time $time): static
 	{
 		$this->attributes['date_creation'] = $time;
 		return $this;
 	}
 
-	public function setDateModif(Time $time)
+	public function setDateModif(Time $time): static
 	{
 		$this->attributes['date_modif'] = $time;
 		return $this;
 	}
 
-	public function getBorne()
-	{
+	public function getBorne(): BornePerso {
 		$commandeModel = new CommandeModel();
 		return $commandeModel->getBorne($this->idBorne);
 	}

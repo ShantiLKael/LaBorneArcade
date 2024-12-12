@@ -6,9 +6,9 @@ use App\Entities\Commande;
 use App\Models\UtilisateurModel;
 use App\Models\CommandeModel;
 use App\Models\BornePersoModel;
-use CodeIgniter\Config\Services;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\HTTP\RedirectResponse;
+use Exception;
 
 /**
  * @author Gabriel Roche
@@ -38,6 +38,7 @@ class CommandeController extends BaseController {
 	 * Méthode qui affiche le panier.
 	 *
 	 * @return string|RedirectResponse La vue qui liste les bornes du panier.
+	 * @throws Exception
 	 */
 	public function panier() : string|RedirectResponse {
         $session = session();
@@ -47,7 +48,7 @@ class CommandeController extends BaseController {
 		}
         
         // Vérifier si le client est authentifié
-        $bornes = ($session->get('user')) ? 
+        $bornes = ($session->get('user')) ?
                    $this->utilisateurModel->getPanier($session->get('user')['id']) : // Client authentifié
                    $session->get('panier'); // Client visiteur
 
@@ -75,7 +76,7 @@ class CommandeController extends BaseController {
 	
 	/**
 	 * Méthode qui affiche le panier.
-     * Les commandes peuvent uniquement être vue par des utilisateurs authentifiés.
+     * Les commandes peuvent uniquement être vues par des utilisateurs authentifiés.
 	 *
 	 * @return string La vue qui liste les commandes d'un utilisateur.
 	 */
@@ -92,9 +93,9 @@ class CommandeController extends BaseController {
 	}
 	
 	/**
-	 * Suppresion d'une borne personnalisée .
-	 * Et redirection vers le panier utilisateur.
-     * 
+	 * Suppresion d'une borne personnalisée, puis redirection vers le panier utilisateur.
+	 *
+	 * @param int $id
 	 * @return RedirectResponse
 	 */
 	public function suppressionBorne(int $id) : RedirectResponse {

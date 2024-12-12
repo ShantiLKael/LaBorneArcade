@@ -3,11 +3,13 @@ namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
 use App\Models\BorneModel;
-use CodeIgniter\I18n\Time;
 
+/**
+ * Cette entité représente une borne prédéfinie sur le site <i>LaBorneArcade</i>.
+ */
 class Borne extends Entity
 {
-	/** @var BorneModel $borneModel */
+	
     private BorneModel $borneModel;
 
     protected $casts = [
@@ -27,49 +29,84 @@ class Borne extends Entity
         'idMatiere'   => 'id_matiere',
         'idTheme'     => 'id_theme',
     ];
-
+	
+	/**
+	 * Constructeur de l'entité Borne.
+	 *
+	 * @param array|null $data Les données à ajouter dans l'entité ou <i>null</i>.
+	 */
 	public function __construct(?array $data = null) {
 		parent::__construct($data);
 		$this->borneModel = new BorneModel();
 	}
 	
-    public function setNom(string $nom)
-    {
+	/**
+	 * Définit le nom de la borne.
+	 *
+	 * @param string $nom Le nouveau nom.
+	 * @return $this L'instance de Borne.
+	 */
+    public function setNom(string $nom): static
+	{
         $this->attributes['nom'] = $nom;
         return $this;
     }
-
-    public function setDescription(string $description)
+	
+	/**
+	 * Définit la description de la borne.
+	 *
+	 * @param string $description La nouvelle description.
+	 * @return $this L'instance de Borne.
+	 */
+    public function setDescription(string $description): static
     {
         $this->attributes['description'] = $description;
         return $this;
     }
-
-    public function setPrix(float $prix)
+	
+	/**
+	 * Définit le prix de la borne.
+	 *
+	 * @param float $prix Le nouveau prix.
+	 * @return $this L'instance de Borne.
+	 */
+    public function setPrix(float $prix): static
     {
         $this->attributes['prix'] = $prix;
         return $this;
     }
-
-    public function setOrdre(int $ordre)
+	
+    public function setOrdre(int $ordre): static
     {
         $this->attributes['ordre'] = $ordre;
         return $this;
     }
-
-    public function setIdTMolding(int $idTMolding)
+	
+	/**
+	 * Définit le T-Molding de la borne.
+	 *
+	 * @param int $idTMolding L'identifiant du T-Molding.
+	 * @return $this L'instance de Borne.
+	 */
+    public function setIdTMolding(int $idTMolding): static
     {
         $this->attributes['id_tmolding'] = $idTMolding;
         return $this;
     }
-
-    public function setIdMatiere(int $idMatiere)
+	
+	/**
+	 * Définit 
+	 *
+	 * @param int $idMatiere
+	 * @return $this
+	 */
+    public function setIdMatiere(int $idMatiere): static
     {
         $this->attributes['id_matiere'] = $idMatiere;
         return $this;
     }
 
-    public function setIdTheme(int $idTheme)
+    public function setIdTheme(int $idTheme): static
     {
         $this->attributes['id_theme'] = $idTheme;
         return $this;
