@@ -3,6 +3,10 @@ namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
 
+/**
+ * @property int    id
+ * @property string nom
+ */
 class Theme extends Entity
 {
     protected $casts = [

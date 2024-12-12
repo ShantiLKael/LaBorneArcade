@@ -7,12 +7,13 @@ use CodeIgniter\I18n\Time;
 
 /**
  *
- * @property int idTMolding
- * @property int idMatiere
+ * @property int   id
+ * @property int   idTMolding
+ * @property int   idMatiere
+ * @property int   idBorne
  * @property float prix
- * @property int idBorne
- * @property Time dateCreation
- * @property Time dateModif
+ * @property Time  dateCreation
+ * @property Time  dateModif
  */
 class BornePerso extends Entity
 {

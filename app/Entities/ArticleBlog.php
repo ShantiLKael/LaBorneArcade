@@ -6,6 +6,11 @@ use CodeIgniter\Entity\Entity;
 
 /**
  * Cette entité représente un article du blog du site <i>LaBorneArcade</i>.
+ *
+ * @property int    id
+ * @property int    idUtilisateur
+ * @property string titre
+ * @property string texte
  */
 class ArticleBlog extends Entity
 {

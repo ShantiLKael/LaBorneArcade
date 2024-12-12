@@ -1,5 +1,6 @@
-<?= view('commun/headerAdmin', ['titre' => $titre]) ?>
-<?php // var_dump($boutons)  ?>
+<?=
+/** @noinspection PhpUndefinedVariableInspection */
+view('commun/headerAdmin', ['titre' => $titre]) ?>
 <div id="main-content" class=" p-8 w-full">
 	<!-- Titre principal -->
 	<h2 class="text-center text-3xl font-bold mb-4">Configuration des boutons</h2>
@@ -23,7 +24,7 @@
 					<?php echo form_input(
 						[
 							'name' => 'modele',
-							'value' => set_value('modele', ''),
+							'value' => set_value('modele'),
 							'placeholder' => 'Entrez le modèle ici...',
                             'class' => 'border border-gray-300 rounded-lg p-2 w-full md:w-auto bg-gray-100 text-black',
 							'required' => 'required',
@@ -75,7 +76,7 @@
 						[
 							'type' => 'radio',
 							'name' => 'eclairage',
-							'value' => set_value('eclairage', ''), 
+							'value' => set_value('eclairage'),
 						]
 					); ?>
 				</td>
@@ -121,7 +122,7 @@
 					<div class="flex justify-center items-center space-x-4">
 						<!-- Forme dynamique en fonction du bouton -->
 						<?php
-						$taille = "w-8 h-8"; // Taille cohérente pour toutes les formes 
+						$taille = "w-8 h-8"; // Taille cohérente pour toutes les formes
 						$couleur = $bouton->couleur; // Couleur dynamique
 
 						if ($bouton->forme === 'rond') {
@@ -147,12 +148,12 @@
 					<!-- Bouton Supprimer -->
 					<div class="ml-auto">
 						<?php echo form_open("/admin/bouton/delete/$bouton->id", ['onsubmit' => 'return confirm("Êtes-vous sûr de vouloir supprimer ce bouton ?")']); ?>
-							<?php echo form_hidden('id', $bouton->id); ?>	
+							<?php echo form_hidden('id', $bouton->id); ?>
 							<?php echo form_submit('delete', 'Supprimer', "class='bg-rouge-pastel hover:bg-rouge-pastelF font-medium py-1 px-4 rounded'"); ?>
 						<?php echo form_close(); ?>
 					</div>
 				</div>
-                
+    
 			<?php endforeach; ?>
 		<?php else : ?>
 			<p class="p-4">Aucun bouton disponible pour le moment.</p>

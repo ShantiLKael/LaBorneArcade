@@ -9,7 +9,7 @@
 
     <!-- STYLES -->
 
-    <style {csp-style-nonce}>
+    <style>
         * {
             transition: background-color 300ms ease, color 300ms ease;
         }
@@ -314,12 +314,12 @@
 
 <!-- SCRIPTS -->
 
-<script {csp-script-nonce}>
+<script>
     document.getElementById("menuToggle").addEventListener('click', toggleMenu);
     function toggleMenu() {
-        var menuItems = document.getElementsByClassName('menu-item');
-        for (var i = 0; i < menuItems.length; i++) {
-            var menuItem = menuItems[i];
+        const menuItems = document.getElementsByClassName('menu-item');
+        for (let i = 0; i < menuItems.length; i++) {
+            const menuItem = menuItems[i];
             menuItem.classList.toggle("hidden");
         }
     }

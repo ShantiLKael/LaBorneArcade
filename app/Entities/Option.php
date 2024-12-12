@@ -4,6 +4,13 @@ namespace App\Entities;
 use App\Models\OptionModel;
 use CodeIgniter\Entity\Entity;
 
+/**
+ * @property int    id
+ * @property int    cout
+ * @property string nom
+ * @property string description
+ * @property int    idImage
+ */
 class Option extends Entity
 {
     protected $casts = [

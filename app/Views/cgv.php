@@ -1,4 +1,5 @@
-<?= view('commun/header', ['titre' => $titre]) ?>
+<?= /** @noinspection PhpUndefinedVariableInspection */
+view('commun/header', ['titre' => $titre]) ?>
 
 <div class="my-20 max-w-screen-lg mx-auto px-5 sm:px-8 py-10 bg-gray-800 text-gray-300 shadow-lg rounded-lg">
     <!-- Titre principal -->
@@ -15,7 +16,7 @@
             <p class="mt-4">
                 <strong>La Borne</strong> / micro-entreprise enregistrée à la chambre de commerce / Commerce de
                 meubles<br>
-                Siège social : 17 allée d’armoins, 77400 Pomponne<br>
+                Siège social : 17 Allée d’armoins, 77400 Pomponne<br>
                 Siret : 808 581 391<br>
                 Téléphone : <a href="tel:+33768534626" class="text-green-400 hover:underline">07 68 53 46 26</a><br>
                 Email : <a href="mailto:contact@labornearcade.com"
@@ -71,7 +72,7 @@
             </p>
             <p class="mt-4">
                 L'ensemble des données fournies et la confirmation enregistrée vaudront preuve de la transaction. Vous
-                déclarez en avoir parfaite connaissance. La confirmation de commande vaudra signature et acceptation des
+                déclarez en avoir parfait connaissance. La confirmation de commande vaudra signature et acceptation des
                 opérations effectuées.
             </p>
         </section>

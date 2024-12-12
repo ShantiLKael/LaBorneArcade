@@ -17,7 +17,7 @@ class FiltreAdmin implements FilterInterface {
 	public function before(RequestInterface $request, $arguments = null) {
 		$session = session();
 		$user = $session->get('user');
-		if (!$user XOR ($user['role'] !== UtilisateurModel::ROLE_ADMIN && $user['role'] !== UtilisateurModel::ROLE_SUPER_ADMIN)) {
+		if (!$user OR ($user['role'] !== UtilisateurModel::ROLE_ADMIN && $user['role'] !== UtilisateurModel::ROLE_SUPER_ADMIN)) {
 			return redirect()->to('/connexion');
 		}
 	}

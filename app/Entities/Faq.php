@@ -3,6 +3,12 @@ namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
 
+/**
+ * @property int    id
+ * @property string question
+ * @property string reponse
+ * @property int    idUtilisateur
+ */
 class Faq extends Entity
 {
     protected $casts = [

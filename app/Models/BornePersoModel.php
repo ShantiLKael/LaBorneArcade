@@ -5,7 +5,6 @@ use App\Entities\BornePerso;
 use App\Entities\Bouton;
 use App\Entities\Joystick;
 use App\Entities\Option;
-use App\Entities\Borne;
 use CodeIgniter\Model;
 use App\Entities\Matiere;
 use App\Entities\TMolding;
@@ -50,35 +49,37 @@ class BornePersoModel extends Model
 		'id_matiere'  => [ 'required' => 'Champ requis.'],
 	];
 	
-
+	
 	/**
-	 * Récupère la Matière de borne personnalisée.
+	 * Récupère la matière de borne personnalisée.
+	 *
 	 * @param int $idMatiere
-	 * @return Matiere
+	 * @return Matiere|array|null
 	 */
-	public function getMatiere(int $idMatiere): Matiere
+	public function getMatiere(int $idMatiere): Matiere|array|null
 	{
 		$matiereModele = new MatiereModel();
 		return $matiereModele->find($idMatiere);
 	}
-
+	
 	/**
-	 * Récupère la borne originale de la borne personnalisée.
-	 * @param int $idTheme
-	 * @return BornePerso|null
+	 * Récupère la borne personnalisée.
+	 *
+	 * @param int $idBorne
+	 * @return BornePerso|array|null
 	 */
-	public function getBorne(int $idBorne): ?BornePerso
+	public function getBorne(int $idBorne): BornePerso|array|null
 	{
 		$borneModel = new BornePersoModel();
 		return $borneModel->find($idBorne);
 	}
-
+	
 	/**
 	 * Récupère le TMolding de borne personnalisée.
 	 * @param int $idTMolding
-	 * @return TMolding
+	 * @return TMolding|array|null
 	 */
-	public function getTMolding(int $idTMolding): TMolding
+	public function getTMolding(int $idTMolding): TMolding|array|null
 	{
 		$tmoldingModele = new TMoldingModel();
 		return $tmoldingModele->find($idTMolding);
@@ -87,7 +88,7 @@ class BornePersoModel extends Model
 	/**
 	 * Récupère un tableau de Joystick de borne personnalisée.
 	 * @param int $idBorne
-	 * @return array<Joystick>
+	 * @return Joystick[]
 	 */
 	public function getJoysticks(int $idBorne): array
 	{
@@ -98,11 +99,12 @@ class BornePersoModel extends Model
 			
 		return $builder->get(BornePersoModel::$MAX_JOYSTICK)->getResult('App\Entities\Joystick');
 	}
-
+	
 	/**
 	 * Insertion d'un Joystick de la borne personnalisée.
 	 * @param int $idBorne
 	 * @param int $idJoystick
+	 * @param int $ordre
 	 * @return bool
 	 */
 	public function insererJoystickBorne(int $idBorne, int $idJoystick, int $ordre): bool
@@ -122,7 +124,7 @@ class BornePersoModel extends Model
 	/**
 	 * Récupère un tableau de Bouton de borne personnalisée.
 	 * @param int $idBorne
-	 * @return array<Bouton>
+	 * @return Bouton[]
 	 */
 	public function getBoutons(int $idBorne): array
 	{
@@ -133,11 +135,13 @@ class BornePersoModel extends Model
 			
 		return $builder->get(BornePersoModel::$MAX_BOUTON)->getResult('App\Entities\Bouton');
 	}
-
+	
 	/**
-	 * Insertion d'un Bouton de la borne personnalisée.
+	 * Insertion d'un bouton de la borne personnalisée.
+	 *
 	 * @param int $idBorne
 	 * @param int $idBouton
+	 * @param int $ordre
 	 * @return bool
 	 */
 	public function insererBoutonBorne(int $idBorne, int $idBouton, int $ordre): bool

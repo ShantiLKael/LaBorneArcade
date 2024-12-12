@@ -1,4 +1,5 @@
-<?= view('commun/headerAdmin', ['titre' => $titre]) ?>
+<?= /** @noinspection PhpUndefinedVariableInspection */
+view('commun/headerAdmin', ['titre' => $titre]) ?>
 <?php // var_dump($tMoldings)  ?>
 <div id="main-content" class=" p-8 w-full">
 	<!-- Titre principal -->
@@ -22,7 +23,7 @@
 					<?php echo form_input(
 						[
 							'name' => 'nom',
-							'value' => set_value('nom', ''),
+							'value' => set_value('nom'),
 							'placeholder' => 'Entrez votre nom du TMolding ici...',
 							'class' => 'border border-gray-300 rounded-lg p-2 w-full md:w-auto bg-gray-100 text-black',
 							'required' => 'required',
@@ -85,8 +86,8 @@
 				</div>
 
 				<!-- Pastille de couleur -->
-				<div 
-					class="w-8 h-8 rounded-full border-2 border-black flex-shrink-0 ml-4" 
+				<div
+					class="w-8 h-8 rounded-full border-2 border-black flex-shrink-0 ml-4"
 					style="background-color: <?= $tMolding->couleur ?>;"
 					title="Couleur : <?= $tMolding->couleur ?>">
 				</div>
@@ -94,7 +95,7 @@
 				<!-- Bouton Supprimer -->
 				<div class="ml-auto">
 					<?php echo form_open("/admin/TMolding/delete/$tMolding->id", ['onsubmit' => 'return confirm("Êtes-vous sûr de vouloir supprimer ce thème ?")']); ?>
-                        <?php echo form_hidden('id', $tMolding->id); ?>		
+                        <?php echo form_hidden('id', $tMolding->id); ?>
                         <?php echo form_submit('delete', 'Supprimer', "class='bg-rouge-pastel hover:bg-rouge-pastelF font-medium py-1 px-4 rounded'"); ?>
 					<?php echo form_close(); ?>
 				</div>

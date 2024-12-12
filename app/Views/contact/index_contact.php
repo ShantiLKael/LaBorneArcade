@@ -1,13 +1,14 @@
-<?= view('commun/header', ['titre' => $titre]) ?>
+<?= /** @noinspection PhpUndefinedVariableInspection */
+view('commun/header', ['titre' => $titre]) ?>
 <!-- Section Contactez Nous -->
 <section class="text-gray-300 text-xs py-12">
 <div class="max-w-5xl mx-auto px-5 sm:px-0">
 	<h2 class="text-center text-3xl font-extrabold text-gray-300 mb-10 ml-10">Contactez nous</h2>
 	<div class="grid grid-cols-1 lg:grid-cols-2">
-		
+	
 	<!-- Rectangle de gauche -->
 	<div class="bg-medium-blue p-6">
-		<h3 class="uppercase text-xl font-semibold mb-8">Une question, un devis ?<br>Appelez nous !</h3>
+		<h3 class="uppercase text-xl font-semibold mb-8">Une question, un devis ?<br>Appelez-nous !</h3>
 		<div class="space-y-4">
 			<div class="flex items-center space-x-4">
 				<a target="_blank" id="whatsapp-button" class="bg-green-700 hover:bg-green-600 p-2">

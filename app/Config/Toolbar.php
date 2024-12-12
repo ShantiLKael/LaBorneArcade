@@ -17,7 +17,7 @@ use CodeIgniter\Debug\Toolbar\Collectors\Views;
  * --------------------------------------------------------------------------
  *
  * The Debug Toolbar provides a way to see information about the performance
- * and state of your application during that page display. By default it will
+ * and state of your application during that page display. By default, it will
  * NOT be displayed under production environments, and will only display if
  * `CI_DEBUG` is true, since if it's not, there's not much to display anyway.
  */
@@ -70,7 +70,7 @@ class Toolbar extends BaseConfig
      * Toolbar Views Path
      * --------------------------------------------------------------------------
      *
-     * The full path to the the views that are used by the toolbar.
+     * The full path to the views that are used by the toolbar.
      * This MUST have a trailing slash.
      */
     public string $viewsPath = SYSTEMPATH . 'Debug/Toolbar/Views/';
@@ -81,7 +81,7 @@ class Toolbar extends BaseConfig
      * --------------------------------------------------------------------------
      *
      * If the Database Collector is enabled, it will log every query that the
-     * the system generates so they can be displayed on the toolbar's timeline
+	 * system generates so they can be displayed on the toolbar's timeline
      * and in the query log. This can lead to memory issues in some instances
      * with hundreds of queries.
      *

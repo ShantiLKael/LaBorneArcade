@@ -1,4 +1,5 @@
-<?= view('commun/header', ['titre' => $titre]) ?>
+<?= /** @noinspection PhpUndefinedVariableInspection */
+view('commun/header', ['titre' => $titre]) ?>
 <!-- Formulaire des options choisies -->
 <?= form_open('/bornes/'.$borne->id) ?>
 <section id="section" class="container px-5 py-16 mx-auto bg-medium-blue rounded-xl ">

@@ -1,10 +1,12 @@
+<?php /** @noinspection PhpUndefinedVariableInspection */ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <title><?= lang('Errors.pageNotFound') ?></title>
 
-    <style>
+    <!--suppress CssUnusedSymbol -->
+	<style>
         div.logo {
             height: 200px;
             width: 155px;

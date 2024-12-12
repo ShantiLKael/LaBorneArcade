@@ -39,20 +39,21 @@ class OptionModel extends Model
 			'greater_than_equal_to' => 'Entrer un cout supérieur à zéro.',
         ],
 	];
-
+	
 	
 	/**
-	 * Récupère l'Image de l'option.
+	 * Récupère l'image de l'option.
+	 *
 	 * @param int $idImage
-	 * @return Image
+	 * @return Image|array|null
 	 */
-	public function getImage(int $idImage): Image
+	public function getImage(int $idImage): Image|array|null
 	{
 		$imageModel = new ImageModel();
 		return $imageModel->find($idImage);
 	}
 
-    public function getOptionsWithImages()
+    public function getOptionsWithImages(): array
 	{
 		return $this->db->table('option')
 			->select('option.*, image.chemin as image_chemin') // Sélectionner les colonnes nécessaires

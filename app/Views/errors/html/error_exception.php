@@ -1,4 +1,7 @@
 <?php
+/** @noinspection PhpUndefinedClassInspection */
+/** @noinspection PhpUndefinedVariableInspection */
+
 use CodeIgniter\HTTP\Header;
 use Config\Services;
 use CodeIgniter\CodeIgniter;
@@ -6,7 +9,7 @@ use CodeIgniter\CodeIgniter;
 $errorId = uniqid('error', true);
 ?>
 <!doctype html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="robots" content="noindex">
@@ -16,9 +19,7 @@ $errorId = uniqid('error', true);
         <?= preg_replace('#[\r\n\t ]+#', ' ', file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'debug.css')) ?>
     </style>
 
-    <script>
-        <?= file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'debug.js') ?>
-    </script>
+    <script><?= file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'debug.js') ?></script>
 </head>
 <body onload="init()">
 
@@ -116,19 +117,23 @@ $errorId = uniqid('error', true);
                                     <?php $argsId = $errorId . 'args' . $index ?>
                                     ( <a href="#" onclick="return toggle('<?= esc($argsId, 'attr') ?>');">arguments</a> )
                                     <div class="args" id="<?= esc($argsId, 'attr') ?>">
-                                        <table cellspacing="0">
+                                        <table>
 
                                         <?php
                                         $params = null;
                                         // Reflection by name is not available for closure function
                                         if (! str_ends_with($row['function'], '}')) {
-                                            $mirror = isset($row['class']) ? new ReflectionMethod($row['class'], $row['function']) : new ReflectionFunction($row['function']);
-                                            $params = $mirror->getParameters();
+											try {
+												$mirror = $row['class'] ? new ReflectionMethod($row['class'], $row['function']) : new ReflectionFunction($row['function']);
+											} catch (ReflectionException $e) {
+											
+											}
+											$params = $mirror->getParameters();
                                         }
 
                                         foreach ($row['args'] as $key => $value) : ?>
                                             <tr>
-                                                <td><code><?= esc(isset($params[$key]) ? '$' . $params[$key]->name : "#{$key}") ?></code></td>
+                                                <td><code><?= esc(isset($params[$key]) ? '$' . $params[$key]->name : "#$key") ?></code></td>
                                                 <td><pre><?= esc(print_r($value, true)) ?></pre></td>
                                             </tr>
                                         <?php endforeach ?>
@@ -143,7 +148,7 @@ $errorId = uniqid('error', true);
                             <?php if (! isset($row['class']) && isset($row['function'])) : ?>
                                 &nbsp;&nbsp;&mdash;&nbsp;&nbsp;    <?= esc($row['function']) ?>()
                             <?php endif; ?>
-                        </p>
+                        <?= "</p>" ?>
 
                         <!-- Source? -->
                         <?php if (isset($row['file']) && is_file($row['file']) && isset($row['class'])) : ?>
@@ -321,14 +326,14 @@ $errorId = uniqid('error', true);
                         <tbody>
                         <?php foreach ($headers as $name => $value) : ?>
                             <tr>
-                                <td><?= esc($name, 'html') ?></td>
+                                <td><?= esc($name) ?></td>
                                 <td>
                                 <?php
                                 if ($value instanceof Header) {
-                                    echo esc($value->getValueLine(), 'html');
+                                    echo esc($value->getValueLine());
                                 } else {
                                     foreach ($value as $i => $header) {
-                                        echo ' ('. $i+1 . ') ' . esc($header->getValueLine(), 'html');
+                                        echo ' ('. $i+1 . ') ' . esc($header->getValueLine());
                                     }
                                 }
                                 ?>
@@ -368,14 +373,14 @@ $errorId = uniqid('error', true);
                         <tbody>
                         <?php foreach ($headers as $name => $value) : ?>
                             <tr>
-                                <td><?= esc($name, 'html') ?></td>
+                                <td><?= esc($name) ?></td>
                                 <td>
                                 <?php
                                 if ($value instanceof Header) {
-                                    echo esc($response->getHeaderLine($name), 'html');
+                                    echo esc($response->getHeaderLine($name));
                                 } else {
                                     foreach ($value as $i => $header) {
-                                        echo ' ('. $i+1 . ') ' . esc($header->getValueLine(), 'html');
+                                        echo ' ('. $i+1 . ') ' . esc($header->getValueLine());
                                     }
                                 }
                                 ?>

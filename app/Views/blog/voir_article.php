@@ -1,10 +1,11 @@
-<?= view('commun/header', ['titre' => $titre]) ?>
+<?= /** @noinspection PhpUndefinedVariableInspection */
+view('commun/header', ['titre' => $titre]) ?>
 <?php // var_dump($article)  ?>
 <div class="text-white py-12 px-6">
     <!-- Titre principal -->
     <h2 class="center w-[35vw] h-[40px] text-3xl font-bold mb-4 mx-auto">Article de blog</h2>
 
-	<!-- Grille des article -->
+	<!-- Grille de l'article -->
 	<div class="bg-[#161c2d] grid-cols-1 md:grid-cols-1 gap-6 max-w-7xl mx-auto"><br>
 	<!-- Article -->
 		<?php if (!empty($article)) : ?>

@@ -24,31 +24,22 @@ use ReflectionException;
  */
 class ControleurBorne extends BaseController {
 	
-	/** @var BorneModel $borneModel */
 	private BorneModel $borneModel;
-
-	/** @var BornePersoModel $bornePersoModel */
+	
 	private BornePersoModel $bornePersoModel;
 	
-	/** @var BoutonModel $boutonModel */
 	private BoutonModel $boutonModel;
 	
-	/** @var JoystickModel $joystickModel */
 	private JoystickModel $joystickModel;
 	
-	/** @var OptionModel $optionModel */
 	private OptionModel $optionModel;
 	
-	/** @var ThemeModel $themeModel */
 	private ThemeModel $themeModel;
 	
-	/** @var MatiereModel $matiereModel */
 	private MatiereModel $matiereModel;
 	
-	/** @var UtilisateurModel $utilisateurModel */
 	private UtilisateurModel $utilisateurModel;
 	
-	/** @var TMoldingModel $utilisateurModel */
 	private TMoldingModel $tmoldingModel;
 	
 	/**
@@ -160,6 +151,7 @@ class ControleurBorne extends BaseController {
 		if (($key = array_search($id_borne, $bornes_recentes)) !== false)
 			unset($bornes_recentes[$key]);
 		$bornes_recentes[time()] = $id_borne;
+		$bornes_recentes = array_chunk($bornes_recentes, 10, true)[0];
 		uksort($bornes_recentes, fn($o1, $o2) => $o2 > $o1);
 		set_cookie("bornes_recentes", json_encode($bornes_recentes), 172800 + 3600);
 		
@@ -272,6 +264,21 @@ class ControleurBorne extends BaseController {
 		$data = $this->request->getPost();
 		$nbBoutons = isset($id_borne) ? count($this->borneModel->getBoutons  ($id_borne)) : 6;
 		$nbJoueurs = isset($id_borne) ? count($this->borneModel->getJoysticks($id_borne)) : 1;
+		
+		$bornes_recentes = json_decode(get_cookie("bornes_recentes") ?: "[]", true);
+		
+		$bornes_suggerees = [];
+		foreach ($bornes_recentes as $index) {
+			if ($index == $id_borne)
+				continue;
+			/** @var Borne $borne */
+			$borne = $this->borneModel->getBorneParId($index);
+			$images = $this->borneModel->getImages($index);
+			if ($borne) {
+				$borne->image = count($images) ? $images[0]->chemin : "";
+				$bornes_suggerees[] = $borne;
+			}
+		}
 
 		if ($data) { // Configuration de l'aperçu de la borne
 			if (!$session->has('panier') && !$session->has('user')) {
@@ -286,15 +293,16 @@ class ControleurBorne extends BaseController {
 				$nbJoueurs = intval($data['nbJoueurs']);
 	
 				return view('borne/edit_borne', [
-					'nbJoueurs' => $nbJoueurs,
-					'nbBoutons' => $nbBoutons,
-					'titre'     => "Personnaliser une borne",
-					'options'   => $this->optionModel->findAll(),
-					'tmoldings' => $this->tmoldingModel->findAll(),
-					'matieres'  => $this->matiereModel->findAll(),
-					'joysticks' => $this->joystickModel->findAll(),
-					'boutons'   => $this->boutonModel->findAll(),
-					'borne'     => $id_borne ? $this->borneModel->getBorneParId($id_borne) : null,
+					'nbJoueurs'        =>$nbJoueurs,
+					'nbBoutons'        =>$nbBoutons,
+					'titre'            =>"Personnaliser une borne",
+					'options'          =>$this->optionModel->findAll(),
+					'tmoldings'        =>$this->tmoldingModel->findAll(),
+					'matieres'         =>$this->matiereModel->findAll(),
+					'joysticks'        =>$this->joystickModel->findAll(),
+					'boutons'          =>$this->boutonModel->findAll(),
+					'borne'            =>$id_borne ? $this->borneModel->getBorneParId($id_borne) : null,
+					'suggestion_bornes'=>$bornes_suggerees,
 				]);
 			}
 
@@ -375,16 +383,17 @@ class ControleurBorne extends BaseController {
 
 			} else {
 				return view('borne/edit_borne', [
-					'erreurs'   => $this->validator->getErrors(),
-					'nbJoueurs' => $nbJoueurs,
-					'nbBoutons' => $nbBoutons,
-					'titre'     => "Personnaliser ma borne",
-					'options'   => $this->optionModel->findAll(),
-					'tmoldings' => $this->tmoldingModel->findAll(),
-					'matieres'  => $this->matiereModel->findAll(),
-					'joysticks' => $this->joystickModel->findAll(),
-					'boutons'   => $this->boutonModel->findAll(),
-					'borne'     => $id_borne ? $this->borneModel->getBorneParId($id_borne) : null,
+					'erreurs'          =>$this->validator->getErrors(),
+					'nbJoueurs'        =>$nbJoueurs,
+					'nbBoutons'        =>$nbBoutons,
+					'titre'            =>"Personnaliser ma borne",
+					'options'          =>$this->optionModel->findAll(),
+					'tmoldings'        =>$this->tmoldingModel->findAll(),
+					'matieres'         =>$this->matiereModel->findAll(),
+					'joysticks'        =>$this->joystickModel->findAll(),
+					'boutons'          =>$this->boutonModel->findAll(),
+					'borne'            =>$id_borne ? $this->borneModel->getBorneParId($id_borne) : null,
+					'suggestion_bornes'=>$bornes_suggerees,
 				]);
 			}
 
@@ -400,6 +409,7 @@ class ControleurBorne extends BaseController {
 			'joysticks' => $this->joystickModel->findAll(),
 			'boutons'   => $this->boutonModel->findAll(),
 			'borne'     => $id_borne ? $this->borneModel->getBorneParId($id_borne) : null,
+			'suggestion_bornes'=>$bornes_suggerees,
 		]);
 	}
 	

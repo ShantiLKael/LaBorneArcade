@@ -1,4 +1,5 @@
-<?php if (isset($accueil) && $accueil === false) { echo view('commun/header', ['titre' => $titre]); } ?>
+<?php /** @noinspection PhpUndefinedVariableInspection */
+if (isset($accueil) && $accueil === false) { echo view('commun/header', ['titre' => $titre]); } ?>
 
 
 <section class="text-white py-12 px-6">
@@ -8,7 +9,7 @@
 	<div class="grid grid-cols-1 md:grid-cols-<?= $faqs ? '2' : '1' ?> gap-6 max-w-4xl mx-auto">
 	<?php if($faqs) : ?>
 
-		<!-- Boucle Questions -->
+		<!-- Boucle de questions -->
 		<?php foreach($faqs as $faq) : ?>
 			<div class="border-b-2 border-white/50 p-4 hover:bg-white/10">
 			<div class="flex justify-between items-center cursor-pointer" onclick="interrupteurReponse(<?= $faq->id ?>)">

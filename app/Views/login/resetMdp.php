@@ -1,4 +1,5 @@
-<?= view('commun/header', ['titre' => $titre]) ?>
+<?= /** @noinspection PhpUndefinedVariableInspection */
+view('commun/header', ['titre' => $titre]) ?>
 <?= form_open("/connexion/oubli-mdp/$token", ['class' => 'my-20 max-w-screen-md border border-gray-500 px-5 shadow-xl mx-4 rounded-xl py-5 md:mx-auto bg-gray-800']) ?>
 <div class="flex flex-col border-b border-gray-400 py-6 sm:flex-row sm:items-start">
 	<div class="shrink-0 mr-auto sm:py-3">

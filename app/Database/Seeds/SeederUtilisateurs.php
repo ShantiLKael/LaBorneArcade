@@ -21,7 +21,7 @@ class SeederUtilisateurs extends Seeder {
 		});
 		
 		$data = [
-			[1, "houhat@smallntm.lol", password_hash("houhat", PASSWORD_DEFAULT), "admin"],
+			[1, "houhat@smallntm.lol", password_hash("houhat_houhat", PASSWORD_DEFAULT), "admin"],
 			[2, "zadmiw@undeep.xyz", password_hash("dza552dza", PASSWORD_DEFAULT), "user"],
 		];
 		

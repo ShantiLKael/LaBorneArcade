@@ -73,7 +73,7 @@ use App\Controllers\HomeController;
 
             <h2 class="text-4xl font-bold text-green-400 mb-4">Choisis ta borne parmi les modèles que nous proposons
             </h2>
-            <p class="text-lg text-gray-300 mb-6">Choisissez parmis les modèles déjà réalisés. De nombreux thèmes sont
+            <p class="text-lg text-gray-300 mb-6">Choisissez parmi les modèles déjà réalisés. De nombreux thèmes sont
                 disponibles : Manga, Comics, Films, Classiques de l'arcade, Pac-Man, space Invaders, Mario ....</p>
             <a href="/bornes"
                 class="bg-green-500 hover:bg-green-400 text-white py-3 px-6 rounded-3xl transition-colors"> Voir
@@ -202,7 +202,7 @@ use App\Controllers\HomeController;
                 <h2 class="text-4xl font-bold text-green-400 mb-4">Nos Marques partenaires</h2>
                 <p class="text-lg text-gray-300 mb-6">Nous sommes Heureux et Fiers de proposer depuis plus de 7 ans des
                     Bornes d'Arcade dans lesquelles nous installons des Ordinateurs Dell Reconditionnés. Les unités
-                    centrales sont remises à neuf. Garanties 2 ans elles permettent de proposer le meilleur de l'Arcade
+                    centrales sont remises à neuf. Garanties 2 ans, elles permettent de proposer le meilleur de l'Arcade
                     sur PC via Hyperspin... Au Meilleur Prix. Un réel impact sur notre Environnement à notre échelle. Et
                     un SAV simplifié.</p>
             </div>
@@ -221,7 +221,7 @@ use App\Controllers\HomeController;
                         class="w-32 h-32 object-contain  mr-6">
                     <div>
                         <h3 class="text-xl font-semibold text-white mb-2">Sanwa</h3>
-                        <p class="text-gray-300">Pour les boutons nous préférons installer des boutons Sanwa néanmoins
+                        <p class="text-gray-300">Pour les boutons, nous préférons installer des boutons Sanwa néanmoins
                             les Seimitsu sont de bonne qualité et ils offrent des gammes de couleurs différentes.</p>
                     </div>
                 </div>
