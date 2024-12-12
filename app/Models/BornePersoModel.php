@@ -31,7 +31,6 @@ class BornePersoModel extends Model
 
 	protected $allowedFields = [
         'id_borne',
-        'ordre',
         'prix',
         'id_tmolding',
         'id_matiere',

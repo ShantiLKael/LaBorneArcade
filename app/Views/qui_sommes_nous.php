@@ -4,7 +4,7 @@
 	<div class="flex flex-col lg:flex-row items-center bg-medium-blue rounded-sm p-5 lg:p-12 shadow shadow-black/55 mb-10">
 		<!-- Image -->
 		<div class="lg:w-1/2 mb-6 lg:mb-0 mx-8">
-			<img src="https://via.placeholder.com/400" alt="Photo Johann Lefebvre" class="rounded-lg shadow-lg">
+			<img src="./assets/images/accueil/Lefevre-borne.webp" alt="Photo Johann Lefebvre" class="w-[400px] h-auto rounded-lg shadow-lg">
 		</div>
 
 		<!-- Texte -->

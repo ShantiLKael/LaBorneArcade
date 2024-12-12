@@ -84,9 +84,38 @@ class AdminController extends BaseController
 	 * Page d'admin borne
 	 * @return string admin/borne
 	 */
-	public function index(): string
+	public function adminBorne(): string
 	{
-		return view('/admin/bornes');
+		$data = $this->request->getPost();
+		if ($data) {
+			if (isset($data['nbBoutons']) || isset($data['nbJoueurs'])) { // Formulaire aperçu des touches
+				$nbBoutons = intval($data['nbBoutons']);
+				$nbJoueurs = intval($data['nbJoueurs']);
+	
+				return view('borne/edit_borne', [
+					'nbJoueurs' => $nbJoueurs,
+					'nbBoutons' => $nbBoutons,
+					'titre'     => "Personnaliser une borne",
+					'options'   => $this->optionModel->findAll(),
+					'tmoldings' => $this->tMoldingModel->findAll(),
+					'matieres'  => $this->matiereModel->findAll(),
+					'joysticks' => $this->joystickModel->findAll(),
+					'boutons'   => $this->boutonModel->findAll(),
+				]);
+			}
+		}
+
+		return view('/admin/config_borne', [
+			'titre'    => 'Création d\'une borne',
+			'nbJoueurs'=> 1,
+			'nbBoutons'=> 6,
+			'matieres' => $this->matiereModel->findAll(),
+			'options'  => $this->optionModel->findAll(),
+			'themes'   => $this->themeModel->findAll(),
+			'tmoldings'=> $this->tMoldingModel->findAll(),
+			'joysticks'=> $this->joystickModel->findAll(),
+			'boutons'  => $this->boutonModel->findAll(),
+		]);
 	}
 
 	/**

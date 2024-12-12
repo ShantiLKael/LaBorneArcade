@@ -39,7 +39,6 @@ class BorneModel extends Model
         'nom',
         'description',
         'prix',
-        'ordre',
         'id_tmolding',
         'id_matiere',
 		'id_image',

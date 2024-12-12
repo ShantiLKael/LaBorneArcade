@@ -310,7 +310,7 @@ class ControleurBorne extends BaseController {
 
 				$bornePerso = new BornePerso();
 				$bornePerso->fill($data);
-				$bornePerso->prix = 1499;
+				$bornePerso->prix = 1690;
 				$bornePerso->dateCreation = Time::now('Europe/Paris', 'fr_FR');
 				$bornePerso->dateModif    = Time::now('Europe/Paris', 'fr_FR');
 				$idBorne = $this->bornePersoModel->insert($bornePerso);
