@@ -1,7 +1,4 @@
-<?php
-/** @noinspection PhpUndefinedVariableInspection */
-echo view('commun/header', ['titre' => $titre])
-?>
+<?= view('commun/header', ['titre' => $titre]) ?>
 <!-- Formulaire des options choisies -->
 <?= form_open('/bornes/'.$borne->id) ?>
 <section id="section" class="container px-5 py-16 mx-auto bg-medium-blue rounded-xl ">
@@ -63,7 +60,7 @@ echo view('commun/header', ['titre' => $titre])
 		</div>
 	</div>
 	
-	<?php if (isset($borne->options)) : ?>
+	<?php if (!empty($borne->options)) : ?>
 	<!-- Séléction des options -->
 	<div class="px-0 md:px-20">
 		<h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-2xl md:text-3xl text-gray-300">Options</h2>
@@ -100,9 +97,9 @@ echo view('commun/header', ['titre' => $titre])
 			<canvas class="border rounded-md border-deep-blue shadow-lg" id="persoBorne" tabindex="0"></canvas>
 		</div>
 		<?php if (count($suggestion_bornes)) : ?>
-			<div class="px-0 md:px-20">
+			<div class="mt-20 px-0 md:px-20">
 				<h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-2xl md:text-3xl text-gray-300">Bornes récemment vues</h2>
-				<div class="flex overflow-x-scroll p-5 hide-scroll-bar space-x-6 rounded-xl bg-light-teal/10">
+				<div class="flex overflow-x-scroll p-5 hide-scroll-bar space-x-6 rounded-xl bg-deep-blue">
 					<?php foreach($suggestion_bornes as $borne) : ?>
 						<div class="bg-gray-800 p-4 rounded">
 							<a href="/bornes/<?=$borne->id?>">
@@ -112,14 +109,6 @@ echo view('commun/header', ['titre' => $titre])
 								<h3 class="text-xl font-bold mb-2"><?=$borne->nom?></h3>
 								<p class="text-green-600 font-bold mb-4"><?=sprintf("%.02F €", $borne->prix)?></p>
 							</a>
-							<div class="grid grid-cols-1 md:grid-cols-2 mx-4">
-								<a href="#" class="md:mr-2 bg-green-700 hover:bg-green-600 p-2 text-white text-center rounded-3xl">
-									Ajouter au panier
-								</a>
-								<a href="/borne-perso/<?=$borne->id?>" class="md:ml-2 bg-blue-800 hover:bg-blue-700 p-2 text-white text-center rounded-3xl">
-									Personnaliser
-								</a>
-							</div>
 						</div>
 					<?php endforeach; ?>
 				</div>
