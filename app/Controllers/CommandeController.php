@@ -70,18 +70,18 @@ class CommandeController extends BaseController
 
 			$borneModel = new BorneModel();
 			$bornePersoModel = new BornePersoModel();
-
+			
 			$borneMail = $borneModel->getBorneParId($commande->idBorne);
+
 			if ($borneMail == null) {
 				$borneMail = $bornePersoModel->getBorne($commande->idBorne);
 
-				$corps = "Borne personnalisée n°" . $borneMail->id_borne . ".\n\n Vous pourrez retrouver facilement cette borne grâce à son id dans les pages admin !" . "\n Cliquez ici pour accèder aux pages administrateurs.";
+				$corps = "Borne personnalisée n°" . $borneMail->id . ".\n\n Vous pourrez retrouver facilement cette borne grâce à son id dans les pages admin !" . "\n Cliquez ici pour accèder aux pages administrateurs.";
 			}else {
-				$corps = "Borne n°" . $borneMail->id_borne . " Nom : ". $borneMail->nom . ".\n\n Vous pourrez retrouver facilement cette borne grâce à son id dans les pages admin !" . "\n Cliquez ici pour accèder aux pages administrateurs.";;
+				$corps = "Borne n°" . $borneMail->id . " Nom : ". $borneMail->nom . ".\n\n Vous pourrez retrouver facilement cette borne grâce à son id dans les pages admin !" . "\n Cliquez ici pour accèder aux pages administrateurs.";;
 			}
 
 			$lien = site_url("admin/bornes");
-			
 			//Envoi de mail à Mr LeFebvre (pour l'instant addresse de test, on va pas lui envoyer des mails :) )
 			LoginController::envoyer_mail("mailingtestIUT@gmail.com", "Nouvelle commande !", $corps, "Vous avez reçu une nouvelle commande",$lien);
 			return redirect()->to('/commandes')->with('msg', 'Vous avez passé votre commande');

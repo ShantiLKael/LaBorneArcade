@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 
+use App\Entities\BornePerso;
 use App\Entities\Bouton;
 use App\Entities\Joystick;
 use App\Entities\Option;
@@ -64,11 +65,11 @@ class BornePersoModel extends Model
 	/**
 	 * Récupère la borne originale de la borne personnalisée.
 	 * @param int $idTheme
-	 * @return Borne|null
+	 * @return BornePerso|null
 	 */
-	public function getBorne(int $idBorne): ?Borne
+	public function getBorne(int $idBorne): ?BornePerso
 	{
-		$borneModel = new BorneModel();
+		$borneModel = new BornePersoModel();
 		return $borneModel->find($idBorne);
 	}
 
@@ -114,7 +115,7 @@ class BornePersoModel extends Model
 			'id_joystick' => $idJoystick,
 			'ordre' => $ordre,
 		];
-
+		
 		return $builder->insert($data);
 	}
 
