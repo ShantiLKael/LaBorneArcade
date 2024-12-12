@@ -254,7 +254,7 @@ view('commun/header', ['titre' => $titre]) ?>
     <div class="flex flex-wrap md:flex-nowrap items-center justify-between">
         <!-- Titre -->
         <div class="flex items-center">
-            <h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-2xl md:text-3xl text-gray-200">Aperçu des touches</h2>
+            <h2 class="lg:px-5 px-0 md:mx-10 mx-5 font-bold text-2xl md:text-3xl text-gray-200">Aperçu des touches</h2>
         </div>
 
         <!-- Formulaire -->

@@ -17,11 +17,11 @@ class Commande extends Entity
     ];
 
     protected $datamap = [ 
-		'id'           => 'id_commande',
+		'id'             => 'id_commande',
 		'idUtilisateur'  => 'id_utilisateur',
-		'dateCreation' => 'date_creation',
-		'dateModif'    => 'date_modif',
-		'idBorne'        => 'id_borne',
+		'dateCreation'   => 'date_creation',
+		'dateModif'      => 'date_modif',
+		'idBorne'        => 'id_borneperso',
 	];
 
 	protected $dates = ['date_creation', 'date_modif'];
