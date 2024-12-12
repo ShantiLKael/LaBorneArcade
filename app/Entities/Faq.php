@@ -31,7 +31,7 @@ class Faq extends Entity
 
 	public function setIdUtilisateur(int $idUtilisateur)
 	{
-		$this->attributes['id_Utilisateur'] = $idUtilisateur;
+		$this->attributes['id_utilisateur'] = $idUtilisateur;
 		return $this;
 	}
 }

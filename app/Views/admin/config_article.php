@@ -5,7 +5,7 @@
 	<h2 class="text-center text-3xl font-bold mb-4">Configuration des articles</h2>
 	
 	<!-- Formulaire pour ajouter un article -->
-    <?php echo form_open('/admin/articles'); ?>
+    <?php echo form_open('/admin/articles', ['enctype' => 'multipart/form-data']); ?>
     <table class="max-w-3xl mx-auto">
 		<tbody>
 			<tr>
@@ -42,6 +42,38 @@
 							'placeholder' => 'Entrez votre reponse ici...',
 							'class' => 'border border-gray-300 rounded-lg p-2 w-full md:w-auto bg-gray-100 text-black',
 							'required' => 'required',
+						]
+					); ?>
+				</td>
+			</tr>
+            <tr><td><br></td></tr>
+			<tr class="flex flex-col md:flex-row md:items-center">
+				<td> <label class="text-lg font-medium mb-2 md:mb-0 md:mr-4" for="nom">Image de l'article 1 : </label> </td>
+				<td class="">
+					<!-- Champ pour le modèle -->
+					<?php echo form_input(
+						[
+							'type' => 'file',
+							'name' => 'id_image',
+							'id' => 'image',
+							'class' => 'border border-gray-300 rounded-lg p-2 w-full md:w-auto bg-gray-100 text-black',
+							'accept' => 'image/*', // Permet uniquement les fichiers image
+						]
+					); ?>
+				</td>
+			</tr>
+			<tr><td><br></td></tr>
+			<tr class="flex flex-col md:flex-row md:items-center">
+				<td> <label class="text-lg font-medium mb-2 md:mb-0 md:mr-4" for="nom">Image de l'article 2 : </label> </td>
+				<td class="">
+					<!-- Champ pour le modèle -->
+					<?php echo form_input(
+						[
+							'type' => 'file',
+							'name' => 'id_image',
+							'id' => 'image',
+							'class' => 'border border-gray-300 rounded-lg p-2 w-full md:w-auto bg-gray-100 text-black',
+							'accept' => 'image/*', // Permet uniquement les fichiers image
 						]
 					); ?>
 				</td>

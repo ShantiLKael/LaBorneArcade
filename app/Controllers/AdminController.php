@@ -103,12 +103,12 @@ class AdminController extends BaseController
 	/* ------ Redirection page et ajout ------- */
 	/* ---------------------------------------- */
 
-    /**
+	/**
 	 * Page admin des articles
 	 */
 	public function adminArticle()
 	{
-        if ($this->request->getPost() ) {
+		if ($this->request->getPost() ) {
 			if ( ! $this->validate( $this->articleBlogModel->getValidationRules(), $this->articleBlogModel->getValidationMessages() ) ) {
 				return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
 			}
@@ -126,19 +126,22 @@ class AdminController extends BaseController
 		return view('admin/config_article', ['titre' => 'configuration des articles', 'articles' => $articles]);
 	}
 
-    /**
+	/**
 	 * Page admin faq
 	 */
 	public function adminFaq()
 	{
-        if ($this->request->getPost() ) {
+		if ($this->request->getPost() ) {
 			if ( ! $this->validate( $this->faqModel->getValidationRules(), $this->faqModel->getValidationMessages() ) ) {
 				return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
 			}
 			else {
 				$data = $this->request->getPost();
 				$faq = new Faq();
+				
 				$faq->fill($data);
+				// dd(session()->get('user.id'));
+				$faq->setIdUtilisateur(session()->get('user.id'));
 				$this->faqModel->insert($faq);
 
 				return redirect()->back()->with('success', "$faq->question ajouté avec succès.");
@@ -359,7 +362,7 @@ class AdminController extends BaseController
 	 */
 	public function suppFaq(int $id_faq): RedirectResponse
 	{
-        $id_faq = $this->request->getPost('id');
+		$id_faq = $this->request->getPost('id');
 
 		// Suppression du thème
 		if ($this->faqModel->delete($id_faq)) { return redirect()->back()->with('success', 'Faq supprimé avec succès.'); }
