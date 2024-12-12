@@ -108,6 +108,84 @@ class AdminController extends BaseController
 	 */
 	public function adminArticle()
 	{
+		if ($this->request->getPost()) {
+			// Valider les données envoyées pour l'option
+			if (!$this->validate($this->optionModel->getValidationRules(), $this->optionModel->getValidationMessages())) {
+				return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
+			}
+
+			// Récupérer les données du formulaire
+			$data = $this->request->getPost();
+
+			// Gestion de l'image
+			$imageFile = $this->request->getFile('image1'); // Le champ input file doit avoir le name="id_image"
+			if ($imageFile && $imageFile->isValid() && !$imageFile->hasMoved()) {
+				// Valider l'extension de l'image
+				$allowedExtensions = ['png', 'jpg', 'jpeg', 'gif'];
+				$imageExtension = $imageFile->getClientExtension();
+				if (!in_array($imageExtension, $allowedExtensions)) {
+					return redirect()->back()->withInput()->with('errors', [
+						'id_image' => 'Format d\'image non pris en charge. Formats acceptés : png, jpg, jpeg, gif.',
+					]);
+				}
+
+				// Renommer le fichier avec un nom unique
+				$imageName = $data['nom'] . '.' . $imageExtension;
+
+				// Déplacer le fichier vers le dossier public/assets/option/
+				$imagePath = 'assets/images/option/' . $imageName;
+				$imageFile->move(FCPATH . 'assets/images/blog/', $imageName);
+
+				// Ajouter une entrée dans la table image
+				$imageData = ['chemin' => $imagePath];
+				$this->imageModel->insert($imageData);
+
+				// Récupérer l'ID de l'image insérée
+				$imageId = $this->imageModel->insertID();
+				if (!$imageId) {
+					return redirect()->back()->withInput()->with('errors', [
+						'id_image' => 'Échec de l\'enregistrement de l\'image.',
+					]);
+				}
+
+				// Ajouter l'ID de l'image dans les données de l'option
+				$dataIma['id_image'] = $imageId;
+				$article = new ArticleBlog();
+				$article->fill($data);
+
+
+				// Créer une nouvelle instance de l'option
+				$article = new ArticleBlog();
+				$article->fill($data);
+				$article->setIdUtilisateur(session()->get('user.id'));
+				$this->articleBlogModel->insert($article);
+
+				// Insérer l'article dans la base de données
+				$this->articleBlogModel->insert($article);
+
+				return redirect()->back()->with('success', "$article->titre ajouté avec succès.");
+			} else {
+				// Erreur lors du téléchargement de l'image
+				return redirect()->back()->withInput()->with('errors', [
+					'id_image' => 'Erreur lors du téléchargement de l\'image.',
+				]);
+			}
+		}
+
+		$options = $this->optionModel->getOptionsWithImages();
+
+		// Récupérer les options pour les afficher dans la vue
+		//$options = $this->optionModel->findAll();
+		$options = array_reverse($options); // Afficher les options les plus récentes en haut
+	
+
+		$articles = $this->articleBlogModel->findAll();
+		$articles = array_reverse($articles);
+		return view('admin/config_article', ['titre' => 'configuration des articles', 'articles' => $articles]);
+	}
+	/*
+	public function adminArticle()
+	{
 		if ($this->request->getPost() ) {
 			if ( ! $this->validate( $this->articleBlogModel->getValidationRules(), $this->articleBlogModel->getValidationMessages() ) ) {
 				return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
@@ -116,6 +194,7 @@ class AdminController extends BaseController
 				$data = $this->request->getPost();
 				$article = new ArticleBlog();
 				$article->fill($data);
+				$article->setIdUtilisateur(session()->get('user.id'));
 				$this->articleBlogModel->insert($article);
 
 				return redirect()->back()->with('success', "$article->titre ajouté avec succès.");
@@ -125,6 +204,7 @@ class AdminController extends BaseController
 		$articles = array_reverse($articles);
 		return view('admin/config_article', ['titre' => 'configuration des articles', 'articles' => $articles]);
 	}
+	*/
 
 	/**
 	 * Page admin faq
@@ -140,7 +220,6 @@ class AdminController extends BaseController
 				$faq = new Faq();
 				
 				$faq->fill($data);
-				// dd(session()->get('user.id'));
 				$faq->setIdUtilisateur(session()->get('user.id'));
 				$this->faqModel->insert($faq);
 
@@ -344,9 +423,9 @@ class AdminController extends BaseController
 		$id_article = $this->request->getPost('id');
 
 		// Suppression du thème
-		if ($this->articleBlogModel->delete($id_article)) { return redirect()->back()->with('success', 'Faq supprimé avec succès.'); }
+		if ($this->articleBlogModel->delete($id_article)) { return redirect()->back()->with('success', 'article supprimé avec succès.'); }
 		// En cas d'erreur
-		return redirect()->back()->with('errors', ['Erreur lors de la suppression de la faq.']);
+		return redirect()->back()->with('errors', ['Erreur lors de la suppression de l\'article.']);
 	}
 
 	/* ---------------------------------------- */
@@ -416,11 +495,13 @@ class AdminController extends BaseController
 		if ($option) {
 			$imagePath = realpath("..")."/public/".$this->imageModel->find($option->id_image)->chemin; 
 			if (file_exists($imagePath)) {
-				unlink($imagePath);
+				unlink(filename: $imagePath);
 			} 
 			$nom = $option->nom;
+			$id_im =$option->id_image;
 			if ($this->optionModel->delete($id_option)) {
 				$this->imageModel->where('chemin', $imagePath)->delete();
+				$this->imageModel->delete($id_im);
 				return redirect()->back()->with('success', "$nom et image supprimées avec succès.");
 			}
 		}

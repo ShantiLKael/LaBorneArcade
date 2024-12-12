@@ -54,7 +54,7 @@
 					<?php echo form_input(
 						[
 							'type' => 'file',
-							'name' => 'id_image',
+							'name' => 'image1',
 							'id' => 'image',
 							'class' => 'border border-gray-300 rounded-lg p-2 w-full md:w-auto bg-gray-100 text-black',
 							'accept' => 'image/*', // Permet uniquement les fichiers image
@@ -70,7 +70,7 @@
 					<?php echo form_input(
 						[
 							'type' => 'file',
-							'name' => 'id_image',
+							'name' => 'image2',
 							'id' => 'image',
 							'class' => 'border border-gray-300 rounded-lg p-2 w-full md:w-auto bg-gray-100 text-black',
 							'accept' => 'image/*', // Permet uniquement les fichiers image
