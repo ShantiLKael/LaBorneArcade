@@ -38,17 +38,17 @@ $routes->setAutoRoute(false);
 	$routes->get('/panier/delete-borne/(:num)', 'CommandeController::suppressionBorne/$1');
 //});
 
-//$routes->group('', ['filter' => 'auth'], function($routes) {
+$routes->group('', ['filter' => "utilisateur"], function($routes) {
 	$routes->get  ('/commandes', 'CommandeController::index');
 	$routes->match(['get', 'post'], '/profile', 'LoginController::profile');
-//});
+});
 
-//$routes->group('', ['filter' => 'admin'], function($routes) {
+$routes->group('', ['filter' => "admin"], function($routes) {
 	$routes->match(['get', 'post'], 	'/admin/bornes'					, 'AdminController::adminBorne');
 	$routes->match(['get', 'post'], 	'/admin/contact'				, 'AdminController::adminContact');
 	$routes->match(['get', 'post'], 	'/admin/articles'				, 'AdminController::adminArticle');
 	$routes->match(['get', 'post'], 	'/admin/faqs'					, 'AdminController::adminFaq');
-	$routes->match(['get', 'post'],	'/admin/theme'					, 'AdminController::adminTheme');
+	$routes->match(['get', 'post'],	'/admin/theme'
 	$routes->post(								'/admin/theme/delete/(:num)'	, 'AdminController::suppTheme/$1');
 	$routes->match(['get', 'post'],	'/admin/matiere'				, 'AdminController::adminMatiere');
 	$routes->post(								'/admin/matiere/delete/(:num)'	, 'AdminController::suppMatiere/$1');
@@ -60,7 +60,7 @@ $routes->setAutoRoute(false);
 	$routes->post(								'/admin/TMolding/delete/(:num)'	, 'AdminController::suppTMolding/$1');
 	$routes->match(['get', 'post'],	'/admin/bouton'					, 'AdminController::adminBouton');
 	$routes->post(								'/admin/bouton/delete/(:num)'	, 'AdminController::suppBouton/$1');
-//});
+});
 
 /** Route pour le cronjob */
 $routes->cli('/cronjob', 'ControleurCronJob::index');

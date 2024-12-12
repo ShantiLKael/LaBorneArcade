@@ -26,6 +26,7 @@ use App\Models\ImageModel;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Validation\ValidationInterface;
 use Config\Services;
+use JetBrains\PhpStorm\NoReturn;
 use ReflectionException;
 
 class AdminController extends BaseController
@@ -136,7 +137,7 @@ class AdminController extends BaseController
 
 				return redirect()->back()->with('success', "$theme->nom ajouté avec succès.");
 			}
-		} 
+		}
 		$themes = $this->themeModel->findAll();
 		$themes = array_reverse($themes);
 		return view('admin/config_theme', ['titre' => 'configuration des theme', 'themes' => $themes]);
@@ -156,7 +157,7 @@ class AdminController extends BaseController
 
 				return redirect()->back()->with('success', "$matiere->nom, $matiere->couleur ajouté avec succès.");
 			}
-		} 
+		}
 		$matieres = $this->matiereModel->findAll();
 		$matieres = array_reverse($matieres);
 		return view('admin/config_matiere', ['titre' => 'configuration des matiere', 'matieres' => $matieres]);
@@ -249,7 +250,7 @@ class AdminController extends BaseController
 
 				return redirect()->back()->with('success', "$joystick->modele , $joystick->couleur ajouté avec succès.");
 			}
-		} 
+		}
 		$joysticks = $this->joystickModel->findAll();
 		$joysticks = array_reverse($joysticks);
 		return view('admin/config_joystick', ['titre' => 'configuration des joystick', 'joysticks' => $joysticks]);
@@ -269,7 +270,7 @@ class AdminController extends BaseController
 
 				return redirect()->back()->with('success', "$tMolding->nom, $tMolding->couleur ajouté avec succès.");
 			}
-		} 
+		}
 		$tMoldings = $this->tMoldingModel->findAll();
 		$tMoldings = array_reverse($tMoldings);
 		return view('admin/config_tMolding', ['titre' => 'configuration des TMolding', 'tMoldings' => $tMoldings]);
@@ -291,9 +292,9 @@ class AdminController extends BaseController
 				$bouton->fill($data);
 				$this->boutonModel->insert($bouton);
 
-				return redirect()->back()->with('success', "$bouton->modele, $bouton->forme, $bouton->couleur ajouté avec succès."); 
+				return redirect()->back()->with('success', "$bouton->modele, $bouton->forme, $bouton->couleur ajouté avec succès.");
 			}
-		} 
+		}
 		$boutons = $this->boutonModel->findAll();
 		$boutons = array_reverse($boutons);
 		return view('admin/config_bouton', ['titre' => 'configuration des boutons', 'boutons' => $boutons]);
@@ -442,10 +443,10 @@ class AdminController extends BaseController
 		$option = $this->optionModel->find($id_option);
 
 		if ($option) {
-			$imagePath = realpath("..")."/public/".$this->imageModel->find($option->id_image)->chemin; 
+			$imagePath = realpath("..")."/public/".$this->imageModel->find($option->id_image)->chemin;
 			if (file_exists($imagePath)) {
 				unlink($imagePath);
-			} 
+			}
 			$nom = $option->nom;
 			if ($this->optionModel->delete($id_option)) {
 				$this->imageModel->where('chemin', $imagePath)->delete();

@@ -15,7 +15,6 @@ use App\Entities\TMolding;
 use App\Entities\Borne;
 use CodeIgniter\Pager\Pager;
 use Config\Database;
-use JetBrains\PhpStorm\ArrayShape;
 
 class BorneModel extends Model
 {
@@ -93,47 +92,41 @@ class BorneModel extends Model
 		$sql = "SELECT b.*, (SELECT i.id_image FROM imageborne i WHERE i.id_borne = b.id_borne LIMIT 1) AS image\n";
 		$sql .= "FROM Borne b\n";
 		$sql .= "WHERE b.nom ILIKE '%$recherche%' ESCAPE '!'";
+		$type = match($type) {
+			"sticker"=>1,
+			"wood"=>2,
+			"gravure"=>3,
+			default=>null,
+		};
 		if (count($themes) || count($matieres) || $type || $prix_min || $prix_max) {
 			$sql .= " AND (";
 			$close = "";
-			if (count($themes))
-				$close .= "b.id_theme IN (".implode(",", $themes).")";
-			if (count($matieres)) {
-				if ($close)
-					$close .= " OR ";
-				$close .= "b.id_matiere IN (".implode(",", $matieres).")";
-			}
-			if ($type) {
-				$type = match($type) {
-					"sticker"=>1,
-					"wood"=>2,
-					"gravure"=>3,
-					default=>-1,
-				};
-				if ($type !== -1) {
-					if ($close)
-						$close .= " OR ";
-					$close .= "$type IN (SELECT ob.id_option FROM OptionBorne ob WHERE ob.id_borne = b.id_borne)";
-				}
-			}
 			if ($prix_min > $prix_max)
 				$prix_max = null;
 			if ($prix_min && $prix_max) {
-				if ($close)
-					$close .= " OR ";
-				$close .= "b.prix BETWEEN $prix_min AND $prix_max";
+				$sql .= "b.prix BETWEEN $prix_min AND $prix_max";
 			} else {
 				if ($prix_min) {
-					if ($close)
-						$close .= " OR ";
-					$close .= "b.prix >= $prix_min";
+					$sql .= "b.prix >= $prix_min";
 				}
 				if ($prix_max) {
-					if ($close)
-						$close .= " OR ";
-					$close .= "b.prix <= $prix_min";
+					$sql .= "b.prix <= $prix_max";
 				}
 			}
+			if ((count($themes) || count($matieres) || $type) && ($prix_min || $prix_max))
+				$sql .= " AND (";
+			if (count($themes))
+				$close .= "b.id_theme IN (".implode(",", $themes).") OR ";
+			if (count($matieres)) {
+				$close .= "b.id_matiere IN (".implode(",", $matieres).") OR ";
+			}
+			if ($type) {
+				$close .= "$type IN (SELECT ob.id_option FROM OptionBorne ob WHERE ob.id_borne = b.id_borne) OR ";
+			}
+			if (count($themes) || count($matieres) || $type)
+				$close .= "FALSE";
+			if ($prix_min || $prix_max)
+				$close .= ")";
 			$sql .= $close;
 			$sql .= ")\n";
 		}
@@ -207,11 +200,13 @@ class BorneModel extends Model
 		$joysticks = $builder->get(BorneModel::$MAX_JOYSTICK)->getResult('App\Entities\Joystick');
 		return $joysticks ?: [];
 	}
-
+	
 	/**
-	 * Insertion d'un Joystick de la borne
+	 * Insertion d'un Joystick de la borne.
+	 *
 	 * @param int $idBorne
 	 * @param int $idJoystick
+	 * @param int $ordre
 	 * @return bool
 	 */
 	public function insererJoystickBorne(int $idBorne, int $idJoystick, int $ordre): bool
@@ -243,11 +238,13 @@ class BorneModel extends Model
 		$boutons = $builder->get(BorneModel::$MAX_BOUTON)->getResult('App\Entities\Bouton');
 		return $boutons ?: [];
 	}
-
+	
 	/**
 	 * Insertion d'un Bouton de la borne.
+	 *
 	 * @param int $idBorne
 	 * @param int $idBouton
+	 * @param int $ordre
 	 * @return bool
 	 */
 	public function insererBoutonBorne(int $idBorne, int $idBouton, int $ordre): bool
@@ -317,6 +314,7 @@ class BorneModel extends Model
 	
 	/**
 	 * Suppression d'une BornePerso un mois après sa dernière modification.
+	 *
 	 * @return bool
 	 */
 	#[CronJob(BorneModel::class, "suppPeriodiqueBornePerso")]
@@ -332,16 +330,17 @@ class BorneModel extends Model
 	}
 
 	/**
-	 * Insertion d'une Option de la borne.
-	 * @param int $idBorne
-	 * @param int $idOption
-	 * @return bool
+	 * Insertion d'une option de la borne.
+	 *
+	 * @param int $idBorne L'identifiant de la borne.
+	 * @param int $idOption L'identifiant de l'option.
+	 * @return bool <b>Vrai</b> si l'insertion a réussi, sinon <b>faux</b>.
 	 */
 	public function insererOptionBorne(int $idBorne, int $idOption): bool
 	{
 		$db = Database::connect();
 		$builder = $db->table('optionborne');
-
+		
 		$data = [
 			'id_borne'  => $idBorne,
 			'id_option' => $idOption,
@@ -351,10 +350,10 @@ class BorneModel extends Model
 	}
 
 	/**
-	 * Suppression d'une borne et de ses composants
+	 * Suppression d'une borne et de ses composants.
 	 * (Panier, Option, Joystick, Bouton, Image et Commande)
 	 *
-	 * @param int $idBorne identifiant de la borne
+	 * @param int $idBorne L'identifiant de la borne.
 	 * @return void
 	 */
 	public function deleteCascade(int $idBorne): void
