@@ -8,7 +8,7 @@ use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 
-class AdminFilter implements FilterInterface {
+class FiltreAdmin implements FilterInterface {
 	
 	/**
 	 * @inheritDoc
