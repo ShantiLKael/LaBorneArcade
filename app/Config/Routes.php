@@ -63,7 +63,7 @@ $routes->group('', ['filter' => "admin"], function($routes) {
 	$routes->post('/admin/joystick/delete/(:num)',	'AdminController::suppJoystick/$1');
 	$routes->post('/admin/TMolding/delete/(:num)',	'AdminController::suppTMolding/$1');
 	$routes->post('/admin/bouton/delete/(:num)',	'AdminController::suppBouton/$1');
-//});
+});
 
 /** Route pour le cronjob */
 $routes->cli('/cronjob', 'ControleurCronJob::index');
