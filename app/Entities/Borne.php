@@ -7,12 +7,15 @@ use App\Models\BorneModel;
 /**
  * Cette entité représente une borne prédéfinie sur le site <i>LaBorneArcade</i>.
  *
- * @property int id
+ * @property int    id
+ * @property string nom
+ * @property string description
+ * @property float  prix
+ * @property int    ordre
+ * @property int    idTMolding
+ * @property int    idMatiere
+ * @property int    idTheme
  * @property string image
- * @property float prix
- * @property int idTMolding
- * @property int idMatiere
- * @property int idTheme
  */
 class Borne extends Entity
 {

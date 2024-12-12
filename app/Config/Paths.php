@@ -8,7 +8,7 @@ namespace Config;
  * Holds the paths that are used by the system to
  * locate the main directories, app, system, etc.
  *
- * Modifying these allows you to restructure your application,
+ * Modifying this allows you to restructure your application,
  * share a system folder between multiple applications, and more.
  *
  * All paths are relative to the project's root folder.
@@ -73,7 +73,7 @@ class Paths
      *
      * This variable must contain the name of the directory that
      * contains the view files used by your application. By
-     * default this is in `app/Views`. This value
+     * default, this is in `app/Views`. This value
      * is used when no value is provided to `Services::renderer()`.
      */
     public string $viewDirectory = __DIR__ . '/../Views';

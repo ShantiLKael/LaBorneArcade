@@ -1,4 +1,5 @@
-<?= view('commun/header', ['titre' => $titre]) ?>
+<?= /** @noinspection PhpUndefinedVariableInspection */
+view('commun/header', ['titre' => $titre]) ?>
 <?= form_open('/panier') ?>
 <section class="container mx-auto my-8 px-4 lg:flex lg:gap-6">
 	
@@ -19,7 +20,9 @@
 					
 					<!-- Bouton radio en haut à droite -->
 					<div class="absolute top-2 right-2">
-						<input type="radio" name="selected_borne" value="<?= $bornePerso->id ?>" class="form-radio w-5 h-5 cursor-pointer border hover:border-green-300 focus:ring-2 focus:ring-green-500"/>
+						<label>
+							<input type="radio" name="selected_borne" value="<?= $bornePerso->id ?>" class="form-radio w-5 h-5 cursor-pointer border hover:border-green-300 focus:ring-2 focus:ring-green-500">
+						</label>
 					</div>
 
 					<div class="flex">
@@ -29,7 +32,7 @@
 						<div class="<?= $bornePerso->borne != null ? 'space-y-4' : 'space-y-2' ?>">
 							<h3 class="text-lg font-semibold"><?= $bornePerso->nom ?></h3>
 							<p class="text-md text-gray-400">Thème : <span class="font-medium text-blue-500"><?= empty($bornePerso->borne) ? 'Personnalisée' : $bornePerso->borne->theme->nom ?></span></p>
-							<p class="text-md text-gray-400">Prix total  : 
+							<p class="text-md text-gray-400">Prix total :
 								<span class="font-medium text-green-500">
 								<?php
 									$idPanierSession = null;
@@ -38,16 +41,15 @@
 										if ($options[$idPanierSession])
 											foreach ($options[$idPanierSession] as $option)
 												$prixTotBorne += $option->cout;
-
-										$prixTotBorne += $bornePerso->prix;
+										
 									} else {
 										foreach ($bornePerso->options as $option)
 										$prixTotBorne += $option->cout;
-
-										$prixTotBorne += $bornePerso->prix;
+										
 									}
-
-									echo $prixTotBorne. ' €';
+								$prixTotBorne += $bornePerso->prix;
+								
+								echo $prixTotBorne. ' €';
 								?>
 								</span>
 							</p>
@@ -99,7 +101,8 @@
 			?>
 			<?php if (!session()->has('user')) :?>
 				<div class="md:col-span-2 text-center mx-auto mt-15">
-					<p>Vous voulez passer une commande ? <a href="/connexion" class="text-green-600 hover:text-green-500 font-bold hover:underline">Connectez vous !</a></p>
+					<p>Vous voulez passer une commande ? <a href="/connexion" class="text-green-600 hover:text-green-500 font-bold
+					hover:underline">Connectez-vous !</a></p>
 				</div>
 			<?php endif; ?>
 
@@ -148,7 +151,7 @@
 				<div class="flex items-center space-x-4 py-8 lg:py-20">
 				<div>
 					<p class="font-bold text-gray-300 text-lg">
-						> Voir mes 
+						> Voir mes
 						<a href="/commandes" class="text-green-600 hover:text-green-500 hover:underline">
 							commandes
 						</a>

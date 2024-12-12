@@ -1,8 +1,8 @@
-	<?= view('commun/headerAdmin', ['titre' => $titre]) ?>
-	<?php // var_dump($options)  ?>
+<?= /** @noinspection PhpUndefinedVariableInspection */
+view('commun/headerAdmin', ['titre' => $titre]) ?>
 	<div id="main-content" class=" p-8 w-full">
 		<!-- Titre principal -->
-		<h2 class="text-center text-3xl font-bold mb-4">configuration des options </h2>
+		<h2 class="text-center text-3xl font-bold mb-4">Configuration des options </h2>
 
 		<!-- Formulaire pour ajouter une option -->
 
@@ -24,7 +24,7 @@
 							<?php echo form_input(
 								[
 									'name' => 'nom',
-									'value' => set_value('nom', ''),
+									'value' => set_value('nom'),
 									'placeholder' => 'Entrez votre nom d\'option ici...',
 									'class' => 'border border-gray-300 rounded-lg p-2 w-full md:w-auto bg-gray-100 text-black',
 									'required' => 'required',
@@ -42,7 +42,7 @@
 								[
 									'type' => 'text',
 									'name' => 'description',
-									'value' => set_value('description', ''),
+									'value' => set_value('description'),
 									'placeholder' => 'Entrez la description ici...',
 									'class' => 'border border-gray-300 rounded-lg p-2 w-full md:w-auto bg-gray-100 text-black',
 									'required' => 'required',
@@ -59,12 +59,12 @@
 								[
 									'type' => 'number', // Définit le champ comme un champ numérique
 									'name' => 'cout',
-									'value' => set_value('cout', ''),
+									'value' => set_value('cout'),
 									'placeholder' => 'Entrez le coût ici...',
 									'class' => 'border border-gray-300 rounded-lg p-2 w-full md:w-auto bg-gray-100 text-black',
 									'required' => 'required',
 									'min' => '0', // Limite minimale (peut être ajustée selon vos besoins)
-									'step' => '1', // Incrément ou décrément par pas de 1
+									'step' => '1', // Incrément ou déincrémente par pas de 1.
 								]
 								
 							); ?>
@@ -135,7 +135,7 @@
 							<!-- Bouton Supprimer -->
 							<div class="ml-auto">
 								<?php echo form_open("/admin/option/delete/$option->id_option", ['onsubmit' => "return confirm(\"Êtes-vous sûr de vouloir supprimer cette option ?\")"]); ?>
-									<?php echo form_hidden('id', $option->id_option); ?>		
+									<?php echo form_hidden('id', $option->id_option); ?>
 									<?php echo form_submit('delete', 'Supprimer', "class='bg-rouge-pastel hover:bg-rouge-pastelF font-medium py-1 px-4 rounded'"); ?>
 								<?php echo form_close(); ?>
 							</div>

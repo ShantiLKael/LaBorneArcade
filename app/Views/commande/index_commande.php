@@ -1,5 +1,5 @@
-
-<?= view('commun/header', ['titre' => $titre]) ?>
+<?= /** @noinspection PhpUndefinedVariableInspection */
+view('commun/header', ['titre' => $titre]) ?>
 <section class="container mx-auto my-16 px-4">
 	<h1 class="text-3xl font-bold mb-6 text-center">Mes Commandes</h1>
 
@@ -49,7 +49,7 @@
 							<div>
 								<h3 class="text-lg font-semibold">Borne</h3>
 								<p class="text-sm">Thème : <span class="font-medium text-blue-700"><?= empty($commande->borne->borne) ? 'Personnalisée' : $commande->borne->borne->theme->nom ?></span></p>
-								<p class="text-sm">Prix  : <span class="font-medium text-green-700"><?= $commande->borne->prix ?> €</span></p>
+								<p class="text-sm">Prix : <span class="font-medium text-green-700"><?= $commande->borne->prix ?> €</span></p>
 							</div>
 						</div>
 						

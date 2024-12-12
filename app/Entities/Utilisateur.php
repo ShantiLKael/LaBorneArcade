@@ -3,7 +3,16 @@ namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
 use CodeIgniter\I18n\Time;
+use DateTime;
 
+/**
+ * @property int      id
+ * @property string   email
+ * @property string   mdp
+ * @property string   role
+ * @property string   token_mdp
+ * @property DateTime date_creation_token
+ */
 class Utilisateur extends Entity
 {
     protected $casts = [

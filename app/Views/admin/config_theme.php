@@ -1,4 +1,5 @@
-<?= view('commun/headerAdmin', ['titre' => $titre]) ?>
+<?= /** @noinspection PhpUndefinedVariableInspection */
+view('commun/headerAdmin', ['titre' => $titre]) ?>
 <?php // var_dump($themes)  ?>
 <div id="main-content" class=" p-8 w-full">
 	<!-- Titre principal -->
@@ -19,7 +20,7 @@
 				<?php echo form_input([
 					'name' => 'nom',
 					'id' => 'nom',
-					'value' => set_value('nom', ''),
+					'value' => set_value('nom'),
 					'placeholder' => 'Entrez votre thème ici...',
 					'class' => 'border border-gray-300 rounded-lg p-2 w-full md:w-auto bg-gray-100 text-black',
 					'required' => 'required',
@@ -68,7 +69,7 @@
 					<!-- Bouton Supprimer -->
 					<div>
 						<?php echo form_open("/admin/theme/delete/$theme->id", ['onsubmit' => 'return confirm("Êtes-vous sûr de vouloir supprimer ce thème ?")']); ?>
-                            <?php echo form_hidden('id', $theme->id); ?>	
+                            <?php echo form_hidden('id', $theme->id); ?>
                             <?php echo form_submit('delete', 'Supprimer', "class='bg-rouge-pastel hover:bg-rouge-pastelF text-dark-blue font-medium py-1 px-4 rounded'"); ?>
 						<?php echo form_close(); ?>
 					</div>

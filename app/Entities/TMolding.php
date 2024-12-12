@@ -3,6 +3,11 @@ namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
 
+/**
+ * @property int    id
+ * @property string nom
+ * @property string couleur
+ */
 class TMolding extends Entity
 {
     protected $casts = [

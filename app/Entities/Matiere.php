@@ -3,6 +3,11 @@ namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
 
+/**
+ * @property int    id
+ * @property string couleur
+ * @property string nom
+ */
 class Matiere extends Entity
 {
     protected $casts = [

@@ -1,4 +1,5 @@
-<?= view('commun/header', ['titre' => $titre]) ?>
+<?= /** @noinspection PhpUndefinedVariableInspection */
+view('commun/header', ['titre' => $titre]) ?>
 <section>
 	<div class="min-h-screen flex fle-col items-center justify-center py-6 px-4">
 		<div class="grid md:grid-cols-2 items-center gap-4 max-w-6xl w-full">
@@ -84,7 +85,8 @@
 				<?= form_submit('submit', 'Créer son compte', "class='w-full shadow-xl py-3 px-4 text-sm tracking-wide rounded-lg text-white bg-green-600 hover:bg-green-500/60 focus:outline-none cursor-pointer'"); ?>
 			</div>
 
-			<p class="text-sm !mt-8 text-center text-gray-400">Vous avez déjà un compte ? <a href="/connexion" class="text-green-600 hover:text-green-500 font-semibold hover:underline ml-1 whitespace-nowrap">Connectez vous !</a></p>
+			<p class="text-sm !mt-8 text-center text-gray-400">Vous avez déjà un compte ? <a href="/connexion" class="text-green-600
+			hover:text-green-500 font-semibold hover:underline ml-1 whitespace-nowrap">Connectez-vous !</a></p>
 		<?= form_close() ?>
 		</div>
 		<div class="rounded-b-lg max-md:mt-8 bg-gradient-to-r from-green-800/70 to-medium-blue">
@@ -93,8 +95,8 @@
                 Bienvenue sur La Borne d'Arcade
 				</h4>
 				<p class="text-sm">
-					Arcade jeux Borne de jeux vintage personnalisée intégralement votre borne d'arcade retro. 
-					Nos bornes arcade jeux retro vintage multi jeux made in France. 
+					Arcade jeux Borne de jeux vintage personnalisée intégralement votre borne d'arcade retro.
+					Nos bornes arcade jeux retro vintage multi jeux made in France.
 					Délai de 3 à 4 semaines.<br>
 				</p>
 				<p class="mt-5 text-lg font-semibold bold">Conseil, suivi, fiabilité.</p>

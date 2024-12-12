@@ -4,7 +4,16 @@ namespace App\Entities;
 use App\Models\CommandeModel;
 use CodeIgniter\Entity\Entity;
 use CodeIgniter\I18n\Time;
+use DateTime;
 
+/**
+ * @property int      id
+ * @property string   etat
+ * @property DateTime dateCreation
+ * @property DateTime dateModif
+ * @property int      idBorne
+ * @property int      idUtilisateur
+ */
 class Commande extends Entity
 {
     protected $casts = [

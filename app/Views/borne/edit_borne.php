@@ -112,7 +112,7 @@ view('commun/header', ['titre' => $titre]) ?>
 		<div class="relative flex items-center justify-center w-52 h-52 md:w-72 md:h-72 bg-gray-800 rounded-lg overflow-hidden shadow-md border-dotted border-2 border-gray-500">
 			<div class="absolute flex flex-col items-center justify-center text-center px-4">
 				<p class="p-6 text-gray-300 text-sm md:text-base font-medium">
-					Vous voulez une matière ou une couleur particulier ? <br>
+					Vous voulez une matière ou une couleur particulière ? <br>
 					<a href="/contact?message=<?= urlencode('Bonjour, je vous contacte pour la personnalisation de la matière de la borne...') ?>" class="text-green-600 hover:text-green-500 underline">Contactez-nous !</a>
 				</p>
 			</div>
@@ -196,7 +196,7 @@ view('commun/header', ['titre' => $titre]) ?>
 		<div class="relative flex items-center justify-center w-52 h-52 md:w-72 md:h-72 bg-gray-800 rounded-lg overflow-hidden shadow-md border-dotted border-2 border-gray-500">
 			<div class="absolute flex flex-col items-center justify-center text-center px-4">
 				<p class="p-6 text-gray-300 text-sm md:text-base font-medium">
-					Vous voulez un modèle ou une couleur particulier ? <br>
+					Vous voulez un modèle ou une couleur particulière ? <br>
 					<a href="/contact?message=<?= urlencode('Bonjour, je vous contacte pour la personnalisation des joysticks...') ?>" class="text-green-600 hover:text-green-500 underline">Contactez-nous !</a>
 				</p>
 			</div>

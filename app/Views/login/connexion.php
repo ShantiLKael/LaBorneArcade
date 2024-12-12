@@ -1,11 +1,12 @@
-<?= view('commun/header', ['titre' => $titre]) ?>
+<?= /** @noinspection PhpUndefinedVariableInspection */
+view('commun/header', ['titre' => $titre]) ?>
 <section>
 	<div class="min-h-screen flex fle-col items-center justify-center py-6 px-4">
 		<div class="grid md:grid-cols-2 items-center gap-4 max-w-6xl w-full">
 		<div class="bg-gray-800 border border-gray-600 rounded-lg p-6 max-w-md max-md:mx-auto">
 		<?= form_open('/connexion') ?>
 			<div class="mb-8">
-				<h3 class="text-gray-300 text-3xl font-extrabold">Connectez vous !</h3>
+				<h3 class="text-gray-300 text-3xl font-extrabold">Connectez-vous !</h3>
 				<p class="text-gray-300/50 text-sm mt-4 leading-relaxed">Faites une demande de commande directement depuis notre site.</p>
 			</div>
 
@@ -80,7 +81,7 @@
 					Bienvenue La Borne d'Arcade
 				</h4>
 				<p class="text-sm">
-					Retrouvez l'état de votre commande directement sur le site. Une demande de devis, une question ? Contactez nous !<br>
+					Retrouvez l'état de votre commande directement sur le site. Une demande de devis, une question ? Contactez-nous !<br>
 				</p>
 				<p class="mt-5 text-lg font-semibold bold">Conseil, suivi, fiabilité.</p>
 			</div>

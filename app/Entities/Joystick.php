@@ -3,6 +3,11 @@ namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
 
+/**
+ * @property int    id
+ * @property string couleur
+ * @property string modele
+ */
 class Joystick extends Entity
 {
     protected $casts = [

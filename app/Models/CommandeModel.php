@@ -11,24 +11,26 @@ class CommandeModel extends Model
     protected $primaryKey = 'id_commande';
     protected $allowedFields = ['date_creation', 'date_modif', 'etat', 'id_borneperso', 'id_utilisateur'];
 	protected $returnType = 'App\Entities\Commande';
-
+	
 	/**
-	 * Récupère la Borne de la commande.
+	 * Récupère la borne de la commande.
+	 *
 	 * @param int $idBorne
-	 * @return BornePerso
+	 * @return BornePerso|array|null
 	 */
-	public function getBorne(int $idBorne): BornePerso
+	public function getBorne(int $idBorne): BornePerso|array|null
 	{
 		$bornePersoModele = new BornePersoModel();
 		return $bornePersoModele->find($idBorne);
 	}
-
+	
 	/**
-	 * Récupère l'Utilisateur qui a créer la commande.
-	 * @param int $idBorne
-	 * @return \App\Entities\Utilisateur
+	 * Récupère l'utilisateur qui a créé la commande.
+	 *
+	 * @param int $idUtilisateur
+	 * @return Utilisateur|array|null
 	 */
-	public function getUtilisateur(int $idUtilisateur): Utilisateur
+	public function getUtilisateur(int $idUtilisateur): Utilisateur|array|null
 	{
 		$utilisateurModele = new UtilisateurModel();
 		return $utilisateurModele->find($idUtilisateur);

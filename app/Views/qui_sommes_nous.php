@@ -1,4 +1,5 @@
-<?= view('commun/header', ['titre' => $titre]) ?>
+<?= /** @noinspection PhpUndefinedVariableInspection */
+view('commun/header', ['titre' => $titre]) ?>
 <!-- Section "Qui sommes-nous ?" -->
 <section class="container mx-auto px-4 py-8 mb-10">
 	<div class="flex flex-col lg:flex-row items-center bg-medium-blue rounded-sm p-5 lg:p-12 shadow shadow-black/55 mb-10">

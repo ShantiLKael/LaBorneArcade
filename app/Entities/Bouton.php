@@ -3,6 +3,13 @@ namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
 
+/**
+ * @property int    id
+ * @property string modele
+ * @property string forme
+ * @property string couleur
+ * @property bool   eclairage
+ */
 class Bouton extends Entity
 {
     protected $casts = [
