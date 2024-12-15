@@ -26,7 +26,7 @@ class Borne extends Entity
         'id'          => 'integer',
         'nom'         => 'string',
         'description' => 'string',
-        'prix'        => 'string',
+        'prix'        => 'float',
         'ordre'       => 'integer',
         'idTMolding'  => 'string',
         'idMatiere'   => 'string',
@@ -82,7 +82,7 @@ class Borne extends Entity
 	 */
     public function setPrix(string $prix): static
     {
-        $this->attributes['prix'] = $prix;
+        $this->attributes['prix'] = floatval($prix);
         return $this;
     }
 	

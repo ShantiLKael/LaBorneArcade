@@ -8,7 +8,7 @@ view('commun/header', ['titre' => $titre]) ?>
 		<div class="flex flex-col md:flex-row gap-8 items-start">
 			<!-- Images du produit -->
 			<div class="w-full md:w-1/2 lg:w-7/12">
-				<img loading="lazy" src="" alt="Borne Arcade" class="w-full h-auto rounded-lg">
+				<img loading="lazy" src="<?= base_url($borne->images[0]->chemin) ?>" alt="Borne Arcade" class="w-full h-auto rounded-lg">
 			</div>
 	
 			<!-- Informations produit -->
@@ -19,14 +19,7 @@ view('commun/header', ['titre' => $titre]) ?>
 				<!-- Contenu de la borne -->
 				<div class="bg-gradient-to-r from-dark-blue max-w-100 to-dark-teal p-4 rounded mb-4">
 					<h2 class="text-lg font-bold text-green-400 mb-2">Votre borne contient</h2>
-					<ul class="list-disc pl-6 space-y-1">
-						<li>8000 Jeux</li>
-						<li>Écran plat LCD 19" DELL</li>
-						<li>Ordinateur DELL Optiplex</li>
-						<li>Son réglable intégré</li>
-						<li>2 joysticks haut de gamme Sanwa/Seimitsu</li>
-						<li>12 boutons haut de gamme Sanwa OBSF-30</li>
-					</ul>
+					<?= $borne->description ?>
 					<p class="mt-4">Livrée sur rendez-vous en 3/4 semaines</p>
 				</div>
 	
@@ -71,7 +64,7 @@ view('commun/header', ['titre' => $titre]) ?>
 					<label>
 						<input type="checkbox" id="option-<?= $option->id ?>" name="idOptions[]" value="<?= $option->id ?>" class="absolute top-3 right-3 w-6 h-6 cursor-pointer rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
 					</label>
-					<img loading="lazy" src="" alt="Option <?= $option->nom ?>" class="w-full h-64 object-cover">
+					<img loading="lazy" src="<?= base_url($option->image->chemin) ?>" alt="Option <?= $option->nom ?>" class="w-full h-64 object-cover">
 					<div class="p-4">
 						<p class="text-green-400 text-xl font-bold mb-2"><?= $option->cout ?> €</p>
 						<h3 class="font-bold text-xl text-left mb-2"><?= $option->nom ?></h3>
@@ -104,7 +97,7 @@ view('commun/header', ['titre' => $titre]) ?>
 					<?php foreach($suggestion_bornes as $borne) : ?>
 						<div class="bg-gray-800 p-4 rounded">
 							<a href="/bornes/<?=$borne->id?>">
-								<img loading="lazy" src="<?=$borne->image?>" alt="Image de <?=$borne->nom?>" class="w-full mb-8 max-w-sm
+								<img loading="lazy" src="<?= base_url($borne->images[0]->chemin) ?>" alt="Image de <?=$borne->nom?>" class="w-full mb-8 max-w-sm
 								mx-auto h-auto
 						relative z-0 transition duration-200 ease-in-out hover:scale-110" onerror="this.src = 'https://via.placeholder.com/150';">
 								<h3 class="text-xl font-bold mb-2"><?=$borne->nom?></h3>

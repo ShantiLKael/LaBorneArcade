@@ -57,7 +57,7 @@
 					<div class="flex gap-4 mb-4 sm:mb-0 sm:px-3">
 		
 						<!-- WhatsApp -->
-						<a href="https://wa.me/33768534626" class="text-gray-100 text-xs hover:text-light-teal">
+						<a href="https://wa.me/33<?= substr(getenv('TELEPHONE'), 1) ?>" class="text-gray-100 text-xs hover:text-light-teal">
 							<svg class="w-9 h-11" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
 								fill="none" viewBox="0 0 24 24">
 								<path fill="currentColor" fill-rule="evenodd"

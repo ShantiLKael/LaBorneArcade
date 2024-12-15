@@ -5,15 +5,17 @@ if (boutonsBorne) {
         bouton = boutonsBorne[i -1];
         if (nbJoueur >= 2 && i <= 2) {
             boutonCanvaSelect.push(
-                new Figure(0, 0, 0, bouton.forme.toLocaleLowerCase(), `#${bouton.couleur}`, i, 'boutonSelect')
+                new Figure(0, 0, 0, bouton.forme.toLocaleLowerCase(), `${bouton.couleur}`, i, 'boutonSelect')
             );
             continue;
         }
 
         boutonJeuCanva.push(
-            new Figure(0, 0, 0, bouton.forme.toLocaleLowerCase(), `#${bouton.couleur}`, i, 'boutonJeu')
+            new Figure(0, 0, 0, bouton.forme.toLocaleLowerCase(), `${bouton.couleur}`, i, 'boutonJeu')
         );
     }
+
+    dessinerElements();
 }
 
 if (joysticksBorne) {
@@ -22,17 +24,18 @@ if (joysticksBorne) {
         joystick = joysticksBorne[i -1];
 
         joystickCanva.push(
-            new Figure(0, 0, 0, 'rond', `#${joystick.couleur}`, i, 'joystick')
+            new Figure(0, 0, 0, 'rond', `${joystick.couleur}`, i, 'joystick')
         );
     }
+
+    dessinerElements();
 }
 
-dessinerElements();
 
 document.addEventListener("DOMContentLoaded", () => {
-	const checkboxes = document.querySelectorAll('input[type="checkbox"]'); // Récupération de chaque checkboxes
+	const radios = document.querySelectorAll('input[type="radio"]'); // Récupération de chaque radios
 
-	checkboxes.forEach((checkbox) => {
+	radios.forEach((checkbox) => {
 		checkbox.addEventListener("change", () => {
 			const parentDiv = checkbox.closest("div");
 			if (parentDiv)
@@ -42,22 +45,22 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    const checkboxes = document.querySelectorAll('#liste-boutons input[type="checkbox"]');
+    const radios = document.querySelectorAll('#liste-boutons input[type="radio"]');
 
-	checkboxes.forEach(checkbox => {
+	radios.forEach(checkbox => {
         checkbox.addEventListener('change', () => {
-            const isAnyChecked = Array.from(checkboxes).some(cb => cb.checked);
+            const isAnyChecked = Array.from(radios).some(cb => cb.checked);
 
             if (isAnyChecked) {
-                // Désactive toutes les checkboxes sauf celles déjà cochées
-                checkboxes.forEach(cb => {
+                // Désactive toutes les radios sauf celles déjà cochées
+                radios.forEach(cb => {
                     if (!cb.checked) {
                         cb.disabled = true;
                         cb.style.visibility = 'hidden';
                     } else {
 
                         // Maj du canva du bouton séléctionné
-                        for (i = 1; i <= nbBoutonParJoueur *nbJoueur; i++) {
+                        for (i = 1; i <= nbBoutonParJoueur * nbJoueur; i++) {
                             let input   = document.getElementById(`btn-jeu-${i}`);
                             console.log(nbJoueur, nbBoutonParJoueur)
                             input.value = cb.value;
@@ -66,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         Figure.figures.forEach(figure => {
                             if (figure.type === 'boutonJeu') {
                                 figure.couleur = cb.getAttribute('data-color');
-                                figure.forme = cb.getAttribute('data-forme').toLocaleLowerCase();
+                                figure.forme   = cb.getAttribute('data-forme').toLocaleLowerCase();
                             }
                         });
 
@@ -75,8 +78,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
             } else {
-                // Réactive et rend visibles toutes les checkboxes si aucune n'est cochée
-                checkboxes.forEach(cb => {
+                // Réactive et rend visibles toutes les radios si aucune n'est cochée
+                radios.forEach(cb => {
                     cb.disabled = false;
                     cb.style.visibility = 'visible';
                 });
@@ -102,14 +105,14 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    const checkboxes = document.querySelectorAll('#liste-joysticks input[type="checkbox"]');
+    const radios = document.querySelectorAll('#liste-joysticks input[type="radio"]');
 
-    checkboxes.forEach(checkbox => {
+    radios.forEach(checkbox => {
         checkbox.addEventListener('change', () => {
-            const isAnyChecked = Array.from(checkboxes).some(cb => cb.checked);
+            const isAnyChecked = Array.from(radios).some(cb => cb.checked);
 
             if (isAnyChecked) {
-                checkboxes.forEach(cb => {
+                radios.forEach(cb => {
                     if (!cb.checked) {
                         cb.disabled = true;
                         cb.style.visibility = 'hidden';
@@ -129,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 });
             } else {
-                checkboxes.forEach(cb => {
+                radios.forEach(cb => {
                     cb.disabled = false;
                     cb.style.visibility = 'visible';
                 });
@@ -153,21 +156,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    const checkboxes = document.querySelectorAll('input[type="checkbox"][name="id_matiere"]');
+    const radios = document.querySelectorAll('input[type="radio"][name="id_matiere"]');
 
-    checkboxes.forEach(checkbox => {
+    radios.forEach(checkbox => {
         checkbox.addEventListener('change', () => {
-            const checkedMatiere = Array.from(checkboxes).filter(cb => cb.checked);
+            const checkedMatiere = Array.from(radios).filter(cb => cb.checked);
 
             if (checkedMatiere.length > 0) {
-                checkboxes.forEach(cb => {
+                radios.forEach(cb => {
                     if (!cb.checked) {
                         cb.style.visibility = 'hidden';
                         cb.disabled = true;
                     }
                 });
             } else {
-                checkboxes.forEach(cb => {
+                radios.forEach(cb => {
                     cb.style.visibility = 'visible';
                     cb.disabled = false;
                 });
@@ -177,21 +180,21 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    const checkboxes = document.querySelectorAll('input[type="checkbox"][name="id_tmolding"]');
+    const radios = document.querySelectorAll('input[type="radio"][name="id_tmolding"]');
 
-    checkboxes.forEach(checkbox => {
+    radios.forEach(checkbox => {
         checkbox.addEventListener('change', () => {
-            const checkedMatiere = Array.from(checkboxes).filter(cb => cb.checked);
+            const checkedMatiere = Array.from(radios).filter(cb => cb.checked);
 
             if (checkedMatiere.length > 0) {
-                checkboxes.forEach(cb => {
+                radios.forEach(cb => {
                     if (!cb.checked) {
                         cb.style.visibility = 'hidden';
                         cb.disabled = true;
                     }
                 });
             } else {
-                checkboxes.forEach(cb => {
+                radios.forEach(cb => {
                     cb.style.visibility = 'visible';
                     cb.disabled = false;
                 });

@@ -1,5 +1,20 @@
 <?= /** @noinspection PhpUndefinedVariableInspection */
 view('commun/header', ['titre' => $titre]) ?>
+<?php
+function reformatPhoneNumber(string $phoneNumber): string {
+    // Vérifier si le numéro est valide (uniquement des chiffres et 10 ou 11 caractères)
+    if (!preg_match('/^\d{10,11}$/', $phoneNumber)) {
+        return "Numéro invalide";
+    }
+
+    // Espace pour rendre le numéro lisible (groupe de 2 chiffres après l'indicatif)
+    $formatted = preg_replace('/(\d{2})(\d{2})(\d{2})(\d{2})/', '$1 $2 $3 $4 $5 $6', $phoneNumber);
+
+    return $formatted;
+}
+?>
+
+
 <!-- Section Contactez Nous -->
 <section class="text-gray-300 text-xs py-12">
 <div class="max-w-5xl mx-auto px-5 sm:px-0">
@@ -19,29 +34,31 @@ view('commun/header', ['titre' => $titre]) ?>
 				</a>
 				<div>
 					<p class="font-bold text-gray-300 text-xl">Whatsapp</p>
-					<p class="text-lg text-gray-300 ">07 68 53 46 26</p>
+					<p class="text-lg text-gray-300 "><?= reformatPhoneNumber(getenv('TELEPHONE')) ?>
+</p>
 				</div>
 			</div>
 			<div class="flex items-center space-x-4">
-				<a href="mailto:contact@LaBorneArcade.com" class="bg-green-700 hover:bg-green-600 p-2">
+				<a href="mailto:<?= getenv('EMAIL_CONTACT') ?>" class="bg-green-700 hover:bg-green-600 p-2">
 					<svg class="w-6 h-6 text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
 					<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16v-5.5A3.5 3.5 0 0 0 7.5 7m3.5 9H4v-5.5A3.5 3.5 0 0 1 7.5 7m3.5 9v4M7.5 7H14m0 0V4h2.5M14 7v3m-3.5 6H20v-6a3 3 0 0 0-3-3m-2 9v4m-8-6.5h1"/>
 					</svg>
 				</a>
 				<div>
 					<p class="font-bold text-gray-300 text-xl">E-mail</p>
-					<p class="text-lg text-gray-300 ">Contact@LaBorneArcade.com</p>
+					<p class="text-lg text-gray-300 "><?= ucfirst(getenv('EMAIL_CONTACT')) ?></p>
 				</div>
 			</div>
 			<div class="flex items-center space-x-4">
-				<a href="tel:+33768534626" target="_blank" class="bg-green-700 hover:bg-green-600 p-2">
+				<a href="tel:+33<?= substr(getenv('TELEPHONE'), 1) ?>" target="_blank" class="bg-green-700 hover:bg-green-600 p-2">
 					<svg class="w-6 h-6 text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
 					<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.427 14.768 17.2 13.542a1.733 1.733 0 0 0-2.45 0l-.613.613a1.732 1.732 0 0 1-2.45 0l-1.838-1.84a1.735 1.735 0 0 1 0-2.452l.612-.613a1.735 1.735 0 0 0 0-2.452L9.237 5.572a1.6 1.6 0 0 0-2.45 0c-3.223 3.2-1.702 6.896 1.519 10.117 3.22 3.221 6.914 4.745 10.12 1.535a1.601 1.601 0 0 0 0-2.456Z"/>
 					</svg>
 				</a>
 				<div>
 					<p class="font-bold text-gray-300 text-xl">Telephone</p>
-					<p class="text-lg text-gray-300 ">07 68 53 46 26</p>
+					<p class="text-lg text-gray-300 "><?= reformatPhoneNumber(getenv('TELEPHONE')) ?>
+</p>
 				</div>
 			</div>
 		</div>

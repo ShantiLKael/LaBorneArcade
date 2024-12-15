@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS Matiere CASCADE;
 
 DROP TABLE IF EXISTS Image CASCADE;
 
-DROP TABLE IF EXISTS "Option" CASCADE;
+DROP TABLE IF EXISTS Option CASCADE;
 DROP TABLE IF EXISTS Bouton CASCADE;
 DROP TABLE IF EXISTS Theme CASCADE;
 DROP TABLE IF EXISTS Borne CASCADE;
@@ -100,7 +100,7 @@ CREATE TABLE BornePerso(
 	date_modif    TIMESTAMP                            NOT NULL
 );
 
-CREATE TABLE "Option"(
+CREATE TABLE Option(
 	id_option   SERIAL PRIMARY KEY,
 	nom         VARCHAR(50 ) UNIQUE NOT NULL,
 	description VARCHAR(255) NOT NULL,
@@ -134,13 +134,13 @@ CREATE TABLE Panier(
 
 CREATE TABLE OptionBornePerso(
 	id_BornePerso INT REFERENCES BornePerso(id_borneperso) NOT NULL,
-	id_Option     INT REFERENCES "Option"  (id_option)     NOT NULL,
+	id_Option     INT REFERENCES Option  (id_option)     NOT NULL,
 	PRIMARY KEY(id_BornePerso, id_Option)
 );
 
 CREATE TABLE OptionBorne(
 	id_borne  INT REFERENCES Borne   (id_borne)  NOT NULL,
-	id_option INT REFERENCES "Option"(id_option) NOT NULL,
+	id_option INT REFERENCES Option(id_option) NOT NULL,
 	PRIMARY KEY(id_borne, id_option)
 );
 

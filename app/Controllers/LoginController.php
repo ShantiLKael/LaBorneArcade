@@ -105,7 +105,7 @@ class LoginController extends BaseController
 						// Stocker l'utilisateur dans la session
 						$session = session();
 						$session->set('user', [
-							'id'    => $user->id,
+							'id'    => intval($user->id),
 							'role'  => $user->role,
 							'email' => $user->email,
 							'role' => $user->role,

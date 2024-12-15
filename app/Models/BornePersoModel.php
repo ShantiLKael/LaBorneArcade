@@ -187,7 +187,7 @@ class BornePersoModel extends Model
 
 		$data = [
 			'id_borneperso'  => $idBorne,
-			'id_option' => $idOption,
+			'id_option'      => $idOption,
 		];
 		
 		return $builder->insert($data);

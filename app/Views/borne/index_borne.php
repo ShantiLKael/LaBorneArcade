@@ -42,7 +42,7 @@ view('commun/header', ['titre' => $titre]) ?>
 
 			<!-- Filtres des thèmes -->
 			<div class="mb-6">
-				<h4 class="text-md font-semibold text-gray-300 mb-4">Thèmes</h4>
+				<h4 class="text-md font-semibold text-gray-300 mb-4">Thèmes (<?= count($themes) ?>)</h4>
 				<div class="space-y-2">
 					<?php foreach ($themes as $theme): ?>
 						<?php $is_checked = in_array($theme->id, $selectionTheme) ? " checked" : ""; ?>
@@ -58,7 +58,7 @@ view('commun/header', ['titre' => $titre]) ?>
 
 			<!-- Filtres des matières -->
 			<div class="mb-6">
-				<h4 class="text-md font-semibold text-gray-300 mb-4">Matières</h4>
+				<h4 class="text-md font-semibold text-gray-300 mb-4">Matières (<?= count($matieres) ?>)</h4>
 				<div class="space-y-2">
 					<?php foreach ($matieres as $matiere): ?>
 						<?php $is_checked = in_array($matiere->id, $selectionMatiere) ? " checked" : ""; ?>
@@ -108,15 +108,15 @@ view('commun/header', ['titre' => $titre]) ?>
 				<?php foreach($bornes as $borne): ?>
 					<div class="bg-gray-800 p-4 rounded">
 						<a href="/bornes/<?= $borne->id ?>">
-							<img loading="lazy" src="<?= $borne->image ?>" alt="Image de <?= $borne->nom ?>" class="w-full mb-8 max-w-sm mx-auto h-auto
-						relative z-0 transition duration-200 ease-in-out hover:scale-110" onerror="this.src = 'https://via.placeholder.com/150';">
+							<img loading="lazy" src="<?= $borne->images[0]->chemin ?>" alt="Image de <?= $borne->nom ?>" class="w-full mb-8 max-w-sm mx-auto h-auto
+						relative z-0 transition duration-200 ease-in-out hover:scale-110">
 							<h3 class="text-xl font-bold mb-2"><?= $borne->nom ?></h3>
 							<p class="text-green-600 font-bold mb-4"><?= sprintf("%.02F €", $borne->prix) ?></p>
 						</a>
 					</div>
 				<?php endforeach; ?>
 			<?php else: ?>
-				<span>Aucune borne à afficher</span>
+				<p class="mt-8 text-center text-lg">Aucune borne pour l'instant</p>
 			<?php endif; ?>
 		</div>
 	</div>

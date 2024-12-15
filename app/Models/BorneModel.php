@@ -48,7 +48,7 @@ class BorneModel extends Model
 	// Règles de validation
 	protected $validationRules = [
         'nom'         => 'required|max_length[50]|min_length[5]|regex_match[/^[^<>;{}]*$/]',
-        'description' => 'required|max_length[500]|regex_match[/^[^;{}]*$/]',
+        'description' => 'required|max_length[500]',
         'prix'        => 'required|greater_than[0]',
 		'id_tmolding' => 'required',
 		'id_matiere'  => 'required',
@@ -66,7 +66,6 @@ class BorneModel extends Model
 		'description' => [
 			'required'    => 'description requis.',
 			'max_length'  => 'La description est trop longue (max. 500 caractères).',
-			'regex_match' => 'description Les caractères < > ; { } sont interdits.',
 		],
 
 		'prix' => [

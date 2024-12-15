@@ -293,16 +293,16 @@ class ControleurBorne extends BaseController {
 				$nbJoueurs = intval($data['nbJoueurs']);
 	
 				return view('borne/edit_borne', [
-					'nbJoueurs'        =>$nbJoueurs,
-					'nbBoutons'        =>$nbBoutons,
-					'titre'            =>"Personnaliser une borne",
-					'options'          =>$this->optionModel->findAll(),
-					'tmoldings'        =>$this->tmoldingModel->findAll(),
-					'matieres'         =>$this->matiereModel->findAll(),
-					'joysticks'        =>$this->joystickModel->findAll(),
-					'boutons'          =>$this->boutonModel->findAll(),
-					'borne'            =>$id_borne ? $this->borneModel->getBorneParId($id_borne) : null,
-					'suggestion_bornes'=>$bornes_suggerees,
+					'nbJoueurs'         => $nbJoueurs,
+					'nbBoutons'         => $nbBoutons,
+					'titre'             => "Personnaliser une borne",
+					'options'           => $this->optionModel->findAll(),
+					'tmoldings'         => $this->tmoldingModel->findAll(),
+					'matieres'          => $this->matiereModel->findAll(),
+					'joysticks'         => $this->joystickModel->findAll(),
+					'boutons'           => $this->boutonModel->findAll(),
+					'borne'             => $id_borne ? $this->borneModel->find($id_borne) : null,
+					'suggestion_bornes' => $bornes_suggerees,
 				]);
 			}
 
@@ -315,7 +315,6 @@ class ControleurBorne extends BaseController {
 			$regleMessagesValidation['bouton'  ] = ['required' => 'Champs requis.'];
 			
 			if ($this->validate($reglesValidation, $regleMessagesValidation)) {
-
 				$bornePerso = new BornePerso();
 				$bornePerso->fill($data);
 				$bornePerso->prix = 1690;
@@ -325,7 +324,6 @@ class ControleurBorne extends BaseController {
 
 				if ($session->has('user')) { // Utilisateur connécté
 					
-
 					if (isset($data['idOptions']))
 						foreach($data['idOptions'] as $option)
 							$this->bornePersoModel->insererOptionBorne($idBorne, $option);
@@ -383,17 +381,17 @@ class ControleurBorne extends BaseController {
 
 			} else {
 				return view('borne/edit_borne', [
-					'erreurs'          =>$this->validator->getErrors(),
-					'nbJoueurs'        =>$nbJoueurs,
-					'nbBoutons'        =>$nbBoutons,
-					'titre'            =>"Personnaliser ma borne",
-					'options'          =>$this->optionModel->findAll(),
-					'tmoldings'        =>$this->tmoldingModel->findAll(),
-					'matieres'         =>$this->matiereModel->findAll(),
-					'joysticks'        =>$this->joystickModel->findAll(),
-					'boutons'          =>$this->boutonModel->findAll(),
-					'borne'            =>$id_borne ? $this->borneModel->getBorneParId($id_borne) : null,
-					'suggestion_bornes'=>$bornes_suggerees,
+					'erreurs'          => $this->validator->getErrors(),
+					'nbJoueurs'        => $nbJoueurs,
+					'nbBoutons'        => $nbBoutons,
+					'titre'            => "Personnaliser ma borne",
+					'options'          => $this->optionModel->findAll(),
+					'tmoldings'        => $this->tmoldingModel->findAll(),
+					'matieres'         => $this->matiereModel->findAll(),
+					'joysticks'        => $this->joystickModel->findAll(),
+					'boutons'          => $this->boutonModel->findAll(),
+					'borne'            => $id_borne ? $this->borneModel->getBorneParId($id_borne) : null,
+					'suggestion_bornes'=> $bornes_suggerees,
 				]);
 			}
 

@@ -39,16 +39,17 @@ view('commun/header', ['titre' => $titre]) ?>
 						</div>
 					</div>
 				</div>
-
 				<!-- Détails des produits de la commande -->
 				<div class="space-y-4 hidden" id="detail-<?= $commande->id ?>">
 					<!-- Produit -->
 					<div class="flex items-center justify-between border-b border-gray-700 pb-4">
 						<div class="flex items-start">
-							<img loading="lazy" src="https://via.placeholder.com/100" alt="Image Borne" class="w-20 h-20 rounded-md mr-4">
+						<?php if ($commande->borne->borne != null) : ?>	
+								<img loading="lazy" src="<?= base_url($commande->borne->borne->images[0]->chemin) ?>" alt="Image Borne" class="w-20 h-20 rounded-md mr-4">
+						<?php endif; ?>
 							<div>
-								<h3 class="text-lg font-semibold">Borne</h3>
-								<p class="text-sm">Thème : <span class="font-medium text-blue-700"><?= empty($commande->borne->borne) ? 'Personnalisée' : $commande->borne->borne->theme->nom ?></span></p>
+								<h3 class="text-lg font-semibold"><?= $commande->borne->borne == null ? 'Borne Personnalisée' : $commande->borne->borne->nom ?> </h3>
+								<p class="text-sm">Thème : <span class="font-medium text-blue-700"><?= $commande->borne->borne == null ? 'Personnalisée' : $commande->borne->borne->theme->nom ?></span></p>
 								<p class="text-sm">Prix : <span class="font-medium text-green-700"><?= $commande->borne->prix ?> €</span></p>
 							</div>
 						</div>

@@ -12,21 +12,21 @@ view('commun/header', ['titre' => $titre]) ?>
     <main class="space-y-10 mt-8">
         <!-- Section : Informations générales -->
         <section>
-            <h2 class="text-2xl font-bold text-green-300">Informations générales</h2>
+            <h2 class="text-2xl font-bold text-green-600">Informations générales</h2>
             <p class="mt-4">
                 <strong>La Borne</strong> / micro-entreprise enregistrée à la chambre de commerce / Commerce de
                 meubles<br>
                 Siège social : 17 Allée d’armoins, 77400 Pomponne<br>
                 Siret : 808 581 391<br>
-                Téléphone : <a href="tel:+33768534626" class="text-green-400 hover:underline">07 68 53 46 26</a><br>
-                Email : <a href="mailto:contact@labornearcade.com"
-                    class="text-green-400 hover:underline">contact@labornearcade.com</a>
+                Téléphone : <a href="tel:+33<?= substr(getenv('TELEPHONE'), 1) ?>" class="text-green-400 hover:underline"><?= getenv('TELEPHONE') ?></a><br>
+                Email : <a href="mailto:<?= getenv('EMAIL_CONTACT') ?>"
+                    class="text-green-400 hover:underline"><?= getenv('EMAIL_CONTACT') ?></a>
             </p>
         </section>
 
         <!-- Section : Article 1 -->
         <section>
-            <h2 class="text-2xl font-bold text-green-300">Article 1 - Objet</h2>
+            <h2 class="text-2xl font-bold text-green-600">Article 1 - Objet</h2>
             <p class="mt-4">
                 Les présentes conditions régissent les ventes par la société La Borne de bornes d’arcades.
             </p>
@@ -34,7 +34,7 @@ view('commun/header', ['titre' => $titre]) ?>
 
         <!-- Section : Article 2 -->
         <section>
-            <h2 class="text-2xl font-bold text-green-300">Article 2 - Prix</h2>
+            <h2 class="text-2xl font-bold text-green-600">Article 2 - Prix</h2>
             <p class="mt-4">
                 Les prix de nos produits sont indiqués en euros toutes taxes comprises (TVA et autres taxes applicables
                 au jour de la commande), sauf indication contraire. Le statut de micro-entreprise bénéficie d’une
@@ -49,7 +49,7 @@ view('commun/header', ['titre' => $titre]) ?>
 
         <!-- Section : Article 3 -->
         <section>
-            <h2 class="text-2xl font-bold text-green-300">Article 3 - Commandes</h2>
+            <h2 class="text-2xl font-bold text-green-600">Article 3 - Commandes</h2>
             <p class="mt-4">
                 Vous pouvez passer commande directement sur notre site internet www.labornearcade.com. Les informations
                 contractuelles sont présentées en langue française et feront l'objet d'une confirmation au plus tard au
@@ -64,7 +64,7 @@ view('commun/header', ['titre' => $titre]) ?>
 
         <!-- Section : Article 4 -->
         <section>
-            <h2 class="text-2xl font-bold text-green-300">Article 4 - Validation de votre commande</h2>
+            <h2 class="text-2xl font-bold text-green-600">Article 4 - Validation de votre commande</h2>
             <p class="mt-4">
                 Toute commande figurant sur le site www.labornearcade.com suppose l'adhésion aux présentes Conditions
                 Générales de Vente. Toute confirmation de commande entraîne votre adhésion pleine et entière aux
@@ -79,7 +79,7 @@ view('commun/header', ['titre' => $titre]) ?>
 
         <!-- Section : Article 5 -->
         <section>
-            <h2 class="text-2xl font-bold text-green-300">Article 5 - Paiement</h2>
+            <h2 class="text-2xl font-bold text-green-600">Article 5 - Paiement</h2>
             <p class="mt-4">
                 Le fait de valider votre commande implique pour vous l'obligation de payer le prix indiqué. Le règlement
                 de vos achats s'effectue par carte bancaire via un système sécurisé ou par tout autre moyen de paiement
@@ -94,7 +94,7 @@ view('commun/header', ['titre' => $titre]) ?>
 
         <!-- Section : Article 6 -->
         <section>
-            <h2 class="text-2xl font-bold text-green-300">Article 6 - Rétractation</h2>
+            <h2 class="text-2xl font-bold text-green-600">Article 6 - Rétractation</h2>
             <p class="mt-4">
                 Conformément aux dispositions de l'article L.121-21 du Code de la Consommation, vous disposez d'un délai
                 de rétractation de 14 jours à compter de la réception de vos produits pour exercer votre droit de
@@ -109,7 +109,7 @@ view('commun/header', ['titre' => $titre]) ?>
 
         <!-- Section : Article 7 -->
         <section>
-            <h2 class="text-2xl font-bold text-green-300">Article 7 - Disponibilité</h2>
+            <h2 class="text-2xl font-bold text-green-600">Article 7 - Disponibilité</h2>
             <p class="mt-4">
                 Nos produits sont proposés tant qu'ils sont visibles sur le site et dans la limite des stocks
                 disponibles. En cas d'indisponibilité après votre commande, nous vous en informerons par email. Votre
@@ -120,7 +120,7 @@ view('commun/header', ['titre' => $titre]) ?>
 
         <!-- Section : Article 8 -->
         <section>
-            <h2 class="text-2xl font-bold text-green-300">Article 8 - Livraison</h2>
+            <h2 class="text-2xl font-bold text-green-600">Article 8 - Livraison</h2>
             <p class="mt-4">
                 Les produits sont livrés à l'adresse indiquée lors de la commande dans un délai de 4 à 8 semaines. En
                 cas de retard, un email sera envoyé pour vous informer. En cas d'annulation liée à un retard, vous serez
@@ -130,19 +130,19 @@ view('commun/header', ['titre' => $titre]) ?>
 
         <!-- Section : Article 9 -->
         <section>
-            <h2 class="text-2xl font-bold text-green-300">Article 9 - Garantie</h2>
+            <h2 class="text-2xl font-bold text-green-600">Article 9 - Garantie</h2>
             <p class="mt-4">
                 Tous nos produits bénéficient de la garantie légale de conformité et de la garantie contre les vices
                 cachés. En cas de non-conformité d'un produit vendu, il pourra être retourné, échangé ou remboursé.
-                Toutes les réclamations doivent être effectuées par email à <a href="mailto:contact@labornearcade.com"
-                    class="text-green-400 hover:underline">contact@labornearcade.com</a> dans un délai de 30 jours
+                Toutes les réclamations doivent être effectuées par email à <a href="mailto:<?= getenv('EMAIL_CONTACT') ?>"
+                    class="text-green-400 hover:underline"><?= getenv('EMAIL_CONTACT') ?></a> dans un délai de 30 jours
                 suivant la livraison.
             </p>
         </section>
 
         <!-- Section : Article 10 -->
         <section>
-            <h2 class="text-2xl font-bold text-green-300">Article 10 - Responsabilité</h2>
+            <h2 class="text-2xl font-bold text-green-600">Article 10 - Responsabilité</h2>
             <p class="mt-4">
                 La responsabilité de La Borne ne saurait être engagée pour tous les inconvénients ou dommages inhérents
                 à l'utilisation du réseau Internet, notamment une rupture de service, une intrusion extérieure ou la
@@ -152,7 +152,7 @@ view('commun/header', ['titre' => $titre]) ?>
 
         <!-- Section : Article 11 -->
         <section>
-            <h2 class="text-2xl font-bold text-green-300">Article 11 - Droit applicable</h2>
+            <h2 class="text-2xl font-bold text-green-600">Article 11 - Droit applicable</h2>
             <p class="mt-4">
                 Les présentes conditions générales de vente sont soumises à la loi française. En cas de litige, seuls
                 les tribunaux français sont compétents.
@@ -161,7 +161,7 @@ view('commun/header', ['titre' => $titre]) ?>
 
         <!-- Section : Article 12 -->
         <section>
-            <h2 class="text-2xl font-bold text-green-300">Article 12 - Propriété intellectuelle</h2>
+            <h2 class="text-2xl font-bold text-green-600">Article 12 - Propriété intellectuelle</h2>
             <p class="mt-4">
                 Tous les éléments du site www.labornearcade.com sont et restent la propriété intellectuelle et exclusive
                 de La Borne. Nul n'est autorisé à reproduire, exploiter, rediffuser ou utiliser à quelque titre que ce
@@ -171,19 +171,19 @@ view('commun/header', ['titre' => $titre]) ?>
 
         <!-- Section : Article 13 -->
         <section>
-            <h2 class="text-2xl font-bold text-green-300">Article 13 - Données personnelles</h2>
+            <h2 class="text-2xl font-bold text-green-600">Article 13 - Données personnelles</h2>
             <p class="mt-4">
                 La Borne s'engage à préserver la confidentialité des informations fournies par le client. Conformément à
                 la loi informatique et libertés du 6 janvier 1978, vous disposez d'un droit d'accès, de modification et
                 de suppression des données vous concernant. Pour exercer ce droit, envoyez un email à <a
-                    href="mailto:contact@labornearcade.com"
-                    class="text-green-400 hover:underline">contact@labornearcade.com</a>.
+                    href="mailto:<?= getenv('EMAIL_CONTACT') ?>"
+                    class="text-green-400 hover:underline"><?= getenv('EMAIL_CONTACT') ?></a>.
             </p>
         </section>
 
         <!-- Section : Article 14 -->
         <section>
-            <h2 class="text-2xl font-bold text-green-300">Article 14 - Archivage Preuve</h2>
+            <h2 class="text-2xl font-bold text-green-600">Article 14 - Archivage Preuve</h2>
             <p class="mt-4">
                 La Borne archivera les bons de commandes et les factures sur un support fiable et durable constituant
                 une copie fidèle. Les registres informatisés de La Borne seront considérés par toutes les parties
@@ -193,14 +193,14 @@ view('commun/header', ['titre' => $titre]) ?>
         </section>
         <!-- Section : Contact et mentions -->
         <section>
-            <h2 class="text-2xl font-bold text-green-300">Nous contacter</h2>
+            <h2 class="text-2xl font-bold text-green-600">Nous contacter</h2>
             <p class="mt-4">
                 Si vous avez des questions ou besoin d'informations supplémentaires, contactez-nous :
             </p>
             <ul class="mt-4 space-y-2">
-                <li>Email : <a href="mailto:contact@labornearcade.com"
-                        class="text-green-400 hover:underline">contact@labornearcade.com</a></li>
-                <li>Téléphone : <a href="tel:+33768534626" class="text-green-400 hover:underline">07 68 53 46 26</a>
+                <li>Email : <a href="mailto:<?= getenv('EMAIL_CONTACT') ?>"
+                        class="text-green-400 hover:underline"><?= getenv('EMAIL_CONTACT') ?></a></li>
+                <li>Téléphone : <a href="tel:+33<?= substr(getenv('TELEPHONE'), 1) ?>" class="text-green-400 hover:underline"><?= getenv('TELEPHONE') ?></a>
                 </li>
             </ul>
         </section>

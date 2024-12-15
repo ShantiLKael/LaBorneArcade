@@ -24,7 +24,7 @@ view('commun/header', ['titre' => $titre]) ?>
 	
 			<!-- Images du produit -->
 			<div class="w-full md:w-1/2 lg:w-7/12">
-				<img loading="lazy" src="" alt="Borne Arcade <?= isset($borne) ? $borne->nom : 'Personnalisée' ?>" class="w-full h-auto">
+				<img loading="lazy" src="<?= isset($borne) ? base_url($borne->images[0]->chemin) : base_url('./assets/images/bornes/borne-personnalisee.png') ?>" alt="Borne Arcade <?= isset($borne) ? $borne->nom : 'Personnalisée' ?>" class="w-full h-auto">
 			</div>
 	
 			<!-- Informations produit -->
@@ -75,6 +75,7 @@ view('commun/header', ['titre' => $titre]) ?>
 	</div>
 	
 	<!-- Séléction des options -->
+	<?php if (!empty($options)) : ?>
 	<div class="px-0 md:px-20">
 		<h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-lg md:text-2xl text-gray-300">Options</h2>
 		<div class="flex overflow-x-scroll p-5 hide-scroll-bar space-x-6 rounded-xl bg-light-teal/10">
@@ -83,7 +84,7 @@ view('commun/header', ['titre' => $titre]) ?>
 					<label>
 						<input type="checkbox" id="option-<?= $option->id ?>" name="idOptions[]" value="<?= $option->id ?>" class="absolute top-3 right-3 w-6 h-6 cursor-pointer rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
 					</label>
-					<img loading="lazy" src="" alt="Option <?= $option->nom ?>" class="w-full h-64 object-cover">
+					<img loading="lazy" src="<?= base_url($option->image->chemin) ?>" alt="Option <?= $option->nom ?>" class="w-full h-64 object-cover">
 					<div class="p-4">
 						<p class="text-green-400 text-lg font-bold mb-2"><?= $option->cout ?> €</p>
 						<h3 class="font-bold text-lg text-left mb-2"><?= $option->nom ?></h3>
@@ -93,18 +94,28 @@ view('commun/header', ['titre' => $titre]) ?>
 			<?php endforeach; ?>
 		</div>
 	</div>
+	<?php endif; ?>
 	
 	<!-- Séléction Matière -->
 	<div class="px-0 md:px-20">
-		<h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-lg md:text-2xl text-gray-300">Matière <span class="text-green-500/30">(*)</span></h2>
+		<div class="flex items-center justify-between">
+			<!-- Nom du modèle -->
+			<h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-lg md:text-2xl text-gray-300">Matière <span class="text-green-500/30">(*)</span></h2>
+			<!-- Sélecteur du modèle -->
+			<div class="w-full max-w-sm min-w-[200px]">
+				<div class="relative">
+					<p class="text-red-500"><?= isset($erreurs['id_matiere']) ? $erreurs['id_matiere'] : '' ?></p>
+				</div>
+			</div>
+		</div>
 		<div class="flex overflow-x-scroll p-5 hide-scroll-bar space-x-6 rounded-xl <?= $bgColor = isset($erreurs['id_matiere']) ? "bg-red-700/30" : "bg-light-teal/10" ?>">
 		<?php foreach($matieres as $matiere) : ?>
 			<div class="relative w-52 h-52 md:w-72 md:h-72 bg-gray-800 rounded-lg overflow-hidden border-2 border-gray-700 <?= $hoverColor = isset($erreurs['id_matiere']) ? "hover:border-red-800" : "hover:border-green-700" ?> shadow-md shadow-gray-900 ease-in-out">
 				<label>
-					<input type="checkbox" id="matiere-<?= $matiere->id ?>" name="id_matiere" value="<?= $matiere->id ?>" class="absolute top-3 right-3 w-5 h-5 rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
+					<input type="radio" id="matiere-<?= $matiere->id ?>" name="id_matiere" value="<?= $matiere->id ?>" class="absolute top-3 right-3 w-5 h-5 rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
 				</label>
-				<img src="" alt="Matière <?= $matiere->nom ?>" class="w-full h-5/6 object-cover" />
-				<div style="background-color: #<?= $matiere->couleur ?>;" class="h-1/4"></div>
+				<img src="<?= base_url('assets/images/bornes/matiere.jpg')?>" alt="Matière <?= $matiere->nom ?>" class="w-full h-5/6 object-cover" />
+				<div style="background-color: <?= $matiere->couleur ?>;" class="h-1/4"></div>
 			</div>
 		<?php endforeach; ?>
 	
@@ -122,19 +133,28 @@ view('commun/header', ['titre' => $titre]) ?>
 	
 	<!-- Séléction T-Molding -->
 	<div class="px-0 md:px-20">
-		<h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-lg md:text-2xl text-gray-300">T-Molding <span class="text-green-500/30">(*)</span></h2>
+		<div class="flex items-center justify-between">
+			<!-- Nom du modèle -->
+			<h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-lg md:text-2xl text-gray-300">T-Molding <span class="text-green-500/30">(*)</span></h2>
+			<!-- Sélecteur du modèle -->
+			<div class="w-full max-w-sm min-w-[200px]">
+				<div class="relative">
+					<p class="text-red-500"><?= isset($erreurs['id_tmolding']) ? $erreurs['id_tmolding'] : '' ?></p>
+				</div>
+			</div>
+		</div>
 		<div class="flex overflow-x-scroll p-5 hide-scroll-bar space-x-6 rounded-xl <?= $bgColor = isset($erreurs['id_tmolding']) ? "bg-red-700/30" : "bg-light-teal/10" ?>">
 		<?php foreach($tmoldings as $tmolding) : ?>
 			<div class="relative w-52 h-52 md:w-72 md:h-72 bg-gray-800 rounded-lg overflow-hidden border-2 border-gray-700 <?= $hoverColor = isset($erreurs['id_tmolding']) ? "hover:border-red-800" : "hover:border-green-700" ?> shadow-md shadow-gray-900 ease-in-out">
 				<label>
-					<input type="checkbox" id="tmodling-<?= $tmolding->id ?>" name="id_tmolding" value="<?= $tmolding->id ?>" class="absolute top-3 right-3 w-5 h-5 rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
+					<input type="radio" id="tmodling-<?= $tmolding->id ?>" name="id_tmolding" value="<?= $tmolding->id ?>" class="absolute top-3 right-3 w-5 h-5 rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
 				</label>
-				<img src="" alt="T-Molding <?= $tmolding->nom ?>" class="w-full h-5/6 object-cover" />
-				<div style="background-color: #<?= $tmolding->couleur ?>;" class="h-1/4"></div>
+				<img src="<?= base_url('./assets/images/bornes/tmolding.png') ?>" alt="T-Molding <?= $tmolding->nom ?>" class="w-full h-5/6 object-cover" />
+				<div style="background-color: <?= $tmolding->couleur ?>;" class="h-1/4"></div>
 			</div>
 		<?php endforeach; ?>
 	
-			<!-- Contact Joystick -->
+			<!-- Contact T-Molding -->
 			<div class="relative flex items-center justify-center w-52 h-52 md:w-72 md:h-72 bg-gray-800 rounded-lg overflow-hidden shadow-md border-dotted border-2 border-gray-500">
 				<div class="absolute flex flex-col items-center justify-center text-center px-4">
 					<p class="p-6 text-gray-300 text-sm md:text-base font-medium">
@@ -154,14 +174,7 @@ view('commun/header', ['titre' => $titre]) ?>
 		<!-- Sélecteur du modèle -->
 		<div class="w-full max-w-sm min-w-[200px]">
 			<div class="relative">
-				<label>
-					<select id="selection-joysticks" class="w-full bg-transparent placeholder:text-slate-400 text-slate-500 text-sm border-b border-slate-400 pl-3 py-2 transition duration-300 ease focus:border-b focus:border-slate-500 hover:border-slate-200 shadow-sm focus:shadow-md appearance-none cursor-pointer">
-						<option class="bg-deep-blue" value="Tous" selected>Tous les joysticks</option>
-					</select>
-				</label>
-				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.2" stroke="currentColor" class="h-5 w-5 ml-1 absolute top-2.5 right-2.5 text-slate-500">
-					<path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
-				</svg>
+				<p class="text-red-500"><?= isset($erreurs['joystick']) ? $erreurs['joystick'] : '' ?></p>
 			</div>
 		</div>
 		</div>
@@ -170,22 +183,16 @@ view('commun/header', ['titre' => $titre]) ?>
 		<div id="liste-joysticks" class="flex overflow-x-scroll p-5 hide-scroll-bar space-x-6 rounded-xl <?= $bgColor = isset($erreurs['joystick']) ? "bg-red-700/30" : "bg-light-teal/10" ?>">
 			<?php foreach($joysticks as $joystick) : ?>
 			<div class="relative w-52 h-52 md:w-72 md:h-72 bg-gray-800 rounded-lg overflow-hidden border-2 border-gray-700 <?= $hoverColor = isset($erreurs['joystick']) ? "hover:border-red-800" : "hover:border-green-700" ?> shadow-md shadow-gray-900 ease-in-out flex-shrink-0">
-				<!-- Checkbox -->
 				<label>
-					<input type="checkbox" id="joystick-<?= $joystick->id ?>" data-model="<?= $joystick->modele ?>" data-color="#<?= $joystick->couleur ?>" name="joystick" value="<?= $joystick->id ?>" class="absolute top-3 right-3 w-5 h-5 cursor-pointer rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
+					<input type="radio" id="joystick-<?= $joystick->id ?>" data-model="<?= $joystick->modele ?>" data-color="<?= $joystick->couleur ?>" name="joystick" value="<?= $joystick->id ?>" class="absolute top-3 right-3 w-5 h-5 cursor-pointer rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
 				</label>
 				
-				<!-- Image -->
-				<img loading="lazy" src="" alt="Joystick <?= htmlspecialchars($joystick->modele) ?>" class="w-full h-4/6 md:h-5/6 object-cover">
+				<img loading="lazy" src="<?= base_url('./assets/images/bornes/joystick.jpg') ?>" alt="Joystick <?= htmlspecialchars($joystick->modele) ?>" class="w-full h-4/6 md:h-5/6 object-cover">
 	
-				<!-- Nom et couleur -->
 				<div class="p-4 flex items-center justify-between">
-					<!-- Nom du modèle -->
 					<h3 class="font-bold text-base text-white"><?= $joystick->modele ?></h3>
-					
-					<!-- Rond de couleur -->
 					<div
-						style="background-color: #<?= $joystick->couleur ?>;"
+						style="background-color: <?= $joystick->couleur ?>;"
 						class="w-6 h-6 rounded-full border border-gray-300">
 					</div>
 				</div>
@@ -212,14 +219,7 @@ view('commun/header', ['titre' => $titre]) ?>
 			<!-- Sélecteur du modèle -->
 			<div class="w-full max-w-sm min-w-[200px]">
 				<div class="relative">
-					<label>
-						<select id="selection-boutons" class="w-full bg-transparent placeholder:text-slate-400 text-slate-500 text-sm border-b border-slate-400 pl-3 py-2 transition duration-300 ease focus:border-b focus:border-slate-500 hover:border-slate-200 shadow-sm focus:shadow-md appearance-none cursor-pointer">
-							<option class="bg-deep-blue" value="Tous" selected>Tous les boutons</option>
-						</select>
-					</label>
-					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.2" stroke="currentColor" class="h-5 w-5 ml-1 absolute top-2.5 right-2.5 text-slate-500">
-						<path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
-					</svg>
+					<p class="text-red-500"><?= isset($erreurs['bouton']) ? $erreurs['bouton'] : '' ?></p>
 				</div>
 			</div>
 		</div>
@@ -227,10 +227,18 @@ view('commun/header', ['titre' => $titre]) ?>
 		<?php foreach($boutons as $bouton) : ?>
 			<div class="relative w-52 h-52 md:w-72 md:h-72 bg-gray-800 rounded-lg overflow-hidden border-2 border-gray-700 <?= $hoverColor = isset($erreurs['bouton']) ? "hover:border-red-800" : "hover:border-green-700" ?> shadow-md shadow-gray-900 ease-in-out">
 				<label>
-					<input type="checkbox" id="bouton-<?= $bouton->id ?>" data-forme="<?= $bouton->forme ?>" data-model="<?= $bouton->modele ?>" data-color="#<?= $bouton->couleur ?>" name="bouton" value="<?= $bouton->id ?>" class="absolute top-3 right-3 w-5 h-5 rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
+					<input type="radio" id="bouton-<?= $bouton->id ?>" data-forme="<?= $bouton->forme ?>" data-model="<?= $bouton->modele ?>" data-color="<?= $bouton->couleur ?>" name="bouton" value="<?= $bouton->id ?>" class="absolute top-3 right-3 w-5 h-5 rounded-full border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
 				</label>
-				<img src="" alt="Boutons <?= $bouton->modele ?>" class="w-full h-5/6 object-cover" />
-				<div style="background-color: #<?= $bouton->couleur ?>;" class="h-1/4"></div>
+
+				<img loading="lazy" src="<?= base_url('./assets/images/bornes/bouton.png') ?>" alt="Joystick <?= htmlspecialchars($joystick->modele) ?>" class="w-full h-4/6 md:h-5/6 object-cover">
+	
+				<div class="p-4 flex items-center justify-between">
+					<h3 class="font-bold text-base text-white"><?= $bouton->modele ?></h3>
+					<div
+						style="background-color: <?= $bouton->couleur ?>;"
+						class="w-6 h-6 rounded-full border border-gray-300">
+					</div>
+				</div>
 			</div>
 		<?php endforeach; ?>
 		
@@ -293,7 +301,7 @@ view('commun/header', ['titre' => $titre]) ?>
 	
 				<!-- Bouton Configurer -->
 				<div class="w-full md:w-auto">
-					<?= form_submit('submit', 'Configurer la disposition', "class='bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-3xl cursor-pointer w-full md:w-auto'"); ?>
+					<?= form_submit('submit', 'Configurer la disposition', "class='md:mb-0 mb-10 bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-3xl cursor-pointer w-full md:w-auto'"); ?>
 				</div>
 		</div>
 		<?= form_close() ?>
@@ -314,14 +322,13 @@ view('commun/header', ['titre' => $titre]) ?>
 		<div class="mt-20 px-0 md:px-20">
 			<h2 class="py-5 md:px-7 px-0 md:mx-10 mx-5 font-bold text-2xl md:text-3xl text-gray-300">Bornes récemment vues</h2>
 			<div class="flex overflow-x-scroll p-5 hide-scroll-bar space-x-6 rounded-xl bg-deep-blue">
-				<?php foreach($suggestion_bornes as $borne) : ?>
+				<?php foreach($suggestion_bornes as $borneSuggestion) : ?>
 					<div class="bg-gray-800 p-4 rounded">
-						<a href="/bornes/<?=$borne->id?>">
-							<img loading="lazy" src="<?=$borne->image?>" alt="Image de <?=$borne->nom?>" class="w-full mb-8 max-w-sm
-								mx-auto h-auto
-						relative z-0 transition duration-200 ease-in-out hover:scale-110" onerror="this.src = 'https://via.placeholder.com/150';">
-							<h3 class="text-xl font-bold mb-2"><?=$borne->nom?></h3>
-							<p class="text-green-600 font-bold mb-4"><?=sprintf("%.02F €", $borne->prix)?></p>
+						<a href="/bornes/<?=$borneSuggestion->id?>">
+							<img loading="lazy" src="<?= base_url($borneSuggestion->images[0]->chemin) ?>" alt="Image de <?=$borneSuggestion->nom?>" class="w-full mb-8 max-w-sm
+								mx-auto h-auto relative z-0 transition duration-200 ease-in-out hover:scale-110" onerror="this.src = 'https://via.placeholder.com/150';">
+							<h3 class="text-xl font-bold mb-2"><?=$borneSuggestion->nom?></h3>
+							<p class="text-green-600 font-bold mb-4"><?=sprintf("%.02F €", $borneSuggestion->prix)?></p>
 						</a>
 					</div>
 				<?php endforeach; ?>
@@ -329,6 +336,7 @@ view('commun/header', ['titre' => $titre]) ?>
 		</div>
 	<?php endif; ?>
 </section>
+<?= view('commun/footer') ?>
 <script>
 	const boutons   = <?= json_encode($boutons); ?>;
 	const joysticks = <?= json_encode($joysticks); ?>;
@@ -342,5 +350,4 @@ view('commun/header', ['titre' => $titre]) ?>
 <script src="/assets/js/canva-boutons.js"></script>
 <script src="/assets/js/filtre-bouton-joystick.js"></script>
 <script src="/assets/js/check-option-animation.js"></script>
-<?= view('commun/footer') ?>
 

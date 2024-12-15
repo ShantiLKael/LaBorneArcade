@@ -66,7 +66,7 @@ class ArticleBlog extends Entity
 	/**
 	 * Retourne les images de l'article.
 	 *
-	 * @return Image[] La liste des images.
+	 * @return array<Image> La liste des images.
 	 */
 	public function getImages(): array {
 		$articleModel = new ArticleBlogModel();

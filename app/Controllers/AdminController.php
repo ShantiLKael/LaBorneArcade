@@ -24,6 +24,7 @@ use App\Models\BoutonModel;
 use App\Models\BorneModel;
 use App\Models\ImageModel;
 
+use CodeIgniter\HTTP\Files\UploadedFile;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Validation\ValidationInterface;
 use Config\Services;
@@ -97,78 +98,71 @@ class AdminController extends BaseController
 	{
 		$data = $this->request->getPost();
 		if ($data) {
-			if (!$this->validate($this->borneModel->getValidationRules(), $this->borneModel->getValidationMessages())) {
-				return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
+			
+
+			if (isset($data['nbBoutons']) || isset($data['nbJoueurs'])) {
+				$nbBoutons = intval($data['nbBoutons']);
+				$nbJoueurs = intval($data['nbJoueurs']);
+	
+				return view('admin/config_borne', [
+					'nbJoueurs'=> $nbJoueurs,
+					'nbBoutons'=> $nbBoutons,
+					'titre'    => "Création d'une borne",
+					'matieres' => $this->matiereModel->findAll(),
+					'options'  => $this->optionModel->findAll(),
+					'themes'   => $this->themeModel->findAll(),
+					'tmoldings'=> $this->tMoldingModel->findAll(),
+					'joysticks'=> $this->joystickModel->findAll(),
+					'boutons'  => $this->boutonModel->findAll(),
+				]);
 			}
-			else {
-				$imageFile = $this->request->getFile('id_image'); // Le champ input file doit avoir le name="id_image"
-				if ($imageFile && $imageFile->isValid() && !$imageFile->hasMoved()) {
-					// Valider l'extension de l'image
-					$allowedExtensions = ['png', 'jpg', 'jpeg', 'gif'];
-					$imageExtension = $imageFile->getClientExtension();
-					if (!in_array($imageExtension, $allowedExtensions)) {
-						return redirect()->back()->withInput()->with('errors', [
-							'id_image' => "Format d'image non pris en charge. Formats acceptés : png, jpg, jpeg, gif.",
+
+			if (!$this->validate($this->borneModel->getValidationRules(), $this->borneModel->getValidationMessages())) {
+
+			} else {
+				
+				$borne = new Borne();
+
+				$borne->fill($data);
+				$idBorne = $this->borneModel->insert($borne);
+
+				$images = $this->request->getFileMultiple('images');
+				$idImages = [];
+
+				foreach ($images as $image) {
+					$imageUploader = service('imageUploader');
+					$idImage = $imageUploader->enregistrerImage($image, getenv('CHEMIN_BORNE').$idBorne.'/');
+
+					if ($idImage == 0) {
+						$this->borneModel->find($idBorne)->delete();
+						
+						return view('admin/config_borne', [
+							'nbJoueurs'=> 1,
+							'nbBoutons'=> 6,
+							'titre'    => "Création d'une borne",
+							'matieres' => $this->matiereModel->findAll(),
+							'options'  => $this->optionModel->findAll(),
+							'themes'   => $this->themeModel->findAll(),
+							'tmoldings'=> $this->tMoldingModel->findAll(),
+							'joysticks'=> $this->joystickModel->findAll(),
+							'boutons'  => $this->boutonModel->findAll(),
 						]);
 					}
 
-					// Renommer le fichier avec un nom unique
-					$imageName = "{$data['nom']}.$imageExtension";
-
-					// Déplacer le fichier vers le dossier public/assets/option/
-					$imagePath = "assets/images/bornes/$imageName";
-					$imageFile->move(FCPATH . 'assets/images/bornes/', $imageName);
-
-					// Ajouter une entrée dans la table image
-					$imageData = ['chemin' => $imagePath];
-					$this->imageModel->insert($imageData);
-
-					// Récupérer l'ID de l'image insérée
-					$imageId = $this->imageModel->getInsertID();
-					if (!$imageId) {
-						return redirect()->back()->withInput()->with('errors', [
-							'id_image'=>"Échec de l'enregistrement de l'image."
-						]);
-					}
-
-					// Ajouter l'ID de l'image dans les données de l'option
-					$data['id_image'] = $imageId;
-
-
-					$borne = new Borne();
-
-					$borne->fill($data);
-					$this->borneModel->insert($borne);
-					$idBorne = $this->articleBlogModel->getInsertID();
-					$data['nbJoueurs'] = $data['nbJoueurs'] ?? 1;
-					$data['nbBoutons'] = $data['nbBoutons'] ?? 6;
-					
-					//$this->borneModel->insererJoystickBorne($idBorne, $data->joystick, $ordre);
-					for ($i = 0; $i < $data['nbJoueurs']; $i++) {
-						$this->borneModel->insererBoutonBorne($idBorne, $data['joystick'], $i);
-					}
-					for ($i = 0; $i < $data['nbBoutons']; $i++) {
-						$this->borneModel->insererBoutonBorne($idBorne, $data['bouton'], $i);
-					}
-
-					//return redirect()->back()->with('success', "Borne ajouté avec succès.");
-					return view('/admin/config_borne', [
-						'titre'    => "Création d'une borne",
-						'nbJoueurs'=> 1,
-						'nbBoutons'=> 6,
-						'matieres' => $this->matiereModel->findAll(),
-						'options'  => $this->optionModel->findAll(),
-						'themes'   => $this->themeModel->findAll(),
-						'tmoldings'=> $this->tMoldingModel->findAll(),
-						'joysticks'=> $this->joystickModel->findAll(),
-						'boutons'  => $this->boutonModel->findAll(),
-					]);
-				} else {
-					// Erreur lors du téléchargement de l'image
-					return redirect()->back()->withInput()->with("errors", [
-						'id_image'=>"Erreur lors du téléchargement de l'image.",
-					]);
+					$idImages[] = $idImage;
 				}
+				
+				$data['nbJoueurs'] = $data['nbJoueurs'] ?? 1;
+				$data['nbBoutons'] = $data['nbBoutons'] ?? 6;
+
+				for ($i = 1; $i <= $data['nbJoueurs']; $i++)
+					$this->borneModel->insererJoystickBorne($idBorne, $data['joystick'], $i);
+
+				for ($i = 1; $i <= $data['nbBoutons']; $i++)
+					$this->borneModel->insererBoutonBorne($idBorne, $data['bouton'], $i);
+
+				foreach ($idImages as $idImage)
+					$this->borneModel->insererImageBorne($idBorne, $idImage);
 			}
 		}
 
@@ -194,91 +188,47 @@ class AdminController extends BaseController
 		$data = $this->request->getPost();
 		if ($data) {
 			if (!$this->validate($this->articleBlogModel->getValidationRules(), $this->articleBlogModel->getValidationMessages())) {
-				return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
-			}
-			$validationRules = [
-				'titre' => 'required',
-				'texte' => 'required',
-				'images.0' => [
-					'rules' => 'uploaded[images.0]|is_image[images.0]|ext_in[images.0,png,jpg,jpeg,gif]',
-					'errors' => [
-						'uploaded' => 'L\'image 1 est obligatoire.',
-						'is_image' => 'L\'image 1 doit être une image valide.',
-						'ext_in' => 'L\'image 1 doit avoir une extension valide (png, jpg, jpeg, gif).',
-					],
-				],
-				// Pas de validation stricte pour les autres images
-			];
-		
-			if (!$this->validate($validationRules)) {
-				return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-			}
-
-			$idUtilisateur = session()->get('user.id'); // Supposons que l'ID utilisateur est stocké dans la session
-			if (!$idUtilisateur) {
-				return redirect()->back()->with('error', 'Utilisateur non authentifié.');
+				return redirect()->to('/admin/articles')->with('errors', $this->validation->getErrors());
 			}
 
 			// Créer une instance d'article
 			$article = new ArticleBlog();
 			$article->fill($data);
-			$article->setIdUtilisateur($idUtilisateur);
+			$article->idUtilisateur = session()->get('user')['id'];
 
 			// Enregistrer l'article et récupérer son ID
-			$this->articleBlogModel->insert($article);
-			$idArticle = $this->articleBlogModel->getInsertID();
+			$idArticle = $this->articleBlogModel->insert($article, true);
 
-			if (!$idArticle) {
-				return redirect()->back()->with('error', "Échec de l'enregistrement de l'article.");
-			}
+			$images = $this->request->getFileMultiple('images');
+			$idImages = [];
 
-			$images = $this->request->getFiles(); // Supposons que le champ input multiple possède en tant qu'attribut name="images"
-			if ($images) {
-				$imageIndex = 1; // Compteur pour les noms d'images
-				$uploadPath = FCPATH . "assets/images/blog/$idArticle/";
+			foreach ($images as $image) {
+				$imageUploader = service('imageUploader');
+				$idImage = $imageUploader->enregistrerImage($image, getenv('CHEMIN_BLOG').$idArticle.'/');
 
-				// Créer le répertoire pour l'article si non existant
-				if (!is_dir($uploadPath)) {
-					mkdir($uploadPath, 0777, true);
+				if ($idImage == 0) {
+					$this->articleBlogModel->find($idArticle)->delete();
+					
+					return view('admin/config_borne', [
+						'nbJoueurs'=> 1,
+						'nbBoutons'=> 6,
+						'titre'    => "Création d'une borne",
+						'matieres' => $this->matiereModel->findAll(),
+						'options'  => $this->optionModel->findAll(),
+						'themes'   => $this->themeModel->findAll(),
+						'tmoldings'=> $this->tMoldingModel->findAll(),
+						'joysticks'=> $this->joystickModel->findAll(),
+						'boutons'  => $this->boutonModel->findAll(),
+					]);
 				}
 
-				foreach ($images['images'] as $image) {
-					if ($image && $image->isValid() && !$image->hasMoved()) {
-						// Vérifier les extensions autorisées
-						$allowedExtensions = ['png', 'jpg', 'jpeg', 'gif'];
-						$imageExtension = $image->getClientExtension();
-						if (!in_array($imageExtension, $allowedExtensions)) {
-							return redirect()->back()->withInput()->with('errors', [
-								'images' => 'Une ou plusieurs images ont un format non pris en charge.',
-							]);
-						}
-
-						// Renommer l'image selon la convention "numAr{articleID}_{imageIndex}"
-						$imageName = "numAr{$idArticle}_$imageIndex.$imageExtension";
-
-						// Déplacer l'image vers le dossier
-						$image->move($uploadPath, $imageName);
-
-						// Ajouter l'image à la table Image
-						$imageData = ['chemin' => "assets/images/blog/$idArticle/$imageName"];
-						$this->imageModel->insert($imageData);
-						$idImage = $this->imageModel->getInsertID();
-
-						if ($idImage) {
-							// Ajouter l'association image-article dans la table ImageArticleBlog
-							$this->articleBlogModel->insererImageArticle($idArticle, $idImage);
-						} else {
-							return redirect()->back()->with('error', 'Échec de l\'enregistrement de l\'image.');
-						}
-
-						$imageIndex++; // Incrémenter l'indice pour le prochain fichier
-						if ($imageIndex > 6) {
-							break; // Limiter à 6 images maximum
-						}
-					}
-				}
+				$idImages[] = $idImage;
 			}
-			return redirect()->back()->with('success', 'Article ajouté avec succès.');
+
+			foreach ($idImages as $idImage)
+				$this->articleBlogModel->insererImageArticle($idArticle, $idImage);
+
+			return redirect()->to('/admin/articles')->with('success', 'Article ajouté avec succès.');
 		}
 
 		//$options = $this->optionModel->getOptionsWithImages();
@@ -378,36 +328,18 @@ class AdminController extends BaseController
 			// Gestion de l'image
 			$imageFile = $this->request->getFile('id_image'); // Le champ input file doit avoir le name="id_image"
 			if ($imageFile && $imageFile->isValid() && !$imageFile->hasMoved()) {
-				// Valider l'extension de l'image
-				$allowedExtensions = ['png', 'jpg', 'jpeg', 'gif'];
-				$imageExtension = $imageFile->getClientExtension();
-				if (!in_array($imageExtension, $allowedExtensions)) {
-					return redirect()->back()->withInput()->with('errors', [
-						'id_image' => 'Format d\'image non pris en charge. Formats acceptés : png, jpg, jpeg, gif.',
-					]);
-				}
+				
+				$imageUploader = service('imageUploader');
+				$idImage = $imageUploader->enregistrerImage($imageFile, getenv('CHEMIN_OPTION'));
 
-				// Renommer le fichier avec un nom unique
-				$imageName = $data['nom'] . '.' . $imageExtension;
-
-				// Déplacer le fichier vers le dossier public/assets/option/
-				$imagePath = 'assets/images/option/' . $imageName;
-				$imageFile->move(FCPATH . 'assets/images/option/', $imageName);
-
-				// Ajouter une entrée dans la table image
-				$imageData = ['chemin' => $imagePath];
-				$this->imageModel->insert($imageData);
-
-				// Récupérer l'ID de l'image insérée
-				$imageId = $this->imageModel->getInsertID();
-				if (!$imageId) {
+				if ($idImage == 0) {
 					return redirect()->back()->withInput()->with('errors', [
 						'id_image' => "Échec de l'enregistrement de l'image.",
 					]);
 				}
 
 				// Ajouter l'ID de l'image dans les données de l'option
-				$data['id_image'] = $imageId;
+				$data['id_image'] = $idImage;
 				
 				// Insérer l'option dans la base de données
 				$this->optionModel->insert(new Option($data));

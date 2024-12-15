@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 	<head>
-		<link href="/assets/css/style.css" rel="stylesheet" type="text/css">
+		<link href="<?= base_url('./assets/css/style.css') ?>" rel="stylesheet" type="text/css">
 		<title><?= $titre ?></title>
 	</head>
 	<body class="bg-dark-blue text-white">
@@ -12,7 +12,7 @@
 				<!-- Logo -->
 				<div class="flex items-center">
 					<a href="/">
-						<img loading="lazy" src="./assets/images/logoHeader.png" alt="Logo La Borne Arcade"
+						<img loading="lazy" src="<?= base_url('./assets/images/logoHeader.png') ?>" alt="Logo La Borne Arcade"
 							class="h-[80px] w-auto  absolute top-[2%] left-0 transform -translate-x-0 z-10">
 					</a>
 				</div>
