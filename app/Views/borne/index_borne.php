@@ -116,7 +116,7 @@ view('commun/header', ['titre' => $titre]) ?>
 					</div>
 				<?php endforeach; ?>
 			<?php else: ?>
-				<p class="mt-8 text-center text-lg">Aucune borne pour l'instant</p>
+				<p class="mt-8 text-center text-lg">Aucune borne</p>
 			<?php endif; ?>
 		</div>
 	</div>
