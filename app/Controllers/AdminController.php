@@ -152,7 +152,7 @@ class AdminController extends BaseController
 					
 					//$this->borneModel->insererJoystickBorne($idBorne, $data->joystick, $ordre);
 					for ($i = 0; $i < $data['nbJoueurs']; $i++) {
-						$this->borneModel->insererBoutonBorne($idBorne, $data['joystick'], $i);
+						$this->borneModel->insererJoystickBorne($idBorne, $data['joystick'], $i);
 					}
 					for ($i = 0; $i < $data['nbBoutons']; $i++) {
 						$this->borneModel->insererBoutonBorne($idBorne, $data['bouton'], $i);
